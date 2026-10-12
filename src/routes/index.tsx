@@ -155,7 +155,6 @@ function Categories() {
                   <h3 className={cn("mt-2 leading-tight", i === 0 ? "text-4xl md:text-5xl" : "text-3xl")}>{c.name}</h3>
                   <p className="mt-0 max-h-0 overflow-hidden text-sm text-on-forest-muted opacity-0 transition-all duration-500 group-hover:mt-3 group-hover:max-h-24 group-hover:opacity-100">{c.blurb}</p>
                 </div>
-                <span className="absolute right-6 top-6 grid h-10 w-10 place-items-center rounded-full bg-ivory/90 text-forest opacity-0 transition-all duration-500 group-hover:opacity-100"><ArrowRight className="h-4 w-4" /></span>
               </Link>
             </motion.div>
           ))}
