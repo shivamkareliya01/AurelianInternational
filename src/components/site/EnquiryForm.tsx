@@ -30,7 +30,7 @@ export function EnquiryForm() {
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.currentTarget)) as Record<string, string>;
-    if (items.length && !data.product) data.product = "Enquiry basket";
+    if (items.length && !data["product"]) data["product"] = "Enquiry basket";
     const r = schema.safeParse(data);
     if (!r.success) {
       const errs: typeof errors = {};

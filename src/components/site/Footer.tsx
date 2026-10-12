@@ -54,7 +54,7 @@ export function Footer() {
           </ul>
           <form
             className="mt-8 flex rounded-full border hairline p-1"
-            onSubmit={(e) => { e.preventDefault(); if (!/^\S+@\S+\.\S+$/.test(email)) return toast.error("Please enter a valid email"); toast.success("Subscribed — thank you."); setEmail(""); }}
+            onSubmit={(e) => { e.preventDefault(); if (!/^\S+@\S+\.\S+$/.test(email)) { toast.error("Please enter a valid email"); return; } toast.success("Subscribed — thank you."); setEmail(""); }}
           >
             <label htmlFor="nl" className="sr-only">Email</label>
             <input id="nl" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Trade insights, monthly" className="min-w-0 flex-1 bg-transparent px-4 text-sm text-on-forest placeholder:text-on-forest-muted/70 focus:outline-none" />

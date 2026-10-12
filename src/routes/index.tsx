@@ -49,7 +49,7 @@ function Hero() {
         <AnimatePresence>
           <motion.img
             key={i}
-            src={slides[i]}
+            src={slides[i] ?? farm}
             alt="Indian farms, spices, marble and cargo port"
             initial={{ opacity: 0, scale: 1.08 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -198,7 +198,7 @@ function WhyUs() {
         <SectionHead dark eyebrow="Why Choose Us" title="The details are the difference." text="Everything a serious importer needs, handled by one accountable partner." />
         <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border hairline bg-gold/20 sm:grid-cols-2 lg:grid-cols-3">
           {whyUs.map((w, i) => {
-            const Icon = whyIcons[i];
+            const Icon = whyIcons[i] ?? Boxes;
             return (
               <motion.div key={w.title} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="bg-forest p-10 transition-colors hover:bg-forest-deep">
                 <Icon className="h-8 w-8 text-gold" strokeWidth={1.1} />
@@ -289,7 +289,7 @@ function Gallery() {
         {open !== null && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[60] grid place-items-center bg-forest-deep/95 p-6" onClick={() => setOpen(null)}>
             <button className="absolute right-6 top-6 text-on-forest" aria-label="Close"><X className="h-7 w-7" /></button>
-            <motion.img key={open} initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} src={gallery[open].src} alt={gallery[open].alt} className="max-h-[85vh] max-w-full rounded-2xl object-contain" />
+            <motion.img key={open} initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} src={gallery[open]?.src} alt={gallery[open]?.alt} className="max-h-[85vh] max-w-full rounded-2xl object-contain" />
           </motion.div>
         )}
       </AnimatePresence>
@@ -299,7 +299,7 @@ function Gallery() {
 
 function Testimonials() {
   const [i, setI] = useState(0);
-  const t = testimonials[i];
+  const t = testimonials[i] ?? testimonials[0]!;
   const go = (d: number) => setI((n) => (n + d + testimonials.length) % testimonials.length);
   return (
     <section className="section-y bg-ivory">
