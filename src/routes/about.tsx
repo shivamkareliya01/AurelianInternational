@@ -22,7 +22,7 @@ export const Route = createFileRoute("/about")({
 });
 
 const values = [["Integrity", "What we sample is what we ship. No exceptions."], ["Precision", "Grades, documents and timelines handled with care."], ["Partnership", "We measure success in decades, not single orders."], ["Responsibility", "Fair prices for farmers and traceable supply chains."]];
-const team = [["Arjun Vardhan", "Founder & Managing Director"], ["Meera Iyer", "Head of Quality"], ["Rohan Shah", "Director, Logistics"], ["Ananya Rao", "Key Accounts, Europe"]];
+const team = [["Arjun Mehta", "Founder & Managing Director"], ["Meera Iyer", "Head of Quality"], ["Rohan Shah", "Director, Logistics"], ["Ananya Rao", "Key Accounts, Europe"]];
 
 function About() {
   return (
@@ -50,7 +50,7 @@ function About() {
           <Reveal>
             <p className="eyebrow">Founder's Message</p>
             <blockquote className="mt-6 font-display text-3xl italic leading-snug text-forest md:text-4xl">“Every bag that leaves our warehouse carries our name. That's why we inspect it as if it were going to our own family.”</blockquote>
-            <p className="mt-8 text-sm"><span className="font-medium">Arjun Vardhan</span> <span className="text-muted-foreground">· Founder & MD</span></p>
+            <p className="mt-8 text-sm"><span className="font-medium">Arjun Mehta</span> <span className="text-muted-foreground">· Founder & MD</span></p>
           </Reveal>
         </div>
       </section>

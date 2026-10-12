@@ -11,7 +11,7 @@ export const certifications = [
 export const testimonials = [
   { quote: "Their basmati arrives exactly as sampled — every container, every season. That consistency is rare.", name: "James Whitford", role: "Procurement Director", company: "Harbour Foods Ltd.", country: "United Kingdom" },
   { quote: "Documentation is always flawless. Our customs clearance in Jebel Ali has never been smoother.", name: "Fatima Al Mansoori", role: "Head of Imports", company: "Gulf Pantry Trading", country: "UAE" },
-  { quote: "We moved our entire spice programme to Vardhan. The traceability reports alone are worth it.", name: "Daniel Reyes", role: "Category Manager", company: "Pacific Provisions", country: "USA" },
+  { quote: "We moved our entire spice programme to Aurelian. The traceability reports alone are worth it.", name: "Daniel Reyes", role: "Category Manager", company: "Pacific Provisions", country: "USA" },
   { quote: "Beautiful marble, careful crating, zero breakage on arrival. A true long-term partner.", name: "Lukas Brandt", role: "Founder", company: "Steinhaus Interiors", country: "Germany" },
 ];
 
