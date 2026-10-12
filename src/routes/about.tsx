@@ -70,7 +70,7 @@ function About() {
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {team.map(([n, r], i) => (
               <Reveal key={n} delay={i * 0.08} className="rounded-2xl border hairline bg-card p-8 shadow-soft">
-                <div className="grid h-20 w-20 place-items-center rounded-full bg-forest font-display text-3xl text-gold-soft">{n.split(" ").map((x) => x.charAt(0)).join("")}</div>
+                <div className="grid h-20 w-20 place-items-center rounded-full bg-forest font-display text-3xl text-gold-soft">{(n ?? "").split(" ").map((x) => x.charAt(0)).join("")}</div>
                 <h3 className="mt-6 text-2xl text-forest">{n}</h3><p className="mt-1 text-sm text-muted-foreground">{r}</p>
               </Reveal>
             ))}
