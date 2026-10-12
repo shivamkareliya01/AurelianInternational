@@ -14,7 +14,7 @@ export function Footer() {
         <div className="lg:col-span-4">
           <Logo light />
           <p className="mt-6 max-w-sm text-sm leading-relaxed text-on-forest-muted">
-            A {site.city}-based trading house exporting India's finest agricultural produce, spices, natural stone and building materials to 25+ countries.
+            A {site.city}-based trading house exporting India's finest agricultural produce, spices, natural stone and dry fruits to 25+ countries.
           </p>
           <div className="mt-6 flex gap-3">
             {[

@@ -9,7 +9,6 @@ import port from "@/assets/port.jpg";
 import warehouse from "@/assets/warehouse.jpg";
 import produce from "@/assets/produce.jpg";
 import dryfruits from "@/assets/dryfruits.jpg";
-import pvc from "@/assets/pvc.jpg";
 import { categories } from "@/data/products";
 import { certifications, processSteps, testimonials, whyUs } from "@/data/content";
 import { posts } from "@/data/blog";
@@ -25,7 +24,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: `${site.name} — India's Finest, Delivered Worldwide` },
-      { name: "description", content: "Premium Indian agricultural produce, spices, natural stone, dry fruits and PVC — sourced, certified and shipped to your port." },
+      { name: "description", content: "Premium Indian agricultural produce, spices, natural stone and dry fruits — sourced, certified and shipped to your port." },
       { property: "og:title", content: `${site.name} — India's Finest, Delivered Worldwide` },
       { property: "og:description", content: "Premium agricultural produce, spices, natural stone and more from India — certified and shipped worldwide." },
       { property: "og:type", content: "website" },
@@ -121,7 +120,7 @@ function AboutPreview() {
         <div>
           <SectionHead eyebrow="Our Story" title={<>A trading house built on <em className="text-gold">trust</em>.</>} text={`Since ${site.established}, ${site.name} has connected India's growers, spice farmers and stone quarries with discerning buyers worldwide. We obsess over grade, documentation and timing — so every container lands exactly as promised.`} />
           <Reveal delay={0.15} className="mt-10 grid grid-cols-2 border-t hairline">
-            {[["Established", site.established], ["Headquarters", `${site.city}, India`], ["Markets", "25+ countries"], ["Products", "50+ SKUs"]].map(([k, v], i) => (
+            {[["Established", site.established], ["Headquarters", `${site.city}, India`], ["Markets", "25+ countries"], ["Products", "20+ SKUs"]].map(([k, v], i) => (
               <div key={k} className={cn("py-6", i % 2 === 1 && "border-l hairline pl-6", i > 1 && "border-t hairline")}>
                 <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{k}</p>
                 <p className="mt-2 font-display text-2xl text-forest">{v}</p>
@@ -141,7 +140,7 @@ function Categories() {
     <section className="section-y bg-sand">
       <div className="container-x">
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-          <SectionHead eyebrow="What We Export" title="Six categories. One standard." />
+          <SectionHead eyebrow="What We Export" title="Five categories. One standard." />
           <Link to="/products" className={btn.outline}>All Products <ArrowRight className="h-4 w-4" /></Link>
         </div>
         <div className="mt-14 grid auto-rows-[18rem] gap-5 md:grid-cols-8">
@@ -267,7 +266,6 @@ const gallery = [
   { src: produce, alt: "Fresh produce in crates", h: "row-span-2" },
   { src: marble, alt: "Marble slabs in a warehouse", h: "" },
   { src: dryfruits, alt: "Cashews, almonds, raisins and dates", h: "" },
-  { src: pvc, alt: "PVC pipes stacked in a warehouse", h: "" },
   { src: spices, alt: "Indian spices in brass bowls", h: "" },
 ];
 function Gallery() {

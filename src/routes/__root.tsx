@@ -85,7 +85,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: `${site.name} — Premium Exports from India` },
-      { name: "description", content: "Premium Indian agricultural produce, spices, natural stone and building materials, exported worldwide." },
+      { name: "description", content: "Premium Indian agricultural produce, spices, natural stone and dry fruits, exported worldwide." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
