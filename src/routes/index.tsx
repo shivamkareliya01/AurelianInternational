@@ -146,7 +146,7 @@ function Categories() {
         </div>
         <div className="mt-14 grid auto-rows-[18rem] gap-5 md:grid-cols-8">
           {categories.map((c, i) => (
-            <motion.div key={c.slug} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.7 }} className={cn(spans[i], i === 5 && "md:col-span-4")}>
+            <motion.div key={c.slug} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.7 }} className={cn(spans[i], i === 5 && "md:col-span-8")}>
               <Link to="/products/$category" params={{ category: c.slug }} className="group relative block h-full overflow-hidden rounded-2xl">
                 <img src={c.image} alt={c.name} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-forest-deep/90 via-forest-deep/20 to-transparent" />
