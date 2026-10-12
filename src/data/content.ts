@@ -33,7 +33,7 @@ export const markets = [
   { region: "United Arab Emirates", flag: "🇦🇪", ports: "Jebel Ali, Khalifa", products: "Fresh produce, rice, onions" },
   { region: "European Union", flag: "🇪🇺", ports: "Rotterdam, Hamburg, Antwerp", products: "Spices, grapes, marble" },
   { region: "Southeast Asia", flag: "🌏", ports: "Singapore, Port Klang, Ho Chi Minh", products: "Onions, maize, garlic" },
-  { region: "Africa", flag: "🌍", ports: "Mombasa, Durban, Lagos", products: "Rice, wheat, PVC pipes" },
+  { region: "Africa", flag: "🌍", ports: "Mombasa, Durban, Lagos", products: "Rice, wheat, dry fruits" },
 ];
 
 export const whyUs = [

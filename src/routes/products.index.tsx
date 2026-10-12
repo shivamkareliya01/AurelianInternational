@@ -13,7 +13,7 @@ export const Route = createFileRoute("/products/")({
   head: () => ({
     meta: [
       { title: `Export Products Catalogue — ${site.name}` },
-      { name: "description", content: "Browse rice, wheat, spices, fresh produce, dry fruits, marble, granite and PVC pipes exported from India." },
+      { name: "description", content: "Browse rice, wheat, spices, fresh produce, dry fruits, marble and granite exported from India." },
       { property: "og:title", content: `Export Products Catalogue — ${site.name}` },
       { property: "og:description", content: "Every product we export from India, with grades, origins and MOQs." },
       { property: "og:type", content: "website" },
@@ -66,7 +66,7 @@ function Products() {
 
   return (
     <>
-      <PageHeader eyebrow="Catalogue" title="Our Products" text="Over fifty export-grade products across six categories, each with full specification and documentation." crumbs={[{ label: "Products" }]} image={farm} />
+      <PageHeader eyebrow="Catalogue" title="Our Products" text="Over twenty export-grade products across five categories, each with full specification and documentation." crumbs={[{ label: "Products" }]} image={farm} />
       <section className="section-y bg-ivory !pt-14">
         <div className="container-x grid gap-10 lg:grid-cols-[16rem_1fr]">
           <aside className="lg:sticky lg:top-28 lg:self-start">

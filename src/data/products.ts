@@ -3,7 +3,6 @@ import spices from "@/assets/spices.jpg";
 import marble from "@/assets/marble.jpg";
 import dryfruits from "@/assets/dryfruits.jpg";
 import produce from "@/assets/produce.jpg";
-import pvc from "@/assets/pvc.jpg";
 
 export type Product = {
   slug: string;
@@ -98,16 +97,6 @@ export const categories: Category[] = [
       p("almond", "Almonds", "Processed in India", "Nonpareil / Mamra", "10–25 kg cartons", "500 kg", "12 months", ["FSSAI"], "Sweet, crunchy almonds sorted and packed in hygienic facilities."),
       p("raisins", "Golden Raisins", "Sangli, Maharashtra", "Grade A", "10–15 kg cartons", "1 MT", "12 months", ["FSSAI", "APEDA"], "Plump golden raisins, cleaned and naturally sun-dried."),
       p("dates", "Dates", "Kutch, Gujarat", "Premium", "5–10 kg cartons", "1 MT", "12 months", ["FSSAI"], "Soft, rich dates packed fresh for retail and wholesale."),
-    ],
-  },
-  {
-    slug: "polymers",
-    name: "Polymers & Building Materials",
-    blurb: "Certified PVC pipes and fittings for plumbing, irrigation and infrastructure.",
-    image: pvc,
-    products: [
-      p("pvc-pipes", "uPVC Pipes", "Gujarat", "IS 4985 / ASTM", "Bundled lengths", "1 × 40ft FCL", "—", ["BIS", "ISO 9001"], "Pressure-rated uPVC pipes in 20–315 mm diameters."),
-      p("pvc-fittings", "PVC Fittings", "Gujarat", "SCH 40 / SCH 80", "Cartons", "1 × 20ft FCL", "—", ["BIS", "ISO 9001"], "Elbows, tees, couplers and valves to match every pipe system."),
     ],
   },
 ];
