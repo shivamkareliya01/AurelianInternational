@@ -166,7 +166,7 @@ function Categories() {
 }
 
 function Featured() {
-  const [tab, setTab] = useState(categories[0].slug);
+  const [tab, setTab] = useState(categories[0]!.slug);
   const cat = categories.find((c) => c.slug === tab)!;
   return (
     <section className="section-y bg-ivory">
