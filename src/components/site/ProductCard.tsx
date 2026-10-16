@@ -17,8 +17,6 @@ export function ProductCard({
   const { add, has } = useBasket();
   const [quickOpen, setQuickOpen] = useState(false);
   const [activeImg, setActiveImg] = useState(0);
-  const [imageLoaded, setImageLoaded] = useState(false);
-
   const key = `${category.slug}/${product.slug}`;
   const inBasket = has(key);
 
@@ -31,21 +29,13 @@ export function ProductCard({
     <>
       <article className="group relative flex flex-col h-full overflow-hidden rounded-[24px] bg-white border border-[#E3E7EE] shadow-[0_4px_20px_-4px_rgba(7,26,51,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-[#C9973F]/70 hover:shadow-[0_12px_36px_-6px_rgba(7,26,51,0.16)]">
         {/* Top 4:3 Image Container with Hover Zoom & Bottom Gradient */}
-        <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#EEF1F5]/60">
-          {/* Skeleton placeholder while loading */}
-          {!imageLoaded && (
-            <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-[#EEF1F5] via-[#E2E6EC] to-[#EEF1F5]" />
-          )}
-
+        <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#EEF1F5]/80">
           <img
             src={product.image}
             alt={product.alt || `${product.name} from ${product.origin}`}
             loading="lazy"
-            onLoad={() => setImageLoaded(true)}
-            className={cn(
-              "h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]",
-              imageLoaded ? "opacity-100 blur-0" : "opacity-0 blur-sm"
-            )}
+            decoding="async"
+            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
           />
 
           {/* Bottom Inner Gradient */}
