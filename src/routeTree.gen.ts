@@ -15,8 +15,6 @@ import { Route as CertificationsRouteImport } from './routes/certifications'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as MarketsRouteImport } from './routes/markets'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as BlogIndexRouteImport } from './routes/blog.index'
-import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsCategoryIndexRouteImport } from './routes/products.$category.index'
 import { Route as ProductsCategoryProductRouteImport } from './routes/products.$category.$product'
@@ -51,16 +49,6 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BlogIndexRoute = BlogIndexRouteImport.update({
-  id: '/blog/',
-  path: '/blog/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BlogSlugRoute = BlogSlugRouteImport.update({
-  id: '/blog/$slug',
-  path: '/blog/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ProductsIndexRoute = ProductsIndexRouteImport.update({
   id: '/products/',
   path: '/products/',
@@ -84,8 +72,6 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/markets': typeof MarketsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/blog/$slug': typeof BlogSlugRoute
-  '/blog/': typeof BlogIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/products/$category/$product': typeof ProductsCategoryProductRoute
   '/products/$category/': typeof ProductsCategoryIndexRoute
@@ -97,8 +83,6 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/markets': typeof MarketsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/blog/$slug': typeof BlogSlugRoute
-  '/blog': typeof BlogIndexRoute
   '/products': typeof ProductsIndexRoute
   '/products/$category/$product': typeof ProductsCategoryProductRoute
   '/products/$category': typeof ProductsCategoryIndexRoute
@@ -111,8 +95,6 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/markets': typeof MarketsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/blog/$slug': typeof BlogSlugRoute
-  '/blog/': typeof BlogIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/products/$category/$product': typeof ProductsCategoryProductRoute
   '/products/$category/': typeof ProductsCategoryIndexRoute
@@ -126,8 +108,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/markets'
     | '/sitemap.xml'
-    | '/blog/$slug'
-    | '/blog/'
     | '/products/'
     | '/products/$category/$product'
     | '/products/$category/'
@@ -139,8 +119,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/markets'
     | '/sitemap.xml'
-    | '/blog/$slug'
-    | '/blog'
     | '/products'
     | '/products/$category/$product'
     | '/products/$category'
@@ -152,8 +130,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/markets'
     | '/sitemap.xml'
-    | '/blog/$slug'
-    | '/blog/'
     | '/products/'
     | '/products/$category/$product'
     | '/products/$category/'
@@ -166,8 +142,6 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   MarketsRoute: typeof MarketsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
-  BlogSlugRoute: typeof BlogSlugRoute
-  BlogIndexRoute: typeof BlogIndexRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
   ProductsCategoryProductRoute: typeof ProductsCategoryProductRoute
   ProductsCategoryIndexRoute: typeof ProductsCategoryIndexRoute
@@ -217,20 +191,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/blog/': {
-      id: '/blog/'
-      path: '/blog'
-      fullPath: '/blog/'
-      preLoaderRoute: typeof BlogIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/blog/$slug': {
-      id: '/blog/$slug'
-      path: '/blog/$slug'
-      fullPath: '/blog/$slug'
-      preLoaderRoute: typeof BlogSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/products/': {
       id: '/products/'
       path: '/products'
@@ -262,8 +222,6 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   MarketsRoute: MarketsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
-  BlogSlugRoute: BlogSlugRoute,
-  BlogIndexRoute: BlogIndexRoute,
   ProductsIndexRoute: ProductsIndexRoute,
   ProductsCategoryProductRoute: ProductsCategoryProductRoute,
   ProductsCategoryIndexRoute: ProductsCategoryIndexRoute,

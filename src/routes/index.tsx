@@ -16,12 +16,11 @@ import warehouse from "@/assets/warehouse.jpg";
 import produce from "@/assets/produce.jpg";
 import { categories } from "@/data/products";
 import { certifications, testimonials, whyUs } from "@/data/content";
-import { posts } from "@/data/blog";
 import { site } from "@/data/site";
 import { Counter, InfinityWatermark, Reveal, SectionHead, btn } from "@/components/site/primitives";
 import { ProductCard } from "@/components/site/ProductCard";
 import { WorldMap } from "@/components/site/WorldMap";
-import { CertGrid, FaqList, PostCard } from "@/components/site/Blocks";
+import { CertGrid, FaqList } from "@/components/site/Blocks";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { cn } from "@/lib/utils";
 
@@ -938,19 +937,6 @@ function Home() {
       <div className="gold-hairline-divider" />
       <Testimonials />
       <div className="gold-hairline-divider" />
-      <section className="section-y bg-sand luxury-grain">
-        <div className="container-x">
-          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-            <SectionHead eyebrow="Journal" title="Insights for global importers." text="Market intelligence, export seasonal calendars, and commodity pricing trends." />
-            <Link to="/blog" className={btn.outline}>All Articles <ArrowRight className="h-4 w-4" /></Link>
-          </div>
-          <div className="mt-14 grid gap-8 md:grid-cols-3">
-            {posts.slice(0, 3).map((p) => (
-              <PostCard key={p.slug} post={p} />
-            ))}
-          </div>
-        </div>
-      </section>
       <section className="section-y bg-ivory">
         <div className="container-x grid gap-14 lg:grid-cols-3">
           <SectionHead

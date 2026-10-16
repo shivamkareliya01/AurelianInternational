@@ -51,7 +51,7 @@ export function Footer() {
         <div className="lg:col-span-2">
           <h3 className="eyebrow">Company</h3>
           <ul className="mt-5 space-y-3 text-sm">
-            {([["/about", "About"], ["/markets", "Markets"], ["/certifications", "Certifications"], ["/blog", "Blog"], ["/contact", "Contact"]] as const).map(([to, l]) => (
+            {([["/about", "About"], ["/markets", "Markets"], ["/certifications", "Certifications"], ["/contact", "Contact"]] as const).map(([to, l]) => (
               <li key={to}>
                 <Link to={to} className="text-[#D9DDE3] hover:text-[#F2C86E] transition-colors">
                   {l}

@@ -22,7 +22,6 @@ const links = [
   { to: "/about", label: "About" },
   { to: "/markets", label: "Markets" },
   { to: "/certifications", label: "Certifications" },
-  { to: "/blog", label: "Blog" },
 ] as const;
 
 // Rich category metadata for descriptors and spec chips

@@ -4,7 +4,6 @@ import { Award, Minus, Plus } from "lucide-react";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { certifications, faqs } from "@/data/content";
-import type { Post } from "@/data/blog";
 import { site } from "@/data/site";
 import { cn } from "@/lib/utils";
 
@@ -74,60 +73,5 @@ export function CertGrid() {
         </DialogContent>
       </Dialog>
     </>
-  );
-}
-
-export function PostCard({ post, featured }: { post: Post; featured?: boolean }) {
-  return (
-    <Link
-      to="/blog/$slug"
-      params={{ slug: post.slug }}
-      className={cn(
-        "group flex flex-col h-full overflow-hidden rounded-3xl bg-white border border-[#E3E7EE] p-4 shadow-[0_2px_8px_-2px_rgba(7,26,51,0.06),0_8px_24px_-6px_rgba(7,26,51,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-[#C9973F]/60 hover:shadow-[0_4px_12px_-2px_rgba(7,26,51,0.08),0_20px_40px_-12px_rgba(7,26,51,0.18)]",
-        featured && "md:flex-row md:items-center md:gap-8 p-6"
-      )}
-    >
-      <div
-        className={cn(
-          "aspect-[16/10] overflow-hidden rounded-2xl bg-[#EEF1F5]/50 shrink-0",
-          featured ? "md:w-1/2 aspect-[16/11]" : "w-full"
-        )}
-      >
-        <img
-          src={post.image}
-          alt={post.title}
-          loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-106"
-        />
-      </div>
-      <div className={cn("flex flex-1 flex-col justify-between", featured ? "mt-4 md:mt-0" : "mt-5")}>
-        <div>
-          <div className="flex items-center gap-3 text-xs">
-            <span className="rounded-full bg-[#071A33]/10 border border-[#C9973F]/30 px-3 py-1 font-semibold text-[#071A33] uppercase tracking-wider text-[0.65rem]">
-              {post.category}
-            </span>
-            <span className="text-muted-foreground">{post.readTime}</span>
-            <span className="text-muted-foreground">· {post.date}</span>
-          </div>
-          <h3
-            className={cn(
-              "font-display leading-tight text-[#071A33] transition-colors group-hover:text-[#C9973F] mt-3",
-              featured ? "text-3xl md:text-4xl" : "text-2xl"
-            )}
-          >
-            {post.title}
-          </h3>
-          <p className="mt-3 text-sm leading-relaxed text-muted-foreground line-clamp-2">
-            {post.excerpt}
-          </p>
-        </div>
-        <div className="mt-6 flex items-center justify-between border-t hairline pt-3">
-          <span className="text-xs text-[#0B1B33]/80 font-medium">By {post.author}</span>
-          <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#C9973F] group-hover:text-[#071A33] transition-colors">
-            Read Article →
-          </span>
-        </div>
-      </div>
-    </Link>
   );
 }
