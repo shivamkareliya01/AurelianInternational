@@ -1,4 +1,4 @@
-// 5 Categories, 68 Approved Export Products with Dedicated High-Resolution Local Assets
+// 5 Categories, 60 Approved Export Products with Dedicated High-Resolution Local Assets
 
 export type Product = {
   slug: string;
@@ -992,72 +992,7 @@ export const categories: Category[] = [
           "/products/cumin-seeds-3.webp"
         ],
         "alt": "Aromatic brown cumin seeds in brass bowl"
-      },
-      {
-        "slug": "coriander-seeds",
-        "name": "Coriander Seeds",
-        "origin": "Ramganj Mandi, Rajasthan & MP",
-        "grade": "Eagle / Scooter / Badami Whole Seeds",
-        "packaging": "20\u201325 kg Poly Bags",
-        "moq": "1 \u00d7 20ft FCL (10 MT)",
-        "shelfLife": "18 months",
-        "certifications": [
-          "Spices Board",
-          "FSSAI"
-        ],
-        "description": "Golden-green spherical coriander seeds with fresh citrus-floral bouquet and high linalool content, sorted for split-free whole kernel integrity.",
-        "image": "/products/coriander-seeds.webp",
-        "gallery": [
-          "/products/coriander-seeds.webp",
-          "/products/coriander-seeds-2.webp",
-          "/products/coriander-seeds-3.webp"
-        ],
-        "alt": "Whole dried golden coriander seeds in dish"
-      },
-      {
-        "slug": "green-cardamom",
-        "name": "Green Cardamom",
-        "origin": "Idukki Hills, Kerala",
-        "grade": "Alleppey Green Extra Bold (AGEB 8mm+ Diameter)",
-        "packaging": "5 kg \u00d7 2 Vacuum Cartons inside Master Case",
-        "moq": "500 kg LCL / Air Freight",
-        "shelfLife": "24 months",
-        "certifications": [
-          "Spices Board",
-          "GI Tagged",
-          "ISO 22000"
-        ],
-        "description": "Queen of Spices grown in the misty Cardamom Hills of Kerala, featuring large plump pods with intact black seeds and intense sweet cineole aroma.",
-        "image": "/products/green-cardamom.webp",
-        "gallery": [
-          "/products/green-cardamom.webp",
-          "/products/green-cardamom-2.webp",
-          "/products/green-cardamom-3.webp"
-        ],
-        "alt": "Plump extra-bold green cardamom pods in ceramic dish"
-      },
-      {
-        "slug": "cloves",
-        "name": "Cloves",
-        "origin": "Kanyakumari, Tamil Nadu & Kerala",
-        "grade": "Zanzibar / Lal Pari Handpicked Bold Headed",
-        "packaging": "10, 25 kg Cartons / Jute Bags",
-        "moq": "1 \u00d7 20ft FCL (11 MT)",
-        "shelfLife": "24 months",
-        "certifications": [
-          "Spices Board",
-          "FSSAI"
-        ],
-        "description": "Hand-picked whole dried flower buds with intact crown heads, dark reddish-brown body, and supreme eugenol essential oil concentration (18%+).",
-        "image": "/products/cloves.webp",
-        "gallery": [
-          "/products/cloves.webp",
-          "/products/cloves-2.webp",
-          "/products/cloves-3.webp"
-        ],
-        "alt": "Handpicked whole dried cloves with intact crowns"
-      },
-      {
+      },      {
         "slug": "cinnamon",
         "name": "Cinnamon",
         "origin": "Kerala & Andaman",
@@ -1098,112 +1033,6 @@ export const categories: Category[] = [
           "/products/fenugreek-seeds-3.webp"
         ],
         "alt": "Clean golden fenugreek seeds in dish"
-      },
-      {
-        "slug": "fennel-seeds",
-        "name": "Fennel Seeds",
-        "origin": "Gujarat & Rajasthan",
-        "grade": "Abu Road Green / Lucknowi Sweet Fennel",
-        "packaging": "25\u201350 kg PP Bags",
-        "moq": "1 \u00d7 20ft FCL (14 MT)",
-        "shelfLife": "24 months",
-        "certifications": [
-          "Spices Board",
-          "FSSAI"
-        ],
-        "description": "Sweet, fragrant green-tinged fennel seeds with pronounced anethole sweetness, cleaned machine-wise to remove straw and foreign matter.",
-        "image": "/products/fennel-seeds.webp",
-        "gallery": [
-          "/products/fennel-seeds.webp",
-          "/products/fennel-seeds-2.webp",
-          "/products/fennel-seeds-3.webp"
-        ],
-        "alt": "Fragrant green fennel seeds in bowl"
-      },
-      {
-        "slug": "mustard-seeds",
-        "name": "Mustard Seeds",
-        "origin": "Rajasthan & Haryana",
-        "grade": "Bold Black & Small Yellow Seeds (99.5% Sortex)",
-        "packaging": "25\u201350 kg Poly Sacks",
-        "moq": "1 \u00d7 20ft FCL (22 MT)",
-        "shelfLife": "24 months",
-        "certifications": [
-          "Spices Board",
-          "FSSAI"
-        ],
-        "description": "Clean, spherical dark brown and black mustard seeds delivering sharp pungent sinigrin bite when tempered in oils, highly demanded by condiment makers.",
-        "image": "/products/mustard-seeds.webp",
-        "gallery": [
-          "/products/mustard-seeds.webp",
-          "/products/mustard-seeds-2.webp",
-          "/products/mustard-seeds-3.webp"
-        ],
-        "alt": "Whole black Indian mustard seeds filling bronze dish"
-      },
-      {
-        "slug": "star-anise",
-        "name": "Star Anise",
-        "origin": "Arunachal Pradesh & South India",
-        "grade": "Autumn Crop Whole 8-Point Stars (Broken < 5%)",
-        "packaging": "10 kg Master Corrugated Cartons",
-        "moq": "1 \u00d7 20ft FCL (7 MT)",
-        "shelfLife": "24 months",
-        "certifications": [
-          "Spices Board",
-          "Phytosanitary"
-        ],
-        "description": "Aromatic 8-pointed star-shaped pericarp pods encasing glossy seed kernels, delivering intense liquorice and anethole sweetness to seasonings.",
-        "image": "/products/star-anise.webp",
-        "gallery": [
-          "/products/star-anise.webp",
-          "/products/star-anise-2.webp",
-          "/products/star-anise-3.webp"
-        ],
-        "alt": "Whole dried 8-pointed star anise pods in wooden bowl"
-      },
-      {
-        "slug": "bay-leaf",
-        "name": "Bay Leaf (Tejpatta)",
-        "origin": "Uttarakhand & Meghalaya",
-        "grade": "Wild Harvested Sun Dried Whole Greenish Leaves",
-        "packaging": "10\u201315 kg Bales / Cartons",
-        "moq": "1 \u00d7 20ft FCL (6 MT)",
-        "shelfLife": "18 months",
-        "certifications": [
-          "Spices Board",
-          "FSSAI"
-        ],
-        "description": "Authentic Indian bay leaves (Cinnamomum tamala) with prominent three-ribbed veins, possessing warm clove-cinnamon nuances distinct from laurel bay.",
-        "image": "/products/bay-leaf.webp",
-        "gallery": [
-          "/products/bay-leaf.webp",
-          "/products/bay-leaf-2.webp",
-          "/products/bay-leaf-3.webp"
-        ],
-        "alt": "Whole dried Indian bay leaves tejpatta with three distinct veins"
-      },
-      {
-        "slug": "garam-masala",
-        "name": "Garam Masala",
-        "origin": "Mumbai & Gujarat",
-        "grade": "Signature 12-Spice Roasted Aromatic Blend",
-        "packaging": "1, 5, 25 kg Nitrogen Flushed Foil Pouches",
-        "moq": "500 kg LCL / 20ft FCL",
-        "shelfLife": "18 months",
-        "certifications": [
-          "FSSAI",
-          "Spices Board",
-          "BRCGS"
-        ],
-        "description": "Proprietary slow-roasted blend of cardamom, cinnamon, cloves, mace, cumin, and black pepper, micro-ground into a velvety, warming spice mix.",
-        "image": "/products/garam-masala.webp",
-        "gallery": [
-          "/products/garam-masala.webp",
-          "/products/garam-masala-2.webp",
-          "/products/garam-masala-3.webp"
-        ],
-        "alt": "Freshly ground royal Garam Masala spice blend in bowl"
       }
     ]
   },

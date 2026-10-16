@@ -48,7 +48,7 @@ const categoryMeta: Record<
     cert: "Phytosanitary & APEDA",
   },
   spices: {
-    descriptor: "Cardamom, turmeric, cumin & cloves",
+    descriptor: "Black pepper, turmeric, cumin & chilli",
     origin: "Origin: Kerala & Rajasthan",
     moq: "MOQ: 500 kg LCL / 20ft FCL",
     cert: "Spices Board of India",
