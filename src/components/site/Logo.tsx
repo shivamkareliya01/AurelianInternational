@@ -5,11 +5,20 @@ import { cn } from "@/lib/utils";
 export function Logo({
   className,
   size = "md",
+  variant = "horizontal",
 }: {
   light?: boolean;
   className?: string;
   size?: "sm" | "md" | "lg";
+  variant?: "horizontal" | "stacked" | "symbol";
 }) {
+  const src =
+    variant === "stacked"
+      ? "/brand/aurelian-logo-stacked.png"
+      : variant === "symbol"
+        ? "/brand/aurelian-symbol-transparent.png"
+        : "/brand/aurelian-logo-horizontal.png";
+
   return (
     <Link
       to="/"
@@ -20,14 +29,14 @@ export function Logo({
       aria-label={`${site.name} home`}
     >
       <img
-        src="/brand/aurelian-logo-transparent.png"
+        src={src}
         alt={site.name}
         style={{ background: "transparent" }}
         className={cn(
           "w-auto select-none object-contain transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(242,200,110,0.35)] hover:drop-shadow-[0_0_12px_rgba(242,200,110,0.35)]",
           size === "sm" && "h-[36px]",
-          size === "md" && "h-[36px] md:h-[46px]",
-          size === "lg" && "h-[60px] md:h-[72px]"
+          size === "md" && "h-[38px] md:h-[48px]",
+          size === "lg" && "h-[54px] md:h-[66px]"
         )}
       />
     </Link>
