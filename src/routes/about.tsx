@@ -4,7 +4,7 @@ import warehouse from "@/assets/warehouse.jpg";
 import marble from "@/assets/marble.jpg";
 import port from "@/assets/port.jpg";
 import { PageHeader } from "@/components/site/PageHeader";
-import { Reveal, SectionHead } from "@/components/site/primitives";
+import { InfinityWatermark, Reveal, SectionHead } from "@/components/site/primitives";
 import { site } from "@/data/site";
 
 export const Route = createFileRoute("/about")({
@@ -27,9 +27,17 @@ const team = [["Arjun Mehta", "Founder & Managing Director"], ["Meera Iyer", "He
 function About() {
   return (
     <>
-      <PageHeader eyebrow="About" title={<>India's harvest, <em className="text-gold-soft">honoured</em>.</>} text={site.tagline} image={farm} crumbs={[{ label: "About" }]} />
-      <section className="section-y bg-ivory">
-        <div className="container-x grid gap-16 lg:grid-cols-2">
+      <PageHeader
+        eyebrow="Our Heritage & Vision"
+        title={<>India's harvest, <em className="text-gold-soft">honoured</em>.</>}
+        text={site.tagline}
+        image="/images/green-paddy.jpg"
+        crumbs={[{ label: "About" }]}
+      />
+      <section className="py-16 md:py-24 bg-ivory relative overflow-hidden">
+        {/* Subtle large gold infinity watermark */}
+        <InfinityWatermark className="absolute -right-20 top-1/2 -translate-y-1/2 w-[40rem] h-[20rem] text-[#C9973F] opacity-[0.04]" />
+        <div className="container-x grid gap-16 lg:grid-cols-2 relative z-10">
           <SectionHead eyebrow="Our Story" title="Founded on a simple promise." />
           <Reveal className="space-y-5 text-lg leading-relaxed text-muted-foreground">
             <p>{site.name} began in {site.established} with one container of basmati rice and a belief that Indian produce deserved to be presented to the world with the same care as any luxury good.</p>
@@ -37,10 +45,10 @@ function About() {
           </Reveal>
         </div>
       </section>
-      <section className="section-y bg-forest text-on-forest">
+      <section className="section-y bg-[#071A33] text-[#F4F1EA]">
         <div className="container-x grid gap-px overflow-hidden rounded-2xl border hairline bg-gold/20 md:grid-cols-2">
           {[["Mission", "To be the most trusted bridge between India's producers and the world's buyers."], ["Vision", "A world where every Indian product travels with full traceability and fair value."]].map(([t, d]) => (
-            <div key={t} className="bg-forest p-12"><p className="eyebrow">{t}</p><p className="mt-5 font-display text-3xl leading-snug md:text-4xl">{d}</p></div>
+            <div key={t} className="bg-[#0E2A4F]/80 p-12"><p className="eyebrow">{t}</p><p className="mt-5 font-display text-3xl leading-snug md:text-4xl">{d}</p></div>
           ))}
         </div>
       </section>
@@ -49,7 +57,7 @@ function About() {
           <img src={warehouse} alt="Our export warehouse" loading="lazy" className="aspect-[4/5] w-full rounded-2xl object-cover shadow-lift" />
           <Reveal>
             <p className="eyebrow">Founder's Message</p>
-            <blockquote className="mt-6 font-display text-3xl italic leading-snug text-forest md:text-4xl">“Every bag that leaves our warehouse carries our name. That's why we inspect it as if it were going to our own family.”</blockquote>
+            <blockquote className="mt-6 font-display text-3xl italic leading-snug text-[#071A33] md:text-4xl">“Every bag that leaves our warehouse carries our name. That's why we inspect it as if it were going to our own family.”</blockquote>
             <p className="mt-8 text-sm"><span className="font-medium">Arjun Mehta</span> <span className="text-muted-foreground">· Founder & MD</span></p>
           </Reveal>
         </div>
@@ -59,7 +67,7 @@ function About() {
           <SectionHead eyebrow="Values" title="What guides us." />
           <div className="mt-14 grid gap-6 md:grid-cols-4">
             {values.map(([t, d], i) => (
-              <Reveal key={t} delay={i * 0.08} className="border-t-2 border-gold pt-6"><h3 className="text-2xl text-forest">{t}</h3><p className="mt-3 text-sm text-muted-foreground">{d}</p></Reveal>
+              <Reveal key={t} delay={i * 0.08} className="border-t-2 border-gold pt-6"><h3 className="text-2xl text-[#071A33]">{t}</h3><p className="mt-3 text-sm text-muted-foreground">{d}</p></Reveal>
             ))}
           </div>
         </div>
@@ -70,8 +78,8 @@ function About() {
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {team.map(([n, r], i) => (
               <Reveal key={n} delay={i * 0.08} className="rounded-2xl border hairline bg-card p-8 shadow-soft">
-                <div className="grid h-20 w-20 place-items-center rounded-full bg-forest font-display text-3xl text-gold-soft">{(n ?? "").split(" ").map((x) => x.charAt(0)).join("")}</div>
-                <h3 className="mt-6 text-2xl text-forest">{n}</h3><p className="mt-1 text-sm text-muted-foreground">{r}</p>
+                <div className="grid h-20 w-20 place-items-center rounded-full bg-[#071A33] font-display text-3xl text-gold-soft">{(n ?? "").split(" ").map((x) => x.charAt(0)).join("")}</div>
+                <h3 className="mt-6 text-2xl text-[#071A33]">{n}</h3><p className="mt-1 text-sm text-muted-foreground">{r}</p>
               </Reveal>
             ))}
           </div>

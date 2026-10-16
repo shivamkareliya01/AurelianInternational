@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient: Deep Navy -->
+    <linearGradient id="navyBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B2447" />
+      <stop offset="50%" stop-color="#071A33" />
+      <stop offset="100%" stop-color="#040E1F" />
+    </linearGradient>
+
+    <!-- Gold to Silver Brand Gradient matching the logo -->
+    <linearGradient id="goldToSilver" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9A6B1F" />
+      <stop offset="35%" stop-color="#F2C86E" />
+      <stop offset="70%" stop-color="#FAF8F3" />
+      <stop offset="100%" stop-color="#D9DDE3" />
+    </linearGradient>
+
+    <!-- Subtle Gold Border Glow -->
+    <linearGradient id="borderGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2C86E" stop-opacity="0.7" />
+      <stop offset="50%" stop-color="#C9973F" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#9A6B1F" stop-opacity="0.6" />
+    </linearGradient>
+
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.45" />
+    </filter>
+  </defs>
+
+  <!-- Rounded Square Background -->
+  <rect x="20" y="20" width="472" height="472" rx="112" ry="112" fill="url(#navyBg)" stroke="url(#borderGold)" stroke-width="8" />
+
+  <!-- Infinity Symbol -->
+  <path
+    d="M 256 256 C 295 186, 400 186, 400 256 C 400 326, 295 326, 256 256 C 217 186, 112 186, 112 256 C 112 326, 217 326, 256 256 Z"
+    fill="none"
+    stroke="url(#goldToSilver)"
+    stroke-width="40"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    filter="url(#glow)"
+  />
+</svg>

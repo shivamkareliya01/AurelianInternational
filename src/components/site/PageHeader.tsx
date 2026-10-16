@@ -4,24 +4,88 @@ import type { ReactNode } from "react";
 
 type Crumb = { label: string; to?: string; params?: Record<string, string> };
 
-export function PageHeader({ eyebrow, title, text, crumbs, image }: { eyebrow: string; title: ReactNode; text?: string; crumbs: Crumb[]; image?: string }) {
+export function PageHeader({
+  eyebrow,
+  title,
+  text,
+  crumbs,
+  image,
+}: {
+  eyebrow: string;
+  title: ReactNode;
+  text?: string;
+  crumbs: Crumb[];
+  image?: string;
+}) {
+  const bgImg =
+    image || "/images/green-paddy.jpg";
+
   return (
-    <section className="relative overflow-hidden bg-forest-deep pb-20 pt-40 text-on-forest md:pb-28 md:pt-48">
-      {image && <img src={image} alt="" className="absolute inset-0 h-full w-full object-cover opacity-30" />}
-      <div className="absolute inset-0 bg-hero-overlay" />
-      <div className="container-x relative">
-        <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs text-on-forest-muted">
-          <Link to="/" className="hover:text-gold-soft">Home</Link>
+    <section className="relative overflow-hidden bg-[#040E1F] pb-20 pt-36 text-[#F4F1EA] md:pb-28 md:pt-44">
+      {/* 1. Visible, clear background photograph */}
+      <img
+        src={bgImg}
+        alt=""
+        loading="eager"
+        decoding="sync"
+        style={{ filter: "brightness(0.70) contrast(1.05) saturate(1.08)" }}
+        className="absolute inset-0 h-full w-full object-cover object-center"
+      />
+
+      {/* 2. Deep navy gradient overlay so picture remains clearly visible */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(135deg, rgba(4, 14, 31, 0.55) 0%, rgba(4, 14, 31, 0.42) 55%, rgba(4, 14, 31, 0.25) 100%)",
+        }}
+      />
+
+      {/* 3. Subtle ambient bottom vignette */}
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-24"
+        style={{
+          background: "linear-gradient(to top, rgba(4, 14, 31, 0.7) 0%, transparent 100%)",
+        }}
+      />
+
+      <div className="container-x relative z-10">
+        {/* Breadcrumb */}
+        <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs font-medium text-[#D9DDE3]">
+          <Link to="/" className="hover:text-[#F2C86E] transition-colors">
+            Home
+          </Link>
           {crumbs.map((c) => (
             <span key={c.label} className="flex items-center gap-2">
-              <ChevronRight className="h-3 w-3" />
-              {c.to ? <Link to={c.to} params={c.params as never} className="hover:text-gold-soft">{c.label}</Link> : <span className="text-on-forest">{c.label}</span>}
+              <ChevronRight className="h-3 w-3 text-[#C9973F]/70" />
+              {c.to ? (
+                <Link to={c.to} params={c.params as never} className="hover:text-[#F2C86E] transition-colors">
+                  {c.label}
+                </Link>
+              ) : (
+                <span className="text-white font-semibold">{c.label}</span>
+              )}
             </span>
           ))}
         </nav>
-        <p className="eyebrow mt-10">{eyebrow}</p>
-        <h1 className="mt-4 max-w-4xl text-5xl leading-[1.02] md:text-7xl">{title}</h1>
-        {text && <p className="mt-6 max-w-2xl text-lg text-on-forest-muted">{text}</p>}
+
+        {/* Eyebrow */}
+        <p className="eyebrow mt-8 !text-[#F2C86E]">{eyebrow}</p>
+
+        {/* Large Serif Title */}
+        <h1 className="mt-3 max-w-4xl font-display text-5xl leading-[1.02] text-white md:text-7xl">
+          {title}
+        </h1>
+
+        {/* Subtle Gold Underline */}
+        <div className="mt-5 h-0.5 w-16 bg-gradient-to-r from-[#9A6B1F] via-[#F2C86E] to-[#C9973F]" />
+
+        {/* Subtitle / Explanatory Text */}
+        {text && (
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-[#D9DDE3] md:text-lg">
+            {text}
+          </p>
+        )}
       </div>
     </section>
   );

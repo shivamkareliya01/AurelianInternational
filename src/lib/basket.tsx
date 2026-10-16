@@ -1,35 +1,57 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
-type Item = { key: string; name: string; category: string };
+export type BasketItem = {
+  key: string;
+  name: string;
+  category: string;
+  origin?: string;
+  image?: string;
+};
+
 type Ctx = {
-  items: Item[];
-  add: (i: Item) => void;
+  items: BasketItem[];
+  add: (i: BasketItem) => void;
   remove: (key: string) => void;
   clear: () => void;
   has: (key: string) => boolean;
+  isOpen: boolean;
+  openBasket: () => void;
+  closeBasket: () => void;
+  toggleBasket: () => void;
 };
 
 const BasketContext = createContext<Ctx | null>(null);
 
 export function BasketProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<Item[]>([]);
+  const [items, setItems] = useState<BasketItem[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+
   useEffect(() => {
     try {
       const raw = localStorage.getItem("enquiry-basket");
       if (raw) setItems(JSON.parse(raw));
     } catch {}
   }, []);
+
   useEffect(() => {
     localStorage.setItem("enquiry-basket", JSON.stringify(items));
   }, [items]);
 
   const value: Ctx = {
     items,
-    add: (i) => setItems((s) => (s.some((x) => x.key === i.key) ? s : [...s, i])),
+    isOpen,
+    openBasket: () => setIsOpen(true),
+    closeBasket: () => setIsOpen(false),
+    toggleBasket: () => setIsOpen((o) => !o),
+    add: (i) => {
+      setItems((s) => (s.some((x) => x.key === i.key) ? s : [...s, i]));
+      setIsOpen(true);
+    },
     remove: (key) => setItems((s) => s.filter((x) => x.key !== key)),
     clear: () => setItems([]),
     has: (key) => items.some((x) => x.key === key),
   };
+
   return <BasketContext.Provider value={value}>{children}</BasketContext.Provider>;
 }
 

@@ -20,7 +20,7 @@ export const site = {
 
 export const stats = [
   { value: 25, suffix: "+", label: "Countries Served" },
-  { value: 50, suffix: "+", label: "Products" },
-  { value: 100, suffix: "%", label: "Compliance" },
-  { value: 500, suffix: "+", label: "Shipments" },
+  { value: 5, suffix: "", label: "Product Categories" },
+  { value: 68, suffix: "", label: "Export Products" },
+  { value: 500, suffix: "+", label: "Shipments Completed" },
 ];

@@ -20,7 +20,7 @@ const schema = z.object({
 });
 type Values = z.infer<typeof schema>;
 
-const field = "w-full rounded-xl border border-input bg-card/70 px-4 py-3 text-sm text-ink placeholder:text-muted-foreground/70 transition-colors focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25";
+const field = "w-full rounded-xl border border-[#E3E7EE] bg-white/90 px-4 py-3 text-sm text-[#0B1B33] placeholder:text-muted-foreground/70 transition-colors focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25";
 
 export function EnquiryForm() {
   const { items, remove, clear } = useBasket();
@@ -40,7 +40,6 @@ export function EnquiryForm() {
     }
     setErrors({});
     setState("loading");
-    // TODO: persist to Lovable Cloud + email notification
     await new Promise((res) => setTimeout(res, 1200));
     setState("done");
     clear();
@@ -48,23 +47,23 @@ export function EnquiryForm() {
 
   const F = ({ name, label, ...rest }: { name: keyof Values; label: string } & React.InputHTMLAttributes<HTMLInputElement>) => (
     <div>
-      <label htmlFor={name} className="mb-1.5 block text-xs font-medium tracking-wide text-ink/70">{label}</label>
+      <label htmlFor={name} className="mb-1.5 block text-xs font-medium tracking-wide text-[#0B1B33]/80">{label}</label>
       <input id={name} name={name} className={cn(field, errors[name] && "border-destructive")} {...rest} />
       {errors[name] && <p className="mt-1 text-xs text-destructive">{errors[name]}</p>}
     </div>
   );
 
   return (
-    <div className="glass-light relative overflow-hidden rounded-3xl border hairline p-6 shadow-lift md:p-10">
+    <div className="glass-light relative overflow-hidden rounded-3xl border border-[#C9973F]/30 p-6 shadow-lift md:p-10">
       <AnimatePresence mode="wait">
         {state === "done" ? (
           <motion.div key="done" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="flex min-h-[28rem] flex-col items-center justify-center text-center">
             <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", delay: 0.1 }}>
-              <CheckCircle2 className="h-16 w-16 text-gold" strokeWidth={1.2} />
+              <CheckCircle2 className="h-16 w-16 text-[#C9973F]" strokeWidth={1.5} />
             </motion.div>
-            <h3 className="mt-6 text-4xl text-forest">Enquiry received</h3>
-            <p className="mt-3 max-w-sm text-muted-foreground">Our trade desk will reply within one business day with pricing and availability.</p>
-            <button onClick={() => setState("idle")} className={cn(btn.outline, "mt-8")}>Send another</button>
+            <h3 className="mt-6 font-display text-4xl text-[#071A33]">Enquiry Received</h3>
+            <p className="mt-3 max-w-sm text-muted-foreground">Our international trade desk will reply within one business day with FOB/CIF pricing and lab specifications.</p>
+            <button onClick={() => setState("idle")} className={cn(btn.outline, "mt-8")}>Send another enquiry</button>
           </motion.div>
         ) : (
           <motion.form key="form" onSubmit={onSubmit} noValidate initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid gap-5 md:grid-cols-2">
@@ -75,7 +74,7 @@ export function EnquiryForm() {
             {F({ name: "company", label: "Company", autoComplete: "organization" })}
             {F({ name: "country", label: "Country", autoComplete: "country-name" })}
             <div>
-              <label htmlFor="product" className="mb-1.5 block text-xs font-medium tracking-wide text-ink/70">Product interest</label>
+              <label htmlFor="product" className="mb-1.5 block text-xs font-medium tracking-wide text-[#0B1B33]/80">Product interest</label>
               <select id="product" name="product" defaultValue="" className={cn(field, errors.product && "border-destructive")}>
                 <option value="">{items.length ? "From enquiry basket" : "Select a product"}</option>
                 {categories.map((c) => (
@@ -89,23 +88,23 @@ export function EnquiryForm() {
             {F({ name: "quantity", label: "Quantity / MOQ", placeholder: "e.g. 2 × 20ft FCL" })}
             {items.length > 0 && (
               <div className="md:col-span-2">
-                <p className="mb-2 text-xs font-medium tracking-wide text-ink/70">Enquiry basket ({items.length})</p>
+                <p className="mb-2 text-xs font-medium tracking-wide text-[#0B1B33]/80">Enquiry basket ({items.length})</p>
                 <div className="flex flex-wrap gap-2">
                   {items.map((i) => (
-                    <span key={i.key} className="inline-flex items-center gap-2 rounded-full border hairline bg-sand px-3 py-1.5 text-xs text-forest">
+                    <span key={i.key} className="inline-flex items-center gap-2 rounded-full border border-[#C9973F]/35 bg-[#EEF1F5] px-3 py-1.5 text-xs text-[#071A33] font-medium">
                       {i.name}
-                      <button type="button" onClick={() => remove(i.key)} aria-label={`Remove ${i.name}`}><X className="h-3 w-3" /></button>
+                      <button type="button" onClick={() => remove(i.key)} aria-label={`Remove ${i.name}`} className="hover:text-destructive"><X className="h-3 w-3" /></button>
                     </span>
                   ))}
                 </div>
               </div>
             )}
             <div className="md:col-span-2">
-              <label htmlFor="message" className="mb-1.5 block text-xs font-medium tracking-wide text-ink/70">Message</label>
-              <textarea id="message" name="message" rows={4} className={field} placeholder="Destination port, packaging, timelines…" />
+              <label htmlFor="message" className="mb-1.5 block text-xs font-medium tracking-wide text-[#0B1B33]/80">Message</label>
+              <textarea id="message" name="message" rows={4} className={field} placeholder="Destination port, packaging requirements, target shipment date…" />
             </div>
             <button disabled={state === "loading"} className={cn(btn.gold, "md:col-span-2 disabled:opacity-70")}>
-              {state === "loading" ? <><Loader2 className="h-4 w-4 animate-spin" /> Sending…</> : "Send Enquiry"}
+              {state === "loading" ? <><Loader2 className="h-4 w-4 animate-spin" /> Transmitting Request…</> : "Send Export Enquiry"}
             </button>
           </motion.form>
         )}

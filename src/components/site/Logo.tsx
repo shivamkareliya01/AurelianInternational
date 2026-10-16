@@ -2,16 +2,34 @@ import { Link } from "@tanstack/react-router";
 import { site } from "@/data/site";
 import { cn } from "@/lib/utils";
 
-export function Logo({ light }: { light?: boolean }) {
+export function Logo({
+  className,
+  size = "md",
+}: {
+  light?: boolean;
+  className?: string;
+  size?: "sm" | "md" | "lg";
+}) {
   return (
-    <Link to="/" className="flex items-center gap-3" aria-label={`${site.name} home`}>
-      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border hairline">
-        <span className={cn("font-display text-xl italic", light ? "text-gold-soft" : "text-gold")}>A</span>
-      </span>
-      <span className="leading-none">
-        <span className={cn("block font-display text-xl tracking-tight", light ? "text-on-forest" : "text-forest")}>{site.short}</span>
-        <span className={cn("mt-1 block text-[0.6rem] uppercase tracking-[0.3em]", light ? "text-on-forest-muted" : "text-muted-foreground")}>Import &amp; Export</span>
-      </span>
+    <Link
+      to="/"
+      className={cn(
+        "inline-flex items-center shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C9973F] rounded-sm group",
+        className
+      )}
+      aria-label={`${site.name} home`}
+    >
+      <img
+        src="/brand/aurelian-logo-transparent.png"
+        alt={site.name}
+        style={{ background: "transparent" }}
+        className={cn(
+          "w-auto select-none object-contain transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(242,200,110,0.35)] hover:drop-shadow-[0_0_12px_rgba(242,200,110,0.35)]",
+          size === "sm" && "h-[36px]",
+          size === "md" && "h-[36px] md:h-[46px]",
+          size === "lg" && "h-[60px] md:h-[72px]"
+        )}
+      />
     </Link>
   );
 }

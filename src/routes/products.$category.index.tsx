@@ -32,14 +32,25 @@ export const Route = createFileRoute("/products/$category/")({
 function CategoryPage() {
   const { slug } = Route.useLoaderData();
   const c = getCategory(slug)!;
+
   return (
     <>
-      <PageHeader eyebrow={`${c.products.length} products`} title={c.name} text={c.blurb} image={c.image} crumbs={[{ label: "Products", to: "/products" }, { label: c.name }]} />
-      <section className="section-y bg-ivory">
-        <div className="container-x grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {c.products.map((p, i) => (
-            <Reveal key={p.slug} delay={i * 0.06}><ProductCard product={p} category={c} /></Reveal>
-          ))}
+      <PageHeader
+        eyebrow={`${c.products.length} Products Available`}
+        title={c.name}
+        text={c.blurb}
+        image={c.image}
+        crumbs={[{ label: "Products", to: "/products" }, { label: c.name }]}
+      />
+      <section className="py-16 md:py-24 bg-ivory">
+        <div className="container-x">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {c.products.map((p, i) => (
+              <Reveal key={p.slug} delay={i * 0.05} className="h-full">
+                <ProductCard product={p} category={c} />
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
     </>

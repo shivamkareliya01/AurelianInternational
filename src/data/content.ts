@@ -17,7 +17,7 @@ export const testimonials = [
 
 export const faqs = [
   { q: "Which countries do you export to?", a: "We ship regularly to the UK, USA, UAE, Saudi Arabia, the EU, Southeast Asia and East Africa — 25+ countries in total." },
-  { q: "What is your minimum order quantity (MOQ)?", a: "Most products ship from one 20ft container. Spices and dry fruits can start from 250 kg–1 MT. Mixed containers are possible." },
+  { q: "What is your minimum order quantity (MOQ)?", a: "Most products ship from one 20ft container. Spices can start from 250 kg–1 MT. Mixed containers are possible." },
   { q: "Which documents do you provide?", a: "Commercial invoice, packing list, bill of lading, certificate of origin, phytosanitary certificate, fumigation certificate, and lab analysis reports as required." },
   { q: "What payment terms do you accept?", a: "We work with LC at sight, 30% advance with balance against documents (CAD), and for established partners, DA terms." },
   { q: "How long does shipping take?", a: "Typically 2–3 weeks for production and documentation, plus 7–35 days of sea transit depending on the destination port." },
@@ -28,12 +28,12 @@ export const faqs = [
 ];
 
 export const markets = [
-  { region: "United Kingdom", flag: "🇬🇧", ports: "Felixstowe, Southampton, London Gateway", products: "Basmati rice, spices, dry fruits" },
-  { region: "United States", flag: "🇺🇸", ports: "New York/NJ, Houston, Los Angeles", products: "Spices, granite, cashews" },
+  { region: "United Kingdom", flag: "🇬🇧", ports: "Felixstowe, Southampton, London Gateway", products: "Basmati rice, spices, fresh produce" },
+  { region: "United States", flag: "🇺🇸", ports: "New York/NJ, Houston, Los Angeles", products: "Spices, granite, natural stone" },
   { region: "United Arab Emirates", flag: "🇦🇪", ports: "Jebel Ali, Khalifa", products: "Fresh produce, rice, onions" },
   { region: "European Union", flag: "🇪🇺", ports: "Rotterdam, Hamburg, Antwerp", products: "Spices, grapes, marble" },
   { region: "Southeast Asia", flag: "🌏", ports: "Singapore, Port Klang, Ho Chi Minh", products: "Onions, maize, garlic" },
-  { region: "Africa", flag: "🌍", ports: "Mombasa, Durban, Lagos", products: "Rice, wheat, dry fruits" },
+  { region: "Africa", flag: "🌍", ports: "Mombasa, Durban, Lagos", products: "Rice, wheat, pulses" },
 ];
 
 export const whyUs = [

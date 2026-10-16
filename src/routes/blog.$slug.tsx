@@ -33,7 +33,13 @@ function Article() {
   const p = getPost(slug)!;
   return (
     <>
-      <PageHeader eyebrow={`${p.category} · ${p.readTime}`} title={p.title} text={p.excerpt} crumbs={[{ label: "Blog", to: "/blog" }, { label: p.category }]} />
+      <PageHeader
+        eyebrow={`${p.category} · ${p.readTime}`}
+        title={p.title}
+        text={p.excerpt}
+        image={p.image}
+        crumbs={[{ label: "Blog", to: "/blog" }, { label: p.title }]}
+      />
       <article className="section-y bg-ivory !pt-0">
         <div className="container-x max-w-4xl">
           <img src={p.image} alt={p.title} className="-mt-12 aspect-[16/9] w-full rounded-2xl object-cover shadow-lift md:-mt-16" />
@@ -41,7 +47,7 @@ function Article() {
           <div className="mt-8 space-y-6 text-lg leading-[1.85] text-ink/85 first-letter:float-left first-letter:mr-3 first-letter:font-display first-letter:text-7xl first-letter:leading-none first-letter:text-gold">
             {p.body.map((para, i) => <p key={i}>{para}</p>)}
           </div>
-          <Link to="/blog" className="mt-14 inline-flex items-center gap-2 text-forest hover:text-gold"><ArrowLeft className="h-4 w-4" /> Back to Journal</Link>
+          <Link to="/blog" className="mt-14 inline-flex items-center gap-2 text-[#071A33] hover:text-gold"><ArrowLeft className="h-4 w-4" /> Back to Journal</Link>
         </div>
       </article>
     </>
