@@ -391,7 +391,7 @@ export const categories: Category[] = [
     "name": "Fresh Vegetables",
     "headline": "Farm-Fresh Export Vegetables",
     "blurb": "Field-fresh vegetables from Maharashtra and Gujarat, harvest-cooled, grading-line sorted and shipped in temperature-controlled reefer containers.",
-    "image": "/products/nashik-red-onion.webp",
+    "image": "/products/category-fresh-vegetables.webp",
     "products": [
       {
         "slug": "nashik-red-onion",
@@ -698,7 +698,7 @@ export const categories: Category[] = [
     "name": "Fresh Fruits",
     "headline": "Orchard Fresh Indian Fruits",
     "blurb": "GI-tagged and orchard-fresh Indian fruits, pre-cooled at packhouses, hot-water treated, and dispatched via maritime reefers and direct air cargo.",
-    "image": "/products/cavendish-banana.webp",
+    "image": "/products/category-fresh-fruits.webp",
     "products": [
       {
         "slug": "cavendish-banana",
