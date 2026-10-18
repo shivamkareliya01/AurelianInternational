@@ -24,7 +24,7 @@ export function Logo({
       to="/"
       className={cn(
         "inline-flex items-center shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C9973F] rounded-sm group",
-        className
+        className,
       )}
       aria-label={`${site.name} home`}
     >
@@ -36,7 +36,7 @@ export function Logo({
           "w-auto select-none object-contain transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(242,200,110,0.35)] hover:drop-shadow-[0_0_12px_rgba(242,200,110,0.35)]",
           size === "sm" && "h-[36px]",
           size === "md" && "h-[38px] md:h-[48px]",
-          size === "lg" && "h-[54px] md:h-[66px]"
+          size === "lg" && "h-[54px] md:h-[66px]",
         )}
       />
     </Link>

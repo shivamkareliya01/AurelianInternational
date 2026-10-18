@@ -30,7 +30,9 @@ export function BasketProvider({ children }: { children: ReactNode }) {
     try {
       const raw = localStorage.getItem("enquiry-basket");
       if (raw) setItems(JSON.parse(raw));
-    } catch {}
+    } catch {
+      // Ignore corrupted localStorage data
+    }
   }, []);
 
   useEffect(() => {

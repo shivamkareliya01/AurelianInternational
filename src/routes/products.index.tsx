@@ -7,27 +7,29 @@ import {
   ChevronRight,
   Filter,
   Package,
+  PhoneCall,
   RotateCcw,
   Search,
+  ShieldCheck,
   SlidersHorizontal,
   X,
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { PageHeader } from "@/components/site/PageHeader";
 import { ProductCard } from "@/components/site/ProductCard";
-import { btn } from "@/components/site/primitives";
+import { btn, Reveal, SectionHead } from "@/components/site/primitives";
 import { allProducts, categories } from "@/data/products";
 import { site } from "@/data/site";
+import { useBasket } from "@/lib/basket";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/products/")({
   head: () => ({
     meta: [
-      { title: `Export Products Catalogue (68 Items) — ${site.name}` },
+      { title: `Export Products Catalogue (${allProducts.length} Items) — ${site.name}` },
       {
         name: "description",
-        content:
-          "Browse 68 export-grade Indian products across 5 approved categories: Agriculture, Fresh Vegetables, Fresh Fruits, Spices, and Natural Stones & Tiles.",
+        content: `Browse ${allProducts.length} export-grade Indian products across 7 approved categories: Agriculture, Fresh Vegetables, Fresh Fruits, Spices, Natural Stones, Ceramic & Vitrified Tiles, and Dehydrated Powders.`,
       },
       { property: "og:title", content: `Export Products Catalogue — ${site.name}` },
       {
@@ -50,9 +52,17 @@ const originGroups = [
 
 function getRegionGroup(origin: string) {
   if (/Punjab|Haryana|Uttar|Kashmir|Ladakh|Himachal/i.test(origin)) return originGroups[0];
-  if (/Gujarat|Maharashtra|Nashik|Rajasthan|Kolhapur|Saurashtra|Kutch|Pune|Jalgaon|Sangli|Gir|Solapur|Makrana|Kota/i.test(origin))
+  if (
+    /Gujarat|Maharashtra|Nashik|Rajasthan|Kolhapur|Saurashtra|Kutch|Pune|Jalgaon|Sangli|Gir|Solapur|Makrana|Kota/i.test(
+      origin,
+    )
+  )
     return originGroups[1];
-  if (/Kerala|Tamil|Karnataka|Andhra|Telangana|Erode|Guntur|Idukki|Wayanad|Nellore|Ongole|Madurai|Chimakurthy|Vazhakulam|Kollam/i.test(origin))
+  if (
+    /Kerala|Tamil|Karnataka|Andhra|Telangana|Erode|Guntur|Idukki|Wayanad|Nellore|Ongole|Madurai|Chimakurthy|Vazhakulam|Kollam/i.test(
+      origin,
+    )
+  )
     return originGroups[2];
   return originGroups[3];
 }
@@ -71,9 +81,29 @@ function getPackGroup(packaging: string) {
   return packTypes[3];
 }
 
+const buyerPillars = [
+  {
+    title: "Direct Producer Sourcing",
+    desc: "Direct farm, mill, and quarry partnerships across India eliminating middlemen and ensuring true origin traceability.",
+  },
+  {
+    title: "Rigorous Export QC & Lab COA",
+    desc: "Batch-wise third-party SGS / Bureau Veritas testing, phytosanitary clearance, and full compliance documentation.",
+  },
+  {
+    title: "Customized Export Packaging",
+    desc: "Private label pouches, vacuum barrier bags, bulk poly-lined sacks, and ISPM-15 export-fumigated wooden crates.",
+  },
+  {
+    title: "Multi-Port Global Logistics",
+    desc: "Scheduled ocean container sailings and air cargo allocations from Mundra, Nhava Sheva (JNPT), Cochin, and Chennai.",
+  },
+];
+
 const ITEMS_PER_PAGE = 12;
 
 function Products() {
+  const { openBasket } = useBasket();
   const [q, setQ] = useState("");
   const [selectedCat, setSelectedCat] = useState<string>("all");
   const [origins, setOrigins] = useState<string[]>([]);
@@ -139,8 +169,8 @@ function Products() {
       {/* 1. Header Banner */}
       <PageHeader
         eyebrow="Certified Export Catalog"
-        title="Five Categories. One Global Standard."
-        text="68 certified export commodities sourced from India's prime agricultural, spice and mineral belts — graded, inspected and shipped worldwide."
+        title="Seven Categories. One Global Standard."
+        text={`${allProducts.length} certified export commodities sourced from India's prime agricultural, spice, mineral and botanical belts — graded, inspected and shipped worldwide.`}
         crumbs={[{ label: "Products" }]}
         image="/products/1121-basmati-rice.webp"
       />
@@ -160,7 +190,7 @@ function Products() {
                 "relative flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold tracking-wide transition-all cursor-pointer whitespace-nowrap",
                 selectedCat === "all"
                   ? "text-[#040E1F]"
-                  : "text-[#D9DDE3] hover:text-white hover:bg-white/10"
+                  : "text-[#D9DDE3] hover:text-white hover:bg-white/10",
               )}
             >
               {selectedCat === "all" && (
@@ -176,49 +206,48 @@ function Products() {
                   "relative z-10 rounded-full px-2 py-0.5 text-[10px] font-bold",
                   selectedCat === "all"
                     ? "bg-[#040E1F]/20 text-[#040E1F]"
-                    : "bg-white/10 text-gold-soft"
+                    : "bg-white/10 text-gold-soft",
                 )}
               >
                 {allProducts.length}
               </span>
             </button>
 
-            {/* 6 Category Pills */}
+            {/* Approved Category Pills */}
             {categories.map((c) => {
               const active = selectedCat === c.slug;
-              return (
-                <button
-                  key={c.slug}
-                  type="button"
-                  onClick={() => handleCategorySelect(c.slug)}
-                  className={cn(
-                    "relative flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold tracking-wide transition-all cursor-pointer whitespace-nowrap",
-                    active
-                      ? "text-[#040E1F]"
-                      : "text-[#D9DDE3] hover:text-white hover:bg-white/10"
-                  )}
-                >
-                  {active && (
-                    <motion.span
-                      layoutId="activeCategoryPill"
-                      className="absolute inset-0 rounded-full bg-gradient-to-r from-[#9A6B1F] via-[#C9973F] to-[#F2C86E] shadow-md"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                  <span className="relative z-10">{c.name}</span>
-                  <span
+              const displayName = c.slug === "dehydrated-powders" ? "Dehydrated Powders" : c.name;
+                return (
+                  <button
+                    key={c.slug}
+                    type="button"
+                    onClick={() => handleCategorySelect(c.slug)}
                     className={cn(
-                      "relative z-10 rounded-full px-2 py-0.5 text-[10px] font-bold",
+                      "relative flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold tracking-wide transition-all cursor-pointer whitespace-nowrap",
                       active
-                        ? "bg-[#040E1F]/20 text-[#040E1F]"
-                        : "bg-white/10 text-gold-soft"
+                        ? "text-[#040E1F]"
+                        : "text-[#D9DDE3] hover:text-white hover:bg-white/10",
                     )}
                   >
-                    {c.products.length}
-                  </span>
-                </button>
-              );
-            })}
+                    {active && (
+                      <motion.span
+                        layoutId="activeCategoryPill"
+                        className="absolute inset-0 rounded-full bg-gradient-to-r from-[#9A6B1F] via-[#C9973F] to-[#F2C86E] shadow-md"
+                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      />
+                    )}
+                    <span className="relative z-10">{displayName}</span>
+                    <span
+                      className={cn(
+                        "relative z-10 rounded-full px-2 py-0.5 text-[10px] font-bold",
+                        active ? "bg-[#040E1F]/20 text-[#040E1F]" : "bg-white/10 text-gold-soft",
+                      )}
+                    >
+                      {c.products.length}
+                    </span>
+                  </button>
+                );
+              })}
           </div>
 
           {/* Mobile Filter Toggle Button */}
@@ -308,7 +337,8 @@ function Products() {
             <div className="rounded-2xl border border-[#C9973F]/25 bg-[#FAF8F3] p-4 text-xs text-[#071A33]/80">
               <p className="font-semibold text-[#071A33]">Direct Maritime Exports</p>
               <p className="mt-1 text-muted-foreground leading-relaxed">
-                All 68 products packed to ISO & APEDA compliance with third-party pre-shipment inspections.
+                All {allProducts.length} products packed to ISO & APEDA compliance with third-party pre-shipment
+                inspections.
               </p>
             </div>
           </aside>
@@ -347,23 +377,21 @@ function Products() {
                     setQ(e.target.value);
                     setVisibleCount(ITEMS_PER_PAGE);
                   }}
-                  placeholder="Search 68 products, varieties, origins, specs…"
+                  placeholder={`Search ${allProducts.length} products, varieties, origins, specs…`}
                   className="w-full rounded-full border border-[#C9973F]/35 bg-white py-2.5 pl-11 pr-4 text-sm text-[#0B1B33] placeholder:text-muted-foreground focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/20 shadow-sm transition-all"
                 />
               </div>
 
               <div className="flex items-center gap-4 text-sm justify-between sm:justify-end">
                 <span className="font-medium text-[#071A33]">
-                  Showing <strong className="text-[#C9973F] font-bold">{pagedList.length}</strong> of{" "}
-                  <strong>{list.length}</strong>
+                  Showing <strong className="text-[#C9973F] font-bold">{pagedList.length}</strong>{" "}
+                  of <strong>{list.length}</strong>
                 </span>
 
                 <select
                   aria-label="Sort products"
                   value={sort}
-                  onChange={(e) =>
-                    setSort(e.target.value as "featured" | "az" | "za" | "category")
-                  }
+                  onChange={(e) => setSort(e.target.value as "featured" | "az" | "za" | "category")}
                   className="rounded-full border border-[#C9973F]/35 bg-white px-4 py-2 text-xs font-semibold text-[#071A33] focus:border-[#C9973F] focus:outline-none shadow-sm cursor-pointer"
                 >
                   <option value="featured">Sort: Featured</option>
@@ -377,26 +405,24 @@ function Products() {
             {/* 3 Columns Desktop / 2 Tablet / 1 Mobile Grid with 28px Gap (gap-7) */}
             {pagedList.length > 0 ? (
               <>
-                <motion.div
-                  layout
+                <div
                   className="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-7 items-stretch"
                 >
                   <AnimatePresence mode="popLayout">
                     {pagedList.map((p, idx) => (
                       <motion.div
                         key={p.slug}
-                        layout
                         initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95 }}
                         transition={{ duration: 0.25, delay: Math.min(idx * 0.03, 0.3) }}
                         className="h-full"
                       >
-                        <ProductCard product={p} category={p.category} />
+                        <ProductCard product={p} category={p.category} priority={idx < 3} />
                       </motion.div>
                     ))}
                   </AnimatePresence>
-                </motion.div>
+                </div>
 
                 {/* Pagination / Outlined Gold Load More with Progress Bar */}
                 {hasMore && (
@@ -412,8 +438,10 @@ function Products() {
                         />
                       </div>
                       <p className="text-xs text-muted-foreground font-medium">
-                        Showing <strong className="text-[#071A33] font-semibold">{pagedList.length}</strong> of{" "}
-                        <strong className="text-[#071A33] font-semibold">{list.length}</strong> products
+                        Showing{" "}
+                        <strong className="text-[#071A33] font-semibold">{pagedList.length}</strong>{" "}
+                        of <strong className="text-[#071A33] font-semibold">{list.length}</strong>{" "}
+                        products
                       </p>
                     </div>
 
@@ -439,7 +467,8 @@ function Products() {
                   No products match your criteria
                 </h3>
                 <p className="mt-2 max-w-sm text-sm text-muted-foreground leading-relaxed">
-                  Try adjusting your search query, selecting "All Categories", or clearing region filters to view our approved 68 export commodities.
+                  Try adjusting your search query, selecting "All Categories", or clearing region
+                  filters to view our approved {allProducts.length} export commodities.
                 </p>
                 <button
                   type="button"
@@ -450,6 +479,75 @@ function Products() {
                 </button>
               </div>
             )}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Why Buyers Choose Us Strip */}
+      <section className="py-16 md:py-20 bg-[#071A33] text-white border-y border-[#C9973F]/25 relative overflow-hidden">
+        <div className="container-x">
+          <SectionHead
+            eyebrow="Global Trade Advantage"
+            title="Why International Importers Choose Aurelian"
+            text="Decades of agricultural and mineral export expertise ensuring consistent specification delivery across international borders."
+            align="center"
+            className="text-white"
+          />
+
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {buyerPillars.map((pillar, idx) => (
+              <Reveal
+                key={pillar.title}
+                delay={idx * 0.07}
+                className="rounded-2xl border border-[#C9973F]/30 bg-[#0E2A4F]/60 p-6 shadow-md backdrop-blur-sm"
+              >
+                <div className="h-1 w-10 bg-gradient-to-r from-[#C9973F] to-[#F2C86E] rounded-full mb-4" />
+                <h4 className="font-display text-lg font-semibold text-[#F2C86E]">
+                  {pillar.title}
+                </h4>
+                <p className="mt-2 text-xs leading-relaxed text-[#D9DDE3]/85">{pillar.desc}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. Request a Quote Banner */}
+      <section className="py-16 md:py-20 bg-[#FAF8F3]">
+        <div className="container-x">
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#071A33] via-[#0E2A4F] to-[#071A33] p-8 md:p-12 border border-[#C9973F]/40 shadow-2xl text-white">
+            <div className="relative z-10 max-w-3xl">
+              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#F2C86E]">
+                Direct Commercial Desk
+              </span>
+              <h2 className="mt-2 font-display text-3xl md:text-5xl font-semibold leading-tight text-white">
+                Looking for Bulk Export Quotation or Custom Specifications?
+              </h2>
+              <p className="mt-4 text-sm md:text-base leading-relaxed text-[#D9DDE3]/90">
+                Connect directly with our export desk for FOB / CIF quotes, custom mesh sizing, private label packaging, and international compliance dossiers.
+              </p>
+              <div className="mt-8 flex flex-wrap items-center gap-4">
+                <button
+                  type="button"
+                  onClick={openBasket}
+                  className="rounded-full bg-gradient-to-r from-[#C9973F] via-[#F2C86E] to-[#C9973F] px-8 py-3.5 text-xs font-bold uppercase tracking-wider text-[#071A33] shadow-lg hover:shadow-xl hover:scale-105 transition-all cursor-pointer"
+                >
+                  Review Enquiry Basket
+                </button>
+                <Link
+                  to="/contact"
+                  className="rounded-full border border-white/30 bg-white/10 px-8 py-3.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-white hover:text-[#071A33] transition-all cursor-pointer inline-flex items-center gap-2"
+                >
+                  <PhoneCall className="h-3.5 w-3.5" />
+                  <span>Contact Export Desk</span>
+                </Link>
+              </div>
+            </div>
+
+            {/* Subtle background decorative emblem */}
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 opacity-10 pointer-events-none">
+              <ShieldCheck className="h-96 w-96 text-[#F2C86E]" />
+            </div>
           </div>
         </div>
       </section>

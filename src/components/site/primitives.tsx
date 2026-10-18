@@ -4,13 +4,24 @@ import { cn } from "@/lib/utils";
 
 export const btn = {
   gold: "inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#9A6B1F] via-[#F2C86E] to-[#C9973F] px-7 py-3.5 text-sm font-semibold tracking-wide text-[#071A33] shadow-md transition-all duration-300 hover:shadow-[0_0_22px_rgba(201,151,63,0.45)] hover:-translate-y-0.5 btn-shine cursor-pointer active:translate-y-0",
-  outlineLight: "inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-transparent px-7 py-3.5 text-sm font-medium tracking-wide text-white transition-all duration-300 hover:border-[#F2C86E] hover:text-[#F2C86E] hover:bg-white/5 btn-shine cursor-pointer",
-  outline: "inline-flex items-center justify-center gap-2 rounded-full border border-[#C9973F]/40 bg-transparent px-7 py-3.5 text-sm font-medium tracking-wide text-[#071A33] transition-all duration-300 hover:border-[#C9973F] hover:bg-[#071A33] hover:text-white btn-shine cursor-pointer",
+  outlineLight:
+    "inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-transparent px-7 py-3.5 text-sm font-medium tracking-wide text-white transition-all duration-300 hover:border-[#F2C86E] hover:text-[#F2C86E] hover:bg-white/5 btn-shine cursor-pointer",
+  outline:
+    "inline-flex items-center justify-center gap-2 rounded-full border border-[#C9973F]/40 bg-transparent px-7 py-3.5 text-sm font-medium tracking-wide text-[#071A33] transition-all duration-300 hover:border-[#C9973F] hover:bg-[#071A33] hover:text-white btn-shine cursor-pointer",
   navy: "inline-flex items-center justify-center gap-2 rounded-full bg-[#071A33] px-7 py-3.5 text-sm font-medium tracking-wide text-[#F4F1EA] shadow-md transition-all duration-300 hover:bg-[#040E1F] hover:shadow-lg btn-shine cursor-pointer",
-  forest: "inline-flex items-center justify-center gap-2 rounded-full bg-[#071A33] px-7 py-3.5 text-sm font-medium tracking-wide text-[#F4F1EA] shadow-md transition-all duration-300 hover:bg-[#040E1F] hover:shadow-lg btn-shine cursor-pointer", // compatibility alias
+  forest:
+    "inline-flex items-center justify-center gap-2 rounded-full bg-[#071A33] px-7 py-3.5 text-sm font-medium tracking-wide text-[#F4F1EA] shadow-md transition-all duration-300 hover:bg-[#040E1F] hover:shadow-lg btn-shine cursor-pointer", // compatibility alias
 };
 
-export function Reveal({ children, delay = 0, className }: { children: ReactNode; delay?: number; className?: string }) {
+export function Reveal({
+  children,
+  delay = 0,
+  className,
+}: {
+  children: ReactNode;
+  delay?: number;
+  className?: string;
+}) {
   return (
     <motion.div
       className={className}
@@ -40,22 +51,55 @@ export function SectionHead({
   return (
     <Reveal className={cn("max-w-3xl", align === "center" && "mx-auto text-center")}>
       <p className="eyebrow">{eyebrow}</p>
-      <h2 className={cn("mt-4 text-4xl leading-[1.05] md:text-6xl", dark ? "text-white" : "text-[#071A33]")}>{title}</h2>
-      {text && <p className={cn("mt-5 text-base leading-relaxed md:text-lg", dark ? "text-[#D9DDE3]" : "text-muted-foreground")}>{text}</p>}
+      <h2
+        className={cn(
+          "mt-4 text-4xl leading-[1.05] md:text-6xl",
+          dark ? "text-white" : "text-[#071A33]",
+        )}
+      >
+        {title}
+      </h2>
+      {text && (
+        <p
+          className={cn(
+            "mt-5 text-base leading-relaxed md:text-lg",
+            dark ? "text-[#D9DDE3]" : "text-muted-foreground",
+          )}
+        >
+          {text}
+        </p>
+      )}
     </Reveal>
   );
 }
 
-export function Counter({ to, suffix = "", className }: { to: number; suffix?: string; className?: string }) {
+export function Counter({
+  to,
+  suffix = "",
+  className,
+}: {
+  to: number;
+  suffix?: string;
+  className?: string;
+}) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true });
   const [v, setV] = useState(0);
   useEffect(() => {
     if (!inView) return;
-    const c = animate(0, to, { duration: 2, ease: "easeOut", onUpdate: (n) => setV(Math.round(n)) });
+    const c = animate(0, to, {
+      duration: 2,
+      ease: "easeOut",
+      onUpdate: (n) => setV(Math.round(n)),
+    });
     return () => c.stop();
   }, [inView, to]);
-  return <span ref={ref} className={className}>{v}{suffix}</span>;
+  return (
+    <span ref={ref} className={className}>
+      {v}
+      {suffix}
+    </span>
+  );
 }
 
 export function GoldRule({ className }: { className?: string }) {

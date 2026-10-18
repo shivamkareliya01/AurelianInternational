@@ -1,17 +1,26 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { ExternalLink, Mail, MapPin, MessageCircle, Navigation, Phone } from "lucide-react";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { PageHeader } from "@/components/site/PageHeader";
 import { btn } from "@/components/site/primitives";
 import { site } from "@/data/site";
+import { company } from "@/config/company";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
       { title: `Contact & Request a Quote — ${site.name}` },
-      { name: "description", content: `Request export pricing for Indian rice, spices, produce, stone and more. Reply within one business day.` },
+      {
+        name: "description",
+        content: `Request export pricing for Indian rice, spices, produce, stone and more. Reply within one business day.`,
+      },
       { property: "og:title", content: `Request a Quote — ${site.name}` },
-      { property: "og:description", content: "Tell us what you need and where it's going. We'll handle the rest." },
+      {
+        property: "og:description",
+        content: "Tell us what you need and where it's going. We'll handle the rest.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -20,7 +29,7 @@ export const Route = createFileRoute("/contact")({
 });
 
 function Contact() {
-  const mapUrl = "https://maps.google.com/maps?q=Maker%20Chambers%20IV%2C%20Nariman%20Point%2C%20Mumbai%20400021&t=&z=16&ie=UTF8&iwloc=&output=embed";
+  const [mobileCardOpen, setMobileCardOpen] = useState(false);
 
   return (
     <>
@@ -37,9 +46,9 @@ function Contact() {
           <div className="space-y-8 lg:col-span-2">
             <div>
               <p className="eyebrow !text-gold">Global Headquarters</p>
-              <h2 className="mt-2 font-display text-3xl text-[#071A33]">Mumbai, India</h2>
+              <h2 className="mt-2 font-display text-3xl text-[#071A33]">{company.locationDisplay}</h2>
               <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                Operating out of Mumbai's premier commercial hub, minutes from JNPT port terminal coordination centers.
+                Operating from Gujarat's prominent manufacturing and commercial export center, with immediate multi-modal connectivity to Kandla and Mundra deepwater ports.
               </p>
             </div>
 
@@ -57,7 +66,7 @@ function Contact() {
                     </span>
                     <div>
                       <p className="eyebrow !text-[0.65rem]">{l as string}</p>
-                      <p className="mt-1 text-sm font-medium text-ink">{v as string}</p>
+                      <p className="mt-1 text-sm font-medium text-ink leading-relaxed">{v as string}</p>
                     </div>
                   </div>
                 );
@@ -73,21 +82,75 @@ function Contact() {
               <MessageCircle className="h-4 w-4 text-gold-soft" /> Instant WhatsApp Desk
             </a>
 
-            {/* Working Google Map with rounded corners and subtle navy tint */}
-            <div className="relative h-80 w-full overflow-hidden rounded-2xl border border-gold/30 shadow-soft group">
+            {/* Premium Google Map Block with Floating Glass Info Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="relative h-[320px] md:h-[400px] w-full overflow-hidden rounded-[24px] border border-[#C9973F]/35 shadow-[0_12px_40px_rgba(7,26,51,0.14)] group"
+            >
               <iframe
-                title="Office Location: Maker Chambers IV, Nariman Point, Mumbai"
-                src={mapUrl}
+                title="Aurelian International office in Morbi"
+                src={company.mapEmbedUrl}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                className="h-full w-full border-0 transition-opacity duration-300"
+                className="h-full w-full border-0 transition-all duration-500"
+                style={{ filter: "saturate(0.9) contrast(1.02)" }}
               />
-              {/* Soft navy overlay tint with blend mode */}
-              <div className="pointer-events-none absolute inset-0 bg-[#071A33]/15 mix-blend-color" />
-              <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-gold/20 rounded-2xl" />
-            </div>
-          </div>
 
+              {/* Floating Glass Info Card over top-left */}
+              <div className="absolute top-3 left-3 right-3 md:right-auto md:max-w-xs z-10">
+                <div className="rounded-2xl border border-[#C9973F]/40 bg-[#071A33]/92 backdrop-blur-md p-4 text-[#F4F1EA] shadow-xl">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <span className="h-2 w-2 rounded-full bg-[#C9973F] animate-pulse" />
+                      <h4 className="font-display text-sm tracking-wide text-white">{company.name}</h4>
+                    </div>
+                    {/* Mobile toggle */}
+                    <button
+                      type="button"
+                      onClick={() => setMobileCardOpen(!mobileCardOpen)}
+                      className="md:hidden text-xs text-[#C9973F] underline"
+                    >
+                      {mobileCardOpen ? "Hide" : "Details"}
+                    </button>
+                  </div>
+
+                  <div className={mobileCardOpen ? "block mt-2.5" : "hidden md:block mt-2.5"}>
+                    <p className="text-[0.72rem] text-[#D9DDE3] leading-relaxed line-clamp-3">
+                      {company.addressOneLine}
+                    </p>
+
+                    <div className="mt-3 flex flex-wrap gap-1.5 pt-2 border-t border-white/10">
+                      <a
+                        href={company.googleMapsUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1 rounded-lg bg-[#C9973F] px-2.5 py-1 text-[0.7rem] font-medium text-[#071A33] hover:bg-[#D4A54E] transition-colors"
+                      >
+                        <ExternalLink className="h-3 w-3" /> Maps
+                      </a>
+                      <a
+                        href={company.directionsUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1 rounded-lg bg-white/10 px-2.5 py-1 text-[0.7rem] font-medium text-white hover:bg-white/20 transition-colors"
+                      >
+                        <Navigation className="h-3 w-3 text-[#C9973F]" /> Directions
+                      </a>
+                      <a
+                        href={`tel:${company.phone}`}
+                        className="inline-flex items-center gap-1 rounded-lg bg-white/10 px-2.5 py-1 text-[0.7rem] font-medium text-white hover:bg-white/20 transition-colors"
+                      >
+                        <Phone className="h-3 w-3 text-[#C9973F]" /> Call
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
           <div className="lg:col-span-3">
             <EnquiryForm />
           </div>

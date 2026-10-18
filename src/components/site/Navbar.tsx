@@ -48,14 +48,32 @@ const categoryMeta: Record<
     cert: "Phytosanitary & APEDA",
   },
   spices: {
-    descriptor: "Black pepper, turmeric, cumin & chilli",
+    descriptor: "Black pepper, turmeric, cumin & cardamom",
     origin: "Origin: Kerala & Rajasthan",
     moq: "MOQ: 500 kg LCL / 20ft FCL",
     cert: "Spices Board of India",
   },
+  "natural-stones": {
+    descriptor: "Makrana marble, granite & sandstone",
+    origin: "Origin: Rajasthan & Deccan",
+    moq: "MOQ: 1 × 20ft Heavy FCL",
+    cert: "ISPM-15 Wooden Crates",
+  },
+  "ceramic-tiles": {
+    descriptor: "Vitrified, porcelain & wall tiles",
+    origin: "Origin: Morbi, Gujarat",
+    moq: "MOQ: 1 × 20ft FCL (1,200 sq.m)",
+    cert: "ISO 13006 & CE Certified",
+  },
+  "dehydrated-powders": {
+    descriptor: "Air-dried & spray-dried vegetable, herb and botanical powders",
+    origin: "Origin: Gujarat, Maharashtra & Kerala",
+    moq: "MOQ: 1 MT (Samples Available)",
+    cert: "APEDA, FSSAI & BRCGS",
+  },
   "natural-stones-tiles": {
-    descriptor: "Makrana marble, granite & vitrified tiles",
-    origin: "Origin: Rajasthan & Morbi, Gujarat",
+    descriptor: "Makrana marble, granite & sandstone",
+    origin: "Origin: Rajasthan & Deccan",
     moq: "MOQ: 1 × 20ft Heavy FCL",
     cert: "ISPM-15 Wooden Crates",
   },
@@ -160,10 +178,11 @@ export function Navbar() {
   };
 
   const navLinkCls = cn(
-    "relative text-sm font-medium tracking-wide transition-colors py-2 text-[#F4F1EA]/90 hover:text-[#F2C86E]"
+    "relative text-sm font-medium tracking-wide transition-colors py-2 text-[#F4F1EA]/90 hover:text-[#F2C86E]",
   );
 
-  const activeCategory = categories[activeCategoryIdx] ?? categories[0]!;
+  const navCategories = categories.filter((c) => c.slug !== "ceramic-tiles");
+  const activeCategory = navCategories[activeCategoryIdx] ?? navCategories[0]!;
   const activeMeta = categoryMeta[activeCategory.slug] ?? {
     descriptor: activeCategory.blurb,
     origin: "Origin: Pan-India",
@@ -177,7 +196,7 @@ export function Navbar() {
         "fixed inset-x-0 top-0 z-40 transition-all duration-300",
         isTransparent
           ? "bg-transparent border-b border-transparent"
-          : "bg-[#071A33] border-b border-[#C9973F]/35 shadow-lg"
+          : "bg-[#071A33] border-b border-[#C9973F]/35 shadow-lg",
       )}
     >
       <nav className="container-x flex h-20 items-center justify-between gap-6">
@@ -189,10 +208,7 @@ export function Navbar() {
           <Link
             to="/"
             activeOptions={{ exact: true }}
-            className={cn(
-              navLinkCls,
-              isHome && !mega && "!text-[#F2C86E] font-semibold"
-            )}
+            className={cn(navLinkCls, isHome && !mega && "!text-[#F2C86E] font-semibold")}
           >
             Home
           </Link>
@@ -211,14 +227,14 @@ export function Navbar() {
                 "inline-flex items-center gap-1.5 cursor-pointer py-2",
                 (isProductsActive || mega) && "!text-[#F2C86E] font-semibold",
                 mega &&
-                  "after:absolute after:bottom-0 after:inset-x-0 after:h-0.5 after:bg-[#F2C86E] after:shadow-[0_0_8px_#F2C86E]"
+                  "after:absolute after:bottom-0 after:inset-x-0 after:h-0.5 after:bg-[#F2C86E] after:shadow-[0_0_8px_#F2C86E]",
               )}
             >
               Products
               <ChevronDown
                 className={cn(
                   "h-3.5 w-3.5 transition-transform duration-200 text-[#C9973F]",
-                  mega && "rotate-180 !text-[#F2C86E]"
+                  mega && "rotate-180 !text-[#F2C86E]",
                 )}
               />
             </Link>
@@ -227,7 +243,7 @@ export function Navbar() {
             <AnimatePresence>
               {mega && (
                 <div
-                  className="fixed left-1/2 -translate-x-1/2 top-20 w-[96vw] max-w-[1200px] z-50 pt-2"
+                  className="fixed left-1/2 -translate-x-1/2 top-20 w-[96vw] max-w-[1200px] z-[100] pt-2"
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
                 >
@@ -236,10 +252,11 @@ export function Navbar() {
                     initial="hidden"
                     animate="show"
                     exit="exit"
-                    className="relative rounded-b-[24px] rounded-t-lg border border-[rgba(242,200,110,0.25)] shadow-[0_40px_80px_rgba(0,0,0,0.55)] backdrop-blur-2xl overflow-hidden before:absolute before:-top-4 before:inset-x-0 before:h-5 before:content-['']"
+                    className="relative rounded-b-[24px] rounded-t-lg border border-[rgba(242,200,110,0.35)] shadow-[0_40px_80px_rgba(0,0,0,0.75)] overflow-hidden before:absolute before:-top-4 before:inset-x-0 before:h-5 before:content-['']"
                     style={{
-                      background:
-                        "linear-gradient(160deg, #0E2A4F 0%, #071A33 55%, #040E1F 100%)",
+                      backgroundColor: "#071A33",
+                      background: "linear-gradient(160deg, #091E38 0%, #071A33 55%, #030B17 100%)",
+                      opacity: 1,
                     }}
                   >
                     {/* Subtle gold radial glow in top-right corner */}
@@ -259,7 +276,7 @@ export function Navbar() {
                       {/* Left: 3-column Category Blocks (~65%) */}
                       <div className="col-span-12 lg:col-span-8">
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 xl:gap-4">
-                          {categories.map((c, idx) => {
+                          {navCategories.map((c, idx) => {
                             const meta = categoryMeta[c.slug] ?? {
                               descriptor: c.blurb,
                             };
@@ -273,7 +290,7 @@ export function Navbar() {
                                   "group rounded-2xl p-3.5 transition-all duration-200 border cursor-pointer flex flex-col justify-between",
                                   isActive
                                     ? "bg-[#0E2A4F] border-[#C9973F]/60 shadow-lg shadow-[#040E1F]/50 -translate-y-0.5"
-                                    : "bg-[#0E2A4F]/25 border-[#C9973F]/20 hover:bg-[#0E2A4F]/60 hover:border-[#C9973F]/50 hover:-translate-y-0.5"
+                                    : "bg-[#0E2A4F]/25 border-[#C9973F]/20 hover:bg-[#0E2A4F]/60 hover:border-[#C9973F]/50 hover:-translate-y-0.5",
                                 )}
                               >
                                 <div>
@@ -354,12 +371,12 @@ export function Navbar() {
                               key={activeCategory.slug}
                               src={activeCategory.image}
                               alt={activeCategory.name}
-                              initial={{ opacity: 0, scale: 1.08 }}
-                              animate={{ opacity: 1, scale: 1.02 }}
-                              exit={{ opacity: 0, scale: 1 }}
-                              transition={{ duration: 0.35, ease: "easeOut" }}
-                              className="absolute inset-0 h-full w-full object-cover"
-                              style={{ filter: "brightness(0.85) contrast(1.05)" }}
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
+                              transition={{ duration: 0.25, ease: "easeOut" }}
+                              className="absolute inset-0 h-full w-full object-cover object-center"
+                              style={{ filter: "brightness(0.9) contrast(1.05)" }}
                             />
                           </AnimatePresence>
 
@@ -403,7 +420,7 @@ export function Navbar() {
                               params={{ category: activeCategory.slug }}
                               className={cn(
                                 btn.gold,
-                                "mt-5 !w-full justify-center !py-2.5 text-sm !font-semibold shadow-lg"
+                                "mt-5 !w-full justify-center !py-2.5 text-sm !font-semibold shadow-lg",
                               )}
                             >
                               Explore {activeCategory.name} <ArrowRight className="h-4 w-4" />
@@ -417,17 +434,14 @@ export function Navbar() {
                     <div className="border-t border-[#C9973F]/20 px-6 py-3.5 flex flex-wrap items-center justify-between gap-4 bg-[#040E1F]/70 rounded-b-[24px]">
                       <div className="flex items-center gap-2 text-xs text-[#D9DDE3]">
                         <span className="text-[#A8B2C1]">Can&apos;t find a product?</span>
-                        <Link
-                          to="/contact"
-                          className="text-[#F2C86E] hover:underline font-medium"
-                        >
+                        <Link to="/contact" className="text-[#F2C86E] hover:underline font-medium">
                           Tell us what you need &rarr;
                         </Link>
                       </div>
                       <div className="flex items-center gap-3">
                         <a
                           href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent(
-                            "Hello Aurelian International, I would like to inquire about your export commodities."
+                            "Hello Aurelian International, I would like to inquire about your export commodities.",
                           )}`}
                           target="_blank"
                           rel="noreferrer"
@@ -438,10 +452,7 @@ export function Navbar() {
                         </a>
                         <Link
                           to="/contact"
-                          className={cn(
-                            btn.gold,
-                            "!px-4 !py-1.5 text-xs !font-semibold shadow-sm"
-                          )}
+                          className={cn(btn.gold, "!px-4 !py-1.5 text-xs !font-semibold shadow-sm")}
                         >
                           Request a Quote
                         </Link>
@@ -484,10 +495,7 @@ export function Navbar() {
 
           <Link
             to="/contact"
-            className={cn(
-              btn.gold,
-              "hidden !px-5 !py-2.5 sm:inline-flex shadow-sm"
-            )}
+            className={cn(btn.gold, "hidden !px-5 !py-2.5 sm:inline-flex shadow-sm")}
           >
             Request a Quote
           </Link>
@@ -556,11 +564,9 @@ export function Navbar() {
 
             {/* Mobile Categories Accordion with Rich Thumbnails & 48px Touch Targets */}
             <div className="mt-6 pt-6 border-t border-white/10">
-              <p className="eyebrow !text-[0.65rem] !text-[#F2C86E] mb-3">
-                Export Categories
-              </p>
+              <p className="eyebrow !text-[0.65rem] !text-[#F2C86E] mb-3">Export Categories</p>
               <div className="space-y-3">
-                {categories.map((c) => {
+                {navCategories.map((c) => {
                   const isExpanded = expandedMobileCategory === c.slug;
                   return (
                     <div
@@ -569,9 +575,7 @@ export function Navbar() {
                     >
                       {/* Accordion Header (48px min touch target) */}
                       <button
-                        onClick={() =>
-                          setExpandedMobileCategory(isExpanded ? null : c.slug)
-                        }
+                        onClick={() => setExpandedMobileCategory(isExpanded ? null : c.slug)}
                         className="w-full flex items-center justify-between p-3.5 min-h-[48px] text-left cursor-pointer focus:outline-none"
                       >
                         <div className="flex items-center gap-3">
@@ -592,7 +596,7 @@ export function Navbar() {
                         <ChevronDown
                           className={cn(
                             "h-4 w-4 text-[#F2C86E] transition-transform duration-200",
-                            isExpanded && "rotate-180"
+                            isExpanded && "rotate-180",
                           )}
                         />
                       </button>
@@ -649,9 +653,7 @@ export function Navbar() {
                                     alt={p.name}
                                     className="h-8 w-8 rounded-lg object-cover ring-1 ring-[#C9973F]/40 shrink-0"
                                   />
-                                  <span className="line-clamp-1 flex-1 text-xs">
-                                    {p.name}
-                                  </span>
+                                  <span className="line-clamp-1 flex-1 text-xs">{p.name}</span>
                                   <ArrowRight className="h-3.5 w-3.5 text-[#F2C86E] shrink-0" />
                                 </Link>
                               ))}
@@ -672,20 +674,14 @@ export function Navbar() {
                   setOpen(false);
                   openBasket();
                 }}
-                className={cn(
-                  btn.outlineLight,
-                  "w-full justify-center !py-3 min-h-[48px]"
-                )}
+                className={cn(btn.outlineLight, "w-full justify-center !py-3 min-h-[48px]")}
               >
                 <ShoppingBag className="h-4 w-4" /> View Enquiry Basket ({items.length})
               </button>
               <Link
                 to="/contact"
                 onClick={() => setOpen(false)}
-                className={cn(
-                  btn.gold,
-                  "w-full justify-center !py-3 min-h-[48px]"
-                )}
+                className={cn(btn.gold, "w-full justify-center !py-3 min-h-[48px]")}
               >
                 Request a Quote
               </Link>

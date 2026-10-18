@@ -23,7 +23,11 @@ export function FaqList() {
               {open === i ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
             </span>
           </button>
-          <motion.div initial={false} animate={{ height: open === i ? "auto" : 0, opacity: open === i ? 1 : 0 }} className="overflow-hidden">
+          <motion.div
+            initial={false}
+            animate={{ height: open === i ? "auto" : 0, opacity: open === i ? 1 : 0 }}
+            className="overflow-hidden"
+          >
             <p className="max-w-3xl pb-6 leading-relaxed text-muted-foreground">{f.a}</p>
           </motion.div>
         </div>
@@ -62,12 +66,20 @@ export function CertGrid() {
           {active && (
             <div className="rounded-xl border-4 border-double border-[#C9973F]/60 p-8 text-center bg-white/80">
               <Award className="mx-auto h-12 w-12 text-[#C9973F]" strokeWidth={1} />
-              <DialogTitle className="mt-4 font-display text-3xl font-medium text-[#071A33]">{active.name}</DialogTitle>
-              <DialogDescription className="mt-2 text-sm text-muted-foreground">{active.issuer}</DialogDescription>
-              <p className="mt-6 text-xs uppercase tracking-[0.3em] text-[#C9973F] font-semibold">Awarded to</p>
+              <DialogTitle className="mt-4 font-display text-3xl font-medium text-[#071A33]">
+                {active.name}
+              </DialogTitle>
+              <DialogDescription className="mt-2 text-sm text-muted-foreground">
+                {active.issuer}
+              </DialogDescription>
+              <p className="mt-6 text-xs uppercase tracking-[0.3em] text-[#C9973F] font-semibold">
+                Awarded to
+              </p>
               <p className="mt-1 font-display text-2xl text-[#0B1B33]">{site.name}</p>
               <p className="mt-6 text-xs text-muted-foreground">Reg. No. {active.number}</p>
-              <p className="mt-4 text-[0.7rem] italic text-muted-foreground">Verified export licence — audited with statutory trade registers.</p>
+              <p className="mt-4 text-[0.7rem] italic text-muted-foreground">
+                Verified export licence — audited with statutory trade registers.
+              </p>
             </div>
           )}
         </DialogContent>

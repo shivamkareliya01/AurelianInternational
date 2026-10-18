@@ -14,7 +14,8 @@ export function Footer() {
         <div className="lg:col-span-4">
           <Logo size="lg" />
           <p className="mt-6 max-w-sm text-sm leading-relaxed text-[#D9DDE3]">
-            A {site.city}-based trading house exporting India's finest agricultural produce, spices, and natural stone to 25+ countries.
+            A {site.city}-based trading house exporting India's finest agricultural produce, spices,
+            and natural stone to 6 key markets via UAE.
           </p>
           <div className="mt-6 flex gap-3">
             {[
@@ -39,19 +40,32 @@ export function Footer() {
         <div className="lg:col-span-2">
           <h3 className="eyebrow">Products</h3>
           <ul className="mt-5 space-y-3 text-sm">
-            {categories.map((c) => (
-              <li key={c.slug}>
-                <Link to="/products/$category" params={{ category: c.slug }} className="text-[#D9DDE3] hover:text-[#F2C86E] transition-colors">
-                  {c.name}
-                </Link>
-              </li>
-            ))}
+            {categories
+              .filter((c) => c.slug !== "ceramic-tiles")
+              .map((c) => (
+                <li key={c.slug}>
+                  <Link
+                    to="/products/$category"
+                    params={{ category: c.slug }}
+                    className="text-[#D9DDE3] hover:text-[#F2C86E] transition-colors"
+                  >
+                    {c.name}
+                  </Link>
+                </li>
+              ))}
           </ul>
         </div>
         <div className="lg:col-span-2">
           <h3 className="eyebrow">Company</h3>
           <ul className="mt-5 space-y-3 text-sm">
-            {([["/about", "About"], ["/markets", "Markets"], ["/certifications", "Certifications"], ["/contact", "Contact"]] as const).map(([to, l]) => (
+            {(
+              [
+                ["/about", "About"],
+                ["/markets", "Markets"],
+                ["/certifications", "Certifications"],
+                ["/contact", "Contact"],
+              ] as const
+            ).map(([to, l]) => (
               <li key={to}>
                 <Link to={to} className="text-[#D9DDE3] hover:text-[#F2C86E] transition-colors">
                   {l}
@@ -63,9 +77,18 @@ export function Footer() {
         <div className="lg:col-span-4">
           <h3 className="eyebrow">Contact</h3>
           <ul className="mt-5 space-y-3 text-sm text-[#D9DDE3]">
-            <li className="flex gap-3"><Phone className="h-4 w-4 shrink-0 text-[#C9973F]" />{site.phone}</li>
-            <li className="flex gap-3"><Mail className="h-4 w-4 shrink-0 text-[#C9973F]" />{site.email}</li>
-            <li className="flex gap-3"><MapPin className="h-4 w-4 shrink-0 text-[#C9973F]" />{site.address}</li>
+            <li className="flex gap-3">
+              <Phone className="h-4 w-4 shrink-0 text-[#C9973F]" />
+              {site.phone}
+            </li>
+            <li className="flex gap-3">
+              <Mail className="h-4 w-4 shrink-0 text-[#C9973F]" />
+              {site.email}
+            </li>
+            <li className="flex gap-3">
+              <MapPin className="h-4 w-4 shrink-0 text-[#C9973F]" />
+              {site.address}
+            </li>
           </ul>
           <form
             className="mt-8 flex rounded-full border border-[#C9973F]/40 bg-[#071A33]/80 p-1 focus-within:border-[#C9973F] focus-within:ring-2 focus-within:ring-[#C9973F]/25"
@@ -79,7 +102,9 @@ export function Footer() {
               setEmail("");
             }}
           >
-            <label htmlFor="nl" className="sr-only">Email</label>
+            <label htmlFor="nl" className="sr-only">
+              Email
+            </label>
             <input
               id="nl"
               value={email}
@@ -114,7 +139,9 @@ export function Footer() {
                 key={b.code}
                 className="flex flex-col items-center justify-center p-3 rounded-xl border border-white/10 bg-[#0E2A4F]/60 text-center transition-all duration-300 hover:border-[#C9973F]/60 hover:bg-[#0E2A4F]"
               >
-                <span className="font-display text-base font-semibold text-[#F2C86E] tracking-wider">{b.code}</span>
+                <span className="font-display text-base font-semibold text-[#F2C86E] tracking-wider">
+                  {b.code}
+                </span>
                 <span className="text-[11px] font-medium text-white/90 mt-0.5">{b.label}</span>
                 <span className="text-[10px] text-[#D9DDE3]/70">{b.sub}</span>
               </div>
@@ -125,7 +152,9 @@ export function Footer() {
 
       <div className="border-t border-[#C9973F]/20">
         <div className="container-x flex flex-col gap-2 py-6 text-xs text-[#D9DDE3]/80 md:flex-row md:justify-between">
-          <p>© {new Date().getFullYear()} {site.name}. All rights reserved.</p>
+          <p>
+            © {new Date().getFullYear()} {site.name}. All rights reserved.
+          </p>
           <p>{site.tagline}</p>
         </div>
       </div>

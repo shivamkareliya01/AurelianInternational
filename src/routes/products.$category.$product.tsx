@@ -1,23 +1,77 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
 import { ArrowLeft, Check, Download, MessageCircle, Plus, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import { PageHeader } from "@/components/site/PageHeader";
 import { ProductCard } from "@/components/site/ProductCard";
 import { Reveal, btn } from "@/components/site/primitives";
+import { POWDER_COLORS } from "@/data/powderColors";
 import { getCategory, getProduct } from "@/data/products";
 import { site } from "@/data/site";
 import { useBasket } from "@/lib/basket";
 import { cn } from "@/lib/utils";
 
+const DELETED_POWDER_SLUGS = new Set([
+  "dehydrated-white-onion-flakes",
+  "dehydrated-red-onion-flakes",
+  "dehydrated-garlic-flakes",
+  "garlic-granules",
+  "dehydrated-ginger-flakes",
+  "potato-flakes",
+  "butterfly-pea-flower-powder",
+  "rose-petal-powder",
+  "purple-sweet-potato-powder",
+  "lemongrass-powder",
+]);
+
+const DELETED_VEGETABLE_SLUGS = new Set([
+  "brinjal-eggplant",
+  "okra-lady-finger",
+  "cabbage",
+  "green-peas",
+  "cauliflower",
+]);
+
+const DELETED_FRUIT_SLUGS = new Set([
+  "kesar-mango",
+  "thompson-seedless-grapes",
+  "nagpur-orange",
+  "lemon",
+  "papaya",
+  "pineapple",
+]);
+
 export const Route = createFileRoute("/products/$category/$product")({
   loader: ({ params }) => {
+    if (DELETED_POWDER_SLUGS.has(params.product)) {
+      throw redirect({
+        to: "/products",
+        search: { category: "dehydrated-powders" },
+        statusCode: 301,
+      });
+    }
+    if (DELETED_VEGETABLE_SLUGS.has(params.product)) {
+      throw redirect({
+        to: "/products",
+        search: { category: "fresh-vegetables" },
+        statusCode: 301,
+      });
+    }
+    if (DELETED_FRUIT_SLUGS.has(params.product)) {
+      throw redirect({
+        to: "/products",
+        search: { category: "fresh-fruits" },
+        statusCode: 301,
+      });
+    }
     const p = getProduct(params.category, params.product);
     if (!p) throw notFound();
     return { cat: params.category, slug: p.slug };
   },
   head: ({ loaderData }) => {
     const p = loaderData ? getProduct(loaderData.cat, loaderData.slug) : undefined;
-    const title = p ? `${p.name} Exporter — ${p.origin}, India | ${site.name}` : "Product unavailable";
+    const title = p
+      ? `${p.name} Exporter — ${p.origin}, India | ${site.name}`
+      : "Product unavailable";
     const desc = p ? `${p.description} Grade: ${p.grade}. MOQ: ${p.moq}. Exported worldwide.` : "";
     return {
       meta: [
@@ -63,7 +117,13 @@ function ProductPage() {
   const key = `${c.slug}/${p.slug}`;
   const inBasket = has(key);
 
-  const gallery = p.gallery && p.gallery.length > 0 ? p.gallery : [p.image];
+  const isPowder = c.slug === "dehydrated-powders";
+  const powderMeta = isPowder ? POWDER_COLORS[p.slug] : undefined;
+  const rawGallery = p.gallery && p.gallery.length > 0 ? p.gallery : [p.image];
+  const gallery = isPowder ? rawGallery.map((img) => `${img}?v=powder2026`) : rawGallery;
+  const ingredientImage = isPowder
+    ? `/products/${p.slug}-ingredient.webp?v=powder2026`
+    : "";
   const [activeImg, setActiveImg] = useState(0);
   const [zoomed, setZoomed] = useState(false);
 
@@ -71,7 +131,10 @@ function ProductPage() {
     ["Origin Region", p.origin],
     ["Grade / Variety", p.grade],
     ["Export Packaging", p.packaging],
-    ["Minimum Order Quantity (MOQ)", p.moq],
+    [
+      "Minimum Order Quantity (MOQ)",
+      p.moq.toLowerCase().includes("sample") ? p.moq : `${p.moq} (Samples available upon request)`,
+    ],
     ["Shelf Life / Durability", p.shelfLife],
     ["Quality & Export Certifications", p.certifications.join(", ")],
   ];
@@ -103,7 +166,7 @@ CONTAINER LOGISTICS & TERMS:
 - Payment Terms: LC at sight, CAD, Advance Wire.
 
 CONTACT TRADE DESK:
-Aurelian International, Level 9, Maker Chambers IV, Nariman Point, Mumbai 400021
+Aurelian International, ${site.address}
 Direct Phone: ${site.phone}
 Email: ${site.email}
 ==========================================================`;
@@ -127,6 +190,20 @@ Email: ${site.email}
         title={p.name}
         text={`Export-grade ${p.name} sourced from ${p.origin}, certified to international specifications.`}
         image={p.image}
+        subRow={
+          isPowder && powderMeta ? (
+            <div className="flex items-center gap-3 py-1.5 px-4 rounded-full bg-white/10 backdrop-blur-md border border-[#F2C86E]/40 w-fit shadow-md">
+              <img
+                src={ingredientImage}
+                alt={powderMeta.ingredient}
+                className="h-8 w-8 rounded-full object-cover border-2 border-[#F2C86E] shadow-sm"
+              />
+              <span className="text-sm font-medium text-white">
+                Source: <strong className="text-[#F2C86E]">Fresh {powderMeta.ingredient}</strong>, {p.origin}
+              </span>
+            </div>
+          ) : undefined
+        }
         crumbs={[
           { label: "Products", to: "/products" },
           { label: c.name, to: "/products/$category", params: { category: c.slug } },
@@ -136,7 +213,7 @@ Email: ${site.email}
 
       <section className="py-16 md:py-24 bg-ivory">
         <div className="container-x grid gap-14 lg:grid-cols-[1fr_26rem]">
-          {/* Main Left Column: 3-Image Gallery + Description + Specs */}
+          {/* Main Left Column: 4-Image Gallery + Description + Specs */}
           <div>
             {/* Back link */}
             <Link
@@ -147,14 +224,14 @@ Email: ${site.email}
               <ArrowLeft className="h-4 w-4" /> Back to {c.name} Catalogue
             </Link>
 
-            {/* 3-Image Interactive Gallery */}
+            {/* 4-Image Interactive Gallery (Order: Main, Ingredient, Close-up, Side) */}
             <div className="space-y-4">
               <div
                 onClick={() => setZoomed((z) => !z)}
                 title="Click to zoom image"
                 className={cn(
-                  "aspect-[16/10] overflow-hidden rounded-3xl border border-gold/30 bg-sand/30 shadow-soft transition-all duration-300",
-                  zoomed ? "cursor-zoom-out" : "cursor-zoom-in"
+                  "relative aspect-[16/10] overflow-hidden rounded-3xl border border-gold/30 bg-sand/30 shadow-soft transition-all duration-300",
+                  zoomed ? "cursor-zoom-out" : "cursor-zoom-in",
                 )}
               >
                 <img
@@ -162,26 +239,36 @@ Email: ${site.email}
                   alt={p.alt || `${p.name} — primary view`}
                   className={cn(
                     "h-full w-full object-cover transition-transform duration-500 ease-out",
-                    zoomed && "scale-135"
+                    zoomed && "scale-135",
                   )}
                 />
+                {isPowder && activeImg === 1 && (
+                  <span className="absolute bottom-4 left-4 rounded-full bg-[#071A33]/90 px-4 py-1.5 text-xs font-bold tracking-wide text-[#F2C86E] border border-[#C9973F]/40 backdrop-blur-md shadow-md">
+                    Fresh Raw Material
+                  </span>
+                )}
               </div>
 
               {gallery.length > 1 && (
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-4 gap-3">
                   {gallery.map((src, i) => (
                     <button
                       key={i}
                       onClick={() => setActiveImg(i)}
                       aria-label={`View photo ${i + 1}`}
                       className={cn(
-                        "aspect-[16/10] overflow-hidden rounded-2xl border transition-all duration-200 cursor-pointer",
+                        "relative aspect-[16/10] overflow-hidden rounded-2xl border transition-all duration-200 cursor-pointer",
                         activeImg === i
                           ? "border-gold ring-2 ring-gold shadow-md"
-                          : "border-border/60 opacity-70 hover:opacity-100"
+                          : "border-border/60 opacity-70 hover:opacity-100",
                       )}
                     >
                       <img src={src} alt="" className="h-full w-full object-cover" />
+                      {isPowder && i === 1 && (
+                        <span className="absolute inset-x-0 bottom-0 bg-[#071A33]/90 py-1 text-[0.62rem] font-bold text-[#F2C86E] text-center tracking-wide">
+                          Fresh Raw Material
+                        </span>
+                      )}
                     </button>
                   ))}
                 </div>
@@ -191,11 +278,24 @@ Email: ${site.email}
             {/* Overview Section */}
             <article className="mt-14 space-y-6">
               <h2 className="font-display text-4xl text-[#071A33]">Product Overview</h2>
-              <p className="text-lg leading-relaxed text-ink/80 max-w-3xl">
-                {p.description}
-              </p>
+              {isPowder && powderMeta && (
+                <div className="flex items-center gap-3 py-2 px-4 rounded-full bg-[#FAF6EE] border border-[#C9973F]/40 w-fit shadow-xs">
+                  <img
+                    src={ingredientImage}
+                    alt={powderMeta.ingredient}
+                    className="h-8 w-8 rounded-full object-cover border-2 border-white shadow-xs"
+                  />
+                  <span className="text-sm font-medium text-[#071A33]">
+                    Source: <strong className="text-[#966B24]">Fresh {powderMeta.ingredient}</strong>, {p.origin}
+                  </span>
+                </div>
+              )}
+              <p className="text-lg leading-relaxed text-ink/80 max-w-3xl">{p.description}</p>
               <p className="text-base leading-relaxed text-muted-foreground max-w-3xl">
-                Sourced directly from verified producer clusters in {p.origin}, our {p.name} is machine-cleaned, graded for uniform moisture and purity, and packed into export-grade packaging tailored to prevent transit deterioration across long-haul marine shipping.
+                Sourced directly from verified producer clusters in {p.origin}, our {p.name} is
+                machine-cleaned, graded for uniform moisture and purity, and packed into
+                export-grade packaging tailored to prevent transit deterioration across long-haul
+                marine shipping.
               </p>
 
               {/* Full Specification Table */}
@@ -307,7 +407,8 @@ Email: ${site.email}
 
               <div className="border-t border-white/10 pt-4 text-center">
                 <p className="text-[0.75rem] text-[#D9DDE3]">
-                  Guaranteed trade desk response within 24 hours with FOB & CIF sea freight estimates.
+                  Guaranteed trade desk response within 24 hours with FOB & CIF sea freight
+                  estimates.
                 </p>
               </div>
             </div>
@@ -338,7 +439,7 @@ Email: ${site.email}
             <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
               {related.map((x, i) => (
                 <Reveal key={x.slug} delay={i * 0.08} className="h-full">
-                  <ProductCard product={x} category={c} />
+                  <ProductCard product={x} category={c} priority={i < 3} />
                 </Reveal>
               ))}
             </div>

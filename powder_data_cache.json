@@ -1,0 +1,310 @@
+{
+  "white-onion-powder": {
+    "main": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAAAQAgCdASoQAAwABABoJZACdAEHEiCD4+QAAP7rF8xudr9iDPvIwqDND9CsyTMHLoP7GmGtLW2n0DB4GGwbg1SqrbQizH7XvGDqjwBFcnX5mVvZpmAAAA==",
+    "g2": "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAADwAQCdASoQAAwABABoJaACdADxExPhDAAA/uAFB5ZRRlY2r2/PILZUYx329baMmGWcRsOjLlYn/sPninfrRZDQ8zpKqFUhBQTHs3uXmqgAAA==",
+    "g3": "data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAADwAQCdASoQAAwABABoJZgCdADOC012RdgA/uejRVmsx9xci673j+BjM19agVbpAEBfmudCUZNdRLdL5i73Hhv17XZHPB7W0k8POXzoY56mM2c4JjvuG97MAAA=",
+    "alt": "Fine cream-white white onion powder heaped in a wooden bowl with whole white onions softly blurred in the background",
+    "color": "#F5F2EB",
+    "center_hex": "#CCBA9F",
+    "luminance": 170.9,
+    "sizes_kb": [
+      122.5,
+      136.7,
+      114.3
+    ]
+  },
+  "pink-red-onion-powder": {
+    "main": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAAAQAgCdASoQAAwABABoJZgCdAYvDFojzRcAAP7081Bnk+w8SaaeiM54uzwCt9EVb+D/X+mO9ZY8LYM5P2NA1xoTMQNBPQmtPHKvzCgdntB6YXNSvbpOrLtHz4nMzN0GAAA=",
+    "g2": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAAAQAgCdASoQAAwABABoJbACdAEYG+kBDY3cAP7wjiB5B5oENJ2Bv2ovD+xsWLJneusQo7M7UtOSTDOt3KeO0sqJCD1kKvbPxikEjXj7AirUNVLG3QkIHgt06vYAAA==",
+    "g3": "data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAAAwAgCdASoQAAwABABoJZgCdAEWNjQ3DjF1AAD+8BHugpd7MS4tP99twtQxJrCnluU9cg00kWpW9uHqX1PU3K8Z53tK5U6yYnCnb/1TI6SXoYIYTUYnl3hYj/iUFFkIpjb6wAAA",
+    "alt": "Soft pink-lilac red onion powder in a small wooden bowl with fresh red onions on cream stone surface",
+    "color": "#DDA6B9",
+    "center_hex": "#CA95A1",
+    "luminance": 171.9,
+    "sizes_kb": [
+      147.2,
+      184.0,
+      143.9
+    ]
+  },
+  "garlic-powder": {
+    "main": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAABQAgCdASoQAAwABABoJZACsAYtz20dsBNu8IAA/vOSMSpOhwonzv6qWoYdEiXG1NrHi4mJmQaXt5A8reJSdqXAy7bt5wnHG5y3YUAA",
+    "g2": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAADQAQCdASoQAAwABABoJbACdAEMMi0pwAD+838RSBZWHVx6o6+XiIMBYtXP5vwpn3B+a/dimLUO3tCZPg1ApIYOzRevtzPX/MNjFABZSUqve2zap2b3N4O1qCL2AAAA",
+    "g3": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAADwAQCdASoQAAwABABoJZACdADOi5C55AAA/vIJFLRuBOc+jbYmX2ipSoLszq2atsldSUS234EZDORuDYkctqil6eRw7ar+ubl8izQWIiuFVnMgkTV6nAshVB2NoAAA",
+    "alt": "Off-white ivory fine garlic powder in a handcrafted wooden bowl with garlic bulbs and cloves",
+    "color": "#F7F3E6",
+    "center_hex": "#C3AC8E",
+    "luminance": 192.4,
+    "sizes_kb": [
+      95.6,
+      103.2,
+      93.5
+    ]
+  },
+  "ginger-powder-saunth": {
+    "main": "data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAADQAQCdASoQAAwABABoJaACdADOQOZAAAD+89nunl7z2xA5wHiFU219qcO5sAoDQHbiq5DqkYpsLeS864ReTLalhSq9RiIrqiE34Eph0UX0rmfohhKIAAAA",
+    "g2": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAAAQAgCdASoQAAwABABoJbACdAEUoBvmeXggAP7oUGbVKkTmmrmW/zVAgMC6ENmC9XuI0nCU7GULsvN1dBbYolLqvRETBBcDgSrvauG/h7Dw+RVf38oAAA==",
+    "g3": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAADwAQCdASoQAAwABABoJZgCdACE8d4WLAAA/u45h1iYlkQ3c/49yRZ+/rMMADCEqGuTJodlTocdajR8rJf74x14ohwlO9Vmd5urEolbHJWTDjKjOoofptfvimNvrAAA",
+    "alt": "Pale golden-beige saunth ginger powder in a wooden bowl with wooden spoon and whole ginger roots",
+    "color": "#E8D096",
+    "center_hex": "#CAAB75",
+    "luminance": 169.0,
+    "sizes_kb": [
+      128.8,
+      159.7,
+      127.6
+    ]
+  },
+  "moringa-leaf-powder": {
+    "main": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAADwAQCdASoQAAwABABoJbAC7AYtfPMIdYAA/vCL2WOMFKvhVppeF7gzVUP7wxvUjvEjOC/s3I3Ruzto79USXZoSkjngLzR1sh5kp93L1EyFb20bKTwYF/oD0tMqNTI8AAA=",
+    "g2": "data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAADQAQCdASoQAAwABABoJbACdAED6dgmgAD45MCznohVPKfyMD20dqaA8mkHx642LXuapecC2wUXRF8N0yWT+Hvc7huPjt68kUfdA/cAtG8O3NkRE3VTNMAA",
+    "g3": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAABQAgCdASoQAAwABABoJbAC7AYtzVK0bcqZOAAA/sUM2ctXdW2KT1gbBZMFPzFRmMNXuFwuVuVNESSmlJF5pioadpuW85tTlKCz6wkzK18O/txI+oEg/4dubIdctkYAAAA=",
+    "alt": "Deep emerald green organic moringa leaf powder in a wooden bowl with fresh moringa sprigs",
+    "color": "#2D6B45",
+    "center_hex": "#3D5619",
+    "luminance": 161.7,
+    "sizes_kb": [
+      193.1,
+      268.0,
+      176.3
+    ]
+  },
+  "moringa-seed-powder": {
+    "main": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAADwAQCdASoQAAwABABoJYgCdACZcV2+/5AA/u3uOHxs+7tLoOFts40P4IFzr3lMs4OyxIlmWL3EDepWemSoR4GUYDcvgr1uth5CBYHVb0ss7LhCG2RGHtbZJjAAAA==",
+    "g2": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAADwAQCdASoQAAwABABoJZACdAD0qxx56aAA/OTV2N7xv6VdTMVp9x6YJPwofrDPd/UkxXm/TaWKA2tSsVtZyrPyqYU4tSMenKyd8tC3qfhA7pJXf+MJpJzKKfK4AAAA",
+    "g3": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAAAwAgCdASoQAAwABABoJYgCdADpNwYKP0+IgAD8p35Ga8Ga3vNPWyd19pfDpm3OB4N0JvopqYoPDe0SHczT9s+o2E56MVnXbTWH/pfsWs1DnQyNl5/dYmPRWdk7xAAA",
+    "alt": "Pale beige-tan fine moringa seed powder in a wooden bowl with dry moringa pods and seeds",
+    "color": "#D3C5A6",
+    "center_hex": "#AF936C",
+    "luminance": 168.4,
+    "sizes_kb": [
+      140.7,
+      161.5,
+      132.1
+    ]
+  },
+  "spinach-powder": {
+    "main": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAAAwAgCdASoQAAwABABoJagCdAYtpU3Nk+1YAAD5cYrF//VMkCAMg7y0UoKGnxUV1pR+qtWmFSnbz1IW7MKKCOktEybsMVplP6ULnjSJS6D2jLVC8EN3TNirDCX7q8AA",
+    "g2": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAABQAgCdASoQAAwABABoJaACdAYuHlWVXxAjAcAA+GLB6sFFzN1Fs52Ut1AbIiTVq1UM8/19C8NRTRqywxmhmaq8V59bGwVPJT1pxJk64U9MCik3e5aKIqoIbjNxAAAA",
+    "g3": "data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAAAQAgCdASoQAAwABABoJagCdAYwnS3jQcgAAPz44xPC4pYw9l4vNnRUTceoS+ln6cuHu/Mv3xSSxTO8Hu7OOvHhSnU8kQplVQ3PYss5cANhKcKs4ewmLaF8r6r3pZXpK6LN9oAA",
+    "alt": "Dark forest green dehydrated spinach powder in a wooden bowl with fresh spinach leaves",
+    "color": "#1F543C",
+    "center_hex": "#4C4923",
+    "luminance": 164.3,
+    "sizes_kb": [
+      151.0,
+      204.2,
+      147.7
+    ]
+  },
+  "curry-leaf-powder": {
+    "main": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAAAwAgCdASoQAAwABABoJbACdAYvXyz3Rn9CIADOPhsFmv3W1KrlJKe4XNewbqeWZIXGuNlPK1B03ToyvK7wJVPt2RMMu0nNoDCfeF9vj60BqngU3/1vri6GEnQ6rutfgAA=",
+    "g2": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAAAQAgCdASoQAAwABABoJbACdADbnItm24gAAMtJNbIZTWVUfN42NOoKteosbRt4/RHLtXyvaxFQ4VQpOIIeaR0akwNAz4Yt7mp+DyXS+ZTkcGH+A1jr1S25IoLBwAAA",
+    "g3": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAABQAgCdASoQAAwABABoJbACdAYtz2juSJMJHQAA/oOYg9HqxdA6DL5UU7xjGVSNJZFDJ9J2L4yiAH7I+pFwMKMc6v9vGw3/DNrAsK+ziz/KxpsrF95ty7s0LCxAAA==",
+    "alt": "Dark olive green curry leaf powder in a wooden bowl with fresh aromatic curry leaves",
+    "color": "#4A5D27",
+    "center_hex": "#59511C",
+    "luminance": 139.4,
+    "sizes_kb": [
+      187.5,
+      226.5,
+      172.9
+    ]
+  },
+  "mint-leaf-powder": {
+    "main": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAADwAQCdASoQAAwABABoJagAAunB7WkvTAwA/vOFcODy4AcTRJrybrpRUz7RaucgU5UbNF/q+GvXz+1TnxSAFGSAsVbJJw3RS3ur0X7R8flFfqiTYQFAAA==",
+    "g2": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAAAQAgCdASoQAAwABABoJbAC7AEQ0DSjHHWAAP7zyV52h9KRdgk+m9RMsPaTa/PtM/BBB4ov+rM/MbbNNqjwkyRinQIBiYcyOYgYvN0Et+X5+Eyo6N+33BCe5tej/Na4AAA=",
+    "g3": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAADQAQCdASoQAAwABABoJbACsACp8U/e5AD+8gwT1Z/N+1Oki9TC61iY9D93dTau2l+RXRQJ1s9P/N+qHBqHJjBm+19toW0NV4u8EnOrbWWG/DXfNrbWg3vlCVPEAA==",
+    "alt": "Bright light green mint leaf powder heaped in a small wooden bowl with fresh mint sprigs",
+    "color": "#4D9E56",
+    "center_hex": "#A5AB62",
+    "luminance": 185.7,
+    "sizes_kb": [
+      112.0,
+      157.7,
+      121.7
+    ]
+  },
+  "coriander-leaf-powder": {
+    "main": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAAAwAgCdASoQAAwABABoJbACdAEWgTUti7mqgAD+7+FE1RPO9smpq4UyW5qs8Y/hek2kEB5zIh88bOU5m+pJn5OLuKz9jb5V/wYPRBva87JC9hcHvryQcR+p7wAAAA==",
+    "g2": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAABQAgCdASoQAAwABABoJbACdAYtpoBbgywZjuAA/mE1g0Bef1HlR5X8zsbqnoqIHgsW2UZp2myL/7i8zgzGzvfeuccvV79cjb09BoI/nJ4aWiaIdRAAAA==",
+    "g3": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAABwAgCdASoQAAwABABoJbACdAYubTTKgQkvbM4AAP7h4iKw3AzKLXMn6man0keblj9hhpYv1yqAxQ5iNaRENzvdkur43597SobbGZ7H8Ztbbn42mDrfbq19pKkAAAAA",
+    "alt": "Medium fresh green coriander leaf powder in a wooden bowl with fresh cilantro leaves",
+    "color": "#3D8247",
+    "center_hex": "#7C7D38",
+    "luminance": 163.4,
+    "sizes_kb": [
+      149.2,
+      199.0,
+      160.4
+    ]
+  },
+  "kasuri-methi-powder": {
+    "main": "data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAAAwAgCdASoQAAwABABoJaACdAYu5NCCAJ/2AAD+7jRhnnr7zAeKO96DTdNJe+uJRsLGK+CzOrXG6O7mEreVmhSU1TDHW06P+RqBge7LCuuKYVDONjZDZkWuUPmpLqnyWF4AAA==",
+    "g2": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAADwAQCdASoQAAwABABoJbACdAD8vRZvexgA/vBB7YePYihgXaEI0BttRy6YFZe0W1MAo2GUshdk7TBYAg+gqma99uw1cKmPqlf6z5W9OFtL3DAHmkx4g0nq5EZ4AAAA",
+    "g3": "data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAAAwAgCdASoQAAwABABoJaACdAYulaj9zqeVMAD+7igZxiCJXlrs7FZPijUs3ylTlJKB3/+vWZ0irzoqnHHqsip1IuaJ8388Q64KVAf0GS8ej7aM479+/E3A2FyNQo9Z5oAAAA==",
+    "alt": "Sage green fenugreek leaf kasuri methi powder in a wooden bowl with dried fenugreek leaves",
+    "color": "#86975A",
+    "center_hex": "#7F783D",
+    "luminance": 163.8,
+    "sizes_kb": [
+      153.1,
+      208.9,
+      151.5
+    ]
+  },
+  "tomato-powder": {
+    "main": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAABwAgCdASoQAAwABABoJbACdAYubyfzmQ31z268AP7x6P/Od1C5Mm+DkJs9shNKoLMuRm5+enLfeu3ZphoJDvyKW/SdOlvjCDQYU/GeOf3lPR4ynBCma3SajxhQWuAA",
+    "g2": "data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAAAwAgCdASoQAAwABABoJbACdAYu5gLOHgHSPAD+8jRgbnXv1P/nprglXSjg1eFBIDyUd1cuQeY1i4NIxz3DO09N3UDhyPMi+SiGuVtbRzDLkwOxYMLru5LesBq/cMwjykD3gghcgAA=",
+    "g3": "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAADwAQCdASoQAAwABABoJbACdAYtKxOEp4AA/vOpq0ed+e00YXBaJw41Ydav/CXp+k/8N/zhedBFiN13WB4Q70hAu76PzuWikFWpy8xFuKPN2aZ7ljjnw6kw7sofptz32DP8ws4f3mIgAA==",
+    "alt": "Brick red-orange spray dried tomato powder in a wooden bowl with ripe red tomatoes",
+    "color": "#C8432A",
+    "center_hex": "#93411E",
+    "luminance": 168.7,
+    "sizes_kb": [
+      134.4,
+      159.9,
+      135.8
+    ]
+  },
+  "beetroot-powder": {
+    "main": "data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAABQAgCdASoQAAwABABoJbACdAYwTdCtnIrl2BAA/reQo+ZSwAu/uar+liVz2jejVa8F76kdi1NrrkKEubQcsCbUDLlckozOd7cB+W/+8wHuKqywkslQ3F3Ay00gxIcuj04XKLfdHdyyv4gAAAA=",
+    "g2": "data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAABQAgCdASoQAAwABABoJbACsOUABzeyGc33ZdgA3mel7imYAD4YbSxRdfbxTEQddOq6ZB07lqa5arXNYun29g4HjO4UbIkr/SZJF1n15cMFwnUy9ucvewAA",
+    "g3": "data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAAAQAgCdASoQAAwABABoJbACdAEQYm0Fu3d4APhjssu1SVaOR7L86aWG8MdDoyBgIs8IZ+B3RKyjp/Rl59DAEx8jGHGpYI/jBoDFh7WqhaO2L91VENCuhksUYwErXvS1FapZFgAA",
+    "alt": "Vivid magenta-purple beetroot powder in a wooden bowl with fresh whole and sliced beetroots",
+    "color": "#A01B4D",
+    "center_hex": "#B17A76",
+    "luminance": 161.4,
+    "sizes_kb": [
+      132.0,
+      104.5,
+      115.7
+    ]
+  },
+  "carrot-powder": {
+    "main": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAAAwAgCdASoQAAwABABoJbACdAELzyJF0XGTuAD+vIq7UwMMhr7mUhu6OpxgCnQ1ogXziyoQWy4TZvZAv4OxWRc6thKovRqZucKPKApKHgnHHi6mmzlAAA==",
+    "g2": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAAAwAgCdASoQAAwABABoJbACdAEfVrIulT13AAD8IsZB74v8dpIZpdY3sofjBys8ueP/Hsbfo/99Zn2Rwwrv66D8nciGAAAA",
+    "g3": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAAAQAgCdASoQAAwABABoJbACdAEfnTUHGj1gAP7Qlk3ZfODxChR8Iaca0xjex0uJBFJTfpaMaaGA8P03WQMjjrQNd4KP9MoHODmvSOp+Xh5+2TDlfPAAAA==",
+    "alt": "Bright orange dehydrated carrot powder in a wooden bowl with wooden spoon and whole carrots",
+    "color": "#E56024",
+    "center_hex": "#CB6113",
+    "luminance": 88.2,
+    "sizes_kb": [
+      75.2,
+      59.6,
+      65.4
+    ]
+  },
+  "green-chilli-powder": {
+    "main": "data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAADwAQCdASoQAAwABABoJQAB8S2R0UqMqToA/vPgKGJdPq5Xv4x4zxnDABEf/AlXONUf11rv+p3QjmASJwpW38odpJAAAA==",
+    "g2": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAAAQAgCdASoQAAwABABoJagCw7DpHHE3OewAAPvIIGfIjxcI0i+B7zLXgJWoD/BKS1USkLtw1b3EAobRs5ofGflkYidSAAAA",
+    "g3": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAAAQAgCdASoQAAwABABoJZgAAxdVfGfgFXbQAP7rsRc/4wfvc/CZ4DDKg1vfgS8TTxb/nvrRByPzNtUCR/weqxE8ppE9fT/qbuNjAAAA",
+    "alt": "Olive green dehydrated green chilli powder in a handcrafted wooden bowl with green chillies cue",
+    "color": "#627B32",
+    "center_hex": "#455523",
+    "luminance": 181.2,
+    "sizes_kb": [
+      44.2,
+      116.7,
+      54.3
+    ]
+  },
+  "pumpkin-powder": {
+    "main": "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAADwAQCdASoQAAwABABoJbACdAENy4cOo0AA/taHbTjnO1f6TGtOPn3beVfP4E1k0LmTHqhvFOwh2D2IlRnP3nTMtVUDeHmIF7MctdGgM4wAAA==",
+    "g2": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADwAQCdASoQAAwABABoJbACdAChdKQjrAAA/mi49kkMC6lqIiIEBoVaDvlOYk+gs0aPowUn7o/RqOP64B0NzEbzbxz94TrCKSAAAA==",
+    "g3": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAABQAgCdASoQAAwABABoJbACdEf/gXQsrCO1uAAA/udu/Mzu2KsIFDOL67/GAiwolmuzfhsqMLrHFr84DnzZpVUqCTB2xqF8I8kJ+qlgwaD/QsFPkSAAAA==",
+    "alt": "Golden orange spray dried pumpkin powder in a wooden bowl with a ripe pumpkin wedge cue",
+    "color": "#E37D20",
+    "center_hex": "#B06118",
+    "luminance": 185.4,
+    "sizes_kb": [
+      55.5,
+      192.5,
+      67.7
+    ]
+  },
+  "mango-powder-amchur": {
+    "main": "data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAADwAQCdASoQAAwABABoJQBOgCFdlhSHAkAA/utS3mmOrJ0aFW1jkjSlMJRUXbE6z74pb90q+TAP4+5U/X/2KkykWrAAAA==",
+    "g2": "data:image/webp;base64,UklGRkoAAABXRUJQVlA4ID4AAACwAQCdASoQAAwABABoJagCdACwgcgAAP7EVx2LCOxSZK5TwSQQXbxOj8GHUeLJtwC3+cHOb64WywJa8NMgAA==",
+    "g3": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADwAQCdASoQAAwABABoJaACdAECltvUcQAA/urspY257SGavHyckDITrLZoFlLq3Xvh49QiWlugO2HkQm+Oiq8dTdxz+/wAAAA=",
+    "alt": "Pale golden beige amchur raw mango powder in a wooden bowl with green mango cue",
+    "color": "#D8B882",
+    "center_hex": "#99825B",
+    "luminance": 196.6,
+    "sizes_kb": [
+      63.0,
+      182.8,
+      77.9
+    ]
+  },
+  "banana-powder": {
+    "main": "data:image/webp;base64,UklGRkoAAABXRUJQVlA4ID4AAAAwAgCdASoQAAwABABoJZQC7ADdlppiXV8EAAD+7V/UQzGIGfOkZIuUnHCFEX9lepVtLOEIyKDTyMj3WXUAAA==",
+    "g2": "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAADwAQCdASoQAAwABABoJYwCdADp5uugxQAA/pUIJ3S8IhLYQEXJzmJZLWAGAAAA",
+    "g3": "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAABQAgCdASoQAAwABABoJYwCdAEf/6qMhn6m+AAA/ufp9+NVLTwfRRmmrhcQR2tJYciWtUiqbfk1BPd3B3Ab42C0AAA=",
+    "alt": "Creamy off-white natural green banana powder in a wooden bowl with peeled banana cue",
+    "color": "#EFE6D1",
+    "center_hex": "#B0AA9A",
+    "luminance": 192.6,
+    "sizes_kb": [
+      79.0,
+      192.6,
+      93.2
+    ]
+  },
+  "lemon-powder": {
+    "main": "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAADwAQCdASoQAAwABABoJagCw7ELM827fwQA/ugU86hmkiVEHMyNZtVyW8KXQKhTio0d2YqvJTj9/gF5V5TYcVAAAAA=",
+    "g2": "data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAADwAQCdASoQAAwABABoJbACdAEUNJe/gAAA/udLacthjjeiE81G5/ZNolkwGzdOUR6Bdz/xgE34P78nLrXhpkAA",
+    "g3": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAAAQAgCdASoQAAwABABoJbACdADp5WMpVmAwAP7qluomocw76QKo6JDOPEcc2eYnCdJI8oU2kMM59n47diYaPAEDobU8gAAA",
+    "alt": "Pale lemon yellow dehydrated lemon juice powder in a wooden bowl with fresh lemon slice cue",
+    "color": "#EDD655",
+    "center_hex": "#A3923A",
+    "luminance": 205.2,
+    "sizes_kb": [
+      68.8,
+      202.0,
+      77.8
+    ]
+  },
+  "amla-powder": {
+    "main": "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAADwAQCdASoQAAwABABoJQAAUmSyEurdYgAA/vYTznyi/6Ea2KRC2JoA9oxMSQ+0J9hag57xyzgkfOIg8fvGzkfAAAA=",
+    "g2": "data:image/webp;base64,UklGRkQAAABXRUJQVlA4IDgAAAAQAgCdASoQAAwABABoJaAC7ADPJLdd67QAAP6bs2NlOUlOEEs3C9vAbk+4eZC0Iu13vSo4igAAAA==",
+    "g3": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAAAQAgCdASoQAAwABABoJYgC7ADdp0/4WxgAAP7zyWZ71KQVcNpG7lqYd7ybgUqeoWizBpTNbAHeon5STHHZIxfEQepwiBi5x13QAA==",
+    "alt": "Light greenish-brown organic Indian gooseberry amla powder in a wooden bowl with amla fruit cue",
+    "color": "#9CA467",
+    "center_hex": "#72784B",
+    "luminance": 195.9,
+    "sizes_kb": [
+      57.8,
+      154.5,
+      70.9
+    ]
+  },
+  "aloe-vera-powder": {
+    "main": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAAAQAgCdASoQAAwABABoJZQAAqpLxLSOliuAAP704iHQmQprXB30YnPLUl2yu1mJf88TEar6Fvhv5RhoCCLqJ87ZTn9LMAAA",
+    "g2": "data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAABwAQCdASoQAAwABABoJQAAO/bPgAD+3vGLPyvhKnGKUpEeYu6UAvs3Vy7MxN356Z4AAA==",
+    "g3": "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAADQAQCdASoQAAwABABoJQAARptbzND3AAD+7lYKwausc8ksGnEsBjmHgYLk6ZVVcmUZMV703qI6xzWQhi6KX88sQAA=",
+    "alt": "Pale beige-green spray dried aloe vera inner leaf powder in a wooden bowl with cut aloe leaf cue",
+    "color": "#CAD5B7",
+    "center_hex": "#8D957F",
+    "luminance": 196.9,
+    "sizes_kb": [
+      68.0,
+      185.7,
+      78.7
+    ]
+  },
+  "hibiscus-powder": {
+    "main": "data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAAAwAgCdASoQAAwABABoJZgCdAECl3lYpmAZ4AD+7jTR6wtru98s1Y0VmDgt3n1iijV4I4oocrkfb634tW+sLhuA9KlB7KpDrKKimeafgndhv9Gc5a6NkBTE3AA=",
+    "g2": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAADQAQCdASoQAAwABABoJbAC7AB8YkJH4AD5dBKK4bcNSQ8RQLeDVy6LyxIfr1fPusLOQjHmeuKwBgh8t80n54C7tcJIAAAA",
+    "g3": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAAAwAgCdASoQAAwABABoJbACdAEfvPlQGhsA1AD+7h0VV0cTE+f+S82xzmQZQrg2Bsn7tKhTqvz2gYNjXRYzzExYvYipBoy32zIMPxVI0myevHH+EQ6MsUXUTdAAAA==",
+    "alt": "Deep crimson red dried hibiscus sabdariffa flower powder in a wooden bowl with hibiscus petal cue",
+    "color": "#B01E49",
+    "center_hex": "#861637",
+    "luminance": 179.5,
+    "sizes_kb": [
+      39.5,
+      128.0,
+      46.9
+    ]
+  }
+}

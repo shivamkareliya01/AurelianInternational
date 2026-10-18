@@ -1,6 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Boxes, ChevronDown, ChevronLeft, ChevronRight, FileCheck2, Headset, PackageCheck, Ship, Tag, Wallet, X } from "lucide-react";
+import {
+  ArrowRight,
+  Boxes,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  FileCheck2,
+  Headset,
+  PackageCheck,
+  Tag,
+  X,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import shipmentWebp from "@/assets/hero-shipment.webp";
 import spicesWebp from "@/assets/hero-spices.webp";
@@ -14,11 +25,10 @@ import storyShip from "@/assets/our-story-ship.jpg";
 import storyHarvest from "@/assets/our-story-harvest.jpg";
 import warehouse from "@/assets/warehouse.jpg";
 import produce from "@/assets/produce.jpg";
-import { categories } from "@/data/products";
-import { certifications, testimonials, whyUs } from "@/data/content";
+import { categories, allProducts } from "@/data/products";
+import { testimonials, whyUs } from "@/data/content";
 import { site } from "@/data/site";
 import { Counter, InfinityWatermark, Reveal, SectionHead, btn } from "@/components/site/primitives";
-import { ProductCard } from "@/components/site/ProductCard";
 import { WorldMap } from "@/components/site/WorldMap";
 import { CertGrid, FaqList } from "@/components/site/Blocks";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
@@ -63,9 +73,17 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: `${site.name} — India's Finest, Delivered Worldwide` },
-      { name: "description", content: "Premium Indian agricultural produce, spices, and natural stone — sourced, certified and shipped to your port." },
+      {
+        name: "description",
+        content:
+          "Premium Indian agricultural produce, spices, and natural stone — sourced, certified and shipped to your port.",
+      },
       { property: "og:title", content: `${site.name} — India's Finest, Delivered Worldwide` },
-      { property: "og:description", content: "Premium agricultural produce, spices, natural stone and more from India — certified and shipped worldwide." },
+      {
+        property: "og:description",
+        content:
+          "Premium agricultural produce, spices, natural stone and more from India — certified and shipped worldwide.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -117,7 +135,10 @@ function Hero() {
   const currentSlide = heroSlides[i] ?? heroSlides[0]!;
 
   return (
-    <section ref={ref} className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[#040E1F] text-[#F4F1EA]">
+    <section
+      ref={ref}
+      className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[#040E1F] text-[#F4F1EA]"
+    >
       {/* Background Slideshow */}
       <motion.div style={{ y }} className="absolute inset-0">
         <AnimatePresence>
@@ -173,8 +194,7 @@ function Hero() {
       <div
         className="pointer-events-none absolute inset-0 z-10"
         style={{
-          background:
-            "linear-gradient(to top, rgba(4, 14, 31, 0.7) 0%, transparent 35%)",
+          background: "linear-gradient(to top, rgba(4, 14, 31, 0.7) 0%, transparent 35%)",
         }}
       />
 
@@ -196,7 +216,7 @@ function Hero() {
           className="eyebrow"
           style={{ textShadow: "0 2px 14px rgba(0, 0, 0, 0.35)" }}
         >
-          Direct Maritime Exports · {site.city}, India
+          IMPORT & EXPORT · MORBI, GUJARAT, INDIA
         </motion.p>
         <motion.h1
           initial={{ opacity: 0, y: 25 }}
@@ -214,7 +234,8 @@ function Hero() {
           className="mt-8 max-w-xl text-lg text-[#D9DDE3] leading-relaxed"
           style={{ textShadow: "0 2px 16px rgba(0, 0, 0, 0.4)" }}
         >
-          Premium agricultural produce, spices, and natural stone — sourced, certified and shipped to your port with end-to-end accountability.
+          Premium agricultural produce, spices, and natural stone — sourced, certified and shipped
+          to your port with end-to-end accountability.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -223,7 +244,7 @@ function Hero() {
           className="mt-10 flex flex-wrap gap-4"
         >
           <Link to="/products" className={btn.gold}>
-            Explore 68 Products <ArrowRight className="h-4 w-4" />
+            Explore {allProducts.length} Products <ArrowRight className="h-4 w-4" />
           </Link>
           <Link to="/contact" className={btn.outlineLight}>
             Request a Quote
@@ -235,11 +256,7 @@ function Hero() {
       <div className="container-x absolute inset-x-0 bottom-6 md:bottom-8 z-20 flex flex-col items-center gap-3 md:gap-4">
         {/* Slide Indicators with Animated Fill Time */}
         <div className="flex items-center justify-between w-full max-w-5xl px-2">
-          <div
-            className="flex items-center gap-2.5"
-            role="tablist"
-            aria-label="Hero Slides"
-          >
+          <div className="flex items-center gap-2.5" role="tablist" aria-label="Hero Slides">
             {heroSlides.map((s, idx) => (
               <button
                 key={idx}
@@ -274,7 +291,9 @@ function Hero() {
             transition={{ delay: 1.8, duration: 1 }}
             className="hidden sm:flex items-center gap-2 text-white/70"
           >
-            <span className="text-[10px] tracking-[0.22em] uppercase font-sans text-gold-soft">Scroll</span>
+            <span className="text-[10px] tracking-[0.22em] uppercase font-sans text-gold-soft">
+              Scroll
+            </span>
             <motion.div
               animate={{ y: [0, 4, 0] }}
               transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
@@ -284,7 +303,7 @@ function Hero() {
           </motion.div>
         </div>
 
-        {/* Glass Stats Bar Panel (6 Categories, 70 SKUs, 25+ Countries) */}
+        {/* Glass Stats Bar Panel (6 Destination Markets, 7 Product Categories) */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -296,9 +315,9 @@ function Hero() {
           }}
         >
           {[
-            ["25+", "Countries Served"],
-            ["5", "Product Categories"],
-            ["68", "Export SKUs"],
+            ["6", "Destination Markets"],
+            ["7", "Product Categories"],
+            [String(allProducts.length), "Export SKUs"],
             ["100%", "Certified Quality"],
           ].map(([v, l], k) => (
             <div
@@ -307,7 +326,7 @@ function Hero() {
                 "px-6 py-5 md:py-6",
                 k > 0 && "md:border-l border-[#C9973F]/25",
                 k % 2 === 1 && "border-l border-[#C9973F]/25",
-                k > 1 && "border-t md:border-t-0 border-[#C9973F]/25"
+                k > 1 && "border-t md:border-t-0 border-[#C9973F]/25",
               )}
             >
               <p className="font-display text-3xl text-brand-gradient md:text-4xl">{v}</p>
@@ -320,28 +339,6 @@ function Hero() {
   );
 }
 
-function TrustStrip() {
-  const logos = [...certifications.map((c) => c.code), "GlobalG.A.P.", "BRCGS", "BIS"];
-  return (
-    <section className="border-b hairline bg-ivory py-10 relative">
-      <p className="container-x text-center text-xs tracking-wider uppercase text-muted-foreground font-medium">
-        Accredited Export Partner to Importers Across UK, USA, UAE, European Union & Southeast Asia
-      </p>
-      <div className="relative mt-6 overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_15%,black_85%,transparent)]">
-        <div className="animate-marquee flex w-max gap-6">
-          {[...logos, ...logos, ...logos, ...logos].map((l, i) => (
-            <span
-              key={i}
-              className="rounded-full border hairline px-8 py-2.5 font-display text-lg tracking-wider text-[#071A33]/80 bg-[#EEF1F5]/60"
-            >
-              {l}
-            </span>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function AboutPreview() {
   const ref = useRef<HTMLDivElement>(null);
@@ -372,19 +369,38 @@ function AboutPreview() {
         <div>
           <SectionHead
             eyebrow="Our Story"
-            title={<>A trading house built on <em className="text-gold">trust</em>.</>}
+            title={
+              <>
+                A trading house built on <em className="text-gold">trust</em>.
+              </>
+            }
             text={`Since ${site.established}, ${site.name} has connected India's growers, spice farmers and stone quarries with discerning buyers worldwide. We obsess over grade, documentation and timing — so every container lands exactly as promised.`}
           />
           <Reveal delay={0.15} className="mt-10 grid grid-cols-2 border-t hairline">
-            {[["Established", site.established], ["Headquarters", `${site.city}, India`], ["Markets", "25+ countries"], ["Active SKUs", "68 items"]].map(([k, v], i) => (
-              <div key={k} className={cn("py-6", i % 2 === 1 && "border-l hairline pl-6", i > 1 && "border-t hairline")}>
+            {[
+              ["Established", site.established],
+              ["Headquarters", `${site.city}, India`],
+              ["Markets", "6 key markets via UAE"],
+              ["Active SKUs", `${allProducts.length} items`],
+            ].map(([k, v], i) => (
+              <div
+                key={k}
+                className={cn(
+                  "py-6",
+                  i % 2 === 1 && "border-l hairline pl-6",
+                  i > 1 && "border-t hairline",
+                )}
+              >
                 <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{k}</p>
                 <p className="mt-2 font-display text-2xl text-[#071A33]">{v}</p>
               </div>
             ))}
           </Reveal>
           <Reveal delay={0.25}>
-            <Link to="/about" className="mt-8 inline-flex items-center gap-2 text-[#071A33] underline decoration-gold underline-offset-8 hover:text-gold font-medium">
+            <Link
+              to="/about"
+              className="mt-8 inline-flex items-center gap-2 text-[#071A33] underline decoration-gold underline-offset-8 hover:text-gold font-medium"
+            >
               Explore Our Story & Infrastructure <ArrowRight className="h-4 w-4" />
             </Link>
           </Reveal>
@@ -435,10 +451,24 @@ function CategoryBentoCard({
             <p className="text-xs uppercase tracking-[0.2em] text-gold-soft font-sans mb-1">
               {category.headline}
             </p>
-            <h3 className={cn("leading-tight text-white", isLarge ? "text-3xl md:text-5xl" : isWide ? "text-2xl md:text-3xl" : "text-2xl md:text-3xl")}>
+            <h3
+              className={cn(
+                "leading-tight text-white",
+                isLarge
+                  ? "text-3xl md:text-5xl"
+                  : isWide
+                    ? "text-2xl md:text-3xl"
+                    : "text-2xl md:text-3xl",
+              )}
+            >
               {category.name}
             </h3>
-            <p className={cn("mt-2 text-xs md:text-sm text-[#D9DDE3] line-clamp-2 leading-relaxed max-w-xl", !isLarge && !isWide && "hidden sm:block")}>
+            <p
+              className={cn(
+                "mt-2 text-xs md:text-sm text-[#D9DDE3] line-clamp-2 leading-relaxed max-w-xl",
+                !isLarge && !isWide && "hidden sm:block",
+              )}
+            >
               {category.blurb}
             </p>
           </div>
@@ -459,21 +489,24 @@ function CategoryBentoCard({
 }
 
 function Categories() {
+  const dehydratedCategory =
+    categories.find((c) => c.slug === "dehydrated-powders") ?? categories[6]!;
+
   return (
     <section className="section-y bg-sand luxury-grain relative">
       <div className="container-x">
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end mb-12">
           <SectionHead
             eyebrow="What We Export"
-            title="Five categories. One standard."
-            text="Direct sourcing, optical sorting, and customized packaging across India's primary agricultural and industrial export belts."
+            title="Six categories. One standard."
+            text="Direct sourcing, optical sorting, and customized packaging across India's primary agricultural, spice, mineral, and botanical export belts."
           />
           <Link to="/products" className={btn.outline}>
-            All 68 Products <ArrowRight className="h-4 w-4" />
+            All {allProducts.length} Products <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 
-        {/* 5-Card Balanced Bento Grid */}
+        {/* 6-Card Balanced Bento Grid */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
           {/* Card 0: Agriculture (Tall & expansive hero bento tile) */}
           <div className="md:col-span-7 h-[26rem] md:h-[30rem]">
@@ -490,13 +523,17 @@ function Categories() {
             </div>
           </div>
 
-          {/* Row 2: Spices, Natural Stones & Tiles (2 balanced columns) */}
-          <div className="md:col-span-6 h-[18rem] md:h-[20rem]">
+          {/* Row 2: Spices, Natural Stones, Dehydrated Powders (3 balanced columns) */}
+          <div className="md:col-span-4 h-[18rem] md:h-[20rem]">
             <CategoryBentoCard category={categories[3]!} isWide />
           </div>
 
-          <div className="md:col-span-6 h-[18rem] md:h-[20rem]">
+          <div className="md:col-span-4 h-[18rem] md:h-[20rem]">
             <CategoryBentoCard category={categories[4]!} isWide />
+          </div>
+
+          <div className="md:col-span-4 h-[18rem] md:h-[20rem]">
+            <CategoryBentoCard category={dehydratedCategory} isWide />
           </div>
         </div>
       </div>
@@ -504,74 +541,8 @@ function Categories() {
   );
 }
 
-function Featured() {
-  const [tab, setTab] = useState(categories[0]!.slug);
-  const cat = categories.find((c) => c.slug === tab) ?? categories[0]!;
 
-  return (
-    <section className="section-y bg-ivory">
-      <div className="container-x">
-        <SectionHead
-          eyebrow="Curated Portfolio"
-          title="Export-ready, season after season."
-          text="Select a category to view high-demand export specifications ready for maritime container dispatch."
-          align="center"
-        />
-
-        {/* Tab Selector */}
-        <div className="mt-12 flex justify-start gap-2 overflow-x-auto pb-3 md:justify-center">
-          {categories.map((c) => (
-            <button
-              key={c.slug}
-              onClick={() => setTab(c.slug)}
-              className={cn(
-                "relative shrink-0 rounded-full px-5 py-2.5 text-xs uppercase tracking-wider font-medium transition-all duration-300",
-                tab === c.slug ? "text-white" : "text-[#0B1B33]/70 hover:text-[#071A33] hover:bg-[#EEF1F5]"
-              )}
-            >
-              {tab === c.slug && (
-                <motion.span
-                  layoutId="tab"
-                  className="absolute inset-0 rounded-full bg-[#071A33] shadow-soft"
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
-                />
-              )}
-              <span className="relative z-10">{c.name}</span>
-            </button>
-          ))}
-        </div>
-
-        {/* Tabbed Products Grid */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={tab}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.35 }}
-            className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
-          >
-            {cat.products.slice(0, 4).map((p) => (
-              <ProductCard key={p.slug} product={p} category={cat} />
-            ))}
-          </motion.div>
-        </AnimatePresence>
-
-        <div className="mt-12 text-center">
-          <Link
-            to="/products/$category"
-            params={{ category: cat.slug }}
-            className={btn.outline}
-          >
-            View all {cat.products.length} {cat.name} Products <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-const whyIcons = [Boxes, Tag, Ship, Wallet, FileCheck2, Headset];
+const whyIcons = [Boxes, Tag, FileCheck2, Headset];
 function WhyUs() {
   return (
     <section className="section-y bg-[#071A33] text-[#F4F1EA] relative overflow-hidden">
@@ -582,7 +553,7 @@ function WhyUs() {
           title="The details are the difference."
           text="Everything a serious importer needs, handled by one accountable partner with verified on-the-ground infrastructure."
         />
-        <div className="mt-16 grid gap-px overflow-hidden rounded-3xl border hairline bg-gold/20 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-16 grid gap-px overflow-hidden rounded-3xl border hairline bg-gold/20 sm:grid-cols-2 lg:grid-cols-4">
           {whyUs.map((w, i) => {
             const Icon = whyIcons[i] ?? Boxes;
             return (
@@ -700,12 +671,12 @@ function Reach() {
         <SectionHead
           dark
           eyebrow="Global Reach"
-          title="Shipping India to six continents."
-          text="Scheduled sailings from Mumbai (JNPT), Mundra, Chennai and Cochin to major gateway ports worldwide."
+          title="Connecting Through UAE. Every Market."
+          text="All shipments move from Gujarat, India to UAE at Jebel Ali, connecting onward to 6 key destination markets across 5 global regions."
           align="center"
         />
         <Reveal className="mt-14">
-          <WorldMap />
+          <WorldMap compact />
         </Reveal>
       </div>
     </section>
@@ -714,9 +685,9 @@ function Reach() {
 
 function StatsBand() {
   const statsList = [
-    { value: 25, suffix: "+", label: "Countries Served", sub: "Direct maritime routes" },
-    { value: 5, suffix: "", label: "Product Categories", sub: "Diverse export catalog" },
-    { value: 68, suffix: "", label: "Export Products", sub: "Fully certified SKUs" },
+    { value: 6, suffix: "", label: "Destination Markets", sub: "Via UAE" },
+    { value: 5, suffix: "", label: "Global Regions", sub: "Connected trade zones" },
+    { value: allProducts.length, suffix: "", label: "Export Products", sub: "Fully certified SKUs" },
     { value: 500, suffix: "+", label: "Shipments Completed", sub: "98% on-time record" },
   ];
 
@@ -739,9 +710,7 @@ function StatsBand() {
             <p className="mt-3 text-xs uppercase tracking-[0.22em] font-medium text-white/90">
               {s.label}
             </p>
-            <p className="mt-1 text-[11px] text-[#D9DDE3]/70">
-              {s.sub}
-            </p>
+            <p className="mt-1 text-[11px] text-[#D9DDE3]/70">{s.sub}</p>
           </motion.div>
         ))}
       </div>
@@ -763,13 +732,20 @@ function Gallery() {
   return (
     <section className="section-y bg-sand luxury-grain">
       <div className="container-x">
-        <SectionHead eyebrow="On the Ground" title="Inside our operations." text="A glimpse into our processing yards, packing stations, cold storages, and container loading berths." />
+        <SectionHead
+          eyebrow="On the Ground"
+          title="Inside our operations."
+          text="A glimpse into our processing yards, packing stations, cold storages, and container loading berths."
+        />
         <div className="mt-14 grid auto-rows-[14rem] grid-cols-2 gap-4 md:grid-cols-4">
           {gallery.map((g, i) => (
             <button
               key={i}
               onClick={() => setOpen(i)}
-              className={cn("group overflow-hidden rounded-3xl border border-gold/20 shadow-soft cursor-pointer", g.h)}
+              className={cn(
+                "group overflow-hidden rounded-3xl border border-gold/20 shadow-soft cursor-pointer",
+                g.h,
+              )}
               aria-label={`Open ${g.alt}`}
             >
               <img
@@ -791,7 +767,10 @@ function Gallery() {
             className="fixed inset-0 z-[60] grid place-items-center bg-[#040E1F]/95 p-6 backdrop-blur-md"
             onClick={() => setOpen(null)}
           >
-            <button className="absolute right-6 top-6 text-[#F4F1EA] hover:text-gold" aria-label="Close">
+            <button
+              className="absolute right-6 top-6 text-[#F4F1EA] hover:text-gold"
+              aria-label="Close"
+            >
               <X className="h-8 w-8" />
             </button>
             <motion.img
@@ -834,7 +813,10 @@ function Testimonials() {
               </blockquote>
               <figcaption className="mt-8 text-sm">
                 <span className="font-semibold text-ink">{t.name}</span>
-                <span className="text-muted-foreground"> · {t.role}, {t.company} · {t.country}</span>
+                <span className="text-muted-foreground">
+                  {" "}
+                  · {t.role}, {t.company} · {t.country}
+                </span>
               </figcaption>
             </motion.figure>
           </AnimatePresence>
@@ -851,7 +833,10 @@ function Testimonials() {
             {testimonials.map((_, k) => (
               <span
                 key={k}
-                className={cn("h-1.5 rounded-full transition-all duration-300", k === i ? "w-8 bg-gold" : "w-3 bg-border")}
+                className={cn(
+                  "h-1.5 rounded-full transition-all duration-300",
+                  k === i ? "w-8 bg-gold" : "w-3 bg-border",
+                )}
               />
             ))}
           </div>
@@ -873,18 +858,33 @@ function FinalCta() {
     <section className="section-y relative overflow-hidden bg-[#040E1F]">
       {/* Subtle large gold infinity watermark */}
       <InfinityWatermark className="absolute -left-20 top-1/2 -translate-y-1/2 w-[42rem] h-[21rem] text-[#C9973F] opacity-[0.04]" />
-      <img src={port} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-20" />
+      <img
+        src={port}
+        alt=""
+        loading="lazy"
+        className="absolute inset-0 h-full w-full object-cover opacity-20"
+      />
       <div className="container-x relative z-10 grid gap-14 lg:grid-cols-5">
         <div className="text-[#F4F1EA] lg:col-span-2">
           <p className="eyebrow">Request a Quote</p>
           <h2 className="mt-4 text-5xl leading-[1.02] md:text-7xl">Let's Move Your Cargo.</h2>
           <p className="mt-6 text-[#D9DDE3] leading-relaxed">
-            Tell us what you need. Our trade desk replies within one business day with FOB/CIF pricing, laboratory spec sheets, and shipping schedules.
+            Tell us what you need. Our trade desk replies within one business day with FOB/CIF
+            pricing, laboratory spec sheets, and shipping schedules.
           </p>
           <ul className="mt-10 space-y-4 text-sm">
-            <li><span className="text-[#D9DDE3]">Phone · </span>{site.phone}</li>
-            <li><span className="text-[#D9DDE3]">Email · </span>{site.email}</li>
-            <li><span className="text-[#D9DDE3]">Office · </span>{site.address}</li>
+            <li>
+              <span className="text-[#D9DDE3]">Phone · </span>
+              {site.phone}
+            </li>
+            <li>
+              <span className="text-[#D9DDE3]">Email · </span>
+              {site.email}
+            </li>
+            <li>
+              <span className="text-[#D9DDE3]">Office · </span>
+              {site.address}
+            </li>
           </ul>
           <a
             href={`https://wa.me/${site.whatsapp}?text=Hello%20Aurelian%20International,%20I%20would%20like%20to%20request%20an%20export%20quotation.`}
@@ -907,12 +907,9 @@ function Home() {
   return (
     <>
       <Hero />
-      <TrustStrip />
       <AboutPreview />
       <div className="gold-hairline-divider" />
       <Categories />
-      <div className="gold-hairline-divider" />
-      <Featured />
       <div className="gold-hairline-divider" />
       <WhyUs />
       <Process />

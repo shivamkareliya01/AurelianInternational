@@ -1,0 +1,422 @@
+[
+  {
+    "slug": "1121-basmati-rice",
+    "name": "1121 Basmati Rice",
+    "category": "agriculture",
+    "subject": "extra-long aged slender polished white 1121 Basmati rice grains with glistening pearl translucent finish"
+  },
+  {
+    "slug": "1509-basmati-rice",
+    "name": "1509 Basmati Rice",
+    "category": "agriculture",
+    "subject": "aged long slender cream-white 1509 Basmati rice grains displayed in a wooden bowl with wooden scoop"
+  },
+  {
+    "slug": "sella-basmati-rice",
+    "name": "Sella Basmati Rice",
+    "category": "agriculture",
+    "subject": "golden parboiled extra-long slender Sella Basmati rice grains with golden-amber translucent hue"
+  },
+  {
+    "slug": "non-basmati-white-rice-ir64",
+    "name": "Non-Basmati White Rice (IR64)",
+    "category": "agriculture",
+    "subject": "clean milled medium-grain white raw IR-64 rice grains"
+  },
+  {
+    "slug": "sona-masoori-rice",
+    "name": "Sona Masoori Rice",
+    "category": "agriculture",
+    "subject": "delicate lightweight aromatic short-medium white Sona Masoori rice grains"
+  },
+  {
+    "slug": "milling-wheat",
+    "name": "Milling Wheat",
+    "category": "agriculture",
+    "subject": "hard golden-amber wheat kernels (Sharbati milling wheat) with clean oval grooved grain structure"
+  },
+  {
+    "slug": "yellow-maize",
+    "name": "Yellow Maize",
+    "category": "agriculture",
+    "subject": "clean bright golden-yellow dried maize corn kernels free of husk"
+  },
+  {
+    "slug": "bajra-pearl-millet",
+    "name": "Bajra (Pearl Millet)",
+    "category": "agriculture",
+    "subject": "small greyish-blue oval pearl millet grains (bajra) with smooth sheen"
+  },
+  {
+    "slug": "soybean",
+    "name": "Soybean",
+    "category": "agriculture",
+    "subject": "clean round cream-yellow dried non-GMO soybean seeds with small brown hilum eye"
+  },
+  {
+    "slug": "groundnut-peanut-kernels",
+    "name": "Groundnut (Peanut Kernels)",
+    "category": "agriculture",
+    "subject": "clean bold reddish-pink skinned peanut kernels (Java / Bold type) with whole kernels and split halves"
+  },
+  {
+    "slug": "sesame-seeds",
+    "name": "Sesame Seeds",
+    "category": "agriculture",
+    "subject": "pearlescent natural white sesame seeds with flat teardrop shape and silky sheen"
+  },
+  {
+    "slug": "kabuli-chickpeas",
+    "name": "Kabuli Chickpeas",
+    "category": "agriculture",
+    "subject": "large plump wrinkly cream-beige 10mm+ bold Kabuli chickpeas (garbanzo beans)"
+  },
+  {
+    "slug": "toor-dal",
+    "name": "Toor Dal (Pigeon Pea)",
+    "category": "agriculture",
+    "subject": "split and polished golden-yellow pigeon pea lentils (toor / arhar dal) with bright clean edges"
+  },
+  {
+    "slug": "moong-dal",
+    "name": "Moong Dal (Green Gram)",
+    "category": "agriculture",
+    "subject": "split and dehusked bright yellow mung bean lentils (moong dal) with clean lens-shaped kernels"
+  },
+  {
+    "slug": "masoor-dal",
+    "name": "Masoor Dal (Red Lentil)",
+    "category": "agriculture",
+    "subject": "split and polished vivid reddish-coral orange masoor lentils with smooth clean surface"
+  },
+  {
+    "slug": "urad-dal",
+    "name": "Urad Dal (Black Gram)",
+    "category": "agriculture",
+    "subject": "split and skinned ivory-white black gram lentils (urad dal / dhuli) with pristine pearl surface"
+  },
+  {
+    "slug": "nashik-red-onion",
+    "name": "Nashik Red Onion",
+    "category": "vegetables",
+    "subject": "three whole fresh red onions with crisp purple-red papery skin and one halved onion showing concentric purple rings"
+  },
+  {
+    "slug": "white-onion",
+    "name": "White Onion",
+    "category": "vegetables",
+    "subject": "three whole fresh white onions with papery cream-white skin and one halved onion showing translucent white crisp layers"
+  },
+  {
+    "slug": "potato",
+    "name": "Potato",
+    "category": "vegetables",
+    "subject": "four smooth oval golden-brown potatoes with clean skin and one cut in half showing creamy starchy flesh"
+  },
+  {
+    "slug": "tomato",
+    "name": "Tomato",
+    "category": "vegetables",
+    "subject": "three ripe glossy red vine tomatoes with green calyx and one sliced tomato showing juicy seed cavities"
+  },
+  {
+    "slug": "garlic",
+    "name": "Garlic",
+    "category": "vegetables",
+    "subject": "two whole plump white garlic bulbs and several peeled and unpeeled creamy cloves"
+  },
+  {
+    "slug": "ginger",
+    "name": "Ginger",
+    "category": "vegetables",
+    "subject": "several knobby fresh ginger rhizomes with light tan skin and two cut pieces showing bright fibrous yellow flesh"
+  },
+  {
+    "slug": "green-chilli",
+    "name": "Green Chilli",
+    "category": "vegetables",
+    "subject": "a neat cluster of slender glossy vibrant green chillies with fresh stems, one sliced lengthwise"
+  },
+  {
+    "slug": "carrot",
+    "name": "Carrot",
+    "category": "vegetables",
+    "subject": "a bunch of slender crisp orange and red Delhi carrots with fresh green feathery tops, one cut in half"
+  },
+  {
+    "slug": "drumstick-moringa",
+    "name": "Drumstick (Moringa)",
+    "category": "vegetables",
+    "subject": "several long slender ridged green moringa drumstick pods, one cut into pieces showing tender white seeds inside"
+  },
+  {
+    "slug": "cavendish-banana",
+    "name": "Cavendish Banana",
+    "category": "fruits",
+    "subject": "a small pristine hand of bright yellow Cavendish bananas with green tips and one peeled banana"
+  },
+  {
+    "slug": "alphonso-mango",
+    "name": "Alphonso Mango",
+    "category": "fruits",
+    "subject": "three ripe golden-yellow Alphonso mangoes with subtle red blush and one sliced cheek with neat cross-hatch pattern"
+  },
+  {
+    "slug": "kesar-mango",
+    "name": "Kesar Mango",
+    "category": "fruits",
+    "subject": "three ripe golden-yellow Kesar mangoes and one sliced cheek showing rich saffron-orange juicy flesh"
+  },
+  {
+    "slug": "bhagwa-pomegranate",
+    "name": "Bhagwa Pomegranate",
+    "category": "fruits",
+    "subject": "one whole glossy deep-red Bhagwa pomegranate and one split open revealing glistening ruby-red arils"
+  },
+  {
+    "slug": "thompson-seedless-grapes",
+    "name": "Thompson Seedless Grapes",
+    "category": "fruits",
+    "subject": "a generous tight bunch of translucent pale-green oval Thompson seedless grapes with a frosty natural bloom"
+  },
+  {
+    "slug": "nagpur-orange",
+    "name": "Nagpur Orange",
+    "category": "fruits",
+    "subject": "three glossy bright-orange loose-jacket Nagpur mandarins and one halved showing segmented juicy vesicles"
+  },
+  {
+    "slug": "lemon",
+    "name": "Lemon",
+    "category": "fruits",
+    "subject": "three whole bright yellow lemons with natural pebble texture and one sliced in half showing juicy translucent segments"
+  },
+  {
+    "slug": "papaya",
+    "name": "Papaya",
+    "category": "fruits",
+    "subject": "one whole golden-green papaya and one long half showing vibrant orange pulp and shiny black round seeds"
+  },
+  {
+    "slug": "pineapple",
+    "name": "Pineapple",
+    "category": "fruits",
+    "subject": "one whole ripe golden-yellow Queen pineapple with sharp green crown and several golden juicy slices"
+  },
+  {
+    "slug": "turmeric",
+    "name": "Turmeric (Finger & Powder)",
+    "category": "spices",
+    "subject": "whole cured golden-yellow turmeric finger rhizomes with a few pieces broken open showing intense deep-orange core"
+  },
+  {
+    "slug": "guntur-red-chilli",
+    "name": "Guntur Red Chilli",
+    "category": "spices",
+    "subject": "a small heap of dried whole glossy deep-red Guntur chillies with stems intact"
+  },
+  {
+    "slug": "black-pepper",
+    "name": "Black Pepper",
+    "category": "spices",
+    "subject": "whole wrinkled deep black Tellicherry peppercorns in a ceramic dish with loose peppercorns scattered"
+  },
+  {
+    "slug": "cumin-seeds",
+    "name": "Cumin Seeds",
+    "category": "spices",
+    "subject": "dried fragrant elongated greenish-brown cumin seeds (jeera) with fine longitudinal ridges"
+  },
+  {
+    "slug": "cinnamon",
+    "name": "Cinnamon",
+    "category": "spices",
+    "subject": "curled rolls of natural brown cinnamon quills and bark sticks with visible delicate woody layers"
+  },
+  {
+    "slug": "fenugreek-seeds",
+    "name": "Fenugreek Seeds",
+    "category": "spices",
+    "subject": "golden-amber hard rhombic fenugreek seeds (methi) with characteristic diagonal groove"
+  },
+  {
+    "slug": "coriander-seeds",
+    "name": "Coriander Seeds (Dhania)",
+    "category": "spices",
+    "subject": "whole dried spherical golden-tan coriander seeds (dhania) with distinct aromatic ridges"
+  },
+  {
+    "slug": "green-cardamom",
+    "name": "Green Cardamom (Alleppey Bold)",
+    "category": "spices",
+    "subject": "whole plump vibrant green cardamom pods with a few pods split open showing shiny aromatic dark seeds"
+  },
+  {
+    "slug": "cloves",
+    "name": "Cloves (Laung)",
+    "category": "spices",
+    "subject": "whole dark reddish-brown clove buds with plump unopened four-lobed flower heads and stems"
+  },
+  {
+    "slug": "fennel-seeds",
+    "name": "Fennel Seeds (Saunf)",
+    "category": "spices",
+    "subject": "dried whole fragrant pale green-brown fennel seeds (saunf) with prominent ridges"
+  },
+  {
+    "slug": "mustard-seeds",
+    "name": "Mustard Seeds (Rai & Sarson)",
+    "category": "spices",
+    "subject": "clean tiny spherical bold black and dark-brown Indian mustard seeds (rai)"
+  },
+  {
+    "slug": "star-anise",
+    "name": "Star Anise (Chakra Phool)",
+    "category": "spices",
+    "subject": "whole eight-pointed star anise pods with polished golden seeds visible inside each carpel boat"
+  },
+  {
+    "slug": "bay-leaf",
+    "name": "Indian Bay Leaf (Tejpatta)",
+    "category": "spices",
+    "subject": "dried whole aromatic olive-green Indian tejpatta bay leaves with three characteristic longitudinal veins"
+  },
+  {
+    "slug": "garam-masala",
+    "name": "Royal Garam Masala Blend",
+    "category": "spices",
+    "subject": "rich fragrant golden-brown ground garam masala blend in a rustic bowl beside whole cinnamon, cardamom and cloves"
+  },
+  {
+    "slug": "makrana-white-marble",
+    "name": "Makrana White Marble",
+    "category": "stones",
+    "subject": "a neat stack of polished Makrana white marble slab samples with subtle grey feather veining and one sample angled, soft studio reflection"
+  },
+  {
+    "slug": "statuario-marble",
+    "name": "Statuario Marble",
+    "category": "stones",
+    "subject": "a stack of polished white Statuario marble tiles with dramatic bold grey veining in a bright white studio setting"
+  },
+  {
+    "slug": "indian-green-marble",
+    "name": "Indian Green Marble",
+    "category": "stones",
+    "subject": "a stack of polished deep emerald-green Indian marble tile samples with white quartz veining on light surface"
+  },
+  {
+    "slug": "black-galaxy-granite",
+    "name": "Black Galaxy Granite",
+    "category": "stones",
+    "subject": "a stack of polished black galaxy granite tile samples with sparkling golden-bronze flecks in a bright studio"
+  },
+  {
+    "slug": "tan-brown-granite",
+    "name": "Tan Brown Granite",
+    "category": "stones",
+    "subject": "a stack of polished Tan Brown granite slab samples with rich dark brown and black crystalline minerals"
+  },
+  {
+    "slug": "kashmir-white-granite",
+    "name": "Kashmir White Granite",
+    "category": "stones",
+    "subject": "a stack of polished Kashmir White granite tiles with soft grey waves and burgundy garnet specks"
+  },
+  {
+    "slug": "rainbow-sandstone",
+    "name": "Rainbow Sandstone",
+    "category": "stones",
+    "subject": "honed architectural slabs of Rainbow sandstone showing fine multicolored purple, violet and golden-yellow wave banding"
+  },
+  {
+    "slug": "kota-limestone",
+    "name": "Kota Limestone",
+    "category": "stones",
+    "subject": "a stack of calibrated blue-green Kota limestone paving slabs with smooth honed finish and sawn edges"
+  },
+  {
+    "slug": "himachal-slate",
+    "name": "Himachal Slate",
+    "category": "stones",
+    "subject": "a stack of natural cleft Himachal slate tiles with subtle silvery mica sheen and layered stone edges"
+  },
+  {
+    "slug": "quartzite",
+    "name": "Quartzite",
+    "category": "stones",
+    "subject": "a stack of hard dense golden-grey quartzite stone paving tiles with fine sparkling natural split surface"
+  },
+  {
+    "slug": "cobblestones",
+    "name": "Cobblestones",
+    "category": "stones",
+    "subject": "a neat grouping of hand-cut natural cleft granite cobblestones with textured six-sided surfaces"
+  },
+  {
+    "slug": "pebbles-river-gravel",
+    "name": "Pebbles & River Gravel",
+    "category": "stones",
+    "subject": "tumble-polished smooth river pebbles in mixed black, white and honey-ochre colors in a shallow tray"
+  },
+  {
+    "slug": "vitrified-tiles",
+    "name": "Vitrified Tiles",
+    "category": "stones",
+    "subject": "a stack of polished double-charged vitrified floor tiles with mirror finish and calibrated edges in a studio"
+  },
+  {
+    "slug": "porcelain-tiles",
+    "name": "Porcelain Tiles",
+    "category": "stones",
+    "subject": "a stack of large-format rectified porcelain tiles with matte warm-grey concrete surface texture"
+  },
+  {
+    "slug": "ceramic-wall-tiles",
+    "name": "Ceramic Wall Tiles",
+    "category": "stones",
+    "subject": "a display stack of glossy white beveled subway ceramic wall tiles with crisp clean edges"
+  },
+  {
+    "slug": "glazed-vitrified-tiles",
+    "name": "Glazed Vitrified Tiles (GVT/PGVT)",
+    "category": "stones",
+    "subject": "a stack of high-gloss glazed vitrified tiles (GVT) with Italian Calacatta marble design reproduction"
+  },
+  {
+    "slug": "large-format-porcelain-slabs",
+    "name": "Large Format Porcelain Slabs",
+    "category": "stones",
+    "subject": "large-format continuous porcelain slab sample showing seamless marble veining on bright studio plinth"
+  },
+  {
+    "slug": "polished-porcelain-tiles",
+    "name": "Polished Porcelain Floor Tiles",
+    "category": "stones",
+    "subject": "a stack of nano-polished super-white porcelain tiles with brilliant reflective surface"
+  },
+  {
+    "slug": "digital-wall-tiles",
+    "name": "Digital Ceramic Wall Tiles",
+    "category": "stones",
+    "subject": "a display set of digitally printed ceramic wall tiles with embossed decorative geometric texture"
+  },
+  {
+    "slug": "subway-ceramic-tiles",
+    "name": "Subway Ceramic Tiles",
+    "category": "stones",
+    "subject": "a stack of classic beveled white ceramic subway tiles with glossy glaze finish"
+  },
+  {
+    "slug": "outdoor-parking-tiles",
+    "name": "Outdoor Vitrified Parking Tiles",
+    "category": "stones",
+    "subject": "heavy-duty textured anti-slip vitrified parking tiles with rustic terracotta-grey relief pattern"
+  },
+  {
+    "slug": "anti-skid-ceramic-tiles",
+    "name": "Anti-Skid Ceramic Floor Tiles",
+    "category": "stones",
+    "subject": "a stack of matte textured anti-skid bathroom ceramic floor tiles with fine sugar-finish grip"
+  }
+]

@@ -19,6 +19,7 @@ import { FloatingActions, PageLoader } from "@/components/site/FloatingActions";
 import { BasketDrawer } from "@/components/site/BasketDrawer";
 import { Toaster } from "@/components/ui/sonner";
 import { site } from "@/data/site";
+import { company } from "@/config/company";
 
 import { Logo } from "@/components/site/Logo";
 import { btn } from "@/components/site/primitives";
@@ -37,10 +38,7 @@ function NotFoundComponent() {
           The export category or page you are looking for does not exist or has been relocated.
         </p>
         <div className="mt-8">
-          <Link
-            to="/"
-            className={cn(btn.gold, "px-8 py-3")}
-          >
+          <Link to="/" className={cn(btn.gold, "px-8 py-3")}>
             Return to Homepage
           </Link>
         </div>
@@ -78,10 +76,7 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
           >
             Try Again
           </button>
-          <Link
-            to="/"
-            className={cn(btn.outline, "px-6 py-2.5")}
-          >
+          <Link to="/" className={cn(btn.outline, "px-6 py-2.5")}>
             Return Home
           </Link>
         </div>
@@ -97,7 +92,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "theme-color", content: "#071A33" },
       { title: `${site.name} — Premium Exports from India` },
-      { name: "description", content: "Premium Indian agricultural produce, spices, and natural stone, exported worldwide." },
+      {
+        name: "description",
+        content:
+          "Premium Indian agricultural produce, spices, and natural stone, exported worldwide.",
+      },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -116,7 +115,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@400;500;600&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@400;500;600&display=swap",
+      },
     ],
     scripts: [
       {
@@ -128,7 +130,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           url: site.url,
           email: site.email,
           telephone: site.phone,
-          address: { "@type": "PostalAddress", streetAddress: site.address, addressCountry: "IN" },
+          address: company.schemaAddress,
         }),
       },
     ],
@@ -161,6 +163,23 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  useEffect(() => {
+    let timer: number | undefined;
+    const handleScroll = () => {
+      document.body.classList.add("is-scrolling");
+      if (timer) window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        document.body.classList.remove("is-scrolling");
+      }, 150);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (timer) window.clearTimeout(timer);
+    };
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
