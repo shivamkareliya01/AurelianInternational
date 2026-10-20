@@ -150,7 +150,7 @@ CATEGORY: ${c.name}
 
 SPECIFICATIONS:
 ----------------------------------------------------------
-${specs.map(([k, v]) => `${k.padEnd(35)}: ${v}`).join("\n")}
+${specs.map(([k, v]) => `${String(k).padEnd(35)}: ${v}`).join("\n")}
 
 PRODUCT OVERVIEW:
 ----------------------------------------------------------
@@ -372,6 +372,12 @@ Email: ${site.email}
                       origin: p.origin,
                       image: p.image,
                     });
+                    const formEl = document.getElementById("enquiry-form");
+                    if (formEl) {
+                      formEl.scrollIntoView({ behavior: "smooth", block: "start" });
+                    } else {
+                      window.location.href = "/contact#enquiry-form";
+                    }
                   }}
                   className={cn(btn.gold, "w-full justify-center shadow-md")}
                 >
@@ -387,12 +393,13 @@ Email: ${site.email}
                 </button>
 
                 {inBasket && (
-                  <button
-                    onClick={openBasket}
+                  <Link
+                    to="/contact"
+                    hash="enquiry-form"
                     className={cn(btn.outlineLight, "w-full justify-center text-xs")}
                   >
-                    Open Basket & Request Combined Quote
-                  </button>
+                    Request Commercial Quote
+                  </Link>
                 )}
 
                 <a

@@ -12,14 +12,17 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { site } from "@/data/site";
 import { useBasket } from "@/lib/basket";
+import { useScrollLock } from "@/lib/scroll-lock";
 import { ProductPicker } from "./ProductPicker";
 import { btn } from "./primitives";
 import { cn } from "@/lib/utils";
 
 export function BasketDrawer() {
-  const { items, remove, clear, isOpen, closeBasket } = useBasket();
+  const { items, add, remove, clear, isOpen, closeBasket } = useBasket();
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
+  const [refNumber, setRefNumber] = useState("");
+  const [openTimestamp, setOpenTimestamp] = useState<number>(Date.now());
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -29,29 +32,24 @@ export function BasketDrawer() {
     notes: "",
   });
 
-  // Manage body scroll lock and escape listener with reliable cleanup
+  // Track open timestamp for anti-spam check
+  useEffect(() => {
+    if (isOpen) {
+      setOpenTimestamp(Date.now());
+    }
+  }, [isOpen]);
+
+  // Use centralized reference-counted scroll lock
+  useScrollLock(isOpen);
+
+  // Escape key listener
   useEffect(() => {
     if (!isOpen) return;
-
-    const originalOverflow = document.body.style.overflow;
-    const originalPaddingRight = document.body.style.paddingRight;
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-
-    document.body.style.overflow = "hidden";
-    if (scrollbarWidth > 0) {
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-    }
-
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") closeBasket();
     };
     window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.body.style.overflow = originalOverflow;
-      document.body.style.paddingRight = originalPaddingRight;
-      window.removeEventListener("keydown", handleKeyDown);
-    };
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, closeBasket]);
 
   const waProducts = items.map((i) => `• ${i.name} (${i.category})`).join("%0A");
@@ -59,17 +57,72 @@ export function BasketDrawer() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (loading) return;
+
     if (!formData.name.trim() || !formData.email.trim() || !formData.company.trim()) {
       toast.error("Please fill in your name, company and email.");
       return;
     }
 
+    if (items.length === 0) {
+      toast.error("Please add at least one product to the quote basket.");
+      return;
+    }
+
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1200));
-    setLoading(false);
-    setDone(true);
-    toast.success("Multi-product quote request dispatched successfully!");
-    clear();
+
+    try {
+      const nameParts = formData.name.trim().split(/\s+/);
+      const firstName = nameParts[0] || "Client";
+      const lastName = nameParts.slice(1).join(" ") || "—";
+
+      const payload = {
+        firstName,
+        lastName,
+        email: formData.email.trim(),
+        phone: formData.phone.trim() || "+00 0000000000",
+        company: formData.company.trim(),
+        country: formData.destinationPort.trim() || "International",
+        quantity: "",
+        unit: "MT",
+        notes: formData.notes.trim() || undefined,
+        products: items.slice(0, 8).map((i) => ({
+          name: i.name,
+          category: i.category,
+          slug: i.key,
+          origin: i.origin || "India",
+        })),
+        sourcePage: typeof window !== "undefined" ? `${window.location.pathname} (Quote Basket)` : "/basket",
+        formLoadedAt: openTimestamp,
+      };
+
+      const res = await fetch("/api/enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const json = await res.json().catch(() => null);
+
+      if (!res.ok || !json?.ok) {
+        setLoading(false);
+        const errMessage = json?.errors
+          ? Object.values(json.errors)[0]
+          : json?.error || "Submission failed. Please check your inputs.";
+        toast.error(String(errMessage));
+        return;
+      }
+
+      setRefNumber(json.reference || "AV-PROCESSED");
+      setLoading(false);
+      setDone(true);
+      toast.success(`Quote request ${json.reference} dispatched successfully!`);
+      clear();
+    } catch (err) {
+      console.error("[Basket Quote Error]:", err);
+      setLoading(false);
+      toast.error("Network error submitting quote. Please connect via WhatsApp.");
+    }
   }
 
   return (
@@ -133,9 +186,14 @@ export function BasketDrawer() {
                     <h3 className="mt-6 font-display text-3xl text-[#071A33]">
                       Quotation Requested
                     </h3>
+                    {refNumber && (
+                      <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-[#C9973F]/40 bg-[#C9973F]/10 px-3.5 py-1 text-xs font-semibold text-[#071A33]">
+                        <span>Reference:</span>
+                        <span className="font-mono text-sm font-bold text-[#C9973F]">{refNumber}</span>
+                      </div>
+                    )}
                     <p className="mt-3 text-sm text-muted-foreground max-w-xs">
-                      Our international trade desk has received your request. We will prepare
-                      freight and FOB/CIF pricing within one business day.
+                      Our international trade desk has received your request. A confirmation email has been dispatched to {formData.email}. We will prepare freight and FOB/CIF pricing within 24 hours.
                     </p>
                     <button
                       onClick={() => {

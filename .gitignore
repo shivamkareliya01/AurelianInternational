@@ -20,6 +20,13 @@ dist-ssr
 .wrangler/
 .dev.vars
 
+# Environment secrets
+.env
+.env*.local
+
+# Outbox & scratch files
+data/outbox/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

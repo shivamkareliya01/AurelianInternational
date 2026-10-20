@@ -14,13 +14,13 @@ export const Route = createFileRoute("/markets")({
       {
         name: "description",
         content:
-          "All shipments move from India to UAE at Jebel Ali, then onward to 6 key destination markets across 5 global regions.",
+          "Direct export maritime corridors from India to key global markets across USA, Europe, Germany, UAE, South Africa, Kenya, and Australia.",
       },
       { property: "og:title", content: `Global Markets — ${site.name}` },
       {
         property: "og:description",
         content:
-          "All shipments move from India to UAE at Jebel Ali, then onward to 6 key destination markets across 5 global regions.",
+          "Direct export maritime corridors from India to key global markets across USA, Europe, Germany, UAE, South Africa, Kenya, and Australia.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -40,44 +40,52 @@ interface MarketCorridorCard {
 
 const marketCorridors: MarketCorridorCard[] = [
   {
-    region: "Gulf",
+    region: "Middle East (UAE)",
     flag: "🇦🇪",
-    countriesCount: "Central Re-Export",
-    ports: "Jebel Ali Port (Dubai)",
-    products: "Consolidated bonded re-export, container redistribution, temperature-controlled logistics",
-    transitViaHub: "4–6 Days direct feeder from Gujarat Gateway to UAE",
+    countriesCount: "Direct Export",
+    ports: "Jebel Ali Port (Dubai), Khalifa Port (Abu Dhabi)",
+    products: "Fresh Fruits & Vegetables, Red Onions, Basmati Rice, Spices, Ceramic Tiles",
+    transitViaHub: "4–6 Days direct liner sailing from Gujarat Gateway",
   },
   {
-    region: "Europe",
+    region: "Europe (Rotterdam)",
     flag: "🇪🇺",
-    countriesCount: "2 Markets via UAE",
-    ports: "Rotterdam (Netherlands), Hamburg (Germany)",
+    countriesCount: "Direct Export",
+    ports: "Port of Rotterdam (Netherlands), Port of Antwerp",
     products: "Spices, dehydrated botanical powders, pulses, natural stones & tiles",
-    transitViaHub: "20–27 Days via UAE (4–6d feeder + 16–21d onward liner)",
+    transitViaHub: "22–26 Days direct sea transit via Suez corridor",
   },
   {
-    region: "Americas",
+    region: "Germany (Hamburg)",
+    flag: "🇩🇪",
+    countriesCount: "Direct Export",
+    ports: "Port of Hamburg, Port of Bremerhaven",
+    products: "Dehydrated onion & garlic, organic spices, pulses, ceramic tiles",
+    transitViaHub: "24–28 Days direct North Sea liner departures",
+  },
+  {
+    region: "Americas (USA)",
     flag: "🇺🇸",
-    countriesCount: "1 Market via UAE",
-    ports: "Port of New York / New Jersey (United States)",
+    countriesCount: "Direct Export",
+    ports: "Port of New York / New Jersey, Houston, Los Angeles",
     products: "Grains & pulses, fresh produce, spices, granite slabs, dehydrated powders",
-    transitViaHub: "24–30 Days via UAE (4–6d feeder + 20–24d transatlantic corridor)",
+    transitViaHub: "28–34 Days direct transatlantic container corridor",
   },
   {
-    region: "Africa",
-    flag: "🌍",
-    countriesCount: "2 Markets via UAE",
+    region: "Africa (South Africa & Kenya)",
+    flag: "🇿🇦 🇰🇪",
+    countriesCount: "Direct Export",
     ports: "Durban (South Africa), Mombasa (Kenya)",
     products: "Grains, pulses, culinary spices, dehydrated powders, porcelain tiles",
-    transitViaHub: "11–22 Days via UAE (4–6d feeder + 7–16d coastal loop)",
+    transitViaHub: "10–16 Days direct Indian Ocean maritime corridor",
   },
   {
-    region: "Asia-Pacific",
-    flag: "🌏",
-    countriesCount: "1 Market via UAE",
-    ports: "Sydney / Port Botany (Australia)",
+    region: "Asia-Pacific (Australia)",
+    flag: "🇦🇺",
+    countriesCount: "Direct Export",
+    ports: "Sydney / Port Botany, Melbourne",
     products: "Basmati rice, culinary spices, polished porcelain tiles, granite",
-    transitViaHub: "20–28 Days via UAE (4–6d feeder + 16–22d eastbound liner)",
+    transitViaHub: "22–28 Days direct eastbound liner service",
   },
 ];
 
@@ -86,8 +94,8 @@ function Markets() {
     <>
       <PageHeader
         eyebrow="Global Trade Corridors"
-        title="Global Markets via UAE"
-        text="Shipments move from Gujarat, India to UAE at Jebel Ali, then onward to 6 key destination markets across 5 global regions."
+        title="Global Markets We Serve"
+        text="Direct container shipments move from India's premier deepwater ports to our key international markets across the USA, Europe, Germany, UAE, South Africa, Kenya, and Australia."
         image="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=1600&q=80"
         crumbs={[{ label: "Markets" }]}
       />
@@ -96,12 +104,12 @@ function Markets() {
       <section className="py-16 md:py-24 bg-[#040E1F] text-[#F4F1EA] relative overflow-hidden">
         <div className="container-x">
           <div className="text-center max-w-3xl mx-auto mb-12">
-            <span className="eyebrow !text-gold-soft">Central UAE Architecture</span>
+            <span className="eyebrow !text-gold-soft">Direct Global Logistics</span>
             <h2 className="mt-2 font-display text-4xl text-white md:text-5xl">
-              Connecting Through UAE. Every Market.
+              Connecting India to Global Markets.
             </h2>
             <p className="mt-3 text-sm text-[#D9DDE3]">
-              All shipments move from India to UAE at Jebel Ali, then onward to each destination country with scheduled liner departures.
+              Direct container departures from India's gateway ports to all major destination markets with scheduled liner sailings.
             </p>
           </div>
 
@@ -113,22 +121,22 @@ function Markets() {
               [
                 "Gujarat Gateway",
                 "Mundra / Kandla",
-                "Direct rail access from Morbi and northern agricultural belts feeding our UAE re-export facility.",
+                "Direct rail access from Morbi and northern agricultural belts powering containerized exports.",
               ],
               [
                 "JNPT, Mumbai",
-                "Feeder Gateway",
-                "Automated container terminals handling scheduled container feeders into Jebel Ali.",
+                "Container Terminal",
+                "India's premier container port handling scheduled sailings to the Americas, Europe, and Africa.",
               ],
               [
                 "Chennai Port",
                 "Coromandel Coast",
-                "Specialized stone and granite block crating and maritime loading for UAE redistribution.",
+                "Specialized stone, granite block crating, and maritime loading for global markets.",
               ],
               [
                 "Cochin Port",
                 "Spice Terminal",
-                "Direct cold-chain and dry container feeder sailings into our UAE transshipment facility.",
+                "Direct cold-chain and dry container sailings for spices and fresh agricultural produce.",
               ],
             ].map(([port, tag, desc]) => (
               <div
@@ -156,7 +164,7 @@ function Markets() {
               Regions & Transit Schedules
             </h2>
             <p className="mt-3 text-sm text-muted-foreground">
-              Every shipment is routed via UAE with pre-cleared bills of lading, continuous cold-chain monitoring, and scheduled onward connections.
+              Every shipment is dispatched directly from India with certified bills of lading, continuous cold-chain monitoring, and scheduled liner sailings.
             </p>
           </div>
 
@@ -196,7 +204,7 @@ function Markets() {
 
                     <div>
                       <dt className="flex items-center gap-1.5 font-medium text-muted-foreground uppercase tracking-wider text-[0.65rem]">
-                        <Clock className="h-3.5 w-3.5 text-gold" /> Transit Schedule via UAE
+                        <Clock className="h-3.5 w-3.5 text-gold" /> Direct Transit Schedule from India
                       </dt>
                       <dd className="mt-1 font-medium text-[#071A33] leading-relaxed">
                         {m.transitViaHub}
@@ -222,7 +230,7 @@ function Markets() {
               Need Sea Freight Rates to Another Port?
             </h3>
             <p className="mt-3 text-sm text-muted-foreground max-w-xl mx-auto">
-              Through UAE at Jebel Ali, we service 36 sovereign destination markets. If your target discharge port is specialized, our logistics desk can arrange dedicated feeder bookings within 24 hours.
+              From India's primary deepwater ports, we ship directly to all major international trading hubs. If your target discharge port is specialized, our logistics desk can arrange dedicated container bookings within 24 hours.
             </p>
             <Link to="/contact" className={cn(btn.gold, "mt-6 inline-flex")}>
               Contact Trade Logistics Desk
@@ -233,3 +241,4 @@ function Markets() {
     </>
   );
 }
+

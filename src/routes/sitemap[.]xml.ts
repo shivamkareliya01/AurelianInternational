@@ -11,7 +11,6 @@ export const Route = createFileRoute("/sitemap.xml")({
           "/products",
           "/about",
           "/markets",
-          "/certifications",
           "/contact",
           ...categories.flatMap((c) => [
             `/products/${c.slug}`,

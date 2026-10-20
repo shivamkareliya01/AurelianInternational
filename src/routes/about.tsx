@@ -67,7 +67,7 @@ function About() {
             </p>
             <p>
               Today we work with hundreds of farms, spice cooperatives and stone quarries,
-              delivering to importers across 6 key destination markets via UAE — still with the same obsession over
+              delivering to importers across our 7 key destination markets worldwide — still with the same obsession over
               grade, paperwork and punctuality.
             </p>
           </Reveal>

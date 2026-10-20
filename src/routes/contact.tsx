@@ -1,12 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ExternalLink, Mail, MapPin, MessageCircle, Navigation, Phone } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { PageHeader } from "@/components/site/PageHeader";
 import { btn } from "@/components/site/primitives";
 import { site } from "@/data/site";
 import { company } from "@/config/company";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -30,6 +31,19 @@ export const Route = createFileRoute("/contact")({
 
 function Contact() {
   const [mobileCardOpen, setMobileCardOpen] = useState(false);
+  const [isMapActive, setIsMapActive] = useState(false);
+
+  useEffect(() => {
+    if (window.location.hash) {
+      const id = window.location.hash.replace("#", "");
+      const el = document.getElementById(id);
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 150);
+      }
+    }
+  }, []);
 
   return (
     <>
@@ -82,12 +96,13 @@ function Contact() {
               <MessageCircle className="h-4 w-4 text-gold-soft" /> Instant WhatsApp Desk
             </a>
 
-            {/* Premium Google Map Block with Floating Glass Info Card */}
+            {/* Premium Google Map Block with Floating Info Card & Click-to-Activate */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, ease: "easeOut" }}
+              onMouseLeave={() => setIsMapActive(false)}
               className="relative h-[320px] md:h-[400px] w-full overflow-hidden rounded-[24px] border border-[#C9973F]/35 shadow-[0_12px_40px_rgba(7,26,51,0.14)] group"
             >
               <iframe
@@ -95,13 +110,30 @@ function Contact() {
                 src={company.mapEmbedUrl}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                className="h-full w-full border-0 transition-all duration-500"
+                className={cn(
+                  "h-full w-full border-0 transition-all duration-500",
+                  !isMapActive && "pointer-events-none"
+                )}
                 style={{ filter: "saturate(0.9) contrast(1.02)" }}
               />
 
-              {/* Floating Glass Info Card over top-left */}
-              <div className="absolute top-3 left-3 right-3 md:right-auto md:max-w-xs z-10">
-                <div className="rounded-2xl border border-[#C9973F]/40 bg-[#071A33]/92 backdrop-blur-md p-4 text-[#F4F1EA] shadow-xl">
+              {/* Click to activate overlay when pointer-events are disabled so scroll is never trapped */}
+              {!isMapActive && (
+                <button
+                  type="button"
+                  onClick={() => setIsMapActive(true)}
+                  className="absolute inset-0 z-[5] flex items-end justify-center pb-4 bg-transparent cursor-pointer"
+                  aria-label="Click to interact with map"
+                >
+                  <span className="rounded-full bg-[#071A33]/92 border border-[#C9973F]/50 px-3.5 py-1.5 text-xs font-medium text-[#F4F1EA] shadow-lg hover:bg-[#0E2A4F] transition-colors pointer-events-auto">
+                    Click to interact with map
+                  </span>
+                </button>
+              )}
+
+              {/* Floating Solid Info Card over top-left */}
+              <div className="absolute top-3 left-3 right-3 md:right-auto md:max-w-xs z-10 pointer-events-auto">
+                <div className="rounded-2xl border border-[#C9973F]/40 bg-[#071A33] p-4 text-[#F4F1EA] shadow-xl">
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
                       <span className="h-2 w-2 rounded-full bg-[#C9973F] animate-pulse" />

@@ -188,13 +188,13 @@ function CategoryPage() {
                 Connect directly with our export desk for FOB / CIF quotes, custom mesh sizing, private label packaging, and international compliance dossiers.
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-4">
-                <button
-                  type="button"
-                  onClick={openBasket}
+                <Link
+                  to="/contact"
+                  hash="enquiry-form"
                   className="rounded-full bg-gradient-to-r from-[#C9973F] via-[#F2C86E] to-[#C9973F] px-8 py-3.5 text-xs font-bold uppercase tracking-wider text-[#071A33] shadow-lg hover:shadow-xl hover:scale-105 transition-all cursor-pointer"
                 >
-                  Review Enquiry Basket
-                </button>
+                  Review Commercial Quotation
+                </Link>
                 <Link
                   to="/contact"
                   className="rounded-full border border-white/30 bg-white/10 px-8 py-3.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-white hover:text-[#071A33] transition-all cursor-pointer inline-flex items-center gap-2"

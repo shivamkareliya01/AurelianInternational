@@ -449,3 +449,18 @@ body.is-scrolling .group-hover-swap-badge-powder {
   transition: none !important;
 }
 
+/* Custom scrollbar hiding utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* High performance product row CSS containment */
+.picker-row-contain {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 72px;
+  contain: layout paint style;
+}

@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Award, Check, Eye, Heart, MapPin, Plus, X } from "lucide-react";
+import { ArrowRight, Check, Eye, Heart, Plus, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { POWDER_COLORS } from "@/data/powderColors";
 import type { Category, Product } from "@/data/products";
@@ -27,7 +27,6 @@ export function ProductCard({
 }) {
   const { add, has } = useBasket();
   const [quickOpen, setQuickOpen] = useState(false);
-  const [activeImg, setActiveImg] = useState(0);
   const [mainLoaded, setMainLoaded] = useState(false);
   const [insetLoaded, setInsetLoaded] = useState(false);
   const [imgSrc, setImgSrc] = useState(product.image);
@@ -44,9 +43,6 @@ export function ProductCard({
     .trim();
   const captionLabel = `Fresh ${rawIngredient}`;
 
-  const rawGallery =
-    product.gallery && product.gallery.length > 0 ? product.gallery : [product.image];
-  const gallery = rawGallery;
   const ingredientImage = isPowder ? `/products/${product.slug}-ingredient.webp` : "";
 
   // Preload hover/ingredient image so swap is instant without flicker
@@ -131,7 +127,7 @@ export function ProductCard({
             onLoad={() => setMainLoaded(true)}
             onError={handleImgError}
             style={{
-              objectPosition: product.objectPosition || "center",
+              objectPosition: "center",
             }}
             className={cn(
               "relative z-[2] h-full w-full object-cover transition-opacity duration-400 ease-out transition-transform duration-600 ease-out transform-gpu",
@@ -150,7 +146,7 @@ export function ProductCard({
               loading="lazy"
               decoding="async"
               style={{
-                objectPosition: product.objectPosition || "center",
+                objectPosition: "center",
               }}
               className="absolute inset-0 z-[2] h-full w-full object-cover group-hover-swap-ingredient pointer-events-none"
               onError={(e) => {
@@ -245,7 +241,7 @@ export function ProductCard({
                   decoding="async"
                   onLoad={() => setInsetLoaded(true)}
                   style={{
-                    objectPosition: product.objectPosition || "center",
+                    objectPosition: "center",
                   }}
                   className={cn(
                     "h-full w-full object-cover object-center group-hover-swap-badge-ingredient transition-opacity duration-350 ease-out",
@@ -264,7 +260,7 @@ export function ProductCard({
                   loading="lazy"
                   decoding="async"
                   style={{
-                    objectPosition: product.objectPosition || "center",
+                    objectPosition: "center",
                   }}
                   className="absolute inset-0 h-full w-full object-cover object-center group-hover-swap-badge-powder"
                   onError={(e) => {
@@ -303,6 +299,12 @@ export function ProductCard({
             <Link
               to="/products/$category/$product"
               params={{ category: category.slug, product: product.slug }}
+              onClick={(e) => {
+                if (!e.ctrlKey && !e.metaKey && e.button === 0) {
+                  e.preventDefault();
+                  setQuickOpen(true);
+                }
+              }}
               className="block"
             >
               <h3 className="font-serif text-[22px] font-semibold text-[#071A33] leading-snug line-clamp-2 min-h-[3.3rem] hover:text-[#C9973F] transition-colors">
@@ -310,38 +312,18 @@ export function ProductCard({
               </h3>
             </Link>
 
-            {/* Clean 2-line clamped descriptor in 14px #4A5568 */}
-            <p className="mt-2 text-[14px] text-[#4A5568] line-clamp-2 leading-relaxed min-h-[2.75rem]">
-              {product.description}
+            {/* Clean clamped descriptor in 14px #4A5568 */}
+            <p className="mt-2 text-[14px] text-[#4A5568] line-clamp-3 leading-relaxed">
+              {product.shortDescription || product.description}
             </p>
-
-            {/* 2-Column Wrapping Specs with Tiny Gold Icons */}
-            <dl className="mt-4 grid grid-cols-2 gap-3 text-xs border-t border-[#E3E7EE] pt-3.5">
-              <div className="flex flex-col">
-                <dt className="flex items-center gap-1.5 text-muted-foreground font-medium">
-                  <MapPin className="h-3.5 w-3.5 text-[#C9973F] shrink-0" />
-                  <span>Origin</span>
-                </dt>
-                <dd className="mt-1 font-semibold text-[#0B1B33] line-clamp-2 leading-snug min-h-[2.4rem] break-words">
-                  {product.origin}
-                </dd>
-              </div>
-              <div className="flex flex-col">
-                <dt className="flex items-center gap-1.5 text-muted-foreground font-medium">
-                  <Award className="h-3.5 w-3.5 text-[#C9973F] shrink-0" />
-                  <span>Grade / Variety</span>
-                </dt>
-                <dd className="mt-1 font-semibold text-[#0B1B33] line-clamp-2 leading-snug min-h-[2.4rem] break-words">
-                  {product.grade}
-                </dd>
-              </div>
-            </dl>
           </div>
 
           {/* Thin Divider and Footer Row: MOQ Left, View Specs + Gold Enquire Pill Right */}
           <div className="mt-5 pt-3.5 border-t border-[#E3E7EE] flex items-center justify-between gap-2 text-xs">
             <span className="text-muted-foreground font-medium whitespace-nowrap text-[0.75rem] sm:text-xs shrink-0">
-              <strong className="text-[#071A33] font-semibold">{formatCardMoq(product.moq)}</strong>
+              <strong className="text-[#071A33] font-semibold">
+                {formatCardMoq(product.specs?.moq || product.moq || "")}
+              </strong>
             </span>
             <div className="flex items-center gap-2 sm:gap-3 shrink-0">
               <button
@@ -349,19 +331,25 @@ export function ProductCard({
                 onClick={() => setQuickOpen(true)}
                 className="text-muted-foreground hover:text-[#071A33] underline underline-offset-4 font-medium transition-colors cursor-pointer py-1 text-[0.75rem] sm:text-xs"
               >
-                View Specs
+                View Details
               </button>
               <button
                 type="button"
-                onClick={() =>
+                onClick={() => {
                   add({
                     key,
                     name: product.name,
                     category: category.name,
-                    origin: product.origin,
+                    origin: product.specs?.origin || product.origin || "",
                     image: product.image,
-                  })
-                }
+                  });
+                  const formEl = document.getElementById("enquiry-form");
+                  if (formEl) {
+                    formEl.scrollIntoView({ behavior: "smooth", block: "start" });
+                  } else {
+                    window.location.href = "/contact#enquiry-form";
+                  }
+                }}
                 className={cn(
                   "min-h-[36px] sm:min-h-[38px] px-3.5 sm:px-4 rounded-full font-semibold text-[0.72rem] sm:text-xs shadow-sm transition-all duration-200 inline-flex items-center gap-1.5 cursor-pointer whitespace-nowrap",
                   inBasket
@@ -386,7 +374,7 @@ export function ProductCard({
         </div>
       </article>
 
-      {/* Quick View Modal */}
+      {/* Simplified Product Detail Modal View */}
       <AnimatePresence>
         {quickOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -403,9 +391,9 @@ export function ProductCard({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
               transition={{ type: "spring", duration: 0.35 }}
-              className="relative w-full max-w-3xl overflow-hidden rounded-[24px] border border-[#C9973F]/40 bg-[#FAF8F3] shadow-2xl z-10"
+              className="relative w-full max-w-lg overflow-hidden rounded-[24px] border border-[#C9973F]/40 bg-[#FAF8F3] shadow-2xl z-10"
             >
-              {/* Close Button */}
+              {/* Close (X) Button */}
               <button
                 onClick={() => setQuickOpen(false)}
                 aria-label="Close modal"
@@ -414,127 +402,24 @@ export function ProductCard({
                 <X className="h-5 w-5" />
               </button>
 
-              <div className="grid md:grid-cols-2 max-h-[85vh] overflow-y-auto">
-                {/* Left Column: Image & Gallery */}
-                <div className="bg-[#EEF1F5]/60 p-6 flex flex-col justify-between">
-                  <div>
-                    <div className="aspect-[4/3] overflow-hidden rounded-2xl border border-[#E3E7EE] shadow-sm relative">
-                      <img
-                        src={gallery[activeImg] || product.image}
-                        alt={product.alt || product.name}
-                        className="h-full w-full object-cover"
-                      />
-                      {isPowder && activeImg === 1 && (
-                        <span className="absolute bottom-2.5 left-2.5 rounded-full bg-[#071A33]/90 px-3 py-1 text-[0.68rem] font-bold tracking-wide text-[#F2C86E] border border-[#C9973F]/40 backdrop-blur-md shadow-sm">
-                          Fresh Raw Material
-                        </span>
-                      )}
-                    </div>
-                    {gallery.length > 1 && (
-                      <div className="mt-4 grid grid-cols-4 gap-2">
-                        {gallery.map((img, i) => (
-                          <button
-                            key={i}
-                            type="button"
-                            onClick={() => setActiveImg(i)}
-                            className={cn(
-                              "relative aspect-[4/3] overflow-hidden rounded-xl border transition-all cursor-pointer",
-                              activeImg === i
-                                ? "border-[#C9973F] ring-2 ring-[#C9973F]"
-                                : "border-[#E3E7EE] opacity-70 hover:opacity-100",
-                            )}
-                          >
-                            <img src={img} alt="" className="h-full w-full object-cover" />
-                            {isPowder && i === 1 && (
-                              <span className="absolute inset-x-0 bottom-0 bg-[#071A33]/90 py-0.5 text-[0.55rem] font-bold text-[#F2C86E] text-center leading-tight">
-                                Raw
-                              </span>
-                            )}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
+              {/* Product Image */}
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#EEF1F5]">
+                <img
+                  src={product.image}
+                  alt={product.alt || product.name}
+                  className="h-full w-full object-cover"
+                />
+              </div>
 
-                {/* Right Column: Specs Table & CTAs */}
-                <div className="p-6 md:p-8 flex flex-col justify-between">
-                  <div>
-                    <span className="eyebrow !text-[#C9973F]">{category.name}</span>
-                    <h2 className="mt-2 font-serif text-3xl font-semibold text-[#071A33]">
-                      {product.name}
-                    </h2>
-
-                    {/* Row under product title: [ingredient thumbnail] "Source: Fresh {Ingredient}, {Origin}" */}
-                    {isPowder && powderMeta && (
-                      <div className="mt-2.5 flex items-center gap-2.5 py-1.5 px-3 rounded-full bg-[#FAF6EE] border border-[#C9973F]/35 w-fit shadow-xs">
-                        <img
-                          src={ingredientImage}
-                          alt={powderMeta.ingredient}
-                          className="h-7 w-7 rounded-full object-cover border border-[#C9973F]/50 shadow-xs"
-                        />
-                        <span className="text-xs font-medium text-[#071A33]">
-                          Source: <strong className="text-[#966B24]">Fresh {powderMeta.ingredient}</strong>, {product.origin}
-                        </span>
-                      </div>
-                    )}
-
-                    <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                      {product.description}
-                    </p>
-
-                    <div className="mt-5 space-y-2 border-t border-[#E3E7EE] pt-4 text-xs">
-                      {[
-                        ["Origin", product.origin],
-                        ["Grade / Variety", product.grade],
-                        ["Export Packaging", product.packaging],
-                        [
-                          "Minimum Order (MOQ)",
-                          product.moq.toLowerCase().includes("sample")
-                            ? product.moq
-                            : `${product.moq} (Samples available on request)`,
-                        ],
-                        ["Shelf Life", product.shelfLife],
-                        ["Certifications", product.certifications.join(", ")],
-                      ].map(([k, v]) => (
-                        <div
-                          key={k}
-                          className="flex justify-between py-1 border-b border-[#E3E7EE]/60"
-                        >
-                          <span className="text-muted-foreground">{k}</span>
-                          <span className="font-semibold text-[#0B1B33] text-right">{v}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="mt-8 flex flex-col gap-3">
-                    <button
-                      onClick={() => {
-                        add({
-                          key,
-                          name: product.name,
-                          category: category.name,
-                          origin: product.origin,
-                          image: product.image,
-                        });
-                        setQuickOpen(false);
-                      }}
-                      className={cn(btn.gold, "w-full justify-center min-h-[44px]")}
-                    >
-                      {inBasket ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-                      {inBasket ? "In Enquiry Basket" : "Add to Enquiry"}
-                    </button>
-                    <Link
-                      to="/products/$category/$product"
-                      params={{ category: category.slug, product: product.slug }}
-                      className={cn(btn.outline, "w-full justify-center min-h-[44px]")}
-                      onClick={() => setQuickOpen(false)}
-                    >
-                      View Full Details & Specs <ArrowRight className="h-4 w-4" />
-                    </Link>
-                  </div>
-                </div>
+              {/* Product Name & Description */}
+              <div className="p-6 sm:p-7">
+                <span className="eyebrow !text-[#C9973F]">{category.name}</span>
+                <h2 className="mt-1 font-serif text-2xl sm:text-3xl font-semibold text-[#071A33]">
+                  {product.name}
+                </h2>
+                <p className="mt-3 text-sm text-[#4A5568] leading-relaxed">
+                  {product.shortDescription || product.description}
+                </p>
               </div>
             </motion.div>
           </div>

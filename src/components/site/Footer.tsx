@@ -15,7 +15,7 @@ export function Footer() {
           <Logo size="lg" />
           <p className="mt-6 max-w-sm text-sm leading-relaxed text-[#D9DDE3]">
             A {site.city}-based trading house exporting India's finest agricultural produce, spices,
-            and natural stone to 6 key markets via UAE.
+            and natural stone to 7 key destination markets worldwide.
           </p>
           <div className="mt-6 flex gap-3">
             {[
@@ -62,7 +62,6 @@ export function Footer() {
               [
                 ["/about", "About"],
                 ["/markets", "Markets"],
-                ["/certifications", "Certifications"],
                 ["/contact", "Contact"],
               ] as const
             ).map(([to, l]) => (

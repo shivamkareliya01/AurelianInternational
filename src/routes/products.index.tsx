@@ -137,14 +137,18 @@ function Products() {
   // Filtered & Sorted Product List
   const list = useMemo(() => {
     let filtered = allProducts.filter((p) => {
+      const originVal = p.specs?.origin || p.origin || "";
+      const gradeVal = p.specs?.gradeVariety || p.grade || "";
+      const descVal = p.shortDescription || p.description || "";
+      const packVal = p.specs?.exportPackaging || p.packaging || "";
       const matchSearch =
         !q ||
-        `${p.name} ${p.origin} ${p.category.name} ${p.grade} ${p.description}`
+        `${p.name} ${originVal} ${p.category.name} ${gradeVal} ${descVal}`
           .toLowerCase()
           .includes(q.toLowerCase());
       const matchCat = selectedCat === "all" || p.category.slug === selectedCat;
-      const matchOrigin = !origins.length || origins.includes(getRegionGroup(p.origin));
-      const matchPack = !packs.length || packs.includes(getPackGroup(p.packaging));
+      const matchOrigin = !origins.length || origins.includes(getRegionGroup(originVal));
+      const matchPack = !packs.length || packs.includes(getPackGroup(packVal));
       return matchSearch && matchCat && matchOrigin && matchPack;
     });
 
@@ -527,13 +531,13 @@ function Products() {
                 Connect directly with our export desk for FOB / CIF quotes, custom mesh sizing, private label packaging, and international compliance dossiers.
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-4">
-                <button
-                  type="button"
-                  onClick={openBasket}
+                <Link
+                  to="/contact"
+                  hash="enquiry-form"
                   className="rounded-full bg-gradient-to-r from-[#C9973F] via-[#F2C86E] to-[#C9973F] px-8 py-3.5 text-xs font-bold uppercase tracking-wider text-[#071A33] shadow-lg hover:shadow-xl hover:scale-105 transition-all cursor-pointer"
                 >
-                  Review Enquiry Basket
-                </button>
+                  Review Commercial Quotation
+                </Link>
                 <Link
                   to="/contact"
                   className="rounded-full border border-white/30 bg-white/10 px-8 py-3.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-white hover:text-[#071A33] transition-all cursor-pointer inline-flex items-center gap-2"

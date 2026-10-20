@@ -11,10 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
-import { Route as CertificationsRouteImport } from './routes/certifications'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as MarketsRouteImport } from './routes/markets'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ApiEnquiryRouteImport } from './routes/api.enquiry'
+import { Route as ApiExportExcelRouteImport } from './routes/api.export-excel'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsCategoryIndexRouteImport } from './routes/products.$category.index'
 import { Route as ProductsCategoryProductRouteImport } from './routes/products.$category.$product'
@@ -27,11 +28,6 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CertificationsRoute = CertificationsRouteImport.update({
-  id: '/certifications',
-  path: '/certifications',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -47,6 +43,16 @@ const MarketsRoute = MarketsRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiEnquiryRoute = ApiEnquiryRouteImport.update({
+  id: '/api/enquiry',
+  path: '/api/enquiry',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiExportExcelRoute = ApiExportExcelRouteImport.update({
+  id: '/api/export-excel',
+  path: '/api/export-excel',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProductsIndexRoute = ProductsIndexRouteImport.update({
@@ -68,10 +74,11 @@ const ProductsCategoryProductRoute = ProductsCategoryProductRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/certifications': typeof CertificationsRoute
   '/contact': typeof ContactRoute
   '/markets': typeof MarketsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/enquiry': typeof ApiEnquiryRoute
+  '/api/export-excel': typeof ApiExportExcelRoute
   '/products/': typeof ProductsIndexRoute
   '/products/$category/$product': typeof ProductsCategoryProductRoute
   '/products/$category/': typeof ProductsCategoryIndexRoute
@@ -79,10 +86,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/certifications': typeof CertificationsRoute
   '/contact': typeof ContactRoute
   '/markets': typeof MarketsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/enquiry': typeof ApiEnquiryRoute
+  '/api/export-excel': typeof ApiExportExcelRoute
   '/products': typeof ProductsIndexRoute
   '/products/$category/$product': typeof ProductsCategoryProductRoute
   '/products/$category': typeof ProductsCategoryIndexRoute
@@ -91,10 +99,11 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/certifications': typeof CertificationsRoute
   '/contact': typeof ContactRoute
   '/markets': typeof MarketsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/enquiry': typeof ApiEnquiryRoute
+  '/api/export-excel': typeof ApiExportExcelRoute
   '/products/': typeof ProductsIndexRoute
   '/products/$category/$product': typeof ProductsCategoryProductRoute
   '/products/$category/': typeof ProductsCategoryIndexRoute
@@ -104,10 +113,11 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
-    | '/certifications'
     | '/contact'
     | '/markets'
     | '/sitemap.xml'
+    | '/api/enquiry'
+    | '/api/export-excel'
     | '/products/'
     | '/products/$category/$product'
     | '/products/$category/'
@@ -115,10 +125,11 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
-    | '/certifications'
     | '/contact'
     | '/markets'
     | '/sitemap.xml'
+    | '/api/enquiry'
+    | '/api/export-excel'
     | '/products'
     | '/products/$category/$product'
     | '/products/$category'
@@ -126,10 +137,11 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
-    | '/certifications'
     | '/contact'
     | '/markets'
     | '/sitemap.xml'
+    | '/api/enquiry'
+    | '/api/export-excel'
     | '/products/'
     | '/products/$category/$product'
     | '/products/$category/'
@@ -138,10 +150,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  CertificationsRoute: typeof CertificationsRoute
   ContactRoute: typeof ContactRoute
   MarketsRoute: typeof MarketsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ApiEnquiryRoute: typeof ApiEnquiryRoute
+  ApiExportExcelRoute: typeof ApiExportExcelRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
   ProductsCategoryProductRoute: typeof ProductsCategoryProductRoute
   ProductsCategoryIndexRoute: typeof ProductsCategoryIndexRoute
@@ -163,13 +176,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/certifications': {
-      id: '/certifications'
-      path: '/certifications'
-      fullPath: '/certifications'
-      preLoaderRoute: typeof CertificationsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -189,6 +195,20 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/enquiry': {
+      id: '/api/enquiry'
+      path: '/api/enquiry'
+      fullPath: '/api/enquiry'
+      preLoaderRoute: typeof ApiEnquiryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/export-excel': {
+      id: '/api/export-excel'
+      path: '/api/export-excel'
+      fullPath: '/api/export-excel'
+      preLoaderRoute: typeof ApiExportExcelRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/products/': {
@@ -218,10 +238,11 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  CertificationsRoute: CertificationsRoute,
   ContactRoute: ContactRoute,
   MarketsRoute: MarketsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ApiEnquiryRoute: ApiEnquiryRoute,
+  ApiExportExcelRoute: ApiExportExcelRoute,
   ProductsIndexRoute: ProductsIndexRoute,
   ProductsCategoryProductRoute: ProductsCategoryProductRoute,
   ProductsCategoryIndexRoute: ProductsCategoryIndexRoute,

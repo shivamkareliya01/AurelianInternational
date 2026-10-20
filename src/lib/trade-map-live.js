@@ -102,7 +102,7 @@
       r.rev = rev;
     });
 
-    // Ensure shortest (India -> UAE) is first so it draws first
+    // Shortest leg (India -> UAE) first
     if (shortest) {
       routes = [shortest].concat(routes.filter(function (r) { return r !== shortest; }));
     }
@@ -168,7 +168,6 @@
       routes.forEach(function (r) { r.p.classList.remove('tml-hot'); });
       if (!on) return;
 
-      // direct market attribute match
       if (elMarket) {
         var matched = routes.find(function (r) { return r.p.getAttribute('data-market') === elMarket; });
         if (matched) {

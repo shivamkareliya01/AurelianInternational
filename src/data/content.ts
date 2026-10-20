@@ -75,7 +75,7 @@ export const testimonials = [
 export const faqs = [
   {
     q: "Which countries do you export to?",
-    a: "We ship regularly from India via UAE to 6 key destination markets: the United States, Europe (Rotterdam), Germany, South Africa, Kenya, and Australia.",
+    a: "We ship regularly from India directly to our 7 key destination markets: the United States, Europe (Rotterdam), Germany, the United Arab Emirates (UAE), South Africa, Kenya, and Australia.",
   },
   {
     q: "What is your minimum order quantity (MOQ)?",
@@ -160,12 +160,12 @@ export const whyUs = [
     text: "Your brand on every bag, pouch and carton — designed in-house.",
   },
   {
-    title: "Batch-wise Compliance",
-    text: "Lab-tested lots with full traceability back to the farm or quarry.",
+    title: "Certified Quality & Compliance",
+    text: "SGS & NABL lab-tested certificates, phytosanitary clearance, and 100% farm-to-port traceability.",
   },
   {
-    title: "After-Sales Support",
-    text: "A dedicated account manager long after your cargo lands.",
+    title: "End-to-End Trade Support",
+    text: "Dedicated export manager handling real-time container tracking, port clearance, and post-discharge coordination.",
   },
 ];
 

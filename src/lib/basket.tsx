@@ -4,8 +4,9 @@ export type BasketItem = {
   key: string;
   name: string;
   category: string;
-  origin?: string;
-  image?: string;
+  origin?: string | undefined;
+  image?: string | undefined;
+  moq?: string | undefined;
 };
 
 type Ctx = {
@@ -42,12 +43,11 @@ export function BasketProvider({ children }: { children: ReactNode }) {
   const value: Ctx = {
     items,
     isOpen,
-    openBasket: () => setIsOpen(true),
+    openBasket: () => setIsOpen(false),
     closeBasket: () => setIsOpen(false),
-    toggleBasket: () => setIsOpen((o) => !o),
+    toggleBasket: () => setIsOpen(false),
     add: (i) => {
       setItems((s) => (s.some((x) => x.key === i.key) ? s : [...s, i]));
-      setIsOpen(true);
     },
     remove: (key) => setItems((s) => s.filter((x) => x.key !== key)),
     clear: () => setItems([]),

@@ -17,6 +17,7 @@ import { ProductPicker, type SelectedProductItem } from "./ProductPicker";
 import { allProducts } from "@/data/products";
 import { site } from "@/data/site";
 import { useBasket } from "@/lib/basket";
+import { submitEnquiry } from "@/lib/enquiry";
 import { cn } from "@/lib/utils";
 
 // Top international trading destinations with emojis
@@ -68,19 +69,46 @@ type Values = z.infer<typeof schema>;
 
 export function EnquiryForm() {
   const { items, clear, add, remove } = useBasket();
-  const [errors, setErrors] = useState<Partial<Record<keyof Values | "products", string>>>({});
+  const [errors, setErrors] = useState<Record<string, string | undefined>>({});
   const [state, setState] = useState<"idle" | "loading" | "done">("idle");
+  const [referenceNumber, setReferenceNumber] = useState<string>("");
+  const [submittedEmail, setSubmittedEmail] = useState<string>("");
+  const [formLoadedAt] = useState<number>(() => Date.now());
 
   // Selected products for the interactive ProductPicker
   const [selectedProducts, setSelectedProducts] = useState<SelectedProductItem[]>([]);
 
-  // Sync basket items into selected products on initial load
+  // Sync URL ?product= param into basket if arriving directly from external product link
   useEffect(() => {
-    if (items.length > 0 && selectedProducts.length === 0) {
-      const initial: SelectedProductItem[] = items.map((i) => {
-        const fullProd = allProducts.find((p) => p.name === i.name);
+    if (typeof window !== "undefined") {
+      const sp = new URLSearchParams(window.location.search);
+      const prodParam = sp.get("product") || sp.get("item");
+      if (prodParam) {
+        const match = allProducts.find(
+          (p) =>
+            p.name.toLowerCase() === prodParam.toLowerCase() ||
+            p.slug.toLowerCase() === prodParam.toLowerCase()
+        );
+        if (match) {
+          add({
+            key: match.slug,
+            name: match.name,
+            category: match.category,
+            origin: match.specs?.origin || match.origin || "India",
+            image: match.image,
+          });
+        }
+      }
+    }
+  }, []);
+
+  // Sync basket items into selected products whenever basket items update
+  useEffect(() => {
+    if (items.length > 0) {
+      const synced: SelectedProductItem[] = items.map((i) => {
+        const fullProd = allProducts.find((p) => p.name === i.name || p.slug === i.key);
         return {
-          slug: fullProd?.slug || i.name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+          slug: fullProd?.slug || i.key || i.name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
           name: i.name,
           category: i.category,
           image: i.image,
@@ -89,7 +117,7 @@ export function EnquiryForm() {
           moq: fullProd?.moq,
         };
       });
-      setSelectedProducts(initial);
+      setSelectedProducts(synced);
     }
   }, [items]);
 
@@ -101,14 +129,12 @@ export function EnquiryForm() {
     }
 
     // Keep basket in sync
-    // Remove items not in newSelected
     items.forEach((item) => {
       if (!newSelected.some((p) => p.name === item.name)) {
         remove(item.key);
       }
     });
 
-    // Add items that are in newSelected but not in basket
     newSelected.forEach((item) => {
       if (!items.some((b) => b.name === item.name)) {
         add({
@@ -156,18 +182,21 @@ export function EnquiryForm() {
   // Form Submission
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+    if (state === "loading") return;
+
+    const formEl = e.currentTarget;
+    const formData = new FormData(formEl);
     const data = Object.fromEntries(formData) as Record<string, string>;
 
-    data.country = selectedCountry ? selectedCountry.name : (data.country || "");
-    data.unit = unit;
+    data["country"] = selectedCountry ? selectedCountry.name : (data["country"] || "");
+    data["unit"] = unit;
 
     const r = schema.safeParse(data);
-    const newErrors: typeof errors = {};
+    const newErrors: Record<string, string | undefined> = {};
 
     if (!r.success) {
       r.error.issues.forEach((i) => {
-        newErrors[i.path[0] as keyof Values] = i.message;
+        newErrors[i.path[0] as string] = i.message;
       });
     }
 
@@ -184,10 +213,49 @@ export function EnquiryForm() {
     setErrors({});
     setState("loading");
 
-    // Simulate sending enquiry with selected products payload
-    await new Promise((res) => setTimeout(res, 1200));
-    setState("done");
-    clear();
+    try {
+      const fullName = `${data["firstName"] || ""} ${data["lastName"] || ""}`.trim() || data["name"] || "";
+      const email = (data["email"] || "").trim();
+      const company = (data["company"] || "").trim();
+      const phone = (data["phone"] || "").trim();
+      const country = selectedCountry ? selectedCountry.name : (data["country"] || "").trim();
+      const product = selectedProducts.map((p) => p.name).join(", ");
+      const quantity = data["quantity"]?.trim() ? `${data["quantity"].trim()} ${unit}` : "";
+      const message = (data["message"] || "").trim();
+      const _hp = data["_hp"] || data["_hp_company_fax"] || "";
+
+      const res = await submitEnquiry({
+        name: fullName,
+        company,
+        email,
+        phone,
+        country,
+        product,
+        quantity,
+        message,
+        _hp,
+      });
+
+      if (!res.ok) {
+        setState("idle");
+        setErrors({
+          form: res.error || "Something went wrong. Please try again or email us at aurelianinternational@gmail.com",
+        });
+        return;
+      }
+
+      // Success
+      setSubmittedEmail(email);
+      setState("done");
+      clear();
+      formEl.reset();
+    } catch (networkErr) {
+      console.error("[Enquiry Submit Error]:", networkErr);
+      setState("idle");
+      setErrors({
+        form: "Something went wrong. Please try again or email us at aurelianinternational@gmail.com",
+      });
+    }
   }
 
   // Pre-fill message on custom request from ProductPicker empty state
@@ -199,7 +267,10 @@ export function EnquiryForm() {
   };
 
   return (
-    <div className="relative overflow-hidden rounded-[28px] border border-[#C9973F]/40 bg-[#FAF8F3]/95 p-6 md:p-10 shadow-[0_20px_50px_rgba(7,26,51,0.12)] backdrop-blur-md">
+    <div
+      id="enquiry-form"
+      className="relative overflow-hidden rounded-[28px] border border-[#C9973F]/40 bg-[#FAF8F3] p-6 md:p-10 shadow-[0_20px_50px_rgba(7,26,51,0.12)] scroll-mt-24"
+    >
       <AnimatePresence mode="wait">
         {state === "done" ? (
           <motion.div
@@ -217,11 +288,19 @@ export function EnquiryForm() {
               <CheckCircle2 className="h-12 w-12 text-[#C9973F]" strokeWidth={1.8} />
             </motion.div>
             <h3 className="mt-6 font-display text-4xl text-[#071A33]">Enquiry Transmitted</h3>
-            <p className="mt-3 max-w-md text-sm text-muted-foreground leading-relaxed">
-              Our Morbi headquarters international trade desk will review your specifications and
-              respond within one business day with FOB/CIF pricing, lab certificates, and vessel
-              schedules.
+
+            <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-[#C9973F]/40 bg-[#C9973F]/10 px-4 py-1.5 text-xs font-semibold text-[#071A33]">
+              <span>Reference Number:</span>
+              <span className="font-mono text-sm font-bold text-[#C9973F]">{referenceNumber}</span>
+            </div>
+
+            <p className="mt-4 max-w-md text-base text-[#071A33] font-semibold leading-relaxed">
+              Thank you! Our team will contact you within 24 hours.
             </p>
+            <p className="mt-1.5 max-w-md text-xs text-muted-foreground leading-relaxed">
+              Your commercial export enquiry has been received. Our international export desk will review your specifications and respond with FOB/CIF pricing, lab certificates, and vessel schedules.
+            </p>
+
             <div className="mt-6 rounded-2xl bg-white/80 p-4 border border-[#C9973F]/30 max-w-sm w-full text-left">
               <span className="eyebrow !text-[0.65rem] !text-[#C9973F]">Products Quoted</span>
               <ul className="mt-1.5 space-y-1 text-xs text-[#071A33] font-medium">
@@ -237,6 +316,8 @@ export function EnquiryForm() {
               type="button"
               onClick={() => {
                 setSelectedProducts([]);
+                setReferenceNumber("");
+                setSubmittedEmail("");
                 setState("idle");
               }}
               className="mt-8 rounded-xl border border-[#071A33] px-6 py-2.5 text-xs font-semibold text-[#071A33] hover:bg-[#071A33] hover:text-white transition-all cursor-pointer"
@@ -253,6 +334,25 @@ export function EnquiryForm() {
             animate={{ opacity: 1 }}
             className="space-y-6"
           >
+            {/* Anti-bot honeypot field - hidden from humans */}
+            <div className="sr-only hidden" aria-hidden="true">
+              <label htmlFor="_hp_company_fax">Leave blank</label>
+              <input
+                id="_hp_company_fax"
+                type="text"
+                name="_hp_company_fax"
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
+
+            {/* General form error notice if returned from server */}
+            {errors.form && (
+              <div className="rounded-xl border border-destructive/40 bg-destructive/10 p-3.5 text-xs text-destructive font-medium">
+                {errors.form}
+              </div>
+            )}
+
             <div>
               <span className="eyebrow !text-[#C9973F]">Export Inquiry Form</span>
               <h3 className="font-display text-2xl text-[#071A33]">Request Commercial Quotation</h3>

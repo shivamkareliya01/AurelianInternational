@@ -16,7 +16,6 @@ import { BasketProvider } from "@/lib/basket";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { FloatingActions, PageLoader } from "@/components/site/FloatingActions";
-import { BasketDrawer } from "@/components/site/BasketDrawer";
 import { Toaster } from "@/components/ui/sonner";
 import { site } from "@/data/site";
 import { company } from "@/config/company";
@@ -192,7 +191,6 @@ function RootComponent() {
         </main>
         <Footer />
         <FloatingActions />
-        <BasketDrawer />
         <Toaster />
       </BasketProvider>
     </QueryClientProvider>

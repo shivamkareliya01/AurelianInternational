@@ -30,6 +30,7 @@ import { testimonials, whyUs } from "@/data/content";
 import { site } from "@/data/site";
 import { Counter, InfinityWatermark, Reveal, SectionHead, btn } from "@/components/site/primitives";
 import { WorldMap } from "@/components/site/WorldMap";
+import { TradeRouteMap } from "@/components/site/TradeRouteMap";
 import { CertGrid, FaqList } from "@/components/site/Blocks";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { cn } from "@/lib/utils";
@@ -380,7 +381,7 @@ function AboutPreview() {
             {[
               ["Established", site.established],
               ["Headquarters", `${site.city}, India`],
-              ["Markets", "6 key markets via UAE"],
+              ["Markets", "7 Global Markets"],
               ["Active SKUs", `${allProducts.length} items`],
             ].map(([k, v], i) => (
               <div
@@ -666,17 +667,44 @@ function Process() {
 
 function Reach() {
   return (
-    <section className="section-y overflow-hidden bg-[#040E1F] text-[#F4F1EA]">
+    <section id="global-reach-transport" className="section-y overflow-hidden bg-[#040E1F] text-[#F4F1EA]">
       <div className="container-x">
         <SectionHead
           dark
           eyebrow="Global Reach"
-          title="Connecting Through UAE. Every Market."
-          text="All shipments move from Gujarat, India to UAE at Jebel Ali, connecting onward to 6 key destination markets across 5 global regions."
+          title="Direct Maritime Corridors to All Key Markets."
+          text="Direct export shipments move from India's premier deepwater ports to our key destination markets across the USA, Europe, Germany, UAE, South Africa, Kenya, and Australia."
           align="center"
         />
-        <Reveal className="mt-14">
-          <WorldMap compact />
+
+        {/* Live Operational Status Banner */}
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-gold/30 bg-[#071A33]/80 p-4 px-6 backdrop-blur-md shadow-lg">
+          <div className="flex items-center gap-3">
+            <span className="relative flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+            </span>
+            <div>
+              <p className="text-xs uppercase tracking-widest font-semibold text-gold-soft">
+                Live Active Maritime Corridors
+              </p>
+              <p className="text-[11px] text-[#D9DDE3]/80">
+                Continuous scheduled liner departures from India directly to all 7 international destination markets
+              </p>
+            </div>
+          </div>
+          <Link
+            to="/markets"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-gold hover:text-gold-light transition-colors"
+          >
+            <span>Explore Full Port Specifications</span>
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+
+        {/* Live Animated Trade Map with Continuous Traveling Dots */}
+        <Reveal className="mt-8">
+          <TradeRouteMap />
         </Reveal>
       </div>
     </section>
@@ -685,7 +713,7 @@ function Reach() {
 
 function StatsBand() {
   const statsList = [
-    { value: 6, suffix: "", label: "Destination Markets", sub: "Via UAE" },
+    { value: 7, suffix: "", label: "Destination Markets", sub: "Global export corridors" },
     { value: 5, suffix: "", label: "Global Regions", sub: "Connected trade zones" },
     { value: allProducts.length, suffix: "", label: "Export Products", sub: "Fully certified SKUs" },
     { value: 500, suffix: "+", label: "Shipments Completed", sub: "98% on-time record" },
@@ -924,9 +952,14 @@ function Home() {
               title="Statutory licenses you can verify."
               text="Our operations are audited and registered with premier Indian trade and food safety authorities."
             />
-            <Link to="/certifications" className={btn.outline}>
-              View All Licences <ArrowRight className="h-4 w-4" />
-            </Link>
+            <a
+              href={`https://wa.me/${site.whatsapp}?text=Hello%20Aurelian,%20please%20send%20your%20company%20licences%20and%20compliance%20certificates.`}
+              target="_blank"
+              rel="noreferrer"
+              className={btn.outline}
+            >
+              Request Licences <ArrowRight className="h-4 w-4" />
+            </a>
           </div>
           <CertGrid />
         </div>

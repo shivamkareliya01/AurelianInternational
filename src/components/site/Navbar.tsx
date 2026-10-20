@@ -21,7 +21,6 @@ import { InfinityWatermark, btn } from "./primitives";
 const links = [
   { to: "/about", label: "About" },
   { to: "/markets", label: "Markets" },
-  { to: "/certifications", label: "Certifications" },
 ] as const;
 
 // Rich category metadata for descriptors and spec chips
@@ -79,7 +78,7 @@ const categoryMeta: Record<
   },
 };
 
-const menuContainerVariants = {
+const menuContainerVariants: any = {
   hidden: { opacity: 0, y: -12 },
   show: {
     opacity: 1,
@@ -97,7 +96,7 @@ const menuContainerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: any = {
   hidden: { opacity: 0, y: 8 },
   show: {
     opacity: 1,
@@ -479,10 +478,11 @@ export function Navbar() {
 
         {/* Right CTA Actions */}
         <div className="flex items-center gap-3">
-          {/* Enquiry Basket Trigger */}
-          <button
-            onClick={openBasket}
-            aria-label={`Open enquiry basket (${items.length} items)`}
+          {/* Quotation Basket Direct Link */}
+          <Link
+            to="/contact"
+            hash="enquiry-form"
+            aria-label={`View commercial quotation form (${items.length} items)`}
             className="relative grid h-10 w-10 place-items-center rounded-full border border-white/25 text-white hover:border-[#C9973F] hover:bg-white/10 transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
           >
             <ShoppingBag className="h-4 w-4" />
@@ -491,7 +491,7 @@ export function Navbar() {
                 {items.length}
               </span>
             )}
-          </button>
+          </Link>
 
           <Link
             to="/contact"
@@ -669,15 +669,14 @@ export function Navbar() {
 
             {/* Mobile Footer CTAs */}
             <div className="mt-auto pt-6 flex flex-col gap-3 shrink-0">
-              <button
-                onClick={() => {
-                  setOpen(false);
-                  openBasket();
-                }}
+              <Link
+                to="/contact"
+                hash="enquiry-form"
+                onClick={() => setOpen(false)}
                 className={cn(btn.outlineLight, "w-full justify-center !py-3 min-h-[48px]")}
               >
-                <ShoppingBag className="h-4 w-4" /> View Enquiry Basket ({items.length})
-              </button>
+                <ShoppingBag className="h-4 w-4" /> View Selected Items ({items.length})
+              </Link>
               <Link
                 to="/contact"
                 onClick={() => setOpen(false)}
