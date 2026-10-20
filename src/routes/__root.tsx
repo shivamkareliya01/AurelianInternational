@@ -88,7 +88,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { name: "theme-color", content: "#071A33" },
       { title: `${site.name} — Premium Exports from India` },
       {
@@ -186,7 +186,7 @@ function RootComponent() {
       <BasketProvider>
         <PageLoader />
         <Navbar />
-        <main>
+        <main className="min-w-0 w-full overflow-x-clip pb-16 md:pb-0">
           <Outlet />
         </main>
         <Footer />

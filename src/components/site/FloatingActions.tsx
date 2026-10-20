@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUp, MessageCircle } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -8,21 +8,48 @@ import { cn } from "@/lib/utils";
 
 export function FloatingActions() {
   const [showTop, setShowTop] = useState(false);
+  const [formInView, setFormInView] = useState(false);
+  const location = useLocation();
+
+  // Hide sticky quote button on pages that are dedicated to quoting
+  const isDedicatedQuotePage =
+    location.pathname.startsWith("/contact") ||
+    location.pathname.startsWith("/enquiry");
 
   useEffect(() => {
     const handleScroll = () => {
       // Hide the back-to-top button until user scrolls 400px
       setShowTop(window.scrollY > 400);
+
+      // Auto-detect if an enquiry form is currently in the viewport
+      const formEl = document.getElementById("enquiry-form") || document.getElementById("quote");
+      if (formEl) {
+        const rect = formEl.getBoundingClientRect();
+        const inView = rect.top < window.innerHeight && rect.bottom > 60;
+        setFormInView(inView);
+      } else {
+        setFormInView(false);
+      }
     };
+
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [location.pathname]);
+
+  const shouldShowStickyQuote = !isDedicatedQuotePage && !formInView;
 
   return (
     <>
-      {/* Floating Buttons: stacked neatly with exactly 12px gap (gap-3) in bottom right */}
-      <div className="fixed bottom-20 right-5 z-40 flex flex-col items-center gap-3 md:bottom-8 md:right-8">
+      {/* Floating Buttons: neatly aligned with compact mobile footprint so they never block inputs or overlap */}
+      <div
+        className={cn(
+          "fixed right-3.5 sm:right-6 md:right-8 z-40 flex flex-col items-center gap-3 transition-all duration-300",
+          shouldShowStickyQuote
+            ? "bottom-[calc(5.25rem+env(safe-area-inset-bottom,0px))] md:bottom-8"
+            : "bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))] sm:bottom-6 md:bottom-8"
+        )}
+      >
         <AnimatePresence>
           {showTop && (
             <motion.button
@@ -32,31 +59,41 @@ export function FloatingActions() {
               transition={{ duration: 0.2 }}
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               aria-label="Back to top"
-              className="grid h-12 w-12 place-items-center rounded-full border border-gold/40 bg-[#071A33] text-[#F2C86E] shadow-xl hover:bg-[#0E2A4F] hover:text-gold hover:border-gold transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
+              className="grid h-11 w-11 place-items-center rounded-full border border-gold/40 bg-[#071A33]/92 backdrop-blur-md text-[#F2C86E] shadow-xl hover:bg-[#0E2A4F] hover:text-gold hover:border-gold transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
             >
               <ArrowUp className="h-5 w-5" />
             </motion.button>
           )}
         </AnimatePresence>
 
-        {/* WhatsApp floating button: keep the WhatsApp green for recognition only, but with a navy ring */}
+        {/* WhatsApp floating button: streamlined on mobile screens to preserve viewport ergonomics */}
         <a
           href={`https://wa.me/${site.whatsapp}?text=Hello%20Aurelian%20International,%20I%20would%20like%20to%20enquire%20about%20importing%20products.`}
           target="_blank"
           rel="noreferrer"
           aria-label="Chat on WhatsApp"
-          className="grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-2xl ring-4 ring-[#071A33] transition-transform hover:scale-105 hover:ring-[#C9973F] focus:outline-none focus:ring-[#C9973F]"
+          className="grid h-12 w-12 sm:h-13 sm:w-13 md:h-14 md:w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-2xl ring-3 sm:ring-4 ring-[#071A33] transition-transform hover:scale-105 hover:ring-[#C9973F] focus:outline-none focus:ring-[#C9973F]"
         >
-          <MessageCircle className="h-7 w-7" />
+          <MessageCircle className="h-6 w-6 sm:h-7 sm:w-7" />
         </a>
       </div>
 
-      {/* Mobile Sticky Quote Bar */}
-      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-gold/30 bg-[#071A33]/95 backdrop-blur-md p-3 md:hidden">
-        <Link to="/contact" className={cn(btn.gold, "w-full justify-center shadow-lg")}>
-          Request a Quote
-        </Link>
-      </div>
+      {/* Mobile Sticky Quote Bar: Only shown while browsing general pages, hides automatically on quotation form */}
+      <AnimatePresence>
+        {shouldShowStickyQuote && (
+          <motion.div
+            initial={{ y: 80, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 80, opacity: 0 }}
+            transition={{ duration: 0.22, ease: "easeOut" }}
+            className="fixed left-0 right-0 bottom-0 z-30 w-full max-w-full border-t border-gold/30 bg-[#071A33]/95 backdrop-blur-md px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:hidden shadow-[0_-8px_24px_rgba(0,0,0,0.45)]"
+          >
+            <Link to="/contact" className={cn(btn.gold, "w-full max-w-full min-h-[44px] justify-center shadow-lg py-2.5 text-sm")}>
+              Request a Quote
+            </Link>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

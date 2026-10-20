@@ -477,17 +477,18 @@ export function Navbar() {
         </div>
 
         {/* Right CTA Actions */}
-        <div className="flex items-center gap-3">
+        {/* Right CTA Actions */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           {/* Quotation Basket Direct Link */}
           <Link
             to="/contact"
             hash="enquiry-form"
             aria-label={`View commercial quotation form (${items.length} items)`}
-            className="relative grid h-10 w-10 place-items-center rounded-full border border-white/25 text-white hover:border-[#C9973F] hover:bg-white/10 transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
+            className="relative grid h-11 w-11 place-items-center rounded-full border border-white/25 text-white hover:border-[#C9973F] hover:bg-white/10 transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold"
           >
             <ShoppingBag className="h-4 w-4" />
             {items.length > 0 && (
-              <span className="absolute -right-1 -top-1 grid h-5 w-5 place-items-center rounded-full bg-gradient-to-r from-[#9A6B1F] to-[#F2C86E] text-[0.65rem] font-bold text-[#071A33] shadow-md">
+              <span className="absolute -right-0.5 -top-0.5 grid h-5 w-5 place-items-center rounded-full bg-gradient-to-r from-[#9A6B1F] to-[#F2C86E] text-[0.65rem] font-bold text-[#071A33] shadow-md">
                 {items.length}
               </span>
             )}
@@ -504,7 +505,7 @@ export function Navbar() {
           <button
             onClick={() => setOpen(true)}
             aria-label="Open menu"
-            className="grid h-10 w-10 place-items-center rounded-full text-white hover:text-[#F2C86E] lg:hidden transition-colors focus:outline-none focus:ring-2 focus:ring-gold"
+            className="grid h-11 w-11 place-items-center rounded-full text-white hover:text-[#F2C86E] lg:hidden transition-colors focus:outline-none focus:ring-2 focus:ring-gold cursor-pointer"
           >
             <Menu className="h-5 w-5" />
           </button>
@@ -538,28 +539,42 @@ export function Navbar() {
             </div>
 
             {/* Main Links */}
-            <div className="mt-6 flex flex-col gap-4">
+            <div className="mt-6 flex flex-col gap-3">
               {[
                 { to: "/", label: "Home" },
                 { to: "/products", label: "Products" },
-                ...links,
+                { to: "/about", label: "About" },
+                { to: "/markets", label: "Markets" },
+                { to: "/about", hash: "certifications", label: "Certifications" },
                 { to: "/contact", label: "Contact" },
               ].map((l, i) => (
                 <motion.div
-                  key={l.to}
+                  key={l.label}
                   initial={{ opacity: 0, x: 25 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.06 + i * 0.03 }}
+                  transition={{ delay: 0.05 + i * 0.03 }}
                 >
                   <Link
                     to={l.to}
+                    hash={l.hash}
                     onClick={() => setOpen(false)}
-                    className="font-display text-2xl text-[#F4F1EA] hover:text-[#F2C86E] transition-colors block py-1"
+                    className="font-display text-2xl text-[#F4F1EA] hover:text-[#F2C86E] transition-colors block py-1.5"
                   >
                     {l.label}
                   </Link>
                 </motion.div>
               ))}
+            </div>
+
+            {/* Prominent Mobile Request a Quote Button */}
+            <div className="mt-4 pt-4 border-t border-white/10">
+              <Link
+                to="/contact"
+                onClick={() => setOpen(false)}
+                className={cn(btn.gold, "w-full justify-center shadow-lg py-3 text-sm font-semibold")}
+              >
+                Request a Quote
+              </Link>
             </div>
 
             {/* Mobile Categories Accordion with Rich Thumbnails & 48px Touch Targets */}

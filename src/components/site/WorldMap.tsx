@@ -212,7 +212,7 @@ export function WorldMap({ compact = false, className }: WorldMapProps) {
 
   return (
     <div className={cn("relative w-full", className)}>
-      {/* Interactive Tooltip Card Floating in Bottom-Left Corner */}
+      {/* Interactive Tooltip Card Floating in Bottom-Left Corner (Desktop) */}
       <AnimatePresence>
         {activeHub && (
           <motion.div
@@ -220,7 +220,7 @@ export function WorldMap({ compact = false, className }: WorldMapProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.96 }}
             transition={{ duration: 0.2 }}
-            className="absolute bottom-6 left-4 md:bottom-8 md:left-6 z-30 w-72 md:w-84 rounded-2xl border border-gold/40 bg-[#071A33]/95 p-4 shadow-2xl backdrop-blur-xl text-left pointer-events-auto"
+            className="hidden md:block absolute bottom-6 left-4 md:bottom-8 md:left-6 z-30 w-72 md:w-84 rounded-2xl border border-gold/40 bg-[#071A33]/95 p-4 shadow-2xl backdrop-blur-xl text-left pointer-events-auto"
           >
             <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
               <div className="flex items-center gap-2.5">
@@ -239,7 +239,7 @@ export function WorldMap({ compact = false, className }: WorldMapProps) {
               <button
                 onClick={() => setActiveHub(null)}
                 aria-label="Close details"
-                className="rounded-full p-1 text-[#D9DDE3] hover:bg-white/10 hover:text-white transition-colors"
+                className="rounded-full p-1 text-[#D9DDE3] hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -272,9 +272,9 @@ export function WorldMap({ compact = false, className }: WorldMapProps) {
         )}
       </AnimatePresence>
 
-      {/* Horizontally scrollable container on small mobile screens */}
-      <div className="w-full overflow-x-auto overflow-y-hidden scrollbar-none rounded-2xl">
-        <div className="min-w-[680px] md:min-w-0 w-full relative">
+      {/* Fluid Map Container that scales cleanly without horizontal overflow */}
+      <div className="w-full relative overflow-hidden rounded-2xl border border-gold/20 shadow-2xl bg-[#071A33]">
+        <div className="w-full relative">
           <svg
             viewBox="0 0 1000 520"
             className="h-auto w-full select-none block"
@@ -602,10 +602,64 @@ export function WorldMap({ compact = false, className }: WorldMapProps) {
         </div>
       </div>
 
-      {/* Mobile Swipe Guidance Note */}
-      <p className="mt-2 text-center text-[11px] text-[#D9DDE3]/60 md:hidden">
-        Scroll or swipe horizontally to view all continents & shipping lanes
-      </p>
+      {/* Mobile-only info card rendered cleanly below the map */}
+      <AnimatePresence>
+        {activeHub && (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8 }}
+            className="md:hidden mt-4 w-full rounded-2xl border border-gold/40 bg-[#071A33]/95 p-4 shadow-xl text-left"
+          >
+            <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-xs font-bold text-gold tracking-wider bg-gold/15 px-2 py-0.5 rounded border border-gold/30">
+                  {activeHub.iso2}
+                </span>
+                <div>
+                  <h4 className="font-display text-sm font-semibold text-white leading-tight">
+                    {activeHub.name}
+                  </h4>
+                  <p className="text-[10px] uppercase tracking-wider text-gold-light font-medium">
+                    {activeHub.isOrigin ? "Origin Gateway" : "Destination Corridor"}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setActiveHub(null)}
+                aria-label="Close details"
+                className="rounded-full p-1 text-[#D9DDE3] hover:bg-white/10 hover:text-white"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="mt-2.5 space-y-1.5 text-xs text-[#D9DDE3]">
+              <div className="flex items-start gap-2">
+                <Ship className="h-3.5 w-3.5 text-gold shrink-0 mt-0.5" />
+                <span>
+                  <strong className="text-white">Ports: </strong>
+                  {activeHub.ports}
+                </span>
+              </div>
+              <div className="flex items-start gap-2">
+                <PackageCheck className="h-3.5 w-3.5 text-gold shrink-0 mt-0.5" />
+                <span>
+                  <strong className="text-white">Top Cargo: </strong>
+                  {activeHub.products}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="h-3.5 w-3.5 text-gold shrink-0" />
+                <span>
+                  <strong className="text-white">Transit: </strong>
+                  {activeHub.transit}
+                </span>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

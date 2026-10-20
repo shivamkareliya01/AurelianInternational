@@ -527,6 +527,21 @@ export default function ProductPickerModal({
     return set;
   }, [selectedProducts]);
 
+  // Body scroll lock on mount to ensure page behind never scrolls or jumps
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    const originalPaddingRight = document.body.style.paddingRight;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.overflow = "hidden";
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.style.paddingRight = originalPaddingRight;
+    };
+  }, []);
+
   return (
     <div
       role="dialog"
@@ -544,7 +559,8 @@ export default function ProductPickerModal({
         onClick={(e) => e.stopPropagation()}
         className="relative flex flex-col overflow-hidden bg-[#FAF8F3] border border-[#C9973F]/40 shadow-[0_20px_50px_rgba(7,26,51,0.2)] select-none zoom-in-95 duration-150"
         style={{
-          width: isMobile ? "100vw" : "min(960px, calc(100vw - 32px))",
+          width: isMobile ? "100%" : "min(960px, calc(100vw - 32px))",
+          maxWidth: "100%",
           height: isMobile ? "100dvh" : "min(720px, calc(100dvh - 32px))",
           maxHeight: isMobile ? "100dvh" : "min(720px, calc(100dvh - 32px))",
           borderRadius: isMobile ? "0px" : "24px",
@@ -676,7 +692,7 @@ export default function ProductPickerModal({
               <button
                 type="button"
                 onClick={onClear}
-                className="rounded-lg px-2.5 py-1.5 text-xs text-muted-foreground hover:text-destructive transition-colors cursor-pointer"
+                className="inline-flex min-h-[44px] items-center rounded-lg px-3 py-2 text-xs text-muted-foreground hover:text-destructive transition-colors cursor-pointer"
               >
                 Clear all
               </button>
@@ -685,9 +701,9 @@ export default function ProductPickerModal({
             <button
               type="button"
               onClick={onClose}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#D4A54E] via-[#C9973F] to-[#9B6F28] px-5 py-2 text-xs font-semibold text-white shadow-sm hover:shadow-md transition-shadow cursor-pointer active:scale-95"
+              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#D4A54E] via-[#C9973F] to-[#9B6F28] px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:shadow-md transition-shadow cursor-pointer active:scale-95"
             >
-              Done <ArrowRight className="h-3.5 w-3.5" />
+              Done <ArrowRight className="h-4 w-4" />
             </button>
           </div>
         </div>

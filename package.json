@@ -13,6 +13,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:enquiry": "node scripts/test-enquiry-workflow.mjs",
+    "sync:excel": "node scripts/sync-excel.mjs",
     "sync:pending": "node scripts/retry-pending-enquiries.mjs"
   },
   "overrides": {

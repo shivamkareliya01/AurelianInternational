@@ -9,14 +9,14 @@
  * 4. Click Deploy > New deployment:
  *    - Click the gear icon (⚙️) next to "Select type" and choose "Web app"
  *    - Description: Aurelian Website Live Enquiries
- *    - Execute as: Me (aurelianinternational@gmail.com)
+ *    - Execute as: Me (shivamkareliya01@gmail.com)
  *    - Who has access: Anyone
  * 5. Click Deploy, Authorize access, and COPY the Web app URL (ends with /exec).
- * 6. Send the Web app URL here or paste it into your .env file as VITE_APPS_SCRIPT_URL!
+ * 6. Paste that Web app URL into your .env file as WEB_APP_URL!
  */
 
 const SPREADSHEET_ID = "1086JPGL_w9HTWbS8SiHJ9Ahdl0uMG-5fLkNeLhlYbgc";
-const OWNER_EMAIL = "aurelianinternational@gmail.com";
+const OWNER_EMAIL = "shivamkareliya01@gmail.com";
 const SHEET_NAME = "Sheet1";
 
 function getTargetSheet() {
@@ -32,6 +32,7 @@ function getTargetSheet() {
   if (sheet.getLastRow() === 0) {
     sheet.appendRow([
       "Timestamp",
+      "Reference",
       "Client Name",
       "Company",
       "Email Address",
@@ -41,7 +42,7 @@ function getTargetSheet() {
       "Quantity / Volume",
       "Client Message"
     ]);
-    sheet.getRange(1, 1, 1, 9).setFontWeight("bold").setBackground("#D4AF37").setFontColor("#000000");
+    sheet.getRange(1, 1, 1, 10).setFontWeight("bold").setBackground("#0A1B35").setFontColor("#E3B95F");
   }
   return sheet;
 }
@@ -50,37 +51,54 @@ function doPost(e) {
   try {
     const d = JSON.parse(e.postData.contents);
     const sheet = getTargetSheet();
+
+    const clientName = d.name || [d.firstName, d.lastName].filter(Boolean).join(" ") || d.fullName || "";
+    const products = Array.isArray(d.products)
+      ? d.products.map(p => (typeof p === "object" && p ? (p.name || "") : String(p))).filter(Boolean).join(", ")
+      : (d.product || "");
+    const volume = d.quantity ? String(d.quantity) : (d.unit ? "Unit: " + d.unit : "");
+    const message = d.message || d.notes || "";
+    const ref = d.reference || ("AV-" + new Date().getFullYear() + "-" + ("000" + sheet.getLastRow()).slice(-4));
+
     sheet.appendRow([
       new Date(),
-      d.name || "",
+      ref,
+      clientName,
       d.company || "",
       d.email || "",
       d.phone || "",
       d.country || "",
-      d.product || "",
-      d.quantity || "",
-      d.message || ""
+      products,
+      volume,
+      message
     ]);
 
-    MailApp.sendEmail({
-      to: OWNER_EMAIL,
-      replyTo: d.email || OWNER_EMAIL,
-      subject: "New Enquiry: " + (d.product || "General") + " - " + (d.name || "Unknown"),
-      htmlBody:
-        "<h3>New commercial enquiry from website</h3>" +
-        "<p><b>Name:</b> " + esc(d.name) + "<br>" +
-        "<b>Company:</b> " + esc(d.company) + "<br>" +
-        "<b>Email:</b> " + esc(d.email) + "<br>" +
-        "<b>Phone:</b> " + esc(d.phone) + "<br>" +
-        "<b>Country:</b> " + esc(d.country) + "<br>" +
-        "<b>Product:</b> " + esc(d.product) + "<br>" +
-        "<b>Quantity:</b> " + esc(d.quantity) + "</p>" +
-        "<p><b>Message:</b><br>" + esc(d.message) + "</p>"
-    });
+    try {
+      MailApp.sendEmail({
+        to: OWNER_EMAIL,
+        replyTo: d.email || OWNER_EMAIL,
+        subject: "New Commercial Enquiry [" + ref + "]: " + (products || "General") + " - " + (clientName || "Unknown"),
+        htmlBody:
+          "<h3>New commercial export enquiry from website (" + esc(ref) + ")</h3>" +
+          "<p><b>Reference:</b> " + esc(ref) + "<br>" +
+          "<b>Name:</b> " + esc(clientName) + "<br>" +
+          "<b>Company:</b> " + esc(d.company) + "<br>" +
+          "<b>Email:</b> " + esc(d.email) + "<br>" +
+          "<b>Phone:</b> " + esc(d.phone) + "<br>" +
+          "<b>Country:</b> " + esc(d.country) + "<br>" +
+          "<b>Product:</b> " + esc(products) + "<br>" +
+          "<b>Quantity:</b> " + esc(volume) + "</p>" +
+          "<p><b>Message / Notes:</b><br>" + esc(message) + "</p>"
+      });
+    } catch (mailErr) {
+      Logger.log("MailApp error: " + mailErr);
+    }
 
-    return ContentService.createTextOutput(JSON.stringify({ ok: true })).setMimeType(ContentService.MimeType.JSON);
+    return ContentService.createTextOutput(JSON.stringify({ ok: true, reference: ref }))
+      .setMimeType(ContentService.MimeType.JSON);
   } catch (err) {
-    return ContentService.createTextOutput(JSON.stringify({ ok: false, error: String(err) })).setMimeType(ContentService.MimeType.JSON);
+    return ContentService.createTextOutput(JSON.stringify({ ok: false, error: String(err) }))
+      .setMimeType(ContentService.MimeType.JSON);
   }
 }
 

@@ -56,10 +56,10 @@ function About() {
       />
       <section className="py-16 md:py-24 bg-ivory relative overflow-hidden">
         {/* Subtle large gold infinity watermark */}
-        <InfinityWatermark className="absolute -right-20 top-1/2 -translate-y-1/2 w-[40rem] h-[20rem] text-[#C9973F] opacity-[0.04]" />
-        <div className="container-x grid gap-16 lg:grid-cols-2 relative z-10">
+        <InfinityWatermark className="hidden sm:block absolute -right-20 top-1/2 -translate-y-1/2 w-[40rem] h-[20rem] text-[#C9973F] opacity-[0.04]" />
+        <div className="container-x grid gap-10 lg:gap-16 lg:grid-cols-2 relative z-10 min-w-0">
           <SectionHead eyebrow="Our Story" title="Founded on a simple promise." />
-          <Reveal className="space-y-5 text-lg leading-relaxed text-muted-foreground">
+          <Reveal className="space-y-5 text-base sm:text-lg leading-relaxed text-muted-foreground">
             <p>
               {site.name} began in {site.established} with one container of basmati rice and a
               belief that Indian produce deserved to be presented to the world with the same care as
@@ -74,7 +74,7 @@ function About() {
         </div>
       </section>
       <section className="section-y bg-[#071A33] text-[#F4F1EA]">
-        <div className="container-x grid gap-px overflow-hidden rounded-2xl border hairline bg-gold/20 md:grid-cols-2">
+        <div className="container-x grid gap-px overflow-hidden rounded-2xl border hairline bg-gold/20 grid-cols-1 md:grid-cols-2">
           {[
             [
               "Mission",
@@ -85,9 +85,9 @@ function About() {
               "A world where every Indian product travels with full traceability and fair value.",
             ],
           ].map(([t, d]) => (
-            <div key={t} className="bg-[#0E2A4F]/80 p-12">
+            <div key={t} className="bg-[#0E2A4F]/80 p-6 sm:p-12 min-w-0">
               <p className="eyebrow">{t}</p>
-              <p className="mt-5 font-display text-3xl leading-snug md:text-4xl">{d}</p>
+              <p className="mt-4 font-display text-2xl leading-snug sm:text-3xl md:text-4xl">{d}</p>
             </div>
           ))}
         </div>
@@ -167,6 +167,78 @@ function About() {
                 />
                 <figcaption className="mt-3 text-sm text-muted-foreground">{l}</figcaption>
               </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Official Export Certifications & Licenses Section */}
+      <section id="certifications" className="section-y bg-[#071A33] text-[#F4F1EA] scroll-mt-24">
+        <div className="container-x">
+          <SectionHead
+            dark
+            eyebrow="Government & Global Compliance"
+            title="Export Certifications & Licenses."
+            text="Every commodity shipped by Aurelian International is accompanied by mandatory government registrations, phytosanitary clearance, and independent pre-shipment quality inspection."
+            align="center"
+          />
+
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                code: "APEDA",
+                title: "Agricultural Produce Export",
+                desc: "Registered with the Agricultural & Processed Food Products Export Development Authority (Ministry of Commerce & Industry, Govt. of India).",
+                tag: "RCMC Registered",
+              },
+              {
+                code: "SPICES BOARD",
+                title: "Spices Board of India",
+                desc: "Certified Registration cum Enrolment Certificate (CRES) holder for direct export of premium whole and powdered Indian spices.",
+                tag: "CRES Certified",
+              },
+              {
+                code: "FSSAI",
+                title: "Food Safety & Standards Authority",
+                desc: "Central Licensing compliance ensuring zero contamination, proper food grade handling, and hygienic warehouse storage.",
+                tag: "Central License",
+              },
+              {
+                code: "DGFT",
+                title: "Directorate General of Foreign Trade",
+                desc: "Active Importer Exporter Code (IEC) issued by the Ministry of Commerce and Industry for unrestricted global trade.",
+                tag: "IEC Licensed",
+              },
+              {
+                code: "ISO 22000",
+                title: "Food Safety Management System",
+                desc: "Audited manufacturing and packaging processes aligned with global FSMS standards and HACCP principles.",
+                tag: "ISO Audited",
+              },
+              {
+                code: "SGS / GEO-CHEM",
+                title: "Third-Party Inspection",
+                desc: "Container stuffing and port inspection reports with lot-wise laboratory assay certificates for export compliance.",
+                tag: "Port Inspected",
+              },
+            ].map((cert) => (
+              <div
+                key={cert.code}
+                className="rounded-2xl border border-gold/30 bg-[#0E2A4F]/60 p-6 flex flex-col justify-between hover:border-gold/60 transition-colors"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="font-mono text-xs font-bold text-gold tracking-wider bg-gold/15 px-2.5 py-1 rounded border border-gold/30">
+                      {cert.code}
+                    </span>
+                    <span className="text-[10px] uppercase tracking-wider font-semibold text-[#F2C86E] bg-white/5 px-2 py-0.5 rounded-full">
+                      {cert.tag}
+                    </span>
+                  </div>
+                  <h3 className="font-display text-xl text-white font-medium">{cert.title}</h3>
+                  <p className="mt-2 text-xs text-[#D9DDE3] leading-relaxed">{cert.desc}</p>
+                </div>
+              </div>
             ))}
           </div>
         </div>

@@ -19,9 +19,9 @@ import {
 import { forwardToAppsScript } from "@/lib/server/apps-script";
 import { getServerEnv } from "@/lib/server/env";
 import {
-  buildEnquiryExcelBuffer,
+  appendEnquiryToMasterExcel,
+  getMasterExcelBuffer,
   syncMasterExcelFile,
-  saveIndividualEnquiryExcel,
 } from "@/lib/server/excel";
 import {
   sendOwnerEmailWithRetry,
@@ -226,15 +226,19 @@ export const Route = createFileRoute("/api/enquiry")({
               env.WEB_APP_URL,
               {
                 secret: env.ENQUIRY_SECRET,
+                reference: finalReference,
+                name: `${sanitizedFirstName} ${sanitizedLastName}`.trim(),
                 firstName: sanitizedFirstName,
                 lastName: sanitizedLastName,
                 company: sanitizedCompany,
                 email: sanitizedEmail,
                 phone: sanitizedPhone,
                 country: sanitizedCountry,
+                product: productNames.join(", "),
                 products: productNames,
-                quantity: sanitizedQuantity,
+                quantity: sanitizedQuantity ? `${sanitizedQuantity} ${data.unit}` : `Unit: ${data.unit}`,
                 unit: data.unit,
+                message: sanitizedNotes,
                 notes: sanitizedNotes,
                 sourcePage: sanitizedSourcePage,
               },
@@ -261,7 +265,7 @@ export const Route = createFileRoute("/api/enquiry")({
           }
 
           // 11. Persist enquiry into store
-          const storedRecord = saveEnquiry({
+          const enquiryPayload: Parameters<typeof saveEnquiry>[0] = {
             reference: finalReference,
             year,
             seq,
@@ -279,39 +283,41 @@ export const Route = createFileRoute("/api/enquiry")({
             notes: sanitizedNotes,
             products: sanitizedProducts,
             sourcePage: sanitizedSourcePage,
-            sourceCard: data.sourceCard ? sanitizeText(data.sourceCard) : undefined,
-            utmSource: data.utmSource ? sanitizeText(data.utmSource) : undefined,
-            utmMedium: data.utmMedium ? sanitizeText(data.utmMedium) : undefined,
-            utmCampaign: data.utmCampaign ? sanitizeText(data.utmCampaign) : undefined,
             ip: clientIp,
             userAgent,
             status: "New",
             emailStatus: isSynced ? "sent" : "pending",
             emailRetries: 0,
             syncStatus: isSynced ? "synced" : "pending_sync",
-            syncError: syncErrorMsg,
             logs: [
               `Enquiry submitted from ${sanitizedSourcePage} at ${createdAtIST}`,
               isSynced
                 ? `Apps Script synced successfully as ${finalReference}`
                 : `Apps Script sync pending: ${syncErrorMsg}`,
             ],
-          });
+          };
 
-          // 11b. Instantly update the Master Excel Workbook (Aurelian_Enquiries_Master.xlsx)
-          // and generate individual quotation workbook for this client
+          if (data.sourceCard) enquiryPayload.sourceCard = sanitizeText(data.sourceCard);
+          if (data.utmSource) enquiryPayload.utmSource = sanitizeText(data.utmSource);
+          if (data.utmMedium) enquiryPayload.utmMedium = sanitizeText(data.utmMedium);
+          if (data.utmCampaign) enquiryPayload.utmCampaign = sanitizeText(data.utmCampaign);
+          if (syncErrorMsg) enquiryPayload.syncError = syncErrorMsg;
+
+          const storedRecord = saveEnquiry(enquiryPayload);
+
+          // 11b. Instantly append this enquiry as a new row into the Master Excel sheet (Aurelian_Enquiries_Master.xlsx)
+          // No individual spreadsheet files are created
           try {
-            await syncMasterExcelFile();
-            await saveIndividualEnquiryExcel(storedRecord);
+            await appendEnquiryToMasterExcel(storedRecord);
           } catch (excelErr) {
-            console.error("[Excel Sync Error]:", excelErr);
+            console.error("[Excel Append Error]:", excelErr);
           }
 
-          // 12. Dispatch notification email via SMTP to owner with attached Excel sheet & client confirmation
+          // 12. Dispatch notification email via SMTP to owner with master Excel sheet & client confirmation
           if ((env.SMTP_HOST && env.SMTP_USER) || env.TEST_MODE || env.RESEND_API_KEY) {
             try {
-              const excelBuffer = await buildEnquiryExcelBuffer(storedRecord);
-              sendOwnerEmailWithRetry(storedRecord, excelBuffer).catch((err) => {
+              const masterBuffer = await getMasterExcelBuffer();
+              sendOwnerEmailWithRetry(storedRecord, masterBuffer).catch((err) => {
                 console.error(`[Owner Email SMTP Error]:`, err);
               });
               sendClientConfirmationEmail(storedRecord).catch((err) => {

@@ -3,14 +3,14 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 export const btn = {
-  gold: "inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#9A6B1F] via-[#F2C86E] to-[#C9973F] px-7 py-3.5 text-sm font-semibold tracking-wide text-[#071A33] shadow-md transition-all duration-300 hover:shadow-[0_0_22px_rgba(201,151,63,0.45)] hover:-translate-y-0.5 btn-shine cursor-pointer active:translate-y-0",
+  gold: "inline-flex min-h-[44px] max-w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#9A6B1F] via-[#F2C86E] to-[#C9973F] px-6 py-3 text-sm font-semibold tracking-wide text-[#071A33] shadow-md transition-all duration-300 hover:shadow-[0_0_22px_rgba(201,151,63,0.45)] hover:-translate-y-0.5 btn-shine cursor-pointer active:translate-y-0",
   outlineLight:
-    "inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-transparent px-7 py-3.5 text-sm font-medium tracking-wide text-white transition-all duration-300 hover:border-[#F2C86E] hover:text-[#F2C86E] hover:bg-white/5 btn-shine cursor-pointer",
+    "inline-flex min-h-[44px] max-w-full items-center justify-center gap-2 rounded-full border border-white/30 bg-transparent px-6 py-3 text-sm font-medium tracking-wide text-white transition-all duration-300 hover:border-[#F2C86E] hover:text-[#F2C86E] hover:bg-white/5 btn-shine cursor-pointer",
   outline:
-    "inline-flex items-center justify-center gap-2 rounded-full border border-[#C9973F]/40 bg-transparent px-7 py-3.5 text-sm font-medium tracking-wide text-[#071A33] transition-all duration-300 hover:border-[#C9973F] hover:bg-[#071A33] hover:text-white btn-shine cursor-pointer",
-  navy: "inline-flex items-center justify-center gap-2 rounded-full bg-[#071A33] px-7 py-3.5 text-sm font-medium tracking-wide text-[#F4F1EA] shadow-md transition-all duration-300 hover:bg-[#040E1F] hover:shadow-lg btn-shine cursor-pointer",
+    "inline-flex min-h-[44px] max-w-full items-center justify-center gap-2 rounded-full border border-[#C9973F]/40 bg-transparent px-6 py-3 text-sm font-medium tracking-wide text-[#071A33] transition-all duration-300 hover:border-[#C9973F] hover:bg-[#071A33] hover:text-white btn-shine cursor-pointer",
+  navy: "inline-flex min-h-[44px] max-w-full items-center justify-center gap-2 rounded-full bg-[#071A33] px-6 py-3 text-sm font-medium tracking-wide text-[#F4F1EA] shadow-md transition-all duration-300 hover:bg-[#040E1F] hover:shadow-lg btn-shine cursor-pointer",
   forest:
-    "inline-flex items-center justify-center gap-2 rounded-full bg-[#071A33] px-7 py-3.5 text-sm font-medium tracking-wide text-[#F4F1EA] shadow-md transition-all duration-300 hover:bg-[#040E1F] hover:shadow-lg btn-shine cursor-pointer", // compatibility alias
+    "inline-flex min-h-[44px] max-w-full items-center justify-center gap-2 rounded-full bg-[#071A33] px-6 py-3 text-sm font-medium tracking-wide text-[#F4F1EA] shadow-md transition-all duration-300 hover:bg-[#040E1F] hover:shadow-lg btn-shine cursor-pointer", // compatibility alias
 };
 
 export function Reveal({
@@ -53,7 +53,7 @@ export function SectionHead({
       <p className="eyebrow">{eyebrow}</p>
       <h2
         className={cn(
-          "mt-4 text-4xl leading-[1.05] md:text-6xl",
+          "mt-4 text-[clamp(1.85rem,5.5vw,2.5rem)] leading-[1.1] md:text-6xl md:leading-[1.05]",
           dark ? "text-white" : "text-[#071A33]",
         )}
       >

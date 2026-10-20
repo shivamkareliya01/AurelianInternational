@@ -55,9 +55,9 @@ function Contact() {
         crumbs={[{ label: "Contact" }]}
       />
 
-      <section className="py-16 md:py-24 bg-sand/30">
-        <div className="container-x grid gap-12 lg:grid-cols-5">
-          <div className="space-y-8 lg:col-span-2">
+      <section className="pt-10 pb-28 sm:py-16 md:py-24 bg-sand/30">
+        <div className="container-x grid grid-cols-1 lg:grid-cols-5 gap-12 min-w-0">
+          <div className="order-2 lg:order-1 space-y-8 lg:col-span-2 min-w-0">
             <div>
               <p className="eyebrow !text-gold">Global Headquarters</p>
               <h2 className="mt-2 font-display text-3xl text-[#071A33]">{company.locationDisplay}</h2>
@@ -183,7 +183,7 @@ function Contact() {
               </div>
             </motion.div>
           </div>
-          <div className="lg:col-span-3">
+          <div className="order-1 lg:order-2 lg:col-span-3 min-w-0">
             <EnquiryForm />
           </div>
         </div>

@@ -183,9 +183,12 @@ export function buildOwnerEmailHtml(enquiry: StoredEnquiry): string {
           ${enquiry.notes ? enquiry.notes.replace(/\n/g, "<br>") : "<em>No additional specification notes provided by client.</em>"}
         </div>
 
-        <!-- Attachment Notice -->
-        <div style="background-color: #FEF9C3; border: 1px solid #FDE047; border-radius: 10px; padding: 12px 16px; font-size: 12px; color: #713F12;">
-          <strong>Excel Spreadsheet Attached:</strong> Full two-sheet catalogue export specifications file is attached: <code>${getSanitizedExcelFilename(enquiry.reference, enquiry.company)}</code>.
+        <!-- Master Sheet Notice -->
+        <div style="background-color: #ECFDF5; border: 1px solid #10B981; border-radius: 10px; padding: 14px 18px; font-size: 13px; color: #065F46; margin-bottom: 24px;">
+          <strong style="color: #047857; font-size: 14px;">✓ Master Excel Sheet Updated Automatically</strong>
+          <p style="margin: 6px 0 0; line-height: 1.5; color: #064E3B;">
+            This enquiry (<strong>${enquiry.reference}</strong>) has been automatically appended to your master Excel spreadsheet (<code>Aurelian_Enquiries_Master.xlsx</code>). The full updated master workbook is attached.
+          </p>
         </div>
       </td>
     </tr>
@@ -232,7 +235,8 @@ BUYER NOTES:
 ${enquiry.notes || "None provided"}
 
 ATTACHMENT:
-  The complete specification spreadsheet is attached as an Excel (.xlsx) file.
+  The complete master enquiries spreadsheet is attached as an Excel (.xlsx) file (Aurelian_Enquiries_Master.xlsx).
+  This new enquiry (${enquiry.reference}) has been automatically added to the sheet.
   To reply directly to the client, simply hit reply in your mail client.
 ============================================================
 Aurelian International Trade Desk
@@ -337,10 +341,10 @@ export async function sendOwnerEmailWithRetry(
   excelBuffer: Buffer
 ): Promise<{ success: boolean; error?: string }> {
   const env = getServerEnv();
-  const filename = getSanitizedExcelFilename(enquiry.reference, enquiry.company);
+  const filename = "Aurelian_Enquiries_Master.xlsx";
   const subject = `New Export Enquiry ${enquiry.reference} - ${enquiry.company} (${enquiry.country}) - ${enquiry.products.length} product(s)`;
 
-  // If in TEST_MODE or SMTP credentials are not configured, save to outbox & log
+  // If in TEST_MODE or SMTP credentials are not configured, save record to outbox & log
   if (env.TEST_MODE) {
     try {
       ensureOutboxDir();
@@ -360,10 +364,9 @@ export async function sendOwnerEmailWithRetry(
         JSON.stringify(emailRecord, null, 2),
         "utf8"
       );
-      fs.writeFileSync(path.join(OUTBOX_DIR, filename), excelBuffer);
 
-      console.log(`[TEST_MODE] Owner email saved to outbox: ${filename} (${excelBuffer.length} bytes)`);
-      updateEnquiryEmailStatus(enquiry.reference, "skipped_test_mode", "Test mode: email and Excel saved to data/outbox");
+      console.log(`[TEST_MODE] Owner notification recorded: ${enquiry.reference} (Master Excel kept in sync)`);
+      updateEnquiryEmailStatus(enquiry.reference, "skipped_test_mode", "Test mode: email recorded, master Excel updated");
       return { success: true };
     } catch (err) {
       console.error("[TEST_MODE] Failed to save email to outbox:", err);

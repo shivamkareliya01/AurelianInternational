@@ -60,9 +60,7 @@ export async function submitEnquiry(
   if (!emailRegex.test(email)) {
     return { ok: false, error: "Please enter a valid email address." };
   }
-  if (!message) {
-    return { ok: false, error: "Message is required." };
-  }
+  const finalMessage = message || "Commercial export quotation request.";
 
   const payload = {
     name,
@@ -72,7 +70,7 @@ export async function submitEnquiry(
     country,
     product,
     quantity,
-    message,
+    message: finalMessage,
   };
 
   try {
@@ -133,14 +131,14 @@ export async function submitEnquiry(
     return {
       ok: false,
       error:
-        "Something went wrong. Please try again or email us at aurelianinternational@gmail.com",
+        "Something went wrong. Please try again or email us at shivamkareliya01@gmail.com",
     };
   } catch (err) {
     console.error("[Enquiry Submit Error]:", err);
     return {
       ok: false,
       error:
-        "Something went wrong. Please try again or email us at aurelianinternational@gmail.com",
+        "Something went wrong. Please try again or email us at shivamkareliya01@gmail.com",
     };
   }
 }

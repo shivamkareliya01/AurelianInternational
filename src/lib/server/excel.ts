@@ -303,6 +303,184 @@ export function getSanitizedExcelFilename(reference: string, company: string): s
 }
 
 /**
+ * Resolves paths for the master Excel spreadsheet.
+ * Priority:
+ * 1. process.env.MASTER_EXCEL_PATH or process.env.EXCEL_SHEET_PATH (if set)
+ * 2. Aurelian_Enquiries_Master.xlsx in workspace root
+ * 3. data/Aurelian_Enquiries_Master.xlsx
+ */
+export function getMasterExcelPaths(): { primaryPath: string; backupPath: string } {
+  const customPath = process.env["MASTER_EXCEL_PATH"] || process.env["EXCEL_SHEET_PATH"];
+  const rootPath = customPath
+    ? path.resolve(customPath)
+    : path.resolve(process.cwd(), "Aurelian_Enquiries_Master.xlsx");
+  const dataPath = path.resolve(process.cwd(), "data", "Aurelian_Enquiries_Master.xlsx");
+  return { primaryPath: rootPath, backupPath: dataPath };
+}
+
+/**
+ * Reads the latest Master Excel buffer from disk, or builds it on demand.
+ */
+export async function getMasterExcelBuffer(): Promise<Buffer> {
+  const { primaryPath, backupPath } = getMasterExcelPaths();
+  for (const p of [primaryPath, backupPath]) {
+    if (fs.existsSync(p)) {
+      try {
+        return fs.readFileSync(p);
+      } catch (err) {
+        // file might be locked; proceed to next or build
+      }
+    }
+  }
+  const all = getAllEnquiriesForExport();
+  return buildAllEnquiriesExcelBuffer(all);
+}
+
+/**
+ * Appends a new enquiry as a row directly into the user's master Excel spreadsheet.
+ * Does NOT create new individual spreadsheet files.
+ */
+export async function appendEnquiryToMasterExcel(enquiry: StoredEnquiry): Promise<{
+  updatedPaths: string[];
+  skippedDuplicate: boolean;
+}> {
+  const { primaryPath, backupPath } = getMasterExcelPaths();
+  const targetPaths = primaryPath === backupPath ? [primaryPath] : [primaryPath, backupPath];
+  const updatedPaths: string[] = [];
+  let skippedDuplicate = false;
+
+  for (const filePath of targetPaths) {
+    try {
+      const dir = path.dirname(filePath);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+
+      let workbook: ExcelJS.Workbook;
+      let worksheet: ExcelJS.Worksheet;
+
+      if (fs.existsSync(filePath)) {
+        workbook = new ExcelJS.Workbook();
+        await workbook.xlsx.readFile(filePath);
+        const existing =
+          workbook.getWorksheet("All Export Enquiries") ||
+          workbook.worksheets[0];
+        worksheet = existing || workbook.addWorksheet("All Export Enquiries");
+      } else {
+        // If file doesn't exist yet, build full workbook from existing enquiries
+        const all = getAllEnquiriesForExport();
+        const buffer = await buildAllEnquiriesExcelBuffer(all);
+        fs.writeFileSync(filePath, buffer);
+        updatedPaths.push(filePath);
+        continue;
+      }
+
+      const row1 = worksheet.getRow(1);
+      const isHeaderEmpty = !row1.getCell(1).value;
+
+      if (isHeaderEmpty) {
+        worksheet.columns = [
+          { header: "Reference", key: "reference", width: 16 },
+          { header: "Date / Time (IST)", key: "dateIST", width: 22 },
+          { header: "Client Name", key: "clientName", width: 22 },
+          { header: "Importing Company", key: "company", width: 26 },
+          { header: "Trade Email", key: "email", width: 26 },
+          { header: "Phone / WhatsApp", key: "phone", width: 20 },
+          { header: "Destination Country", key: "country", width: 20 },
+          { header: "Order Volume", key: "volume", width: 18 },
+          { header: "Products Requested", key: "products", width: 36 },
+          { header: "Status", key: "status", width: 14 },
+          { header: "Shipping Notes", key: "notes", width: 40 },
+          { header: "Source Page", key: "sourcePage", width: 20 },
+        ];
+        const hRow = worksheet.getRow(1);
+        hRow.height = 30;
+        hRow.eachCell((cell) => {
+          cell.font = { name: "Arial", size: 10, bold: true, color: { argb: GOLD_ACCENT } };
+          cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: NAVY_DARK } };
+          cell.alignment = { vertical: "middle", horizontal: "center", wrapText: true };
+        });
+      }
+
+      // Find Reference column index
+      let refColIdx = 1;
+      const firstRowValues = row1.values as (string | undefined)[];
+      if (Array.isArray(firstRowValues)) {
+        const found = firstRowValues.findIndex(
+          (val) => typeof val === "string" && val.trim().toLowerCase() === "reference"
+        );
+        if (found > 0) refColIdx = found;
+      }
+
+      // Check if reference already exists to prevent duplicate rows
+      let exists = false;
+      const rowCount = worksheet.rowCount;
+      for (let r = 2; r <= rowCount; r++) {
+        const cellVal = String(worksheet.getRow(r).getCell(refColIdx).value || "").trim();
+        if (cellVal === enquiry.reference) {
+          exists = true;
+          break;
+        }
+      }
+
+      if (exists) {
+        skippedDuplicate = true;
+        continue;
+      }
+
+      const productsSummary = enquiry.products.map((p) => p.name).join(", ");
+      const volume = enquiry.quantity ? `${enquiry.quantity} ${enquiry.unit}` : `Unit: ${enquiry.unit}`;
+
+      const rowValues = [
+        sanitizeExcelValue(enquiry.reference),
+        sanitizeExcelValue(enquiry.createdAtIST),
+        sanitizeExcelValue(enquiry.fullName),
+        sanitizeExcelValue(enquiry.company),
+        sanitizeExcelValue(enquiry.email),
+        sanitizeExcelValue(enquiry.phone),
+        sanitizeExcelValue(enquiry.country),
+        sanitizeExcelValue(volume),
+        sanitizeExcelValue(productsSummary),
+        sanitizeExcelValue(enquiry.status),
+        sanitizeExcelValue(enquiry.notes),
+        sanitizeExcelValue(enquiry.sourcePage),
+      ];
+
+      const newRow = worksheet.addRow(rowValues);
+      newRow.height = 24;
+      const isEven = worksheet.rowCount % 2 === 0;
+      newRow.eachCell((cell) => {
+        cell.font = { name: "Arial", size: 9 };
+        cell.alignment = { vertical: "middle", horizontal: "left", wrapText: true };
+        if (isEven) {
+          cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: BG_ALT } };
+        }
+        cell.border = {
+          top: { style: "thin", color: { argb: BORDER_COLOR } },
+          bottom: { style: "thin", color: { argb: BORDER_COLOR } },
+          left: { style: "thin", color: { argb: BORDER_COLOR } },
+          right: { style: "thin", color: { argb: BORDER_COLOR } },
+        };
+      });
+
+      await workbook.xlsx.writeFile(filePath);
+      updatedPaths.push(filePath);
+      console.log(`[Excel Append] Successfully appended ${enquiry.reference} to ${filePath}`);
+    } catch (err: any) {
+      if (err?.code === "EBUSY" || err?.message?.includes("busy or locked")) {
+        console.warn(
+          `[Excel Lock Notice] ${filePath} is currently open in Excel or another program. Enquiry is safely preserved in database and will sync once file is closed.`
+        );
+      } else {
+        console.error(`[Excel Append Error] Failed on ${filePath}:`, err);
+      }
+    }
+  }
+
+  return { updatedPaths, skippedDuplicate };
+}
+
+/**
  * Automatically regenerates and saves the Master Excel Workbook (Aurelian_Enquiries_Master.xlsx)
  * both in the data/ directory and directly in the project root for 1-click access.
  */
@@ -310,16 +488,24 @@ export async function syncMasterExcelFile(): Promise<{ rootPath: string; dataPat
   try {
     const all = getAllEnquiriesForExport();
     const buffer = await buildAllEnquiriesExcelBuffer(all);
-    const dataDir = path.resolve(process.cwd(), "data");
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true });
+    const { primaryPath, backupPath } = getMasterExcelPaths();
+    
+    for (const p of [primaryPath, backupPath]) {
+      try {
+        const dir = path.dirname(p);
+        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+        fs.writeFileSync(p, buffer);
+      } catch (writeErr: any) {
+        if (writeErr?.code === "EBUSY") {
+          console.warn(`[Excel Sync Notice] ${p} is currently locked by Excel.`);
+        } else {
+          console.error(`[Excel Sync Warning] Error writing to ${p}:`, writeErr);
+        }
+      }
     }
-    const dataPath = path.join(dataDir, "Aurelian_Enquiries_Master.xlsx");
-    const rootPath = path.resolve(process.cwd(), "Aurelian_Enquiries_Master.xlsx");
-    fs.writeFileSync(dataPath, buffer);
-    fs.writeFileSync(rootPath, buffer);
-    console.log(`[Excel Sync] Saved Master Workbook (${all.length} enquiries) to ${rootPath}`);
-    return { rootPath, dataPath, count: all.length };
+
+    console.log(`[Excel Sync] Master Workbook synced (${all.length} enquiries) to ${primaryPath}`);
+    return { rootPath: primaryPath, dataPath: backupPath, count: all.length };
   } catch (err) {
     console.error("[Excel Sync Error] Failed to generate Master Workbook:", err);
     throw err;
@@ -327,22 +513,11 @@ export async function syncMasterExcelFile(): Promise<{ rootPath: string; dataPat
 }
 
 /**
- * Saves a dedicated, beautifully styled Excel spreadsheet for an individual enquiry.
+ * Deprecated: Individual quotation files are no longer generated to keep everything
+ * centralized inside the single master Excel spreadsheet.
  */
-export async function saveIndividualEnquiryExcel(enquiry: StoredEnquiry): Promise<string> {
-  try {
-    const buffer = await buildEnquiryExcelBuffer(enquiry);
-    const outboxDir = path.resolve(process.cwd(), "data", "outbox");
-    if (!fs.existsSync(outboxDir)) {
-      fs.mkdirSync(outboxDir, { recursive: true });
-    }
-    const filename = getSanitizedExcelFilename(enquiry.reference, enquiry.company);
-    const filePath = path.join(outboxDir, filename);
-    fs.writeFileSync(filePath, buffer);
-    console.log(`[Excel Export] Individual quotation workbook saved to ${filePath}`);
-    return filePath;
-  } catch (err) {
-    console.warn(`[Excel Export Warning] Failed to save individual workbook:`, err);
-    return "";
-  }
+export async function saveIndividualEnquiryExcel(_enquiry: StoredEnquiry): Promise<string> {
+  // Deliberately no-op to prevent creating separate individual spreadsheet files
+  return "";
 }
+

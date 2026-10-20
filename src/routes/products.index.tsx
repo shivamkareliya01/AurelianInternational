@@ -182,45 +182,46 @@ function Products() {
       {/* 2. Sticky Category Pill Bar with Item Counts and Animated Gold Indicator */}
       <nav
         aria-label="Category Filter Bar"
-        className="sticky top-20 z-30 border-y border-[#C9973F]/25 bg-[#071A33]/95 backdrop-blur-xl shadow-lg"
+        className="sticky top-20 z-30 w-full max-w-full overflow-hidden border-y border-[#C9973F]/25 bg-[#071A33]/95 backdrop-blur-xl shadow-lg"
       >
-        <div className="container-x flex items-center justify-between gap-4 overflow-x-auto py-3.5 scrollbar-none">
-          <div className="flex items-center gap-2">
-            {/* All Products Pill */}
-            <button
-              type="button"
-              onClick={() => handleCategorySelect("all")}
-              className={cn(
-                "relative flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold tracking-wide transition-all cursor-pointer whitespace-nowrap",
-                selectedCat === "all"
-                  ? "text-[#040E1F]"
-                  : "text-[#D9DDE3] hover:text-white hover:bg-white/10",
-              )}
-            >
-              {selectedCat === "all" && (
-                <motion.span
-                  layoutId="activeCategoryPill"
-                  className="absolute inset-0 rounded-full bg-gradient-to-r from-[#9A6B1F] via-[#C9973F] to-[#F2C86E] shadow-md"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                />
-              )}
-              <span className="relative z-10">All Categories</span>
-              <span
+        <div className="container-x flex items-center justify-between gap-3 py-3 min-w-0">
+          <div className="flex-1 overflow-x-auto overscroll-x-contain touch-pan-x no-scrollbar py-0.5 min-w-0">
+            <div className="flex items-center gap-2 min-w-max">
+              {/* All Products Pill */}
+              <button
+                type="button"
+                onClick={() => handleCategorySelect("all")}
                 className={cn(
-                  "relative z-10 rounded-full px-2 py-0.5 text-[10px] font-bold",
+                  "relative flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold tracking-wide transition-all cursor-pointer whitespace-nowrap",
                   selectedCat === "all"
-                    ? "bg-[#040E1F]/20 text-[#040E1F]"
-                    : "bg-white/10 text-gold-soft",
+                    ? "text-[#040E1F]"
+                    : "text-[#D9DDE3] hover:text-white hover:bg-white/10",
                 )}
               >
-                {allProducts.length}
-              </span>
-            </button>
+                {selectedCat === "all" && (
+                  <motion.span
+                    layoutId="activeCategoryPill"
+                    className="absolute inset-0 rounded-full bg-gradient-to-r from-[#9A6B1F] via-[#C9973F] to-[#F2C86E] shadow-md"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+                <span className="relative z-10">All Categories</span>
+                <span
+                  className={cn(
+                    "relative z-10 rounded-full px-2 py-0.5 text-[10px] font-bold",
+                    selectedCat === "all"
+                      ? "bg-[#040E1F]/20 text-[#040E1F]"
+                      : "bg-white/10 text-gold-soft",
+                  )}
+                >
+                  {allProducts.length}
+                </span>
+              </button>
 
-            {/* Approved Category Pills */}
-            {categories.map((c) => {
-              const active = selectedCat === c.slug;
-              const displayName = c.slug === "dehydrated-powders" ? "Dehydrated Powders" : c.name;
+              {/* Approved Category Pills */}
+              {categories.map((c) => {
+                const active = selectedCat === c.slug;
+                const displayName = c.slug === "dehydrated-powders" ? "Dehydrated Powders" : c.name;
                 return (
                   <button
                     key={c.slug}
@@ -252,13 +253,14 @@ function Products() {
                   </button>
                 );
               })}
+            </div>
           </div>
 
           {/* Mobile Filter Toggle Button */}
           <button
             type="button"
             onClick={() => setMobileFilterOpen(true)}
-            className="flex lg:hidden items-center gap-2 rounded-full border border-gold/40 bg-[#0E2A4F] px-4 py-2 text-xs font-semibold text-gold-soft shadow-sm whitespace-nowrap cursor-pointer"
+            className="flex lg:hidden items-center gap-2 rounded-full border border-gold/40 bg-[#0E2A4F] px-4 py-2 text-xs font-semibold text-gold-soft shadow-sm whitespace-nowrap cursor-pointer shrink-0"
           >
             <SlidersHorizontal className="h-3.5 w-3.5" />
             <span>Filters</span>

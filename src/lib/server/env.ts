@@ -1,5 +1,5 @@
-// src/lib/server/env.ts
-// Centralized server-side environment variables configuration
+import fs from "node:fs";
+import path from "node:path";
 
 export interface ServerEnv {
   WEB_APP_URL: string;
@@ -15,34 +15,70 @@ export interface ServerEnv {
   TEST_MODE: boolean;
 }
 
-export function getServerEnv(): ServerEnv {
-  // Never expose secrets to client code
-  const webAppUrl = process.env.WEB_APP_URL || "";
-  const enquirySecret = process.env.ENQUIRY_SECRET || "";
+function readEnvFile(): Record<string, string> {
+  const result: Record<string, string> = {};
+  try {
+    const envPath = path.resolve(process.cwd(), ".env");
+    if (fs.existsSync(envPath)) {
+      const content = fs.readFileSync(envPath, "utf8");
+      const lines = content.split(/\r?\n/);
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith("#")) continue;
+        const eqIdx = trimmed.indexOf("=");
+        if (eqIdx !== -1) {
+          const key = trimmed.slice(0, eqIdx).trim();
+          let val = trimmed.slice(eqIdx + 1).trim();
+          if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+            val = val.slice(1, -1);
+          }
+          result[key] = val;
+        }
+      }
+    }
+  } catch {
+    // fallback to process.env
+  }
+  return result;
+}
 
-  const ownerEmailRaw =
-    process.env.OWNER_EMAIL || "aurelianinternational@gmail.com";
+export function getServerEnv(): ServerEnv {
+  const fileEnv = readEnvFile();
+  const getEnv = (key: string, fallback = "") => {
+    const val = fileEnv[key] !== undefined ? fileEnv[key] : process.env[key];
+    return val !== undefined ? val : fallback;
+  };
+
+  const webAppUrl = getEnv("WEB_APP_URL", "");
+  const enquirySecret = getEnv("ENQUIRY_SECRET", "");
+
+  const ownerEmailRaw = getEnv("OWNER_EMAIL", "shivamkareliya01@gmail.com");
   const ownerEmails = ownerEmailRaw
     .split(",")
     .map((e) => e.trim())
     .filter(Boolean);
 
-  const smtpHost = process.env.SMTP_HOST || "";
-  const smtpPort = Number.parseInt(process.env.SMTP_PORT || "587", 10);
-  const smtpUser = process.env.SMTP_USER || "";
-  const smtpPass = process.env.SMTP_PASS || "";
-  const resendApiKey = process.env.RESEND_API_KEY || "";
-  const turnstileSecret = process.env.TURNSTILE_SECRET_KEY || "";
+  const smtpHost = getEnv("SMTP_HOST", "");
+  const smtpPort = Number.parseInt(getEnv("SMTP_PORT", "587"), 10);
+  const smtpUser = getEnv("SMTP_USER", "shivamkareliya01@gmail.com");
+  const smtpPass = getEnv("SMTP_PASS", "");
+  const resendApiKey = getEnv("RESEND_API_KEY", "");
+  const turnstileSecret = getEnv("TURNSTILE_SECRET_KEY", "");
 
-  const isTestModeExplicit = process.env.TEST_MODE === "true";
+  const isTestModeExplicit = getEnv("TEST_MODE", "true") === "true";
   const isSmtpConfigured = Boolean((smtpHost && smtpUser && smtpPass) || resendApiKey);
   const testMode = isTestModeExplicit || (!webAppUrl && !isSmtpConfigured);
+
+  const mailFrom = getEnv(
+    "MAIL_FROM",
+    `"Aurelian International Trade Desk" <${smtpUser || "shivamkareliya01@gmail.com"}>`
+  );
 
   return {
     WEB_APP_URL: webAppUrl,
     ENQUIRY_SECRET: enquirySecret,
-    OWNER_EMAIL: ownerEmails.length > 0 ? ownerEmails : ["sales@aurelianinternational.com"],
-    MAIL_FROM: process.env.MAIL_FROM || "Aurelian International Trade Desk <quotes@aurelianinternational.com>",
+    OWNER_EMAIL: ownerEmails.length > 0 ? ownerEmails : ["shivamkareliya01@gmail.com"],
+    MAIL_FROM: mailFrom,
     SMTP_HOST: smtpHost,
     SMTP_PORT: smtpPort,
     SMTP_USER: smtpUser,

@@ -223,7 +223,7 @@ function Hero() {
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.0, duration: 0.9 }}
-          className="mt-6 max-w-5xl text-6xl leading-[0.95] text-white md:text-8xl lg:text-[6.5rem]"
+          className="mt-6 max-w-5xl text-[clamp(2.1rem,7.5vw,3.75rem)] leading-[1.02] text-white md:text-8xl md:leading-[0.95] lg:text-[6.5rem]"
           style={{ textShadow: "0 2px 24px rgba(0, 0, 0, 0.35)" }}
         >
           India's Finest, <em className="text-gold-soft">Delivered</em> Worldwide.
@@ -232,7 +232,7 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.25, duration: 0.8 }}
-          className="mt-8 max-w-xl text-lg text-[#D9DDE3] leading-relaxed"
+          className="mt-6 sm:mt-8 max-w-xl text-base sm:text-lg text-[#D9DDE3] leading-relaxed"
           style={{ textShadow: "0 2px 16px rgba(0, 0, 0, 0.4)" }}
         >
           Premium agricultural produce, spices, and natural stone — sourced, certified and shipped
@@ -242,12 +242,12 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.45, duration: 0.8 }}
-          className="mt-10 flex flex-wrap gap-4"
+          className="mt-8 flex flex-col sm:flex-row flex-wrap gap-3.5 sm:gap-4 w-full"
         >
-          <Link to="/products" className={btn.gold}>
+          <Link to="/products" className={cn(btn.gold, "w-full sm:w-auto text-center justify-center")}>
             Explore {allProducts.length} Products <ArrowRight className="h-4 w-4" />
           </Link>
-          <Link to="/contact" className={btn.outlineLight}>
+          <Link to="/contact" className={cn(btn.outlineLight, "w-full sm:w-auto text-center justify-center")}>
             Request a Quote
           </Link>
         </motion.div>
@@ -324,14 +324,14 @@ function Hero() {
             <div
               key={l}
               className={cn(
-                "px-6 py-5 md:py-6",
+                "px-3 sm:px-6 py-4 md:py-6 min-w-0",
                 k > 0 && "md:border-l border-[#C9973F]/25",
                 k % 2 === 1 && "border-l border-[#C9973F]/25",
                 k > 1 && "border-t md:border-t-0 border-[#C9973F]/25",
               )}
             >
-              <p className="font-display text-3xl text-brand-gradient md:text-4xl">{v}</p>
-              <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[#D9DDE3]">{l}</p>
+              <p className="font-display text-2xl sm:text-3xl text-brand-gradient md:text-4xl">{v}</p>
+              <p className="mt-1 text-[11px] sm:text-xs uppercase tracking-wider text-[#D9DDE3] truncate sm:whitespace-normal">{l}</p>
             </div>
           ))}
         </motion.div>
@@ -349,9 +349,9 @@ function AboutPreview() {
   return (
     <section className="section-y bg-ivory relative overflow-hidden">
       {/* Subtle large gold infinity watermark */}
-      <InfinityWatermark className="absolute -right-24 top-1/2 -translate-y-1/2 w-[38rem] h-[19rem] text-[#C9973F] opacity-[0.04]" />
-      <div className="container-x grid items-center gap-16 lg:grid-cols-2 relative z-10">
-        <div ref={ref} className="relative h-[30rem] md:h-[38rem]">
+      <InfinityWatermark className="hidden sm:block absolute -right-24 top-1/2 -translate-y-1/2 w-[38rem] h-[19rem] text-[#C9973F] opacity-[0.04]" />
+      <div className="container-x grid items-center gap-10 lg:gap-16 lg:grid-cols-2 relative z-10 min-w-0">
+        <div ref={ref} className="relative h-[22rem] sm:h-[28rem] md:h-[38rem] w-full max-w-full overflow-hidden rounded-3xl">
           <motion.img
             style={{ y: y1 }}
             src={farm}
@@ -364,10 +364,10 @@ function AboutPreview() {
             src={storyShip}
             alt="International container vessel sailing at golden sunset"
             loading="lazy"
-            className="absolute bottom-0 right-0 h-[56%] w-[56%] rounded-3xl border-8 border-ivory object-cover shadow-lift"
+            className="absolute bottom-0 right-0 h-[56%] w-[56%] rounded-3xl border-4 sm:border-8 border-ivory object-cover shadow-lift"
           />
         </div>
-        <div>
+        <div className="min-w-0">
           <SectionHead
             eyebrow="Our Story"
             title={
@@ -564,11 +564,11 @@ function WhyUs() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
-                className="bg-[#0E2A4F]/70 p-10 transition-colors hover:bg-[#0E2A4F]"
+                className="bg-[#0E2A4F]/70 p-6 sm:p-10 transition-colors hover:bg-[#0E2A4F] min-w-0"
               >
                 <Icon className="h-8 w-8 text-gold" strokeWidth={1.2} />
-                <h3 className="mt-6 text-2xl font-display text-white">{w.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-[#D9DDE3]">{w.text}</p>
+                <h3 className="mt-5 text-xl sm:text-2xl font-display text-white">{w.title}</h3>
+                <p className="mt-2.5 text-sm leading-relaxed text-[#D9DDE3]">{w.text}</p>
               </motion.div>
             );
           })}
@@ -883,7 +883,7 @@ function Testimonials() {
 
 function FinalCta() {
   return (
-    <section className="section-y relative overflow-hidden bg-[#040E1F]">
+    <section id="quote" className="section-y relative overflow-hidden bg-[#040E1F]">
       {/* Subtle large gold infinity watermark */}
       <InfinityWatermark className="absolute -left-20 top-1/2 -translate-y-1/2 w-[42rem] h-[21rem] text-[#C9973F] opacity-[0.04]" />
       <img

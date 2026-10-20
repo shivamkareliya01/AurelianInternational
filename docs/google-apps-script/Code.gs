@@ -181,7 +181,7 @@ function doPost(e) {
 
     // 9. Send branded confirmation email to Client
     try {
-      const primaryOwnerEmail = (ownerEmail || '').split(',')[0].trim() || 'aurelianinternational@gmail.com';
+      const primaryOwnerEmail = (ownerEmail || '').split(',')[0].trim() || 'shivamkareliya01@gmail.com';
       MailApp.sendEmail({
         to: d.email,
         replyTo: primaryOwnerEmail,

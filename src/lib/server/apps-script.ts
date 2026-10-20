@@ -3,15 +3,19 @@
 
 export interface AppsScriptPayload {
   secret: string;
+  reference?: string;
+  name?: string;
   firstName: string;
   lastName: string;
   company: string;
   email: string;
   phone: string;
   country: string;
+  product?: string;
   products: string[];
   quantity?: string;
   unit: string;
+  message?: string;
   notes?: string;
   sourcePage?: string;
 }

@@ -151,6 +151,7 @@ export function EnquiryForm() {
   // Unit toggle state for Quantity / MOQ
   const [unit, setUnit] = useState<"MT" | "FCL" | "kg">("MT");
   const [quantityValue, setQuantityValue] = useState("");
+  const [customMessage, setCustomMessage] = useState("");
 
   // Searchable Country Dropdown state
   const [countrySearch, setCountrySearch] = useState("");
@@ -214,52 +215,87 @@ export function EnquiryForm() {
     setState("loading");
 
     try {
-      const fullName = `${data["firstName"] || ""} ${data["lastName"] || ""}`.trim() || data["name"] || "";
+      const firstName = (data["firstName"] || "").trim();
+      const lastName = (data["lastName"] || "").trim();
       const email = (data["email"] || "").trim();
       const company = (data["company"] || "").trim();
       const phone = (data["phone"] || "").trim();
       const country = selectedCountry ? selectedCountry.name : (data["country"] || "").trim();
-      const product = selectedProducts.map((p) => p.name).join(", ");
       const quantity = data["quantity"]?.trim() ? `${data["quantity"].trim()} ${unit}` : "";
-      const message = (data["message"] || "").trim();
+      const message = customMessage.trim() || (data["message"] || "").trim();
       const _hp = data["_hp"] || data["_hp_company_fax"] || "";
 
-      const res = await submitEnquiry({
-        name: fullName,
-        company,
-        email,
-        phone,
-        country,
-        product,
-        quantity,
-        message,
-        _hp,
+      // Post directly to our server endpoint /api/enquiry
+      const response = await fetch("/api/enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          company,
+          email,
+          phone,
+          country,
+          products: selectedProducts.map((p) => ({
+            name: p.name,
+            category: p.category,
+            slug: p.slug,
+            origin: p.origin || "India",
+            grade: p.grade || "Export Premium",
+            moq: p.moq || "1 FCL",
+          })),
+          quantity,
+          unit,
+          notes: message,
+          formLoadedAt,
+          _hp_company_fax: _hp,
+        }),
       });
 
-      if (!res.ok) {
-        setState("idle");
-        setErrors({
-          form: res.error || "Something went wrong. Please try again or email us at aurelianinternational@gmail.com",
+      const res = await response.json().catch(() => null);
+
+      if (!response.ok || !res?.ok) {
+        // Fallback to submitEnquiry helper if needed
+        const fallbackRes = await submitEnquiry({
+          name: `${firstName} ${lastName}`.trim(),
+          company,
+          email,
+          phone,
+          country,
+          product: selectedProducts.map((p) => p.name).join(", "),
+          quantity,
+          message,
+          _hp,
         });
-        return;
+
+        if (!fallbackRes.ok) {
+          setState("idle");
+          setErrors({
+            form: res?.error || fallbackRes.error || "Something went wrong. Please try again or email us at shivamkareliya01@gmail.com",
+          });
+          return;
+        }
       }
 
       // Success
+      if (res?.reference) {
+        setReferenceNumber(res.reference);
+      }
       setSubmittedEmail(email);
       setState("done");
       clear();
       formEl.reset();
+      setCustomMessage("");
     } catch (networkErr) {
       console.error("[Enquiry Submit Error]:", networkErr);
       setState("idle");
       setErrors({
-        form: "Something went wrong. Please try again or email us at aurelianinternational@gmail.com",
+        form: "Something went wrong. Please try again or email us at shivamkareliya01@gmail.com",
       });
     }
   }
 
   // Pre-fill message on custom request from ProductPicker empty state
-  const [customMessage, setCustomMessage] = useState("");
   const handleCustomRequest = (q: string) => {
     setCustomMessage(
       `I am interested in sourcing ${q} or a custom specification not listed in the catalog. Please advise on grade availability, MOQ and shipping timelines.`
@@ -269,7 +305,7 @@ export function EnquiryForm() {
   return (
     <div
       id="enquiry-form"
-      className="relative overflow-hidden rounded-[28px] border border-[#C9973F]/40 bg-[#FAF8F3] p-6 md:p-10 shadow-[0_20px_50px_rgba(7,26,51,0.12)] scroll-mt-24"
+      className="relative overflow-hidden rounded-[20px] sm:rounded-[28px] border border-[#C9973F]/40 bg-[#FAF8F3] p-4 sm:p-7 md:p-10 shadow-[0_20px_50px_rgba(7,26,51,0.12)] scroll-mt-24 w-full max-w-full min-w-0"
     >
       <AnimatePresence mode="wait">
         {state === "done" ? (
@@ -401,7 +437,7 @@ export function EnquiryForm() {
                   autoComplete="given-name"
                   placeholder="e.g. David"
                   className={cn(
-                    "w-full rounded-[14px] border border-[#E3E7EE] bg-white/95 px-4 py-3 text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
+                    "w-full rounded-[14px] border border-[#E3E7EE] bg-white/95 px-4 py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
                     errors.firstName && "border-destructive ring-1 ring-destructive/40"
                   )}
                 />
@@ -424,7 +460,7 @@ export function EnquiryForm() {
                   autoComplete="family-name"
                   placeholder="e.g. Henderson"
                   className={cn(
-                    "w-full rounded-[14px] border border-[#E3E7EE] bg-white/95 px-4 py-3 text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
+                    "w-full rounded-[14px] border border-[#E3E7EE] bg-white/95 px-4 py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
                     errors.lastName && "border-destructive ring-1 ring-destructive/40"
                   )}
                 />
@@ -445,7 +481,7 @@ export function EnquiryForm() {
                   autoComplete="email"
                   placeholder="trade@company.com"
                   className={cn(
-                    "w-full rounded-[14px] border border-[#E3E7EE] bg-white/95 px-4 py-3 text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
+                    "w-full rounded-[14px] border border-[#E3E7EE] bg-white/95 px-4 py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
                     errors.email && "border-destructive ring-1 ring-destructive/40"
                   )}
                 />
@@ -464,7 +500,7 @@ export function EnquiryForm() {
                   autoComplete="tel"
                   placeholder="+1 (555) 000-0000"
                   className={cn(
-                    "w-full rounded-[14px] border border-[#E3E7EE] bg-white/95 px-4 py-3 text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
+                    "w-full rounded-[14px] border border-[#E3E7EE] bg-white/95 px-4 py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
                     errors.phone && "border-destructive ring-1 ring-destructive/40"
                   )}
                 />
@@ -485,7 +521,7 @@ export function EnquiryForm() {
                   autoComplete="organization"
                   placeholder="e.g. Henderson Commodities LLC"
                   className={cn(
-                    "w-full rounded-[14px] border border-[#E3E7EE] bg-white/95 px-4 py-3 text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
+                    "w-full rounded-[14px] border border-[#E3E7EE] bg-white/95 px-4 py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
                     errors.company && "border-destructive ring-1 ring-destructive/40"
                   )}
                 />
@@ -600,7 +636,7 @@ export function EnquiryForm() {
                   value={quantityValue}
                   onChange={(e) => setQuantityValue(e.target.value)}
                   placeholder="e.g. 50"
-                  className="flex-1 bg-transparent px-4 py-3 text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 focus:outline-none"
+                  className="flex-1 bg-transparent px-4 py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 focus:outline-none"
                 />
                 {/* Unit Toggle Buttons */}
                 <div className="flex items-center gap-1 bg-[#EEF1F5] p-1.5 my-1.5 mr-2 rounded-xl text-xs font-semibold">
@@ -636,17 +672,17 @@ export function EnquiryForm() {
                 value={customMessage}
                 onChange={(e) => setCustomMessage(e.target.value)}
                 placeholder="Target destination port (e.g. Jebel Ali, Rotterdam, Felixstowe), packaging preferences (25kg bags, bulk, pallets), target shipment window..."
-                className="w-full rounded-[14px] border border-[#E3E7EE] bg-white/95 px-4 py-3 text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]"
+                className="w-full rounded-[14px] border border-[#E3E7EE] bg-white/95 px-4 py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]"
               />
             </div>
 
             {/* Action Buttons: Submit with Shine Sweep + Instant WhatsApp */}
-            <div className="pt-2 grid gap-3 sm:grid-cols-2">
+            <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
               {/* Premium Gold Shine Submit Button */}
               <button
                 type="submit"
                 disabled={state === "loading"}
-                className="relative overflow-hidden rounded-[14px] bg-gradient-to-r from-[#D4A54E] via-[#C9973F] to-[#9B6F28] px-6 py-3.5 text-sm font-semibold text-white shadow-[0_8px_25px_rgba(201,151,63,0.38)] transition-all duration-300 hover:shadow-[0_12px_32px_rgba(201,151,63,0.5)] hover:-translate-y-0.5 disabled:opacity-75 before:absolute before:inset-0 before:-translate-x-full hover:before:translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/30 before:to-transparent before:transition-transform before:duration-700 cursor-pointer"
+                className="relative min-h-[44px] w-full flex items-center justify-center overflow-hidden rounded-[14px] bg-gradient-to-r from-[#D4A54E] via-[#C9973F] to-[#9B6F28] px-5 py-3 text-sm font-semibold text-white shadow-[0_8px_25px_rgba(201,151,63,0.38)] transition-all duration-300 hover:shadow-[0_12px_32px_rgba(201,151,63,0.5)] hover:-translate-y-0.5 disabled:opacity-75 before:absolute before:inset-0 before:-translate-x-full hover:before:translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/30 before:to-transparent before:transition-transform before:duration-700 cursor-pointer"
               >
                 <div className="relative z-10 flex items-center justify-center gap-2">
                   {state === "loading" ? (
@@ -673,7 +709,7 @@ export function EnquiryForm() {
                 )}`}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-[14px] border border-[#071A33]/20 bg-[#071A33] px-6 py-3.5 text-sm font-semibold text-gold-soft shadow-[0_4px_16px_rgba(7,26,51,0.18)] transition-all duration-200 hover:bg-[#0E2A4F] hover:text-white hover:-translate-y-0.5"
+                className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-[14px] border border-[#071A33]/20 bg-[#071A33] px-5 py-3 text-sm font-semibold text-gold-soft shadow-[0_4px_16px_rgba(7,26,51,0.18)] transition-all duration-200 hover:bg-[#0E2A4F] hover:text-white hover:-translate-y-0.5"
               >
                 <MessageCircle className="h-4 w-4 text-gold-soft" /> Instant WhatsApp Desk
               </a>

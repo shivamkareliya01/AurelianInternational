@@ -70,15 +70,19 @@ let failCount = 0;
 for (const enq of pending) {
   const payload = {
     secret: ENQUIRY_SECRET,
+    reference: enq.reference,
+    name: `${enq.firstName} ${enq.lastName}`.trim(),
     firstName: enq.firstName,
     lastName: enq.lastName,
     company: enq.company,
     email: enq.email,
     phone: enq.phone,
     country: enq.country,
+    product: enq.products.map((p) => p.name).join(", "),
     products: enq.products.map((p) => p.name),
     quantity: enq.quantity,
     unit: enq.unit,
+    message: enq.notes,
     notes: enq.notes,
     sourcePage: enq.sourcePage,
   };
