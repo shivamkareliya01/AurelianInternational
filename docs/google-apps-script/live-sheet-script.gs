@@ -171,7 +171,11 @@ function doPost(e) {
       Logger.log("MailApp Error: " + mailErr);
     }
 
-    return jsonResponse_({ ok: true, reference: ref });
+    return jsonResponse_({
+      ok: true,
+      reference: ref,
+      sheetUrl: sheet.getParent().getUrl()
+    });
   } catch (err) {
     Logger.log("doPost Error: " + err);
     return jsonResponse_({ ok: false, error: String(err) });
@@ -179,15 +183,24 @@ function doPost(e) {
 }
 
 /**
- * Handles GET health check requests to verify status.
+ * Handles GET health check requests to verify status and retrieve real sheet URL.
  */
 function doGet(e) {
-  return jsonResponse_({
-    status: "online",
-    sheetId: SPREADSHEET_ID,
-    owner: OWNER_EMAIL,
-    message: "Aurelian International Apps Script Webhook is active and connected!"
-  });
+  try {
+    const sheet = getTargetSheet();
+    return jsonResponse_({
+      status: "online",
+      sheetUrl: sheet.getParent().getUrl(),
+      owner: OWNER_EMAIL,
+      message: "Aurelian International Apps Script Webhook is active and connected!"
+    });
+  } catch (err) {
+    return jsonResponse_({
+      status: "online",
+      owner: OWNER_EMAIL,
+      message: "Webhook active"
+    });
+  }
 }
 
 function rowHtml_(label, value) {

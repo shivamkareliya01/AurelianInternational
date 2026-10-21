@@ -220,6 +220,7 @@ export const Route = createFileRoute("/api/enquiry")({
           let finalReference = localRef;
           let isSynced = false;
           let syncErrorMsg: string | undefined;
+          let liveSheetUrl: string | undefined;
 
           if (env.WEB_APP_URL) {
             const appsScriptResult = await forwardToAppsScript(
@@ -249,6 +250,9 @@ export const Route = createFileRoute("/api/enquiry")({
               isSynced = true;
               if (appsScriptResult.reference) {
                 finalReference = appsScriptResult.reference;
+              }
+              if (appsScriptResult.sheetUrl) {
+                liveSheetUrl = appsScriptResult.sheetUrl;
               }
               console.log(
                 `[Apps Script Success] Reference ${finalReference} created in Google Sheet.`
@@ -317,7 +321,7 @@ export const Route = createFileRoute("/api/enquiry")({
           if ((env.SMTP_HOST && env.SMTP_USER) || env.TEST_MODE || env.RESEND_API_KEY) {
             try {
               const masterBuffer = await getMasterExcelBuffer();
-              sendOwnerEmailWithRetry(storedRecord, masterBuffer).catch((err) => {
+              sendOwnerEmailWithRetry(storedRecord, masterBuffer, liveSheetUrl).catch((err) => {
                 console.error(`[Owner Email SMTP Error]:`, err);
               });
               sendClientConfirmationEmail(storedRecord).catch((err) => {

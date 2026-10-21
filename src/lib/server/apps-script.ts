@@ -23,6 +23,7 @@ export interface AppsScriptPayload {
 export interface AppsScriptResult {
   ok: boolean;
   reference?: string;
+  sheetUrl?: string;
   error?: string;
   attempts: number;
 }
@@ -77,6 +78,7 @@ export async function forwardToAppsScript(
         return {
           ok: true,
           reference: data.reference,
+          sheetUrl: data.sheetUrl,
           attempts: attempt,
         };
       }

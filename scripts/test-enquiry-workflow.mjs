@@ -97,11 +97,18 @@ async function runTests() {
   console.log("  AURELIAN INTERNATIONAL — ENQUIRY WORKFLOW TEST SUITE");
   console.log("==================================================================\n");
 
-  await startMockAppsScript();
-  console.log(`📡 Local Google Apps Script Mock listening on ${MOCK_URL}\n`);
+  // Backup production enquiry store and master excel before running tests
+  const dataPath = path.join(ROOT_DIR, "data", "enquiries.json");
+  const masterExcelPath = path.join(ROOT_DIR, "Aurelian_Enquiries_Master.xlsx");
+  const dataBackup = fs.existsSync(dataPath) ? fs.readFileSync(dataPath, "utf8") : null;
+  const excelBackup = fs.existsSync(masterExcelPath) ? fs.readFileSync(masterExcelPath) : null;
 
-  let passed = 0;
-  let failed = 0;
+  try {
+    await startMockAppsScript();
+    console.log(`📡 Local Google Apps Script Mock listening on ${MOCK_URL}\n`);
+
+    let passed = 0;
+    let failed = 0;
 
   function assert(condition, testName, details = "") {
     if (condition) {
@@ -290,7 +297,18 @@ async function runTests() {
   console.log(`  TEST RESULTS: ${passed} Passed, ${failed} Failed`);
   console.log("==================================================================\n");
 
-  process.exit(failed > 0 ? 1 : 0);
+  if (failed > 0) {
+    process.exitCode = 1;
+  }
+} finally {
+  await stopMockAppsScript();
+  if (dataBackup !== null) {
+    fs.writeFileSync(dataPath, dataBackup, "utf8");
+  }
+  if (excelBackup !== null) {
+    fs.writeFileSync(masterExcelPath, excelBackup);
+  }
+}
 }
 
 runTests().catch((err) => {

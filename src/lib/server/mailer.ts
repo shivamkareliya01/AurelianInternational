@@ -64,7 +64,9 @@ function formatWhatsAppLink(phone: string): string {
 /**
  * Generates Mobile-Responsive HTML Email for OWNER
  */
-export function buildOwnerEmailHtml(enquiry: StoredEnquiry): string {
+export function buildOwnerEmailHtml(enquiry: StoredEnquiry, dynamicSheetUrl?: string): string {
+  const env = getServerEnv();
+  const sheetUrl = dynamicSheetUrl || env.GOOGLE_SHEET_URL;
   const productsRows = enquiry.products
     .map(
       (p, i) => `
@@ -191,7 +193,7 @@ export function buildOwnerEmailHtml(enquiry: StoredEnquiry): string {
           <p style="color: #E2E8F0; font-size: 13px; line-height: 1.5; margin: 0 0 16px;">
             Enquiry <strong>${enquiry.reference}</strong> has been automatically added to your live <strong>Aurelian Enquiries</strong> Google Sheet.
           </p>
-          <a href="${getServerEnv().GOOGLE_SHEET_URL}" target="_blank" style="background-color: #E3B95F; color: #071A33; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; text-decoration: none; padding: 12px 26px; border-radius: 8px; display: inline-block;">
+          <a href="${sheetUrl}" target="_blank" style="background-color: #E3B95F; color: #071A33; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; text-decoration: none; padding: 12px 26px; border-radius: 8px; display: inline-block;">
             Open Live Google Sheet ➔
           </a>
         </div>
@@ -214,8 +216,9 @@ export function buildOwnerEmailHtml(enquiry: StoredEnquiry): string {
 /**
  * Generates Plain-Text alternative for OWNER email
  */
-export function buildOwnerEmailText(enquiry: StoredEnquiry): string {
+export function buildOwnerEmailText(enquiry: StoredEnquiry, dynamicSheetUrl?: string): string {
   const env = getServerEnv();
+  const sheetUrl = dynamicSheetUrl || env.GOOGLE_SHEET_URL;
   const productsList = enquiry.products
     .map((p, i) => `  ${i + 1}. ${p.name} [${p.category}] (Origin: ${p.origin || "India"}, MOQ: ${p.moq || "1 FCL"})`)
     .join("\n");
@@ -226,7 +229,7 @@ NEW EXPORT ENQUIRY - ${enquiry.reference}
 Received: ${enquiry.createdAtIST} (IST) / ${enquiry.createdAtUTC} (UTC)
 
 LIVE GOOGLE SHEET:
-  ${env.GOOGLE_SHEET_URL}
+  ${sheetUrl}
   Enquiry ${enquiry.reference} has been automatically appended to your live sheet.
 
 CLIENT INFORMATION:
@@ -347,7 +350,8 @@ export function buildClientConfirmationHtml(enquiry: StoredEnquiry): string {
  */
 export async function sendOwnerEmailWithRetry(
   enquiry: StoredEnquiry,
-  excelBuffer: Buffer
+  excelBuffer: Buffer,
+  dynamicSheetUrl?: string
 ): Promise<{ success: boolean; error?: string }> {
   const env = getServerEnv();
   const filename = `Enquiry_${enquiry.reference}_Offline_Backup.xlsx`;
@@ -394,8 +398,8 @@ export async function sendOwnerEmailWithRetry(
     to: env.OWNER_EMAIL,
     replyTo: enquiry.email,
     subject,
-    text: buildOwnerEmailText(enquiry),
-    html: buildOwnerEmailHtml(enquiry),
+    text: buildOwnerEmailText(enquiry, dynamicSheetUrl),
+    html: buildOwnerEmailHtml(enquiry, dynamicSheetUrl),
     attachments: [
       {
         filename,
