@@ -18,20 +18,21 @@
  * 6. Make sure this URL is in your .env file as WEB_APP_URL!
  */
 
-// Your target Google Sheet & Owner notification email
-const SPREADSHEET_ID = "1086JPGL_w9HTWbS8SiHJ9Ahdl0uMG-5fLkNeLhlYbgc";
 const OWNER_EMAIL = "averoinnovations@gmail.com";
 const SHEET_NAME = "Sheet1";
 
 /**
  * Accesses or initializes the target sheet.
+ * Automatically connects to the spreadsheet where this script is installed!
  */
 function getTargetSheet() {
-  let ss;
-  try {
-    ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-  } catch (err) {
-    ss = SpreadsheetApp.getActiveSpreadsheet();
+  let ss = SpreadsheetApp.getActiveSpreadsheet();
+  if (!ss) {
+    try {
+      ss = SpreadsheetApp.openById("1086JPGL_w9HTWbS8SiHJ9Ahdl0uMG-5fLkNeLhlYbgc");
+    } catch (e) {
+      throw new Error("Could not find spreadsheet. Make sure this script is opened via Extensions > Apps Script inside your Google Sheet.");
+    }
   }
   let sheet = ss.getSheetByName(SHEET_NAME) || ss.getSheets()[0];
 
@@ -148,7 +149,7 @@ function doPost(e) {
               "<div style='margin-top: 24px; padding: 14px 18px; background-color: #faf5ea; border: 1px solid #e9d7af; border-radius: 8px;'>" +
                 "<p style='margin: 0; font-size: 13px; color: #78350f;'><b>📊 Live Google Sheet:</b></p>" +
                 "<p style='margin: 6px 0 0 0; font-size: 13px;'>" +
-                  "<a href='https://docs.google.com/spreadsheets/d/" + SPREADSHEET_ID + "/edit' style='color: #0A1B35; font-weight: bold; text-decoration: underline;'>Open Aurelian Enquiries Spreadsheet</a>" +
+                  "<a href='" + sheet.getParent().getUrl() + "' style='color: #0A1B35; font-weight: bold; text-decoration: underline;'>Open Aurelian Enquiries Spreadsheet</a>" +
                 "</p>" +
               "</div>" +
 
