@@ -183,12 +183,17 @@ export function buildOwnerEmailHtml(enquiry: StoredEnquiry): string {
           ${enquiry.notes ? enquiry.notes.replace(/\n/g, "<br>") : "<em>No additional specification notes provided by client.</em>"}
         </div>
 
-        <!-- Master Sheet Notice -->
-        <div style="background-color: #ECFDF5; border: 1px solid #10B981; border-radius: 10px; padding: 14px 18px; font-size: 13px; color: #065F46; margin-bottom: 24px;">
-          <strong style="color: #047857; font-size: 14px;">✓ Master Excel Sheet Updated Automatically</strong>
-          <p style="margin: 6px 0 0; line-height: 1.5; color: #064E3B;">
-            This enquiry (<strong>${enquiry.reference}</strong>) has been automatically appended to your master Excel spreadsheet (<code>Aurelian_Enquiries_Master.xlsx</code>). The full updated master workbook is attached.
+        <!-- Live Google Sheet Card -->
+        <div style="background-color: #0A1B35; border: 2px solid #E3B95F; border-radius: 12px; padding: 22px 24px; margin-bottom: 24px; text-align: center;">
+          <div style="color: #E3B95F; font-size: 16px; font-weight: 700; margin-bottom: 6px; letter-spacing: 0.5px;">
+            📊 Live Google Sheet Updated
+          </div>
+          <p style="color: #E2E8F0; font-size: 13px; line-height: 1.5; margin: 0 0 16px;">
+            Enquiry <strong>${enquiry.reference}</strong> has been automatically added to your live <strong>Aurelian Enquiries</strong> Google Sheet.
           </p>
+          <a href="${getServerEnv().GOOGLE_SHEET_URL}" target="_blank" style="background-color: #E3B95F; color: #071A33; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; text-decoration: none; padding: 12px 26px; border-radius: 8px; display: inline-block;">
+            Open Live Google Sheet ➔
+          </a>
         </div>
       </td>
     </tr>
@@ -210,6 +215,7 @@ export function buildOwnerEmailHtml(enquiry: StoredEnquiry): string {
  * Generates Plain-Text alternative for OWNER email
  */
 export function buildOwnerEmailText(enquiry: StoredEnquiry): string {
+  const env = getServerEnv();
   const productsList = enquiry.products
     .map((p, i) => `  ${i + 1}. ${p.name} [${p.category}] (Origin: ${p.origin || "India"}, MOQ: ${p.moq || "1 FCL"})`)
     .join("\n");
@@ -218,6 +224,10 @@ export function buildOwnerEmailText(enquiry: StoredEnquiry): string {
 NEW EXPORT ENQUIRY - ${enquiry.reference}
 ============================================================
 Received: ${enquiry.createdAtIST} (IST) / ${enquiry.createdAtUTC} (UTC)
+
+LIVE GOOGLE SHEET:
+  ${env.GOOGLE_SHEET_URL}
+  Enquiry ${enquiry.reference} has been automatically appended to your live sheet.
 
 CLIENT INFORMATION:
   Company:     ${enquiry.company}
@@ -234,9 +244,8 @@ ${productsList}
 BUYER NOTES:
 ${enquiry.notes || "None provided"}
 
-ATTACHMENT:
-  The complete master enquiries spreadsheet is attached as an Excel (.xlsx) file (Aurelian_Enquiries_Master.xlsx).
-  This new enquiry (${enquiry.reference}) has been automatically added to the sheet.
+NOTE:
+  Click the live Google Sheet link above to view your master enquiries sheet in real-time.
   To reply directly to the client, simply hit reply in your mail client.
 ============================================================
 Aurelian International Trade Desk
@@ -341,7 +350,7 @@ export async function sendOwnerEmailWithRetry(
   excelBuffer: Buffer
 ): Promise<{ success: boolean; error?: string }> {
   const env = getServerEnv();
-  const filename = "Aurelian_Enquiries_Master.xlsx";
+  const filename = `Enquiry_${enquiry.reference}_Offline_Backup.xlsx`;
   const subject = `New Export Enquiry ${enquiry.reference} - ${enquiry.company} (${enquiry.country}) - ${enquiry.products.length} product(s)`;
 
   // If in TEST_MODE or SMTP credentials are not configured, save record to outbox & log

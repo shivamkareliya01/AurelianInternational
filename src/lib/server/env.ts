@@ -3,6 +3,7 @@ import path from "node:path";
 
 export interface ServerEnv {
   WEB_APP_URL: string;
+  GOOGLE_SHEET_URL: string;
   ENQUIRY_SECRET: string;
   OWNER_EMAIL: string[];
   MAIL_FROM: string;
@@ -50,6 +51,10 @@ export function getServerEnv(): ServerEnv {
   };
 
   const webAppUrl = getEnv("WEB_APP_URL", "");
+  const googleSheetUrl = getEnv(
+    "GOOGLE_SHEET_URL",
+    "https://docs.google.com/spreadsheets/d/1RIXK2A881mS4eMvbg3TbqhIjzpVLgb43gVtv9AzKC6Y/edit"
+  );
   const enquirySecret = getEnv("ENQUIRY_SECRET", "");
 
   const ownerEmailRaw = getEnv("OWNER_EMAIL", "averoinnovations@gmail.com");
@@ -76,6 +81,7 @@ export function getServerEnv(): ServerEnv {
 
   return {
     WEB_APP_URL: webAppUrl,
+    GOOGLE_SHEET_URL: googleSheetUrl,
     ENQUIRY_SECRET: enquirySecret,
     OWNER_EMAIL: ownerEmails.length > 0 ? ownerEmails : ["averoinnovations@gmail.com"],
     MAIL_FROM: mailFrom,
