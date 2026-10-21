@@ -52,7 +52,7 @@ export function getServerEnv(): ServerEnv {
   const webAppUrl = getEnv("WEB_APP_URL", "");
   const enquirySecret = getEnv("ENQUIRY_SECRET", "");
 
-  const ownerEmailRaw = getEnv("OWNER_EMAIL", "shivamkareliya01@gmail.com");
+  const ownerEmailRaw = getEnv("OWNER_EMAIL", "averoinnovations@gmail.com");
   const ownerEmails = ownerEmailRaw
     .split(",")
     .map((e) => e.trim())
@@ -60,7 +60,7 @@ export function getServerEnv(): ServerEnv {
 
   const smtpHost = getEnv("SMTP_HOST", "");
   const smtpPort = Number.parseInt(getEnv("SMTP_PORT", "587"), 10);
-  const smtpUser = getEnv("SMTP_USER", "shivamkareliya01@gmail.com");
+  const smtpUser = getEnv("SMTP_USER", "averoinnovations@gmail.com");
   const smtpPass = getEnv("SMTP_PASS", "");
   const resendApiKey = getEnv("RESEND_API_KEY", "");
   const turnstileSecret = getEnv("TURNSTILE_SECRET_KEY", "");
@@ -71,13 +71,13 @@ export function getServerEnv(): ServerEnv {
 
   const mailFrom = getEnv(
     "MAIL_FROM",
-    `"Aurelian International Trade Desk" <${smtpUser || "shivamkareliya01@gmail.com"}>`
+    `"Aurelian International Trade Desk" <${smtpUser || "averoinnovations@gmail.com"}>`
   );
 
   return {
     WEB_APP_URL: webAppUrl,
     ENQUIRY_SECRET: enquirySecret,
-    OWNER_EMAIL: ownerEmails.length > 0 ? ownerEmails : ["shivamkareliya01@gmail.com"],
+    OWNER_EMAIL: ownerEmails.length > 0 ? ownerEmails : ["averoinnovations@gmail.com"],
     MAIL_FROM: mailFrom,
     SMTP_HOST: smtpHost,
     SMTP_PORT: smtpPort,
