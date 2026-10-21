@@ -62,6 +62,7 @@ lerna-debug.log*
 # ------------------------------------------------------------------------------
 # 6. Temporary Test & Audit Files
 # ------------------------------------------------------------------------------
+scratch/
 scripts/audit-mobile.cjs
 coverage/
 test-results/
