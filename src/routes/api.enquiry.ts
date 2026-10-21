@@ -9,20 +9,12 @@ import {
   verifyTurnstileToken,
 } from "@/lib/server/security";
 import {
-  generateNextReference,
-  saveEnquiry,
-  updateEnquirySyncStatus,
   formatISTDate,
   type StoredEnquiry,
   type EnquiryProductItem,
 } from "@/lib/server/enquiry-store";
 import { forwardToAppsScript } from "@/lib/server/apps-script";
 import { getServerEnv } from "@/lib/server/env";
-import {
-  appendEnquiryToMasterExcel,
-  getMasterExcelBuffer,
-  syncMasterExcelFile,
-} from "@/lib/server/excel";
 import {
   sendOwnerEmailWithRetry,
   sendClientConfirmationEmail,
@@ -210,13 +202,14 @@ export const Route = createFileRoute("/api/enquiry")({
 
           const productNames = sanitizedProducts.map((p) => p.name);
 
-          // 9. Generate local fallback sequential reference number
+          // 9. Generate reference number
           const now = new Date();
-          const { reference: localRef, seq, year } = generateNextReference(now.getFullYear());
+          const timestampSeq = Date.now().toString().slice(-4);
+          const localRef = `AV-${now.getFullYear()}-${timestampSeq}`;
           const createdAtIST = formatISTDate(now);
           const createdAtUTC = now.toISOString();
 
-          // 10. Forward to Google Apps Script Web App (appends to Sheet & sends emails)
+          // 10. Forward to Google Apps Script Web App (stores directly in live Google Sheet)
           let finalReference = localRef;
           let isSynced = false;
           let syncErrorMsg: string | undefined;
@@ -265,14 +258,15 @@ export const Route = createFileRoute("/api/enquiry")({
             }
           } else {
             syncErrorMsg = "WEB_APP_URL not configured in environment";
-            console.log(`[Apps Script Notice] WEB_APP_URL is empty; saving to pending_sync queue.`);
+            console.log(`[Apps Script Notice] WEB_APP_URL is empty.`);
           }
 
-          // 11. Persist enquiry into store
-          const enquiryPayload: Parameters<typeof saveEnquiry>[0] = {
+          // 11. In-memory enquiry record for emails (zero disk writes)
+          const storedRecord: StoredEnquiry = {
+            id: `enq_${finalReference.toLowerCase().replace(/[^a-z0-9]/g, "_")}_${Date.now()}`,
             reference: finalReference,
-            year,
-            seq,
+            year: now.getFullYear(),
+            seq: Number.parseInt(finalReference.split("-")[2] || "1", 10) || 1,
             createdAtUTC,
             createdAtIST,
             firstName: sanitizedFirstName,
@@ -296,32 +290,21 @@ export const Route = createFileRoute("/api/enquiry")({
             logs: [
               `Enquiry submitted from ${sanitizedSourcePage} at ${createdAtIST}`,
               isSynced
-                ? `Apps Script synced successfully as ${finalReference}`
-                : `Apps Script sync pending: ${syncErrorMsg}`,
+                ? `Google Sheet synced successfully as ${finalReference}`
+                : `Google Sheet sync: ${syncErrorMsg}`,
             ],
           };
 
-          if (data.sourceCard) enquiryPayload.sourceCard = sanitizeText(data.sourceCard);
-          if (data.utmSource) enquiryPayload.utmSource = sanitizeText(data.utmSource);
-          if (data.utmMedium) enquiryPayload.utmMedium = sanitizeText(data.utmMedium);
-          if (data.utmCampaign) enquiryPayload.utmCampaign = sanitizeText(data.utmCampaign);
-          if (syncErrorMsg) enquiryPayload.syncError = syncErrorMsg;
+          if (data.sourceCard) storedRecord.sourceCard = sanitizeText(data.sourceCard);
+          if (data.utmSource) storedRecord.utmSource = sanitizeText(data.utmSource);
+          if (data.utmMedium) storedRecord.utmMedium = sanitizeText(data.utmMedium);
+          if (data.utmCampaign) storedRecord.utmCampaign = sanitizeText(data.utmCampaign);
+          if (syncErrorMsg) storedRecord.syncError = syncErrorMsg;
 
-          const storedRecord = saveEnquiry(enquiryPayload);
-
-          // 11b. Instantly append this enquiry as a new row into the Master Excel sheet (Aurelian_Enquiries_Master.xlsx)
-          // No individual spreadsheet files are created
-          try {
-            await appendEnquiryToMasterExcel(storedRecord);
-          } catch (excelErr) {
-            console.error("[Excel Append Error]:", excelErr);
-          }
-
-          // 12. Dispatch notification email via SMTP to owner with master Excel sheet & client confirmation
+          // 12. Dispatch notification email via SMTP to owner with direct Google Sheet link (zero disk attachments)
           if ((env.SMTP_HOST && env.SMTP_USER) || env.TEST_MODE || env.RESEND_API_KEY) {
             try {
-              const masterBuffer = await getMasterExcelBuffer();
-              sendOwnerEmailWithRetry(storedRecord, masterBuffer, liveSheetUrl).catch((err) => {
+              sendOwnerEmailWithRetry(storedRecord, liveSheetUrl).catch((err) => {
                 console.error(`[Owner Email SMTP Error]:`, err);
               });
               sendClientConfirmationEmail(storedRecord).catch((err) => {

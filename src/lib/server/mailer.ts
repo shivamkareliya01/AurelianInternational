@@ -378,8 +378,7 @@ export async function sendOwnerEmailWithRetry(
         "utf8"
       );
 
-      console.log(`[TEST_MODE] Owner notification recorded: ${enquiry.reference} (Master Excel kept in sync)`);
-      updateEnquiryEmailStatus(enquiry.reference, "skipped_test_mode", "Test mode: email recorded, master Excel updated");
+      console.log(`[TEST_MODE] Owner notification recorded: ${enquiry.reference}`);
       return { success: true };
     } catch (err) {
       console.error("[TEST_MODE] Failed to save email to outbox:", err);
@@ -389,24 +388,26 @@ export async function sendOwnerEmailWithRetry(
 
   const transporter = createTransporter();
   if (!transporter) {
-    updateEnquiryEmailStatus(enquiry.reference, "email_failed", "No SMTP transporter configured");
+    console.error("[Mailer] No SMTP transporter configured");
     return { success: false, error: "No SMTP transporter configured" };
   }
 
-  const mailOptions = {
+  const mailOptions: nodemailer.SendMailOptions = {
     from: env.MAIL_FROM,
     to: env.OWNER_EMAIL,
     replyTo: enquiry.email,
     subject,
     text: buildOwnerEmailText(enquiry, dynamicSheetUrl),
     html: buildOwnerEmailHtml(enquiry, dynamicSheetUrl),
-    attachments: [
-      {
-        filename,
-        content: excelBuffer,
-        contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      },
-    ],
+    attachments: excelBuffer
+      ? [
+          {
+            filename,
+            content: excelBuffer,
+            contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          },
+        ]
+      : [],
   };
 
   // Up to 3 attempts with exponential backoff
@@ -418,7 +419,6 @@ export async function sendOwnerEmailWithRetry(
       console.log(`[Mailer] Sending owner notification for ${enquiry.reference} (Attempt ${attempt}/${maxRetries})...`);
       await transporter.sendMail(mailOptions);
       console.log(`[Mailer] Owner notification delivered successfully for ${enquiry.reference}`);
-      updateEnquiryEmailStatus(enquiry.reference, "sent", `Delivered to ${env.OWNER_EMAIL.join(", ")} on attempt ${attempt}`);
       return { success: true };
     } catch (err) {
       lastError = err;
@@ -430,9 +430,8 @@ export async function sendOwnerEmailWithRetry(
     }
   }
 
-  // If all retries exhausted, log & flag enquiry
   const errMsg = lastError instanceof Error ? lastError.message : String(lastError);
-  updateEnquiryEmailStatus(enquiry.reference, "email_failed", `All 3 send attempts failed: ${errMsg}`);
+  console.error(`[Mailer] All 3 send attempts failed for ${enquiry.reference}: ${errMsg}`);
   return { success: false, error: errMsg };
 }
 
