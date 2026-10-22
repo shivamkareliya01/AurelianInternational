@@ -41,7 +41,7 @@ export const categories: Category[] = [
     "name": "Agriculture",
     "headline": "Grains, Pulses & Oilseeds",
     "blurb": "Grains, pulses and oilseeds from India's most fertile belts, machine-cleaned, optical-sorted and packaged to stringent international trade standards.",
-    "image": "/products/1121-basmati-rice.webp",
+    "image": "/products/category-agriculture.webp",
     "products": [
       {
         "slug": "1121-basmati-rice",

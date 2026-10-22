@@ -49,42 +49,44 @@ export const Route = createFileRoute("/products/")({
   component: Products,
 });
 
-const originGroups = [
-  "North India (Punjab, Haryana, UP, Kashmir, Ladakh)",
-  "West India (Gujarat, Maharashtra, Rajasthan)",
-  "South India (Kerala, Tamil Nadu, Karnataka, Andhra, Telangana)",
-  "Central & East India (MP, Bihar, Assam, Meghalaya)",
+const productTypes = [
+  "Rice & Basmati",
+  "Grains, Pulses & Seeds",
+  "Fresh Vegetables & Roots",
+  "Fresh Tropical Fruits",
+  "Whole & Ground Spices",
+  "Dehydrated Powders",
+  "Ceramic Tiles (GVT)",
 ];
 
-function getRegionGroup(origin: string) {
-  if (/Punjab|Haryana|Uttar|Kashmir|Ladakh|Himachal/i.test(origin)) return originGroups[0];
-  if (
-    /Gujarat|Maharashtra|Nashik|Rajasthan|Kolhapur|Saurashtra|Kutch|Pune|Jalgaon|Sangli|Gir|Solapur|Makrana|Kota/i.test(
-      origin,
-    )
-  )
-    return originGroups[1];
-  if (
-    /Kerala|Tamil|Karnataka|Andhra|Telangana|Erode|Guntur|Idukki|Wayanad|Nellore|Ongole|Madurai|Chimakurthy|Vazhakulam|Kollam/i.test(
-      origin,
-    )
-  )
-    return originGroups[2];
-  return originGroups[3];
+function getProductType(product: { category: { slug: string }; name: string }): string {
+  if (product.category.slug === "ceramic-tiles") return "Ceramic Tiles (GVT)";
+  if (product.category.slug === "dehydrated-powders") return "Dehydrated Powders";
+  if (product.category.slug === "spices") return "Whole & Ground Spices";
+  if (product.category.slug === "fresh-fruits") return "Fresh Tropical Fruits";
+  if (product.category.slug === "fresh-vegetables") return "Fresh Vegetables & Roots";
+  if (/rice/i.test(product.name)) return "Rice & Basmati";
+  return "Grains, Pulses & Seeds";
 }
 
-const packTypes = [
-  "Bags & Sacks (Jute / PP)",
-  "Cartons & Punnets",
-  "Crates & Wooden Bundles",
-  "Vacuum Tins & Drums",
+const exportCertifications = [
+  "APEDA",
+  "FSSAI",
+  "ISO 22000 / HACCP",
+  "Spices Board",
+  "ISO 13006 & CE",
+  "GlobalGAP",
 ];
 
-function getPackGroup(packaging: string) {
-  if (/bag|jute|PP|sack|leno|mesh/i.test(packaging)) return packTypes[0];
-  if (/carton|box|punnet|sleeve|telescopic/i.test(packaging)) return packTypes[1];
-  if (/crate|bundle|pallet|a-frame/i.test(packaging)) return packTypes[2];
-  return packTypes[3];
+function productHasCert(product: { specs?: { certifications?: string[] } }, cert: string): boolean {
+  const certs = (product.specs?.certifications || []).join(" ").toLowerCase();
+  if (cert === "APEDA") return /apeda/i.test(certs);
+  if (cert === "FSSAI") return /fssai/i.test(certs);
+  if (cert === "ISO 22000 / HACCP") return /iso 22000|haccp/i.test(certs);
+  if (cert === "Spices Board") return /spices board/i.test(certs);
+  if (cert === "ISO 13006 & CE") return /iso 13006|ce certified/i.test(certs);
+  if (cert === "GlobalGAP") return /globalgap|phytosanitary/i.test(certs);
+  return false;
 }
 
 const buyerPillars = [
@@ -112,8 +114,8 @@ function Products() {
   const { openBasket } = useBasket();
   const [q, setQ] = useState("");
   const [selectedCat, setSelectedCat] = useState<string>("all");
-  const [origins, setOrigins] = useState<string[]>([]);
-  const [packs, setPacks] = useState<string[]>([]);
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+  const [selectedCerts, setSelectedCerts] = useState<string[]>([]);
   const [sort, setSort] = useState<"featured" | "az" | "za" | "category">("featured");
   const [visibleCount, setVisibleCount] = useState<number>(ITEMS_PER_PAGE);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
@@ -131,14 +133,14 @@ function Products() {
   const clearAllFilters = () => {
     setQ("");
     setSelectedCat("all");
-    setOrigins([]);
-    setPacks([]);
+    setSelectedTypes([]);
+    setSelectedCerts([]);
     setSort("featured");
     setVisibleCount(ITEMS_PER_PAGE);
   };
 
   const hasActiveFilters =
-    q || selectedCat !== "all" || origins.length > 0 || packs.length > 0 || sort !== "featured";
+    q || selectedCat !== "all" || selectedTypes.length > 0 || selectedCerts.length > 0 || sort !== "featured";
 
   // Filtered & Sorted Product List
   const list = useMemo(() => {
@@ -146,16 +148,15 @@ function Products() {
       const originVal = p.specs?.origin || p.origin || "";
       const gradeVal = p.specs?.gradeVariety || p.grade || "";
       const descVal = p.shortDescription || p.description || "";
-      const packVal = p.specs?.exportPackaging || p.packaging || "";
       const matchSearch =
         !q ||
         `${p.name} ${originVal} ${p.category.name} ${gradeVal} ${descVal}`
           .toLowerCase()
           .includes(q.toLowerCase());
       const matchCat = selectedCat === "all" || p.category.slug === selectedCat;
-      const matchOrigin = !origins.length || origins.includes(getRegionGroup(originVal));
-      const matchPack = !packs.length || packs.includes(getPackGroup(packVal));
-      return matchSearch && matchCat && matchOrigin && matchPack;
+      const matchType = !selectedTypes.length || selectedTypes.includes(getProductType(p));
+      const matchCert = !selectedCerts.length || selectedCerts.some((cert) => productHasCert(p, cert));
+      return matchSearch && matchCat && matchType && matchCert;
     });
 
     if (sort === "az") {
@@ -167,7 +168,7 @@ function Products() {
     }
 
     return filtered;
-  }, [q, selectedCat, origins, packs, sort]);
+  }, [q, selectedCat, selectedTypes, selectedCerts, sort]);
 
   const pagedList = list.slice(0, visibleCount);
   const hasMore = visibleCount < list.length;
@@ -270,9 +271,9 @@ function Products() {
           >
             <SlidersHorizontal className="h-3.5 w-3.5" />
             <span>Filters</span>
-            {(origins.length > 0 || packs.length > 0) && (
+            {(selectedTypes.length > 0 || selectedCerts.length > 0) && (
               <span className="grid h-4 w-4 place-items-center rounded-full bg-gold text-[10px] text-[#040E1F] font-bold">
-                {origins.length + packs.length}
+                {selectedTypes.length + selectedCerts.length}
               </span>
             )}
           </button>
@@ -283,10 +284,10 @@ function Products() {
       <section className="py-14 md:py-20 bg-[#FAF8F3]">
         <div className="container-x grid gap-10 lg:grid-cols-[17rem_1fr]">
           {/* Desktop Filters Sidebar */}
-          <aside className="hidden lg:block lg:sticky lg:top-36 lg:self-start space-y-7 bg-white p-6 rounded-3xl border border-[#E3E7EE] shadow-soft">
+          <aside className="hidden lg:block lg:sticky lg:top-36 lg:self-start space-y-6 bg-white p-6 rounded-3xl border border-[#E3E7EE] shadow-soft">
             <div className="flex items-center justify-between pb-3.5 border-b border-[#C9973F]/25">
               <span className="flex items-center gap-2 font-serif text-xl text-[#071A33] font-semibold">
-                <Filter className="h-4 w-4 text-[#C9973F]" /> Filter Options
+                <Filter className="h-4 w-4 text-[#C9973F]" /> Filter Products
               </span>
               {hasActiveFilters && (
                 <button
@@ -299,49 +300,105 @@ function Products() {
               )}
             </div>
 
-            {/* Origin Region Filter */}
+            {/* 1. Category Filter */}
             <fieldset>
               <legend className="eyebrow !text-[0.68rem] text-[#9A6B1F] font-semibold tracking-wider">
-                Origin Region
+                Product Categories
               </legend>
-              <div className="mt-3.5 space-y-2.5">
-                {originGroups.map((o) => (
-                  <label
-                    key={o}
-                    className="flex cursor-pointer items-start gap-2.5 text-xs text-[#0B1B33]/85 hover:text-[#071A33] transition-colors"
-                  >
+              <div className="mt-3 space-y-2">
+                <label className="flex cursor-pointer items-center justify-between text-xs text-[#0B1B33]/85 hover:text-[#071A33] transition-colors py-1">
+                  <span className="flex items-center gap-2">
                     <input
-                      type="checkbox"
-                      checked={origins.includes(o)}
-                      onChange={() => toggle(origins, setOrigins, o)}
-                      className="mt-0.5 h-4 w-4 rounded accent-[#C9973F] cursor-pointer shrink-0"
+                      type="radio"
+                      name="sidebarCategory"
+                      checked={selectedCat === "all"}
+                      onChange={() => handleCategorySelect("all")}
+                      className="h-4 w-4 accent-[#C9973F] cursor-pointer"
                     />
-                    <span className="leading-tight">{o}</span>
+                    <span className={cn(selectedCat === "all" && "font-semibold text-[#071A33]")}>
+                      All Categories
+                    </span>
+                  </span>
+                  <span className="text-[11px] text-[#A8B2C1] font-medium">{activeProducts.length}</span>
+                </label>
+                {activeCategories.map((c) => (
+                  <label
+                    key={c.slug}
+                    className="flex cursor-pointer items-center justify-between text-xs text-[#0B1B33]/85 hover:text-[#071A33] transition-colors py-1"
+                  >
+                    <span className="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        name="sidebarCategory"
+                        checked={selectedCat === c.slug}
+                        onChange={() => handleCategorySelect(c.slug)}
+                        className="h-4 w-4 accent-[#C9973F] cursor-pointer"
+                      />
+                      <span className={cn(selectedCat === c.slug && "font-semibold text-[#071A33]")}>
+                        {c.name}
+                      </span>
+                    </span>
+                    <span className="text-[11px] text-[#A8B2C1] font-medium">{c.products.length}</span>
                   </label>
                 ))}
               </div>
             </fieldset>
 
-            {/* Packaging Type Filter */}
+            {/* 2. Product Types Filter */}
             <fieldset className="border-t border-[#C9973F]/25 pt-5">
               <legend className="eyebrow !text-[0.68rem] text-[#9A6B1F] font-semibold tracking-wider">
-                Packaging Format
+                Product Types
               </legend>
-              <div className="mt-3.5 space-y-2.5">
-                {packTypes.map((p) => (
-                  <label
-                    key={p}
-                    className="flex cursor-pointer items-center gap-2.5 text-xs text-[#0B1B33]/85 hover:text-[#071A33] transition-colors"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={packs.includes(p)}
-                      onChange={() => toggle(packs, setPacks, p)}
-                      className="h-4 w-4 rounded accent-[#C9973F] cursor-pointer shrink-0"
-                    />
-                    <span>{p}</span>
-                  </label>
-                ))}
+              <div className="mt-3 space-y-2">
+                {productTypes.map((t) => {
+                  const count = activeProducts.filter((p) => getProductType(p) === t).length;
+                  return (
+                    <label
+                      key={t}
+                      className="flex cursor-pointer items-center justify-between text-xs text-[#0B1B33]/85 hover:text-[#071A33] transition-colors py-0.5"
+                    >
+                      <span className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={selectedTypes.includes(t)}
+                          onChange={() => toggle(selectedTypes, setSelectedTypes, t)}
+                          className="h-4 w-4 rounded accent-[#C9973F] cursor-pointer shrink-0"
+                        />
+                        <span className="leading-tight">{t}</span>
+                      </span>
+                      <span className="text-[11px] text-[#A8B2C1] font-medium">{count}</span>
+                    </label>
+                  );
+                })}
+              </div>
+            </fieldset>
+
+            {/* 3. Export Certifications */}
+            <fieldset className="border-t border-[#C9973F]/25 pt-5">
+              <legend className="eyebrow !text-[0.68rem] text-[#9A6B1F] font-semibold tracking-wider">
+                Export Certifications
+              </legend>
+              <div className="mt-3 space-y-2">
+                {exportCertifications.map((cert) => {
+                  const count = activeProducts.filter((p) => productHasCert(p, cert)).length;
+                  return (
+                    <label
+                      key={cert}
+                      className="flex cursor-pointer items-center justify-between text-xs text-[#0B1B33]/85 hover:text-[#071A33] transition-colors py-0.5"
+                    >
+                      <span className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={selectedCerts.includes(cert)}
+                          onChange={() => toggle(selectedCerts, setSelectedCerts, cert)}
+                          className="h-4 w-4 rounded accent-[#C9973F] cursor-pointer shrink-0"
+                        />
+                        <span className="leading-tight">{cert}</span>
+                      </span>
+                      <span className="text-[11px] text-[#A8B2C1] font-medium">{count}</span>
+                    </label>
+                  );
+                })}
               </div>
             </fieldset>
 
@@ -349,32 +406,73 @@ function Products() {
             <div className="rounded-2xl border border-[#C9973F]/25 bg-[#FAF8F3] p-4 text-xs text-[#071A33]/80">
               <p className="font-semibold text-[#071A33]">Direct Maritime Exports</p>
               <p className="mt-1 text-muted-foreground leading-relaxed">
-                All {allProducts.length} products packed to ISO & APEDA compliance with third-party pre-shipment
-                inspections.
+                All {allProducts.length} export products certified to international trade compliance standards.
               </p>
             </div>
           </aside>
 
           {/* Product Listing Main Area */}
           <div>
-            {/* Category Section Intro Banner (When a category is selected) */}
-            {selectedCatObj && (
-              <div className="mb-8 rounded-3xl border border-[#C9973F]/35 bg-gradient-to-br from-[#071A33] via-[#0E2A4F] to-[#040E1F] p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+            {/* Category / Catalog Section Intro Banner with Thematic Background Image */}
+            {selectedCatObj ? (
+              <div className="mb-8 rounded-3xl border border-[#C9973F]/35 bg-[#040E1F] p-6 sm:p-8 text-white shadow-2xl relative overflow-hidden min-h-[190px] flex items-center">
+                {/* Background Image with Cinematic Scrim */}
+                <div className="absolute inset-0 z-0 overflow-hidden">
+                  <img
+                    src={selectedCatObj.image}
+                    alt={selectedCatObj.name}
+                    className="h-full w-full object-cover object-right md:object-center transform scale-105 transition-transform duration-700 ease-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#040E1F] via-[#071A33]/92 via-60% to-[#071A33]/45" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#040E1F]/80 via-transparent to-black/30" />
+                  <div className="absolute inset-0 ring-1 ring-inset ring-[#C9973F]/25 rounded-3xl" />
+                </div>
+
                 <div className="relative z-10 max-w-2xl">
-                  <div className="flex items-center gap-2.5">
-                    <span className="eyebrow !text-[#F2C86E]">{selectedCatObj.headline}</span>
-                    <span className="rounded-full bg-[#C9973F]/20 px-3 py-0.5 text-xs font-semibold text-[#F2C86E] border border-[#C9973F]/40 backdrop-blur-sm">
+                  <div className="flex items-center gap-2.5 flex-wrap">
+                    <span className="eyebrow !text-[#F2C86E] drop-shadow-sm">{selectedCatObj.headline}</span>
+                    <span className="rounded-full bg-[#040E1F]/80 px-3 py-0.5 text-xs font-semibold text-[#F2C86E] border border-[#C9973F]/50 backdrop-blur-md shadow-sm">
                       {selectedCatObj.products.length} {selectedCatObj.products.length === 1 ? "Product" : "Products"}
                     </span>
                   </div>
-                  <h2 className="mt-2.5 font-serif text-3xl sm:text-4xl font-semibold text-white tracking-wide">
+                  <h2 className="mt-2.5 font-serif text-3xl sm:text-4xl font-semibold text-white tracking-wide drop-shadow-md">
                     {selectedCatObj.name}
                   </h2>
-                  <p className="mt-2 text-sm text-[#D9DDE3] leading-relaxed">
+                  <p className="mt-2 text-sm text-[#F4F1EA]/90 leading-relaxed drop-shadow-sm">
                     {selectedCatObj.blurb}
                   </p>
                 </div>
-                <div className="absolute -right-8 -bottom-8 h-44 w-44 rounded-full bg-[#C9973F]/15 blur-3xl pointer-events-none" />
+                <div className="absolute -right-8 -bottom-8 h-44 w-44 rounded-full bg-[#C9973F]/20 blur-3xl pointer-events-none" />
+              </div>
+            ) : (
+              <div className="mb-8 rounded-3xl border border-[#C9973F]/35 bg-[#040E1F] p-6 sm:p-8 text-white shadow-2xl relative overflow-hidden min-h-[190px] flex items-center">
+                {/* Background Image with Cinematic Scrim */}
+                <div className="absolute inset-0 z-0 overflow-hidden">
+                  <img
+                    src="/products/category-agriculture.webp"
+                    alt="All Products"
+                    className="h-full w-full object-cover object-right md:object-center transform scale-105 transition-transform duration-700 ease-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#040E1F] via-[#071A33]/92 via-60% to-[#071A33]/45" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#040E1F]/80 via-transparent to-black/30" />
+                  <div className="absolute inset-0 ring-1 ring-inset ring-[#C9973F]/25 rounded-3xl" />
+                </div>
+
+                <div className="relative z-10 max-w-2xl">
+                  <div className="flex items-center gap-2.5 flex-wrap">
+                    <span className="eyebrow !text-[#F2C86E] drop-shadow-sm">Direct Maritime & Global Trade</span>
+                    <span className="rounded-full bg-[#040E1F]/80 px-3 py-0.5 text-xs font-semibold text-[#F2C86E] border border-[#C9973F]/50 backdrop-blur-md shadow-sm">
+                      {activeProducts.length} Export Commodities
+                    </span>
+                  </div>
+                  <h2 className="mt-2.5 font-serif text-3xl sm:text-4xl font-semibold text-white tracking-wide drop-shadow-md">
+                    All Export Categories
+                  </h2>
+                  <p className="mt-2 text-sm text-[#F4F1EA]/90 leading-relaxed drop-shadow-sm">
+                    Browse India&apos;s finest export commodities across 6 core sectors — machine-sorted, lab-tested, and certified for international port deliveries.
+                  </p>
+                </div>
+                <div className="absolute -right-8 -bottom-8 h-44 w-44 rounded-full bg-[#C9973F]/20 blur-3xl pointer-events-none" />
               </div>
             )}
 
@@ -596,34 +694,77 @@ function Products() {
                   </button>
                 </div>
 
-                {/* Origin Regions */}
+                {/* Product Categories */}
                 <div className="mt-6 space-y-3">
-                  <p className="eyebrow !text-xs text-[#9A6B1F]">Origin Region</p>
-                  {originGroups.map((o) => (
-                    <label key={o} className="flex items-start gap-2 text-xs text-[#0B1B33]">
+                  <p className="eyebrow !text-xs text-[#9A6B1F]">Product Categories</p>
+                  <label className="flex items-center justify-between text-xs text-[#0B1B33]">
+                    <span className="flex items-center gap-2">
                       <input
-                        type="checkbox"
-                        checked={origins.includes(o)}
-                        onChange={() => toggle(origins, setOrigins, o)}
-                        className="mt-0.5 h-3.5 w-3.5 accent-[#C9973F]"
+                        type="radio"
+                        name="mobileCategory"
+                        checked={selectedCat === "all"}
+                        onChange={() => handleCategorySelect("all")}
+                        className="h-3.5 w-3.5 accent-[#C9973F]"
                       />
-                      <span>{o}</span>
+                      <span className={cn(selectedCat === "all" && "font-semibold")}>All Categories</span>
+                    </span>
+                    <span className="text-[10px] text-muted-foreground">{activeProducts.length}</span>
+                  </label>
+                  {activeCategories.map((c) => (
+                    <label key={c.slug} className="flex items-center justify-between text-xs text-[#0B1B33]">
+                      <span className="flex items-center gap-2">
+                        <input
+                          type="radio"
+                          name="mobileCategory"
+                          checked={selectedCat === c.slug}
+                          onChange={() => handleCategorySelect(c.slug)}
+                          className="h-3.5 w-3.5 accent-[#C9973F]"
+                        />
+                        <span className={cn(selectedCat === c.slug && "font-semibold")}>{c.name}</span>
+                      </span>
+                      <span className="text-[10px] text-muted-foreground">{c.products.length}</span>
                     </label>
                   ))}
                 </div>
 
-                {/* Packaging */}
+                {/* Product Types */}
                 <div className="mt-6 space-y-3 border-t hairline pt-4">
-                  <p className="eyebrow !text-xs text-[#9A6B1F]">Packaging Format</p>
-                  {packTypes.map((p) => (
-                    <label key={p} className="flex items-center gap-2 text-xs text-[#0B1B33]">
-                      <input
-                        type="checkbox"
-                        checked={packs.includes(p)}
-                        onChange={() => toggle(packs, setPacks, p)}
-                        className="h-3.5 w-3.5 accent-[#C9973F]"
-                      />
-                      <span>{p}</span>
+                  <p className="eyebrow !text-xs text-[#9A6B1F]">Product Types</p>
+                  {productTypes.map((t) => (
+                    <label key={t} className="flex items-center justify-between text-xs text-[#0B1B33]">
+                      <span className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={selectedTypes.includes(t)}
+                          onChange={() => toggle(selectedTypes, setSelectedTypes, t)}
+                          className="h-3.5 w-3.5 accent-[#C9973F]"
+                        />
+                        <span>{t}</span>
+                      </span>
+                      <span className="text-[10px] text-muted-foreground">
+                        {activeProducts.filter((p) => getProductType(p) === t).length}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+
+                {/* Export Certifications */}
+                <div className="mt-6 space-y-3 border-t hairline pt-4">
+                  <p className="eyebrow !text-xs text-[#9A6B1F]">Export Certifications</p>
+                  {exportCertifications.map((cert) => (
+                    <label key={cert} className="flex items-center justify-between text-xs text-[#0B1B33]">
+                      <span className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={selectedCerts.includes(cert)}
+                          onChange={() => toggle(selectedCerts, setSelectedCerts, cert)}
+                          className="h-3.5 w-3.5 accent-[#C9973F]"
+                        />
+                        <span>{cert}</span>
+                      </span>
+                      <span className="text-[10px] text-muted-foreground">
+                        {activeProducts.filter((p) => productHasCert(p, cert)).length}
+                      </span>
                     </label>
                   ))}
                 </div>
