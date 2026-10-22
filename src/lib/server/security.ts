@@ -36,17 +36,19 @@ interface RateLimitRecord {
 }
 
 const ipRequestMap = new Map<string, RateLimitRecord>();
+let lastPruneAt = 0;
 
-// Clean up stale entries every 15 minutes
-setInterval(() => {
-  const oneHourAgo = Date.now() - 60 * 60 * 1000;
+function pruneStaleEntries(now: number) {
+  if (now - lastPruneAt < 60 * 1000) return; // at most once every minute
+  lastPruneAt = now;
+  const oneHourAgo = now - 60 * 60 * 1000;
   for (const [ip, record] of ipRequestMap.entries()) {
     record.timestamps = record.timestamps.filter((t) => t > oneHourAgo);
     if (record.timestamps.length === 0) {
       ipRequestMap.delete(ip);
     }
   }
-}, 15 * 60 * 1000);
+}
 
 export function checkRateLimit(
   ip: string,
@@ -56,6 +58,7 @@ export function checkRateLimit(
   // Normalize localhost / loopback IPs for testing
   const normalizedIp = ip === "::1" || ip === "127.0.0.1" ? "127.0.0.1" : ip;
   const now = Date.now();
+  pruneStaleEntries(now);
   const windowStart = now - windowMs;
 
   let record = ipRequestMap.get(normalizedIp);
