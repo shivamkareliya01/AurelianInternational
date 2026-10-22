@@ -24,7 +24,7 @@ import { useBasket } from "@/lib/basket";
 import { cn } from "@/lib/utils";
 
 const activeCategories = categories.filter(
-  (c) => c.slug !== "ceramic-tiles" && c.slug !== "natural-stones",
+  (c) => c.slug !== "natural-stones",
 );
 const activeCategorySlugs = new Set(activeCategories.map((c) => c.slug));
 const activeProducts = allProducts.filter((p) => activeCategorySlugs.has(p.category.slug));
@@ -35,7 +35,7 @@ export const Route = createFileRoute("/products/")({
       { title: `Export Products Catalogue (${activeProducts.length} Items) — ${site.name}` },
       {
         name: "description",
-        content: `Browse ${activeProducts.length} export-grade Indian products across 5 approved categories: Agriculture, Fresh Vegetables, Fresh Fruits, Spices, and Dehydrated Powders.`,
+        content: `Browse ${activeProducts.length} export-grade Indian products across 6 approved categories: Agriculture, Fresh Vegetables, Fresh Fruits, Spices, Dehydrated Powders, and Ceramic Tiles.`,
       },
       { property: "og:title", content: `Export Products Catalogue — ${site.name}` },
       {
@@ -179,8 +179,8 @@ function Products() {
       {/* 1. Header Banner */}
       <PageHeader
         eyebrow="Certified Export Catalog"
-        title="Five Core Categories. One Global Standard."
-        text={`${activeProducts.length} certified export commodities sourced from India's prime agricultural, spice, and botanical belts — graded, inspected and shipped worldwide.`}
+        title="Six Core Categories. One Global Standard."
+        text={`${activeProducts.length} certified export commodities and architectural surfaces sourced from India's prime agricultural, spice, and ceramic manufacturing hubs — graded, inspected and shipped worldwide.`}
         crumbs={[{ label: "Products" }]}
         image="/products/1121-basmati-rice.webp"
       />
@@ -364,7 +364,7 @@ function Products() {
                   <div className="flex items-center gap-2.5">
                     <span className="eyebrow !text-[#F2C86E]">{selectedCatObj.headline}</span>
                     <span className="rounded-full bg-[#C9973F]/20 px-3 py-0.5 text-xs font-semibold text-[#F2C86E] border border-[#C9973F]/40 backdrop-blur-sm">
-                      {selectedCatObj.products.length} Products
+                      {selectedCatObj.products.length} {selectedCatObj.products.length === 1 ? "Product" : "Products"}
                     </span>
                   </div>
                   <h2 className="mt-2.5 font-serif text-3xl sm:text-4xl font-semibold text-white tracking-wide">

@@ -60,9 +60,9 @@ const categoryMeta: Record<
     cert: "ISPM-15 Wooden Crates",
   },
   "ceramic-tiles": {
-    descriptor: "Vitrified, porcelain & wall tiles",
+    descriptor: "Glazed vitrified tiles (GVT / PGVT)",
     origin: "Origin: Morbi, Gujarat",
-    moq: "MOQ: 1 × 20ft FCL (1,200 sq.m)",
+    moq: "MOQ: 1 × 20ft FCL (1,300 sq.m)",
     cert: "ISO 13006 & CE Certified",
   },
   "dehydrated-powders": {
@@ -182,7 +182,7 @@ export function Navbar() {
   );
 
   const navCategories = categories.filter(
-    (c) => c.slug !== "ceramic-tiles" && c.slug !== "natural-stones",
+    (c) => c.slug !== "natural-stones",
   );
   const activeCategory = navCategories[activeCategoryIdx] ?? navCategories[0]!;
   const activeMeta = categoryMeta[activeCategory.slug] ?? {
@@ -312,7 +312,7 @@ export function Navbar() {
                                         {c.name}
                                       </Link>
                                       <span className="inline-block mt-1 text-[10px] font-sans font-semibold tracking-wider text-[#F2C86E] bg-[#040E1F]/90 border border-[#C9973F]/40 px-2 py-0.5 rounded-full">
-                                        {c.products.length} products
+                                        {c.products.length} {c.products.length === 1 ? "product" : "products"}
                                       </span>
                                     </div>
                                   </div>

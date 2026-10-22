@@ -1,4 +1,4 @@
-// 5 Categories, 40 Approved Export Products with Standardized Spec Architecture
+// 6 Categories, 41 Approved Export Products with Standardized Spec Architecture
 
 export type ProductSpecs = {
   origin?: string;
@@ -800,6 +800,34 @@ export const categories: Category[] = [
             "FSSAI",
             "ISO 22000",
             "HACCP"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "slug": "ceramic-tiles",
+    "name": "Ceramic Tiles",
+    "headline": "Glazed Vitrified Tiles (GVT / PGVT)",
+    "blurb": "Premium export-grade Glazed Vitrified Tiles (GVT & PGVT) manufactured in Morbi, Gujarat — high-definition Italian inkjet printing, nano-polished gloss, and ISO 13006 / CE international certifications.",
+    "image": "/products/luxury-glazed-vitrified-tiles.webp",
+    "products": [
+      {
+        "slug": "glazed-vitrified-tiles",
+        "name": "Glazed Vitrified Tiles (GVT / PGVT)",
+        "image": "/products/luxury-glazed-vitrified-tiles.webp",
+        "shortDescription": "Premium export-grade digital glazed vitrified tiles manufactured with high-definition Italian inkjet printing, authentic marble veining, nano-polished surfaces, and ultra-low water absorption (<0.05%).",
+        "specs": {
+          "origin": "Morbi, Gujarat, India",
+          "gradeVariety": "GVT Glossy / Carving / High-Gloss PGVT (600x1200mm, 800x1600mm)",
+          "exportPackaging": "Corner-protected corrugated cartons on ISPM-15 heat-treated fumigated wooden pallets",
+          "moq": "1 × 20ft FCL (approx. 1,300 sq.m)",
+          "shelfLife": "Permanent Architectural Material",
+          "certifications": [
+            "ISO 13006 Group BIa",
+            "CE Certified",
+            "VOC Free",
+            "SGS Inspected"
           ]
         }
       }

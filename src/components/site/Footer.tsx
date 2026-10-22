@@ -42,7 +42,7 @@ export function Footer() {
           <ul className="mt-5 space-y-3 text-sm">
             {categories
               .filter(
-                (c) => c.slug !== "ceramic-tiles" && c.slug !== "natural-stones",
+                (c) => c.slug !== "natural-stones",
               )
               .map((c) => (
                 <li key={c.slug}>
