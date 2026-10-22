@@ -12,7 +12,7 @@ export function Footer() {
     <footer className="border-t-2 border-[#C9973F] bg-[#040E1F] text-[#F4F1EA]">
       <div className="container-x grid gap-12 py-20 md:grid-cols-2 lg:grid-cols-12">
         <div className="lg:col-span-4">
-          <Logo size="lg" />
+          <Logo size="lg" variant="stacked" />
           <p className="mt-6 max-w-sm text-sm leading-relaxed text-[#D9DDE3]">
             A {site.city}-based trading house exporting India's finest agricultural produce, spices,
             and natural stone to 7 key destination markets worldwide.
@@ -41,7 +41,9 @@ export function Footer() {
           <h3 className="eyebrow">Products</h3>
           <ul className="mt-5 space-y-3 text-sm">
             {categories
-              .filter((c) => c.slug !== "ceramic-tiles")
+              .filter(
+                (c) => c.slug !== "ceramic-tiles" && c.slug !== "natural-stones",
+              )
               .map((c) => (
                 <li key={c.slug}>
                   <Link

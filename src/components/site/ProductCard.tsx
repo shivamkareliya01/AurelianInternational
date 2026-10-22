@@ -43,7 +43,7 @@ export function ProductCard({
     .trim();
   const captionLabel = `Fresh ${rawIngredient}`;
 
-  const ingredientImage = isPowder ? `/products/${product.slug}-ingredient.webp` : "";
+  const ingredientImage = isPowder ? `/products/${product.slug}-ingredient.webp?v=20261021b` : "";
 
   // Preload hover/ingredient image so swap is instant without flicker
   useEffect(() => {

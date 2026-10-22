@@ -23,13 +23,19 @@ import { site } from "@/data/site";
 import { useBasket } from "@/lib/basket";
 import { cn } from "@/lib/utils";
 
+const activeCategories = categories.filter(
+  (c) => c.slug !== "ceramic-tiles" && c.slug !== "natural-stones",
+);
+const activeCategorySlugs = new Set(activeCategories.map((c) => c.slug));
+const activeProducts = allProducts.filter((p) => activeCategorySlugs.has(p.category.slug));
+
 export const Route = createFileRoute("/products/")({
   head: () => ({
     meta: [
-      { title: `Export Products Catalogue (${allProducts.length} Items) — ${site.name}` },
+      { title: `Export Products Catalogue (${activeProducts.length} Items) — ${site.name}` },
       {
         name: "description",
-        content: `Browse ${allProducts.length} export-grade Indian products across 7 approved categories: Agriculture, Fresh Vegetables, Fresh Fruits, Spices, Natural Stones, Ceramic & Vitrified Tiles, and Dehydrated Powders.`,
+        content: `Browse ${activeProducts.length} export-grade Indian products across 5 approved categories: Agriculture, Fresh Vegetables, Fresh Fruits, Spices, and Dehydrated Powders.`,
       },
       { property: "og:title", content: `Export Products Catalogue — ${site.name}` },
       {
@@ -136,7 +142,7 @@ function Products() {
 
   // Filtered & Sorted Product List
   const list = useMemo(() => {
-    let filtered = allProducts.filter((p) => {
+    let filtered = activeProducts.filter((p) => {
       const originVal = p.specs?.origin || p.origin || "";
       const gradeVal = p.specs?.gradeVariety || p.grade || "";
       const descVal = p.shortDescription || p.description || "";
@@ -166,15 +172,15 @@ function Products() {
   const pagedList = list.slice(0, visibleCount);
   const hasMore = visibleCount < list.length;
 
-  const selectedCatObj = categories.find((c) => c.slug === selectedCat);
+  const selectedCatObj = activeCategories.find((c) => c.slug === selectedCat);
 
   return (
     <>
       {/* 1. Header Banner */}
       <PageHeader
         eyebrow="Certified Export Catalog"
-        title="Seven Categories. One Global Standard."
-        text={`${allProducts.length} certified export commodities sourced from India's prime agricultural, spice, mineral and botanical belts — graded, inspected and shipped worldwide.`}
+        title="Five Core Categories. One Global Standard."
+        text={`${activeProducts.length} certified export commodities sourced from India's prime agricultural, spice, and botanical belts — graded, inspected and shipped worldwide.`}
         crumbs={[{ label: "Products" }]}
         image="/products/1121-basmati-rice.webp"
       />
@@ -214,12 +220,12 @@ function Products() {
                       : "bg-white/10 text-gold-soft",
                   )}
                 >
-                  {allProducts.length}
+                  {activeProducts.length}
                 </span>
               </button>
 
               {/* Approved Category Pills */}
-              {categories.map((c) => {
+              {activeCategories.map((c) => {
                 const active = selectedCat === c.slug;
                 const displayName = c.slug === "dehydrated-powders" ? "Dehydrated Powders" : c.name;
                 return (
@@ -383,7 +389,7 @@ function Products() {
                     setQ(e.target.value);
                     setVisibleCount(ITEMS_PER_PAGE);
                   }}
-                  placeholder={`Search ${allProducts.length} products, varieties, origins, specs…`}
+                  placeholder={`Search ${activeProducts.length} products, varieties, origins, specs…`}
                   className="w-full rounded-full border border-[#C9973F]/35 bg-white py-2.5 pl-11 pr-4 text-sm text-[#0B1B33] placeholder:text-muted-foreground focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/20 shadow-sm transition-all"
                 />
               </div>

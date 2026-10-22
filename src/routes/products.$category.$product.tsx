@@ -1,9 +1,10 @@
 import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
-import { ArrowLeft, Check, Download, MessageCircle, Plus, ShieldCheck } from "lucide-react";
+import { ArrowLeft, Check, Download, Plus, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import { PageHeader } from "@/components/site/PageHeader";
 import { ProductCard } from "@/components/site/ProductCard";
 import { Reveal, btn } from "@/components/site/primitives";
+import { WhatsAppIcon } from "@/components/site/WhatsAppIcon";
 import { POWDER_COLORS } from "@/data/powderColors";
 import { getCategory, getProduct } from "@/data/products";
 import { site } from "@/data/site";
@@ -122,7 +123,7 @@ function ProductPage() {
   const rawGallery = p.gallery && p.gallery.length > 0 ? p.gallery : [p.image];
   const gallery = isPowder ? rawGallery.map((img) => `${img}?v=powder2026`) : rawGallery;
   const ingredientImage = isPowder
-    ? `/products/${p.slug}-ingredient.webp?v=powder2026`
+    ? `/products/${p.slug}-ingredient.webp?v=powder2026b`
     : "";
   const [activeImg, setActiveImg] = useState(0);
   const [zoomed, setZoomed] = useState(false);
@@ -408,7 +409,7 @@ Email: ${site.email}
                   rel="noreferrer"
                   className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-gold/40 bg-transparent py-3 text-xs font-semibold text-gold-soft hover:bg-gold/10 transition-colors"
                 >
-                  <MessageCircle className="h-4 w-4" /> Inquire via WhatsApp
+                  <WhatsAppIcon className="h-4 w-4 text-[#25D366]" /> Inquire via WhatsApp
                 </a>
               </div>
 

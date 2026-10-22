@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import farm from "@/assets/farm.jpg";
 import warehouse from "@/assets/warehouse.jpg";
-import marble from "@/assets/marble.jpg";
+import spices from "@/assets/spices.jpg";
 import port from "@/assets/port.jpg";
 import { PageHeader } from "@/components/site/PageHeader";
 import { InfinityWatermark, Reveal, SectionHead } from "@/components/site/primitives";
@@ -155,7 +155,7 @@ function About() {
           <div className="mt-14 grid gap-4 md:grid-cols-3">
             {[
               [warehouse, "Bonded warehouse, Navi Mumbai"],
-              [marble, "Stone processing yard, Rajasthan"],
+              [spices, "Spices & botanical processing unit, Gujarat"],
               [port, "Loading at JNPT, Mumbai"],
             ].map(([src, l]) => (
               <figure key={l} className="group overflow-hidden rounded-2xl">

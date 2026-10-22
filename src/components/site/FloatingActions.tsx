@@ -1,10 +1,11 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUp, MessageCircle } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import { useEffect, useState } from "react";
 import { site } from "@/data/site";
 import { btn } from "./primitives";
 import { cn } from "@/lib/utils";
+import { WhatsAppIcon } from "./WhatsAppIcon";
 
 export function FloatingActions() {
   const [showTop, setShowTop] = useState(false);
@@ -74,7 +75,7 @@ export function FloatingActions() {
           aria-label="Chat on WhatsApp"
           className="grid h-12 w-12 sm:h-13 sm:w-13 md:h-14 md:w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-2xl ring-3 sm:ring-4 ring-[#071A33] transition-transform hover:scale-105 hover:ring-[#C9973F] focus:outline-none focus:ring-[#C9973F]"
         >
-          <MessageCircle className="h-6 w-6 sm:h-7 sm:w-7" />
+          <WhatsAppIcon className="h-6 w-6 sm:h-7 sm:w-7" />
         </a>
       </div>
 

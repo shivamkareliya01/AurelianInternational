@@ -42,7 +42,7 @@ export const indiaOrigin: Hub = {
   pillW: 68,
   pillH: 19,
   ports: "JNPT (Mumbai), Mundra Port, Chennai Port, Cochin Port",
-  products: "Full Export Portfolio (Agricultural, Spices, Natural Stone, Fresh Produce, Powders)",
+  products: "Full Export Portfolio (Agricultural Grains, Spices, Fresh Produce, Powders)",
   transit: "Domestic Consolidation, Quality Assay & Customs Clearance",
   isOrigin: true,
 };
@@ -68,7 +68,7 @@ export const destinationHubs: Hub[] = [
     // Great Circle transatlantic route from India
     routeD: "M 681.6 233.8 C 550 90, 380 90, 265.6 158.5",
     ports: "Port of New York / New Jersey, Houston, Los Angeles",
-    products: "Spices, Basmati Rice, Granite & Marble Slabs, Dehydrated Powders",
+    products: "Spices, Basmati Rice, Organic Pulses, Dehydrated Powders",
     transit: "28–34 Days (East Coast) / 38–42 Days (West Coast)",
   },
   {
@@ -89,7 +89,7 @@ export const destinationHubs: Hub[] = [
     // Direct maritime arc to North Sea / Rotterdam gateway
     routeD: "M 681.6 233.8 C 605 155, 530 115, 484.6 119.6",
     ports: "Port of Rotterdam, Port of Antwerp",
-    products: "Organic Spices, Green Cardamom, Natural Stone & Tiles, Pulses",
+    products: "Organic Spices, Green Cardamom, Fresh Produce, Pulses",
     transit: "22–26 Days (Direct Sea Transit)",
   },
   {
@@ -194,7 +194,7 @@ export const destinationHubs: Hub[] = [
     // Sweeps southeast into Oceania / Sydney / Melbourne
     routeD: "M 681.6 233.8 C 740 280, 810 340, 852.5 394.2",
     ports: "Port Botany (Sydney), Port of Melbourne, Fremantle",
-    products: "Spices, Basmati Rice, Natural Stones & Porcelain Tiles",
+    products: "Spices, Basmati Rice, Dehydrated Garlic & Onion, Wheat",
     transit: "18–24 Days (Indian Ocean Eastbound Corridor)",
   },
 ];

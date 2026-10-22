@@ -17,6 +17,7 @@ import { useBasket } from "@/lib/basket";
 import { cn } from "@/lib/utils";
 import { Logo } from "./Logo";
 import { InfinityWatermark, btn } from "./primitives";
+import { WhatsAppIcon } from "./WhatsAppIcon";
 
 const links = [
   { to: "/about", label: "About" },
@@ -180,7 +181,9 @@ export function Navbar() {
     "relative text-sm font-medium tracking-wide transition-colors py-2 text-[#F4F1EA]/90 hover:text-[#F2C86E]",
   );
 
-  const navCategories = categories.filter((c) => c.slug !== "ceramic-tiles");
+  const navCategories = categories.filter(
+    (c) => c.slug !== "ceramic-tiles" && c.slug !== "natural-stones",
+  );
   const activeCategory = navCategories[activeCategoryIdx] ?? navCategories[0]!;
   const activeMeta = categoryMeta[activeCategory.slug] ?? {
     descriptor: activeCategory.blurb,
@@ -446,7 +449,7 @@ export function Navbar() {
                           rel="noreferrer"
                           className="inline-flex items-center gap-1.5 text-xs text-[#25D366] hover:text-[#3ce27d] transition-colors font-medium px-3 py-1.5 rounded-full border border-[#25D366]/30 hover:border-[#25D366]/60 bg-[#071A33]"
                         >
-                          <MessageCircle className="h-3.5 w-3.5" />
+                          <WhatsAppIcon className="h-3.5 w-3.5" />
                           WhatsApp Trade Desk
                         </a>
                         <Link

@@ -29,7 +29,7 @@ function NotFoundComponent() {
     <div className="flex min-h-screen items-center justify-center bg-[#040E1F] px-4 py-20 text-[#F4F1EA]">
       <div className="max-w-md text-center">
         <div className="flex justify-center mb-8">
-          <Logo size="lg" />
+          <Logo size="lg" variant="stacked" />
         </div>
         <h1 className="font-display text-7xl font-bold text-[#F2C86E]">404</h1>
         <h2 className="mt-4 font-display text-2xl font-semibold text-[#F4F1EA]">Page Not Found</h2>
@@ -57,7 +57,7 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
     <div className="flex min-h-screen items-center justify-center bg-[#040E1F] px-4 py-20 text-[#F4F1EA]">
       <div className="max-w-md text-center">
         <div className="flex justify-center mb-8">
-          <Logo size="lg" />
+          <Logo size="lg" variant="stacked" />
         </div>
         <h1 className="font-display text-2xl font-semibold tracking-tight text-[#F4F1EA]">
           This Page Didn't Load
@@ -94,7 +94,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Premium Indian agricultural produce, spices, and natural stone, exported worldwide.",
+          "Premium Indian agricultural produce, spices, and dehydrated powders, exported worldwide.",
       },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "/og-image.png" },

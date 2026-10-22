@@ -15,11 +15,9 @@ import {
 import { useEffect, useRef, useState } from "react";
 import shipmentWebp from "@/assets/hero-shipment.webp";
 import spicesWebp from "@/assets/hero-spices.webp";
-import tilesWebp from "@/assets/hero-tiles.webp";
 import agriWebp from "@/assets/hero-agriculture.webp";
 import farm from "@/assets/farm.jpg";
 import spices from "@/assets/spices.jpg";
-import marble from "@/assets/marble.jpg";
 import port from "@/assets/port.jpg";
 import storyShip from "@/assets/our-story-ship.jpg";
 import storyHarvest from "@/assets/our-story-harvest.jpg";
@@ -53,14 +51,6 @@ const heroSlides = [
     filter: "brightness(0.68) contrast(1.15) saturate(1.1)",
   },
   {
-    src: tilesWebp,
-    placeholder:
-      "data:image/webp;base64,UklGRrAAAABXRUJQVlA4IKQAAADQBACdASogABIAPxF2sVAsJ6SisAgBgCIJZQDIXCBzX53bsLM+urL7b7HTjf65YAD+05vzh7aTEdERR+sdnipTYblCNxF6JKt7wm+215S6RVAq5fcCYkm1z0yhcarJZDzUZd5/2HqgAyGG4zvqfkz6hUmDH8quzTrlNSDvzbfKt4FVvCdigt6etkgCIAnOas+w3TRTHZRxFtTHzbzP8JyOnUQQAA==",
-    alt: "Luxury polished marble slabs with dramatic high-contrast veins",
-    label: "Tiles & Slabs",
-    filter: "brightness(0.68) contrast(1.15) saturate(1.1)",
-  },
-  {
     src: agriWebp,
     placeholder:
       "data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAADQAwCdASogABIAPxFyr1AsJqQisAgBgCIJQBbZA+lr6Ao/j3SSbYwA3f4A3WFQr04jseSEIG8fD+McswqNb/NQro8YXOqPN67RxdrXindNzCwnCCG8nuAfBvZRU0QnlzkardZWUVkAXJ9QAAA=",
@@ -77,13 +67,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Premium Indian agricultural produce, spices, and natural stone — sourced, certified and shipped to your port.",
+          "Premium Indian agricultural produce, spices, and botanical powders — sourced, certified and shipped to your port.",
       },
       { property: "og:title", content: `${site.name} — India's Finest, Delivered Worldwide` },
       {
         property: "og:description",
         content:
-          "Premium agricultural produce, spices, natural stone and more from India — certified and shipped worldwide.",
+          "Premium agricultural produce, spices, and botanical powders from India — certified and shipped worldwide.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -91,7 +81,6 @@ export const Route = createFileRoute("/")({
     links: [
       { rel: "preload", href: shipmentWebp, as: "image" },
       { rel: "preload", href: spicesWebp, as: "image" },
-      { rel: "preload", href: tilesWebp, as: "image" },
       { rel: "preload", href: agriWebp, as: "image" },
     ],
   }),
@@ -235,7 +224,7 @@ function Hero() {
           className="mt-6 sm:mt-8 max-w-xl text-base sm:text-lg text-[#D9DDE3] leading-relaxed"
           style={{ textShadow: "0 2px 16px rgba(0, 0, 0, 0.4)" }}
         >
-          Premium agricultural produce, spices, and natural stone — sourced, certified and shipped
+          Premium agricultural commodities, spices, and dehydrated powders — sourced, certified and shipped
           to your port with end-to-end accountability.
         </motion.p>
         <motion.div
@@ -317,7 +306,7 @@ function Hero() {
         >
           {[
             ["6", "Destination Markets"],
-            ["7", "Product Categories"],
+            ["5", "Product Categories"],
             [String(allProducts.length), "Export SKUs"],
             ["100%", "Certified Quality"],
           ].map(([v, l], k) => (
@@ -499,15 +488,15 @@ function Categories() {
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end mb-12">
           <SectionHead
             eyebrow="What We Export"
-            title="Six categories. One standard."
-            text="Direct sourcing, optical sorting, and customized packaging across India's primary agricultural, spice, mineral, and botanical export belts."
+            title="Five core categories. One standard."
+            text="Direct sourcing, optical sorting, and customized packaging across India's primary agricultural, fresh produce, spice, and botanical export belts."
           />
           <Link to="/products" className={btn.outline}>
-            All {allProducts.length} Products <ArrowRight className="h-4 w-4" />
+            Explore Catalogue <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 
-        {/* 6-Card Balanced Bento Grid */}
+        {/* 5-Card Balanced Bento Grid */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
           {/* Card 0: Agriculture (Tall & expansive hero bento tile) */}
           <div className="md:col-span-7 h-[26rem] md:h-[30rem]">
@@ -524,16 +513,12 @@ function Categories() {
             </div>
           </div>
 
-          {/* Row 2: Spices, Natural Stones, Dehydrated Powders (3 balanced columns) */}
-          <div className="md:col-span-4 h-[18rem] md:h-[20rem]">
+          {/* Row 2: Spices & Dehydrated Powders (2 balanced wide columns, 6 cols each) */}
+          <div className="md:col-span-6 h-[18rem] md:h-[20rem]">
             <CategoryBentoCard category={categories[3]!} isWide />
           </div>
 
-          <div className="md:col-span-4 h-[18rem] md:h-[20rem]">
-            <CategoryBentoCard category={categories[4]!} isWide />
-          </div>
-
-          <div className="md:col-span-4 h-[18rem] md:h-[20rem]">
+          <div className="md:col-span-6 h-[18rem] md:h-[20rem]">
             <CategoryBentoCard category={dehydratedCategory} isWide />
           </div>
         </div>
@@ -582,7 +567,7 @@ const exportSteps = [
   {
     step: "01",
     title: "Sourcing",
-    desc: "Direct farm-gate and quarry procurement across Maharashtra, Punjab, Gujarat & Rajasthan with complete lot traceability.",
+    desc: "Direct farm-gate and cooperative procurement across Maharashtra, Punjab, Gujarat & Rajasthan with complete lot traceability.",
   },
   {
     step: "02",
@@ -592,7 +577,7 @@ const exportSteps = [
   {
     step: "03",
     title: "Packaging",
-    desc: "Food-grade poly bags, vacuum tins, customized retail pouches, or fumigated wooden crates tailored to buyer specifications.",
+    desc: "Food-grade poly bags, vacuum tins, customized retail pouches, or multi-wall bulk bags tailored to buyer specifications.",
   },
   {
     step: "04",
@@ -751,7 +736,7 @@ const gallery = [
   { src: port, alt: "Container ship at port", h: "" },
   { src: farm, alt: "Wheat fields at sunrise", h: "" },
   { src: produce, alt: "Fresh produce in crates", h: "row-span-2" },
-  { src: marble, alt: "Marble slabs in a warehouse", h: "" },
+  { src: storyHarvest, alt: "Agricultural produce sorting and grading", h: "" },
   { src: spices, alt: "Indian spices in brass bowls", h: "" },
 ];
 

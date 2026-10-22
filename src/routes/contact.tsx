@@ -1,10 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ExternalLink, Mail, MapPin, MessageCircle, Navigation, Phone } from "lucide-react";
+import { ExternalLink, Mail, MapPin, Navigation, Phone } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { PageHeader } from "@/components/site/PageHeader";
 import { btn } from "@/components/site/primitives";
+import { WhatsAppIcon } from "@/components/site/WhatsAppIcon";
 import { site } from "@/data/site";
 import { company } from "@/config/company";
 import { cn } from "@/lib/utils";
@@ -93,7 +94,7 @@ function Contact() {
               rel="noreferrer"
               className={btn.navy}
             >
-              <MessageCircle className="h-4 w-4 text-gold-soft" /> Instant WhatsApp Desk
+              <WhatsAppIcon className="h-4 w-4 text-[#25D366]" /> Instant WhatsApp Desk
             </a>
 
             {/* Premium Google Map Block with Floating Info Card & Click-to-Activate */}

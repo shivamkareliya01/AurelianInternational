@@ -27,7 +27,7 @@ export function ProductPicker({
   name = "products",
   selectedProducts,
   onChange,
-  maxSelected = 8,
+  maxSelected = Number.POSITIVE_INFINITY,
   placeholder = "Search or choose a product...",
   hasError = false,
   onCustomRequest,
@@ -59,7 +59,7 @@ export function ProductPicker({
       if (exists) {
         onChange(selectedProducts.filter((p) => p.slug !== product.slug));
       } else {
-        if (selectedProducts.length >= maxSelected) return;
+        if (Number.isFinite(maxSelected) && selectedProducts.length >= maxSelected) return;
         onChange([
           ...selectedProducts,
           {
@@ -165,7 +165,7 @@ export function ProductPicker({
                 </span>
               ))}
 
-              {selectedProducts.length < maxSelected && (
+              {Number.isFinite(maxSelected) && selectedProducts.length < maxSelected && (
                 <span className="text-[0.7rem] text-[#C9973F] font-medium pl-1 select-none">
                   +{maxSelected - selectedProducts.length} more
                 </span>
@@ -177,7 +177,9 @@ export function ProductPicker({
         <div className="flex items-center gap-2 shrink-0 pl-1 select-none">
           {selectedProducts.length > 0 && (
             <span className="hidden sm:inline-block rounded-full bg-[#C9973F]/15 px-2 py-0.5 text-[0.68rem] font-semibold text-[#071A33]">
-              {selectedProducts.length}/{maxSelected}
+              {Number.isFinite(maxSelected)
+                ? `${selectedProducts.length}/${maxSelected}`
+                : `${selectedProducts.length} selected`}
             </span>
           )}
           <ChevronDown

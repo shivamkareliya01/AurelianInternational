@@ -19,6 +19,7 @@ import { site } from "@/data/site";
 import { useBasket } from "@/lib/basket";
 import { submitEnquiry } from "@/lib/enquiry";
 import { cn } from "@/lib/utils";
+import { WhatsAppIcon } from "./WhatsAppIcon";
 
 // Top international trading destinations with emojis
 const COUNTRIES = [
@@ -404,9 +405,6 @@ export function EnquiryForm() {
                   <Package className="h-3.5 w-3.5 text-[#C9973F]" />
                   Product Interest *
                 </span>
-                <span className="text-[0.7rem] font-normal text-muted-foreground">
-                  Select up to 8 products
-                </span>
               </label>
 
               <ProductPicker
@@ -711,7 +709,7 @@ export function EnquiryForm() {
                 rel="noreferrer"
                 className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-[14px] border border-[#071A33]/20 bg-[#071A33] px-5 py-3 text-sm font-semibold text-gold-soft shadow-[0_4px_16px_rgba(7,26,51,0.18)] transition-all duration-200 hover:bg-[#0E2A4F] hover:text-white hover:-translate-y-0.5"
               >
-                <MessageCircle className="h-4 w-4 text-gold-soft" /> Instant WhatsApp Desk
+                <WhatsAppIcon className="h-4 w-4 text-[#25D366]" /> Instant WhatsApp Desk
               </a>
             </div>
           </motion.form>

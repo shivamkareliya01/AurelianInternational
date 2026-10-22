@@ -585,7 +585,9 @@ export default function ProductPickerModal({
 
             <div className="flex items-center gap-3">
               <span className="text-xs text-muted-foreground font-medium">
-                {selectedProducts.length}/{maxSelected} selected
+                {Number.isFinite(maxSelected)
+                  ? `${selectedProducts.length}/${maxSelected} selected`
+                  : `${selectedProducts.length} selected`}
               </span>
               <button
                 type="button"
@@ -680,10 +682,12 @@ export default function ProductPickerModal({
                 <strong className="text-[#071A33] font-semibold">
                   {selectedProducts.length}
                 </strong>{" "}
-                selected (max {maxSelected})
+                {Number.isFinite(maxSelected)
+                  ? `selected (max ${maxSelected})`
+                  : "products selected"}
               </span>
             ) : (
-              <span>Select at least 1 product for export quote</span>
+              <span>Select products for export quote</span>
             )}
           </div>
 

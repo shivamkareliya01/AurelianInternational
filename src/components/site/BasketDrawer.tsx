@@ -16,6 +16,7 @@ import { useScrollLock } from "@/lib/scroll-lock";
 import { ProductPicker } from "./ProductPicker";
 import { btn } from "./primitives";
 import { cn } from "@/lib/utils";
+import { WhatsAppIcon } from "./WhatsAppIcon";
 
 export function BasketDrawer() {
   const { items, add, remove, clear, isOpen, closeBasket } = useBasket();
@@ -378,7 +379,7 @@ export function BasketDrawer() {
                         rel="noreferrer"
                         className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#25D366] bg-white py-2.5 text-xs font-medium text-[#071A33] hover:bg-[#25D366]/10 transition-colors"
                       >
-                        <MessageCircle className="h-4 w-4 text-[#25D366]" /> Quick Quote via
+                        <WhatsAppIcon className="h-4 w-4 text-[#25D366]" /> Quick Quote via
                         WhatsApp
                       </a>
                     </form>

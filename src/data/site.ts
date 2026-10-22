@@ -23,7 +23,7 @@ export const site = {
 
 export const stats = [
   { value: totalDestinationCount, suffix: "", label: "Destination Markets" },
-  { value: 7, suffix: "", label: "Product Categories" },
+  { value: 5, suffix: "", label: "Product Categories" },
   { value: totalCatalogCount, suffix: "", label: "Export Products" },
   { value: 500, suffix: "+", label: "Shipments Completed" },
 ];

@@ -64,10 +64,10 @@ export const testimonials = [
     country: "USA",
   },
   {
-    quote: "Beautiful marble, careful crating, zero breakage on arrival. A true long-term partner.",
+    quote: "Exceptional spice purity, careful food-grade packaging, and zero consignment delays. A true long-term partner.",
     name: "Lukas Brandt",
-    role: "Founder",
-    company: "Steinhaus Interiors",
+    role: "Procurement Director",
+    company: "Brandt Fine Foods",
     country: "Germany",
   },
 ];
@@ -103,7 +103,7 @@ export const faqs = [
   },
   {
     q: "What packaging options are available?",
-    a: "PP, jute and non-woven bags, vacuum tins, retail pouches, mesh bags, cartons, and fumigated wooden crates for stone.",
+    a: "PP, jute and non-woven bags, vacuum tins, retail pouches, mesh bags, cartons, and food-grade multi-wall bags.",
   },
   {
     q: "Do you offer samples?",
@@ -122,7 +122,7 @@ export const markets = [
     region: "United States",
     flag: "🇺🇸",
     ports: "New York/NJ, Houston, Los Angeles",
-    products: "Spices, granite, natural stone",
+    products: "Spices, Basmati rice, dehydrated powders",
   },
   {
     region: "United Arab Emirates",
@@ -134,7 +134,7 @@ export const markets = [
     region: "European Union",
     flag: "🇪🇺",
     ports: "Rotterdam, Hamburg, Antwerp",
-    products: "Spices, grapes, marble",
+    products: "Spices, grapes, dehydrated botanicals",
   },
   {
     region: "Southeast Asia",
