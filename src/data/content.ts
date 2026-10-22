@@ -3,20 +3,14 @@ export const certifications = [
   {
     code: "DGFT",
     name: "Importer-Exporter Code",
-    issuer: "Directorate General of Foreign Trade",
+    issuer: "Directorate General of Foreign Trade (Govt. of India)",
     number: "IEC 03XXXXXXXX",
   },
   {
     code: "APEDA",
     name: "RCMC Registration",
     issuer: "Agricultural & Processed Food Products Export Development Authority",
-    number: "APEDA/XXXX/2024",
-  },
-  {
-    code: "SPICES",
-    name: "Spices Board CRES",
-    issuer: "Spices Board of India",
-    number: "SB/XXXX/2024",
+    number: "APEDA/RCMC/XXXX/2024",
   },
   {
     code: "FSSAI",
@@ -25,10 +19,22 @@ export const certifications = [
     number: "1001XXXXXXXXXX",
   },
   {
+    code: "INDIA ORGANIC",
+    name: "Jaivik Bharat / India Organic",
+    issuer: "National Programme for Organic Production (NPOP)",
+    number: "NPOP/NAB/00XX",
+  },
+  {
+    code: "SPICES",
+    name: "Spices Board CRES",
+    issuer: "Spices Board of India (Ministry of Commerce)",
+    number: "SB/CRES/XXXX/2024",
+  },
+  {
     code: "ISO",
     name: "ISO 22000:2018",
-    issuer: "Food Safety Management System",
-    number: "FSMS-XXXX",
+    issuer: "Food Safety Management System (FSMS)",
+    number: "FSMS-22000-XXXX",
   },
   {
     code: "MSME",

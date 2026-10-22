@@ -5,8 +5,10 @@ import { useEffect, useState } from "react";
 import { POWDER_COLORS } from "@/data/powderColors";
 import type { Category, Product } from "@/data/products";
 import { useBasket } from "@/lib/basket";
+import { buildSingleProductWaUrl } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 import { btn } from "./primitives";
+import { WhatsAppIcon } from "./WhatsAppIcon";
 
 function formatCardMoq(rawMoq: string): string {
   if (!rawMoq) return "MOQ 1 MT";
@@ -420,6 +422,59 @@ export function ProductCard({
                 <p className="mt-3 text-sm text-[#4A5568] leading-relaxed">
                   {product.shortDescription || product.description}
                 </p>
+
+                {/* Quick specs row */}
+                {(product.origin || product.grade || product.moq) && (
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {product.origin && (
+                      <span className="inline-flex items-center rounded-full bg-[#EEF1F5] px-3 py-1 text-xs font-medium text-[#071A33]">
+                        Origin: {product.origin}
+                      </span>
+                    )}
+                    {product.grade && (
+                      <span className="inline-flex items-center rounded-full bg-[#EEF1F5] px-3 py-1 text-xs font-medium text-[#071A33]">
+                        Grade: {product.grade}
+                      </span>
+                    )}
+                    {product.moq && (
+                      <span className="inline-flex items-center rounded-full bg-[#C9973F]/15 px-3 py-1 text-xs font-semibold text-[#7A5A1E]">
+                        MOQ: {product.moq}
+                      </span>
+                    )}
+                  </div>
+                )}
+
+                {/* CTA buttons row */}
+                <div className="mt-5 flex flex-col sm:flex-row gap-3">
+                  {/* WhatsApp Enquiry Button — product name included in message */}
+                  <a
+                    href={buildSingleProductWaUrl({
+                      name: product.name,
+                      category: category.name,
+                      origin: product.origin,
+                      grade: product.grade,
+                      moq: product.moq,
+                      packaging: product.packaging,
+                      certifications: product.certifications,
+                    })}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-[#25D366] px-4 py-2.5 text-xs font-semibold text-white shadow-sm hover:bg-[#1EBE58] transition-colors"
+                  >
+                    <WhatsAppIcon className="h-4 w-4" />
+                    Enquire on WhatsApp
+                  </a>
+
+                  {/* View full detail page */}
+                  <Link
+                    to="/products/$category/$product"
+                    params={{ category: category.slug, product: product.slug }}
+                    onClick={() => setQuickOpen(false)}
+                    className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full border border-[#071A33]/25 bg-[#071A33] px-4 py-2.5 text-xs font-semibold text-[#F2C86E] hover:bg-[#0E2A4F] transition-colors"
+                  >
+                    View Full Specs <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
+                </div>
               </div>
             </motion.div>
           </div>

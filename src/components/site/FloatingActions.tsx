@@ -1,8 +1,11 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUp } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ArrowUp, MessageCircle } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import { site } from "@/data/site";
+import { getCategory, getProduct } from "@/data/products";
+import { useBasket } from "@/lib/basket";
+import { buildMultiProductWaUrl, buildSingleProductWaUrl } from "@/lib/whatsapp";
 import { btn } from "./primitives";
 import { cn } from "@/lib/utils";
 import { WhatsAppIcon } from "./WhatsAppIcon";
@@ -11,6 +14,7 @@ export function FloatingActions() {
   const [showTop, setShowTop] = useState(false);
   const [formInView, setFormInView] = useState(false);
   const location = useLocation();
+  const { items } = useBasket();
 
   // Hide sticky quote button on pages that are dedicated to quoting
   const isDedicatedQuotePage =
@@ -40,6 +44,60 @@ export function FloatingActions() {
 
   const shouldShowStickyQuote = !isDedicatedQuotePage && !formInView;
 
+  /**
+   * Smart WhatsApp URL builder:
+   * 1. If user has items in the enquiry basket → list ALL of them
+   * 2. Else if on a product detail page → extract product name from URL
+   * 3. Else → general enquiry message
+   */
+  const waUrl = useMemo(() => {
+    // Priority 1: Basket items take precedence
+    if (items.length > 0) {
+      return buildMultiProductWaUrl(
+        items.map((i) => ({
+          name: i.name,
+          category: i.category,
+          origin: i.origin,
+          moq: i.moq,
+        }))
+      );
+    }
+
+    // Priority 2: Detect product detail page via URL pattern /products/[category]/[slug]
+    const parts = location.pathname.split("/").filter(Boolean);
+    if (parts.length === 3 && parts[0] === "products") {
+      const catSlug = parts[1];
+      const productSlug = parts[2];
+      const cat = getCategory(catSlug);
+      const product = cat ? getProduct(catSlug, productSlug) : undefined;
+      if (product && cat) {
+        return buildSingleProductWaUrl({
+          name: product.name,
+          category: cat.name,
+          origin: product.origin,
+          grade: product.grade,
+          moq: product.moq,
+          packaging: product.packaging,
+          certifications: product.certifications,
+        });
+      }
+    }
+
+    // Priority 3: Category browse page — mention the category
+    if (parts.length === 2 && parts[0] === "products") {
+      const catSlug = parts[1];
+      const cat = getCategory(catSlug);
+      if (cat) {
+        const msg = `Hello Aurelian International,\n\nI am browsing your *${cat.name}* range and would like to request an export quotation. Please share your current availability, FOB pricing, and minimum order details.\n\nThank you.`;
+        return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(msg)}`;
+      }
+    }
+
+    // Priority 4: General fallback
+    const msg = `Hello Aurelian International,\n\nI would like to enquire about your export products. Please share your catalog, FOB pricing, and shipping terms.\n\nThank you.`;
+    return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(msg)}`;
+  }, [items, location.pathname]);
+
   return (
     <>
       {/* Floating Buttons: neatly aligned with compact mobile footprint so they never block inputs or overlap */}
@@ -67,15 +125,21 @@ export function FloatingActions() {
           )}
         </AnimatePresence>
 
-        {/* WhatsApp floating button: streamlined on mobile screens to preserve viewport ergonomics */}
+        {/* WhatsApp floating button: smart context-aware message with product name */}
         <a
-          href={`https://wa.me/${site.whatsapp}?text=Hello%20Aurelian%20International,%20I%20would%20like%20to%20enquire%20about%20importing%20products.`}
+          href={waUrl}
           target="_blank"
           rel="noreferrer"
           aria-label="Chat on WhatsApp"
-          className="grid h-12 w-12 sm:h-13 sm:w-13 md:h-14 md:w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-2xl ring-3 sm:ring-4 ring-[#071A33] transition-transform hover:scale-105 hover:ring-[#C9973F] focus:outline-none focus:ring-[#C9973F]"
+          className="relative grid h-12 w-12 sm:h-13 sm:w-13 md:h-14 md:w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-2xl ring-3 sm:ring-4 ring-[#071A33] transition-transform hover:scale-105 hover:ring-[#C9973F] focus:outline-none focus:ring-[#C9973F]"
         >
           <WhatsAppIcon className="h-6 w-6 sm:h-7 sm:w-7" />
+          {/* Badge showing count of basket items */}
+          {items.length > 0 && (
+            <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-[#C9973F] text-[10px] font-bold text-white shadow-sm border border-white">
+              {items.length}
+            </span>
+          )}
         </a>
       </div>
 

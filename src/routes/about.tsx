@@ -1,3 +1,4 @@
+import { CertLogo } from "@/components/site/CertLogos";
 import { createFileRoute } from "@tanstack/react-router";
 import farm from "@/assets/farm.jpg";
 import warehouse from "@/assets/warehouse.jpg";
@@ -183,19 +184,19 @@ function About() {
             align="center"
           />
 
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {[
+              {
+                code: "DGFT",
+                title: "Directorate General of Foreign Trade",
+                desc: "Active Importer Exporter Code (IEC) issued by the Ministry of Commerce and Industry for unrestricted global trade.",
+                tag: "IEC Licensed",
+              },
               {
                 code: "APEDA",
                 title: "Agricultural Produce Export",
                 desc: "Registered with the Agricultural & Processed Food Products Export Development Authority (Ministry of Commerce & Industry, Govt. of India).",
                 tag: "RCMC Registered",
-              },
-              {
-                code: "SPICES BOARD",
-                title: "Spices Board of India",
-                desc: "Certified Registration cum Enrolment Certificate (CRES) holder for direct export of premium whole and powdered Indian spices.",
-                tag: "CRES Certified",
               },
               {
                 code: "FSSAI",
@@ -204,10 +205,16 @@ function About() {
                 tag: "Central License",
               },
               {
-                code: "DGFT",
-                title: "Directorate General of Foreign Trade",
-                desc: "Active Importer Exporter Code (IEC) issued by the Ministry of Commerce and Industry for unrestricted global trade.",
-                tag: "IEC Licensed",
+                code: "INDIA ORGANIC",
+                title: "Jaivik Bharat / India Organic",
+                desc: "National Programme for Organic Production (NPOP) certification ensuring authentic chemical-free organic Indian agricultural produce.",
+                tag: "NPOP Certified",
+              },
+              {
+                code: "SPICES BOARD",
+                title: "Spices Board of India",
+                desc: "Certified Registration cum Enrolment Certificate (CRES) holder for direct export of premium whole and powdered Indian spices.",
+                tag: "CRES Certified",
               },
               {
                 code: "ISO 22000",
@@ -228,14 +235,19 @@ function About() {
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="font-mono text-xs font-bold text-gold tracking-wider bg-gold/15 px-2.5 py-1 rounded border border-gold/30">
-                      {cert.code}
-                    </span>
+                    <div className="flex items-center gap-2.5">
+                      <div className="h-11 w-11 rounded-xl bg-white p-1.5 flex items-center justify-center shadow-md shrink-0">
+                        <CertLogo code={cert.code} className="h-8 w-8 object-contain" />
+                      </div>
+                      <span className="font-mono text-[11px] font-bold text-gold tracking-wider bg-gold/15 px-2 py-0.5 rounded border border-gold/30">
+                        {cert.code}
+                      </span>
+                    </div>
                     <span className="text-[10px] uppercase tracking-wider font-semibold text-[#F2C86E] bg-white/5 px-2 py-0.5 rounded-full">
                       {cert.tag}
                     </span>
                   </div>
-                  <h3 className="font-display text-xl text-white font-medium">{cert.title}</h3>
+                  <h3 className="font-display text-lg text-white font-medium">{cert.title}</h3>
                   <p className="mt-2 text-xs text-[#D9DDE3] leading-relaxed">{cert.desc}</p>
                 </div>
               </div>

@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { site } from "@/data/site";
 import { useBasket } from "@/lib/basket";
 import { useScrollLock } from "@/lib/scroll-lock";
+import { buildMultiProductWaUrl } from "@/lib/whatsapp";
 import { ProductPicker } from "./ProductPicker";
 import { btn } from "./primitives";
 import { cn } from "@/lib/utils";
@@ -53,8 +54,14 @@ export function BasketDrawer() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, closeBasket]);
 
-  const waProducts = items.map((i) => `• ${i.name} (${i.category})`).join("%0A");
-  const waUrl = `https://wa.me/${site.whatsapp}?text=Hello%20Aurelian%20International,%20I%20would%20like%20to%20request%20an%20export%20quotation%20for%20the%20following%20products:%0A${waProducts}%0A%0AMy%20Company:%20${encodeURIComponent(formData.company || "Importer")}`;
+  const waProducts = items.map((i) => ({
+    name: i.name,
+    category: i.category,
+    origin: i.origin,
+  }));
+  const waUrl = buildMultiProductWaUrl(waProducts, {
+    company: formData.company || undefined,
+  });
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

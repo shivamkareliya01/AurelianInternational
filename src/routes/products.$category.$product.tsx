@@ -9,6 +9,7 @@ import { POWDER_COLORS } from "@/data/powderColors";
 import { getCategory, getProduct } from "@/data/products";
 import { site } from "@/data/site";
 import { useBasket } from "@/lib/basket";
+import { buildSingleProductWaUrl } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
 const DELETED_POWDER_SLUGS = new Set([
@@ -182,7 +183,15 @@ Email: ${site.email}
   }
 
   const related = c.products.filter((x) => x.slug !== p.slug).slice(0, 3);
-  const waUrl = `https://wa.me/${site.whatsapp}?text=Hello%20Aurelian%20International,%20I%20am%20interested%20in%20importing%20${encodeURIComponent(p.name)}%20(${encodeURIComponent(p.origin)}).%20Please%20share%20export%20quotation%20and%20specification.`;
+  const waUrl = buildSingleProductWaUrl({
+    name: p.name,
+    category: c.name,
+    origin: p.origin,
+    grade: p.grade,
+    moq: p.moq,
+    packaging: p.packaging,
+    certifications: p.certifications,
+  });
 
   return (
     <>

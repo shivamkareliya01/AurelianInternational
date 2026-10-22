@@ -15,6 +15,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import shipmentWebp from "@/assets/hero-shipment.webp";
 import spicesWebp from "@/assets/hero-spices.webp";
+import tilesWebp from "@/assets/hero-tiles.webp";
 import agriWebp from "@/assets/hero-agriculture.webp";
 import farm from "@/assets/farm.jpg";
 import spices from "@/assets/spices.jpg";
@@ -51,6 +52,13 @@ const heroSlides = [
     filter: "brightness(0.68) contrast(1.15) saturate(1.1)",
   },
   {
+    src: tilesWebp,
+    placeholder: "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADQAwCdASogABIAPxF6rVIsJ6QisAgBgCIJZACdMoAA/uhxr/V2qSQmOXQ4eKjbOjBGx0pQBvPv3+CxiTCIGIj1QAAA",
+    alt: "Luxury Glazed Vitrified Tiles in a premium architectural interior showroom",
+    label: "Ceramic Tiles",
+    filter: "brightness(0.62) contrast(1.18) saturate(1.05)",
+  },
+  {
     src: agriWebp,
     placeholder:
       "data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAADQAwCdASogABIAPxFyr1AsJqQisAgBgCIJQBbZA+lr6Ao/j3SSbYwA3f4A3WFQr04jseSEIG8fD+McswqNb/NQro8YXOqPN67RxdrXindNzCwnCCG8nuAfBvZRU0QnlzkardZWUVkAXJ9QAAA=",
@@ -81,6 +89,7 @@ export const Route = createFileRoute("/")({
     links: [
       { rel: "preload", href: shipmentWebp, as: "image" },
       { rel: "preload", href: spicesWebp, as: "image" },
+      { rel: "preload", href: tilesWebp, as: "image" },
       { rel: "preload", href: agriWebp, as: "image" },
     ],
   }),

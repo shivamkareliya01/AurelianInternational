@@ -18,6 +18,7 @@ import { allProducts } from "@/data/products";
 import { site } from "@/data/site";
 import { useBasket } from "@/lib/basket";
 import { submitEnquiry } from "@/lib/enquiry";
+import { buildMultiProductWaUrl } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 import { WhatsAppIcon } from "./WhatsAppIcon";
 
@@ -698,13 +699,19 @@ export function EnquiryForm() {
 
               {/* Instant WhatsApp Trade Desk Button */}
               <a
-                href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent(
-                  `Hello Aurelian International trade desk, I would like to request an export quote for: ${
-                    selectedProducts.length > 0
-                      ? selectedProducts.map((p) => p.name).join(", ")
-                      : "General Indian produce & stones"
-                  }.`
-                )}`}
+                href={buildMultiProductWaUrl(
+                  selectedProducts.map((p) => ({
+                    name: p.name,
+                    category: p.category,
+                    origin: p.origin,
+                    grade: p.grade,
+                    moq: p.moq,
+                  })),
+                  {
+                    country: selectedCountry?.name,
+                    quantity: quantityValue ? `${quantityValue} ${unit}` : undefined,
+                  }
+                )}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-[14px] border border-[#071A33]/20 bg-[#071A33] px-5 py-3 text-sm font-semibold text-gold-soft shadow-[0_4px_16px_rgba(7,26,51,0.18)] transition-all duration-200 hover:bg-[#0E2A4F] hover:text-white hover:-translate-y-0.5"
