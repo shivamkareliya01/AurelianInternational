@@ -39,8 +39,7 @@ const enquiryPayloadSchema = z.object({
   country: z.string().trim().min(1, "Destination country is required").max(60, "Country name cannot exceed 60 characters"),
   products: z
     .array(z.union([z.string().trim().min(1, "Product name cannot be empty"), productItemSchema]))
-    .min(1, "Select at least one export product from the catalogue")
-    .max(8, "A maximum of 8 products can be included in a single quotation request"),
+    .min(1, "Select at least one export product from the catalogue"),
   quantity: z.string().trim().max(60, "Quantity is too long").optional(),
   unit: z.enum(["MT", "FCL", "kg"]).default("MT"),
   notes: z.string().trim().max(3000, "Notes cannot exceed 3,000 characters").optional(),

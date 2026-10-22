@@ -46,8 +46,13 @@ function readEnvFile(): Record<string, string> {
 export function getServerEnv(): ServerEnv {
   const fileEnv = readEnvFile();
   const getEnv = (key: string, fallback = "") => {
-    const val = fileEnv[key] !== undefined ? fileEnv[key] : process.env[key];
-    return val !== undefined ? val : fallback;
+    const globalEnv =
+      (typeof globalThis !== "undefined" &&
+        (globalThis as unknown as { __env__?: Record<string, string> }).__env__) ||
+      {};
+    const procEnv = (typeof process !== "undefined" && process?.env) || {};
+    const val = fileEnv[key] ?? procEnv[key] ?? globalEnv[key];
+    return val !== undefined && val !== "" ? val : fallback;
   };
 
   const webAppUrl = getEnv("WEB_APP_URL", "");
