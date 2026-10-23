@@ -3,12 +3,17 @@ import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion"
 import {
   ArrowRight,
   Boxes,
+  CheckCircle2,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
   FileCheck2,
+  Globe,
   Headset,
+  Layers,
   PackageCheck,
+  ShieldCheck,
+  Sparkles,
   Tag,
   X,
 } from "lucide-react";
@@ -32,6 +37,7 @@ import { WorldMap } from "@/components/site/WorldMap";
 import { TradeRouteMap } from "@/components/site/TradeRouteMap";
 import { CertGrid, FaqList } from "@/components/site/Blocks";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
+import { WhatsAppIcon } from "@/components/site/WhatsAppIcon";
 import { cn } from "@/lib/utils";
 
 const heroSlides = [
@@ -40,31 +46,35 @@ const heroSlides = [
     placeholder:
       "data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAADQBACdASogABIAPxFyr1AsJqQisAgBgCIJQBUegsaGJGzL+Uxec9izPIWOkLvsAAD+ud1oQhxWQlvbjW/scmJBZyCP7O0UC5Tfqsx3hfGCLlr0tZPj0Td8pgx0jzInDB/BlDkMJiYgjgGUBQZlV/AAAAA=",
     alt: "Container ship at sea at twilight blue hour with deep blue water",
-    label: "Shipment Port",
-    filter: "brightness(0.68) contrast(1.15) saturate(1.1)",
+    label: "Port & Vessel Dispatch",
+    tagline: "Direct Port Logistics (Mundra & Kandla)",
+    filter: "brightness(0.70) contrast(1.15) saturate(1.1)",
   },
   {
     src: spicesWebp,
     placeholder:
       "data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAADQBACdASogABIAPxFwrVAsJiQisAgBgCIJYwDA3CHfCQeWgDBd8tuWiu3GpYuuAAD+8MheC7jwSJYXvV+SziTMBMkPqRxnxotdCcg8+Ga7hMqj5UaTkrbYHIWrwvr354Eg9S2RMUpEhT/rQQQt75OkIr0zieVcHnVtkC+gAAA=",
     alt: "Vibrant Indian spices in brass bowls on dark textured stone and wood",
-    label: "Spices",
-    filter: "brightness(0.68) contrast(1.15) saturate(1.1)",
+    label: "Spices & Botanicals",
+    tagline: "Unjha Cumin, Guntur Chilli & Alleppey Turmeric",
+    filter: "brightness(0.70) contrast(1.15) saturate(1.1)",
   },
   {
     src: tilesWebp,
     placeholder: "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADQAwCdASogABIAPxF6rVIsJ6QisAgBgCIJZACdMoAA/uhxr/V2qSQmOXQ4eKjbOjBGx0pQBvPv3+CxiTCIGIj1QAAA",
     alt: "Luxury Glazed Vitrified Tiles in a premium architectural interior showroom",
-    label: "Ceramic Tiles",
-    filter: "brightness(0.62) contrast(1.18) saturate(1.05)",
+    label: "Luxury Vitrified Tiles",
+    tagline: "Morbi GVT / PGVT & Heavy Duty Parking",
+    filter: "brightness(0.66) contrast(1.18) saturate(1.05)",
   },
   {
     src: agriWebp,
     placeholder:
       "data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAADQAwCdASogABIAPxFyr1AsJqQisAgBgCIJQBbZA+lr6Ao/j3SSbYwA3f4A3WFQr04jseSEIG8fD+McswqNb/NQro8YXOqPN67RxdrXindNzCwnCCG8nuAfBvZRU0QnlzkardZWUVkAXJ9QAAA=",
     alt: "Scenic agricultural fields in deep emerald green under warm morning sunlight",
-    label: "Agriculture",
-    filter: "brightness(0.68) contrast(1.15) saturate(1.1)",
+    label: "Agro Staples & Basmati",
+    tagline: "1121 & 1509 Steam / Sella Basmati Rice",
+    filter: "brightness(0.70) contrast(1.15) saturate(1.1)",
   },
 ];
 
@@ -108,7 +118,7 @@ function Hero() {
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
       setI((n) => (n + 1) % heroSlides.length);
-    }, 5000);
+    }, 5500);
   };
 
   useEffect(() => {
@@ -136,19 +146,19 @@ function Hero() {
   return (
     <section
       ref={ref}
-      className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[#040E1F] text-[#F4F1EA]"
+      className="relative flex min-h-[100svh] flex-col justify-between overflow-hidden bg-[#040E1F] text-[#F4F1EA]"
     >
-      {/* Background Slideshow */}
+      {/* Background Slideshow with Parallax */}
       <motion.div style={{ y }} className="absolute inset-0">
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           <motion.div
             key={i}
             initial={{ opacity: hasMounted ? 0 : 1, scale: 1 }}
-            animate={{ opacity: 1, scale: 1.06 }}
+            animate={{ opacity: 1, scale: 1.05 }}
             exit={{ opacity: 0 }}
             transition={{
-              opacity: { duration: hasMounted ? 1.2 : 0, ease: "easeInOut" },
-              scale: { duration: 5.2, ease: "linear" },
+              opacity: { duration: hasMounted ? 1.0 : 0, ease: "easeInOut" },
+              scale: { duration: 6.0, ease: "linear" },
             }}
             className="absolute inset-0 overflow-hidden"
           >
@@ -164,7 +174,7 @@ function Hero() {
               loading={i === 0 ? "eager" : "lazy"}
               decoding={i === 0 ? "sync" : "async"}
               style={{
-                filter: currentSlide.filter ?? "brightness(0.68) contrast(1.15) saturate(1.1)",
+                filter: currentSlide.filter ?? "brightness(0.70) contrast(1.15) saturate(1.1)",
               }}
               className="absolute inset-0 h-full w-full object-cover object-center"
             />
@@ -172,90 +182,151 @@ function Hero() {
         </AnimatePresence>
       </motion.div>
 
-      {/* 1. Full-image dark overlay on top of every slide */}
-      <div
-        className="pointer-events-none absolute inset-0 z-10"
-        style={{
-          background: "rgba(4, 14, 31, 0.45)",
-        }}
-      />
+      {/* Ambient Lighting Orbs */}
+      <div className="hero-ambient-orb-gold -top-24 -left-24 z-10 opacity-40" />
+      <div className="hero-ambient-orb-navy top-1/3 -right-32 z-10 opacity-50" />
 
-      {/* 2. Left-side text gradient */}
+      {/* Cinematic Gradient Overlays: Rich Deep Sapphire to Transparent */}
       <div
         className="pointer-events-none absolute inset-0 z-10"
         style={{
           background:
-            "linear-gradient(to right, rgba(4, 14, 31, 0.8) 0%, rgba(4, 14, 31, 0.5) 45%, rgba(4, 14, 31, 0.15) 80%, transparent 100%)",
+            "linear-gradient(to right, rgba(4, 14, 31, 0.92) 0%, rgba(4, 14, 31, 0.72) 40%, rgba(4, 14, 31, 0.3) 80%, rgba(4, 14, 31, 0.15) 100%)",
         }}
       />
-
-      {/* 3. Bottom gradient */}
       <div
         className="pointer-events-none absolute inset-0 z-10"
         style={{
-          background: "linear-gradient(to top, rgba(4, 14, 31, 0.7) 0%, transparent 35%)",
+          background: "linear-gradient(to top, rgba(4, 14, 31, 0.95) 0%, rgba(4, 14, 31, 0.4) 25%, transparent 60%)",
         }}
       />
-
-      {/* 4. Soft edge vignette */}
       <div
         className="pointer-events-none absolute inset-0 z-10"
         style={{
           background:
-            "radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.4) 100%)",
+            "radial-gradient(ellipse 90% 70% at 50% 20%, rgba(201, 151, 63, 0.14) 0%, transparent 60%)",
         }}
       />
 
-      {/* Hero Content with Staggered Reveal */}
-      <div className="container-x relative z-10 flex flex-1 flex-col justify-center pb-56 pt-28 md:pb-52 md:pt-32">
-        <motion.p
+      {/* Hero Main Content */}
+      <div className="container-x relative z-20 flex flex-1 flex-col justify-center pt-28 pb-10 sm:pt-36 sm:pb-14 md:pt-40">
+        {/* Live Authority Badge */}
+        <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.8 }}
-          className="eyebrow"
-          style={{ textShadow: "0 2px 14px rgba(0, 0, 0, 0.35)" }}
+          transition={{ delay: 0.6, duration: 0.8 }}
+          className="w-fit"
         >
-          IMPORT & EXPORT · MORBI, GUJARAT, INDIA
-        </motion.p>
+          <div className="inline-flex items-center gap-2 sm:gap-3 rounded-full border border-[#C9973F]/40 bg-[#071A33]/85 px-3.5 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-xs font-semibold tracking-wider text-[#F2C86E] shadow-[0_4px_25px_rgba(0,0,0,0.4)] backdrop-blur-md">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#25D366] opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#25D366]" />
+            </span>
+            <span>PREMIER INDIAN EXPORT HOUSE</span>
+            <span className="h-3 w-px bg-white/20" />
+            <span className="text-white/85 hidden xs:inline">MORBI, GUJARAT, INDIA</span>
+            <span className="h-3 w-px bg-white/20 hidden md:inline" />
+            <span className="text-[#F2C86E] hidden md:inline">APEDA · ISO · SPICES BOARD</span>
+          </div>
+        </motion.div>
+
+        {/* Grand Headline with Golden Metallic Emphasis */}
         <motion.h1
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.0, duration: 0.9 }}
-          className="mt-6 max-w-5xl text-[clamp(2.1rem,7.5vw,3.75rem)] leading-[1.02] text-white md:text-8xl md:leading-[0.95] lg:text-[6.5rem]"
-          style={{ textShadow: "0 2px 24px rgba(0, 0, 0, 0.35)" }}
+          transition={{ delay: 0.8, duration: 0.9 }}
+          className="mt-6 max-w-5xl text-[clamp(2.4rem,7.5vw,4.5rem)] leading-[1.02] text-white md:text-8xl md:leading-[0.96] lg:text-[6.5rem] tracking-tight font-display font-medium"
         >
-          India's Finest, <em className="text-gold-soft">Delivered</em> Worldwide.
+          India's Finest,{" "}
+          <span className="relative inline-block">
+            <em className="italic bg-gradient-to-r from-[#F2C86E] via-[#FFF3D1] to-[#C9973F] bg-clip-text text-transparent drop-shadow-[0_2px_30px_rgba(201,151,63,0.45)]">
+              Delivered
+            </em>
+            <svg
+              className="absolute -bottom-1.5 left-0 w-full h-3 text-[#C9973F]/75 pointer-events-none"
+              viewBox="0 0 100 12"
+              preserveAspectRatio="none"
+            >
+              <path d="M0,9 Q50,0 100,9" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+            </svg>
+          </span>{" "}
+          Worldwide.
         </motion.h1>
+
+        {/* Subtitle & Value Proposition */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.25, duration: 0.8 }}
-          className="mt-6 sm:mt-8 max-w-xl text-base sm:text-lg text-[#D9DDE3] leading-relaxed"
-          style={{ textShadow: "0 2px 16px rgba(0, 0, 0, 0.4)" }}
+          transition={{ delay: 1.0, duration: 0.8 }}
+          className="mt-6 max-w-2xl text-base sm:text-lg text-[#D9DDE3] leading-relaxed font-normal"
+          style={{ textShadow: "0 2px 14px rgba(0, 0, 0, 0.45)" }}
         >
-          Premium agricultural commodities, spices, and dehydrated powders — sourced, certified and shipped
-          to your port with end-to-end accountability.
+          Premium agricultural commodities, exotic whole spices, dehydrated botanical powders, and export-grade ceramic tiles — sourced directly, quality-certified, and loaded onto ocean vessels with end-to-end transparency.
         </motion.p>
+
+        {/* Trust Proof Badges Row */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.15, duration: 0.8 }}
+          className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-white/90"
+        >
+          <div className="flex items-center gap-1.5 font-medium">
+            <CheckCircle2 className="h-4 w-4 text-[#F2C86E]" />
+            <span>SGS / Geo-Chem Inspected</span>
+          </div>
+          <div className="flex items-center gap-1.5 font-medium">
+            <CheckCircle2 className="h-4 w-4 text-[#F2C86E]" />
+            <span>Direct Mundra & Kandla Loading</span>
+          </div>
+          <div className="flex items-center gap-1.5 font-medium">
+            <CheckCircle2 className="h-4 w-4 text-[#F2C86E]" />
+            <span>Confirmed L/C & CAD Accepted</span>
+          </div>
+        </motion.div>
+
+        {/* High-Impact CTA Row */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.45, duration: 0.8 }}
-          className="mt-8 flex flex-col sm:flex-row flex-wrap gap-3.5 sm:gap-4 w-full"
+          transition={{ delay: 1.3, duration: 0.8 }}
+          className="mt-8 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3.5 sm:gap-4 w-full"
         >
-          <Link to="/products" className={cn(btn.gold, "w-full sm:w-auto text-center justify-center")}>
-            Explore {allProducts.length} Products <ArrowRight className="h-4 w-4" />
+          {/* Primary High-Luster Gold Button */}
+          <Link
+            to="/products"
+            className="gold-btn-luxury inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#9A6B1F] via-[#F2C86E] to-[#C9973F] px-8 py-3.5 text-sm font-bold tracking-wide text-[#071A33] shadow-lg cursor-pointer"
+          >
+            <span>Explore {allProducts.length} Export Commodities</span>
+            <ArrowRight className="h-4 w-4" />
           </Link>
-          <Link to="/contact" className={cn(btn.outlineLight, "w-full sm:w-auto text-center justify-center")}>
-            Request a Quote
+
+          {/* Secondary Frosted Glass Button */}
+          <Link
+            to="/contact"
+            className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 backdrop-blur-md px-7 py-3.5 text-sm font-semibold tracking-wide text-white transition-all duration-300 hover:border-[#F2C86E] hover:text-[#F2C86E] hover:bg-white/15 cursor-pointer shadow-md"
+          >
+            <span>Request Commercial Quote</span>
           </Link>
+
+          {/* Quick WhatsApp Pill */}
+          <a
+            href={`https://wa.me/${site.whatsapp}?text=Hello%20Aurelian%20International,%20I%20am%20interested%20in%20requesting%20an%20export%20quotation.`}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-[#25D366]/20 border border-[#25D366]/40 px-5 py-3 text-sm font-semibold text-[#25D366] hover:bg-[#25D366] hover:text-white transition-all duration-300 backdrop-blur-md shadow-sm"
+          >
+            <WhatsAppIcon className="h-4 w-4" />
+            <span>WhatsApp Desk</span>
+          </a>
         </motion.div>
       </div>
 
-      {/* Slide Indicators, Progress Line & Stats Bar */}
-      <div className="container-x absolute inset-x-0 bottom-6 md:bottom-8 z-20 flex flex-col items-center gap-3 md:gap-4">
-        {/* Slide Indicators with Animated Fill Time */}
-        <div className="flex items-center justify-between w-full max-w-5xl px-2">
-          <div className="flex items-center gap-2.5" role="tablist" aria-label="Hero Slides">
+      {/* Floating Bottom Section: Slide Switcher Tabs + Glass Stats Capsule */}
+      <div className="container-x relative z-20 pb-8 md:pb-12 pt-2 flex flex-col gap-4">
+        {/* Slide Switcher Tabs with Visual Labels */}
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-3">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3" role="tablist" aria-label="Hero Slides">
             {heroSlides.map((s, idx) => (
               <button
                 key={idx}
@@ -264,74 +335,106 @@ function Hero() {
                 aria-selected={i === idx}
                 aria-label={`Jump to slide ${idx + 1}: ${s.label}`}
                 onClick={() => goToSlide(idx)}
-                className="group relative cursor-pointer py-2 focus:outline-none"
+                className={cn(
+                  "group relative flex items-center gap-2.5 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all duration-300 cursor-pointer",
+                  i === idx
+                    ? "bg-[#071A33]/90 text-[#F2C86E] border border-[#C9973F]/70 shadow-md backdrop-blur-md"
+                    : "bg-white/5 text-slate-300 hover:bg-white/15 hover:text-white border border-white/10"
+                )}
               >
-                <span className="relative block h-1.5 w-10 sm:w-14 overflow-hidden rounded-full bg-white/20">
-                  {i === idx ? (
+                <span className="font-mono text-[10px] text-[#C9973F]">0{idx + 1}</span>
+                <span className="truncate max-w-[130px] sm:max-w-none">{s.label}</span>
+                {/* Active Progress Fill Bar */}
+                {i === idx && (
+                  <span className="relative block h-1 w-8 sm:w-12 overflow-hidden rounded-full bg-white/20 ml-1">
                     <motion.span
                       key={`progress-${i}`}
                       initial={{ width: "0%" }}
                       animate={{ width: "100%" }}
-                      transition={{ duration: 5, ease: "linear" }}
-                      className="absolute inset-y-0 left-0 bg-gold-soft shadow-[0_0_10px_rgba(230,190,138,0.8)]"
+                      transition={{ duration: 5.5, ease: "linear" }}
+                      className="absolute inset-y-0 left-0 bg-[#F2C86E] shadow-[0_0_8px_rgba(242,200,110,0.8)]"
                     />
-                  ) : (
-                    <span className="block h-full w-0 group-hover:w-full group-hover:bg-white/40 transition-all duration-300" />
-                  )}
-                </span>
+                  </span>
+                )}
               </button>
             ))}
           </div>
 
-          {/* Subtle Scroll Down Indicator */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.8, duration: 1 }}
-            className="hidden sm:flex items-center gap-2 text-white/70"
-          >
-            <span className="text-[10px] tracking-[0.22em] uppercase font-sans text-gold-soft">
-              Scroll
+          {/* Scroll Down Cue */}
+          <div className="hidden lg:flex items-center gap-2 text-white/70">
+            <span className="text-[10px] tracking-[0.25em] uppercase font-sans text-[#F2C86E] font-semibold">
+              SCROLL DOWN
             </span>
             <motion.div
               animate={{ y: [0, 4, 0] }}
               transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
             >
-              <ChevronDown className="h-4 w-4 text-gold-soft" />
+              <ChevronDown className="h-4 w-4 text-[#F2C86E]" />
             </motion.div>
-          </motion.div>
+          </div>
         </div>
 
-        {/* Glass Stats Bar Panel (6 Destination Markets, 7 Product Categories) */}
+        {/* Grand Floating Glass Stats Capsule */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.6, duration: 0.9 }}
-          className="w-full backdrop-blur-xl bg-[#071A33]/40 border border-[#C9973F]/35 shadow-2xl grid grid-cols-2 rounded-2xl md:grid-cols-4 overflow-hidden"
-          style={{
-            backdropFilter: "blur(24px)",
-            WebkitBackdropFilter: "blur(24px)",
-          }}
+          transition={{ delay: 1.5, duration: 0.9 }}
+          className="w-full rounded-2xl sm:rounded-3xl border border-[#C9973F]/40 bg-[#071A33]/80 p-4 sm:p-6 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.55)] grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:divide-x divide-white/10"
         >
           {[
-            ["6", "Destination Markets"],
-            ["5", "Product Categories"],
-            [String(allProducts.length), "Export SKUs"],
-            ["100%", "Certified Quality"],
-          ].map(([v, l], k) => (
-            <div
-              key={l}
-              className={cn(
-                "px-3 sm:px-6 py-4 md:py-6 min-w-0",
-                k > 0 && "md:border-l border-[#C9973F]/25",
-                k % 2 === 1 && "border-l border-[#C9973F]/25",
-                k > 1 && "border-t md:border-t-0 border-[#C9973F]/25",
-              )}
-            >
-              <p className="font-display text-2xl sm:text-3xl text-brand-gradient md:text-4xl">{v}</p>
-              <p className="mt-1 text-[11px] sm:text-xs uppercase tracking-wider text-[#D9DDE3] truncate sm:whitespace-normal">{l}</p>
-            </div>
-          ))}
+            {
+              icon: Globe,
+              value: "6",
+              label: "Global Trade Hubs",
+              desc: "Middle East, Europe, ASEAN & Americas",
+            },
+            {
+              icon: Layers,
+              value: "5",
+              label: "Certified Divisions",
+              desc: "Agro, Spices, Powders, Produce & Tiles",
+            },
+            {
+              icon: Boxes,
+              value: String(allProducts.length),
+              label: "Export Commodities",
+              desc: "SGS / Geo-Chem Assayed Specs",
+            },
+            {
+              icon: ShieldCheck,
+              value: "100%",
+              label: "Specification Assurance",
+              desc: "Port Clearance & Marine Insurance",
+            },
+          ].map((item, idx) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={item.label}
+                className={cn(
+                  "flex items-start gap-2.5 sm:gap-4",
+                  idx > 0 && "lg:pl-6",
+                )}
+              >
+                <div className="mt-1 flex h-9 w-9 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#C9973F]/25 to-transparent border border-[#C9973F]/40 text-[#F2C86E] shadow-sm">
+                  <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-[#F2C86E] to-[#C9973F] bg-clip-text text-transparent">
+                      {item.value}
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-sm font-semibold text-white tracking-wide">
+                    {item.label}
+                  </p>
+                  <p className="text-[11px] text-slate-300 hidden sm:block truncate">
+                    {item.desc}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
         </motion.div>
       </div>
     </section>
@@ -488,27 +591,31 @@ function CategoryBentoCard({
 }
 
 function Categories() {
-  const dehydratedCategory =
-    categories.find((c) => c.slug === "dehydrated-powders") ?? categories[6]!;
+  const ceramicCategory = categories.find((c) => c.slug === "ceramic-tiles") ?? categories[5];
+  const spicesCategory = categories.find((c) => c.slug === "spices") ?? categories[3];
+  const dehydratedCategory = categories.find((c) => c.slug === "dehydrated-powders") ?? categories[4];
 
   return (
-    <section className="section-y bg-sand luxury-grain relative">
-      <div className="container-x">
+    <section className="section-y bg-[#FAF8F3] relative overflow-hidden">
+      {/* Decorative background glow */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-[#C9973F]/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="container-x relative z-10">
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end mb-12">
           <SectionHead
-            eyebrow="What We Export"
-            title="Five core categories. One standard."
-            text="Direct sourcing, optical sorting, and customized packaging across India's primary agricultural, fresh produce, spice, and botanical export belts."
+            eyebrow="Export Portfolios"
+            title="Six specialized divisions. Standardized excellence."
+            text="Direct sourcing, optical sorting, and customized export packing across India's premier agricultural, spice, fresh produce, and architectural tile belts."
           />
           <Link to="/products" className={btn.outline}>
-            Explore Catalogue <ArrowRight className="h-4 w-4" />
+            Explore Complete Catalogue <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 
-        {/* 5-Card Balanced Bento Grid */}
+        {/* 6-Card Bento Grid */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
-          {/* Card 0: Agriculture (Tall & expansive hero bento tile) */}
-          <div className="md:col-span-7 h-[26rem] md:h-[30rem]">
+          {/* Card 0: Agriculture (Hero bento tile) */}
+          <div className="md:col-span-7 h-[22rem] sm:h-[26rem] md:h-[30rem]">
             <CategoryBentoCard category={categories[0]!} isLarge />
           </div>
 
@@ -522,14 +629,24 @@ function Categories() {
             </div>
           </div>
 
-          {/* Row 2: Spices & Dehydrated Powders (2 balanced wide columns, 6 cols each) */}
-          <div className="md:col-span-6 h-[18rem] md:h-[20rem]">
-            <CategoryBentoCard category={categories[3]!} isWide />
-          </div>
+          {/* Row 2: Spices (4 cols), Dehydrated Powders (4 cols), Ceramic Tiles (4 cols) */}
+          {spicesCategory && (
+            <div className="md:col-span-4 h-[16rem] sm:h-[19rem] md:h-[22rem]">
+              <CategoryBentoCard category={spicesCategory} isWide />
+            </div>
+          )}
 
-          <div className="md:col-span-6 h-[18rem] md:h-[20rem]">
-            <CategoryBentoCard category={dehydratedCategory} isWide />
-          </div>
+          {dehydratedCategory && (
+            <div className="md:col-span-4 h-[16rem] sm:h-[19rem] md:h-[22rem]">
+              <CategoryBentoCard category={dehydratedCategory} isWide />
+            </div>
+          )}
+
+          {ceramicCategory && (
+            <div className="md:col-span-4 h-[16rem] sm:h-[19rem] md:h-[22rem]">
+              <CategoryBentoCard category={ceramicCategory} isWide />
+            </div>
+          )}
         </div>
       </div>
     </section>
@@ -538,31 +655,49 @@ function Categories() {
 
 
 const whyIcons = [Boxes, Tag, FileCheck2, Headset];
+const whyGradients = [
+  "from-[#C9973F]/20 to-[#071A33]/0",
+  "from-[#1F4A72]/30 to-[#071A33]/0",
+  "from-[#25D366]/10 to-[#071A33]/0",
+  "from-[#C9973F]/15 to-[#071A33]/0",
+];
+
 function WhyUs() {
   return (
-    <section className="section-y bg-[#071A33] text-[#F4F1EA] relative overflow-hidden">
-      <div className="container-x">
+    <section className="section-y bg-[#040E1F] text-[#F4F1EA] relative overflow-hidden">
+      {/* Rich multi-layered background */}
+      <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse 80% 60% at 20% 50%, rgba(14,42,79,0.8) 0%, transparent 65%), radial-gradient(ellipse 60% 80% at 80% 20%, rgba(201,151,63,0.07) 0%, transparent 60%)" }} />
+      <div className="pointer-events-none absolute inset-0 luxury-grain opacity-20" />
+      <div className="container-x relative z-10">
         <SectionHead
           dark
           eyebrow="Why Choose Us"
           title="The details are the difference."
           text="Everything a serious importer needs, handled by one accountable partner with verified on-the-ground infrastructure."
         />
-        <div className="mt-16 grid gap-px overflow-hidden rounded-3xl border hairline bg-gold/20 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {whyUs.map((w, i) => {
             const Icon = whyIcons[i] ?? Boxes;
+            const grad = whyGradients[i] ?? whyGradients[0];
             return (
               <motion.div
                 key={w.title}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-                className="bg-[#0E2A4F]/70 p-6 sm:p-10 transition-colors hover:bg-[#0E2A4F] min-w-0"
+                transition={{ delay: i * 0.1, duration: 0.6 }}
+                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-[#0E2A4F]/80 to-[#071A33]/90 p-7 sm:p-8 transition-all duration-500 hover:border-[#C9973F]/50 hover:shadow-[0_8px_40px_rgba(201,151,63,0.15)] min-w-0 backdrop-blur-sm"
               >
-                <Icon className="h-8 w-8 text-gold" strokeWidth={1.2} />
-                <h3 className="mt-5 text-xl sm:text-2xl font-display text-white">{w.title}</h3>
-                <p className="mt-2.5 text-sm leading-relaxed text-[#D9DDE3]">{w.text}</p>
+                {/* Hover gradient wash */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${grad} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
+                {/* Icon with glow container */}
+                <div className="relative z-10 mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-[#C9973F]/30 bg-gradient-to-br from-[#C9973F]/20 to-transparent shadow-[0_0_20px_rgba(201,151,63,0.15)] group-hover:shadow-[0_0_30px_rgba(201,151,63,0.3)] transition-shadow duration-500">
+                  <Icon className="h-7 w-7 text-[#F2C86E]" strokeWidth={1.3} />
+                </div>
+                {/* Gold accent line */}
+                <div className="relative z-10 h-px w-8 bg-gradient-to-r from-[#C9973F] to-transparent mb-4 group-hover:w-16 transition-all duration-500" />
+                <h3 className="relative z-10 text-xl sm:text-2xl font-display text-white mb-3">{w.title}</h3>
+                <p className="relative z-10 text-sm leading-relaxed text-[#9aaec4]">{w.text}</p>
               </motion.div>
             );
           })}
@@ -607,9 +742,15 @@ const exportSteps = [
 
 function Process() {
   return (
-    <section className="section-y bg-ivory relative overflow-hidden">
-      <div className="container-x">
+    <section className="section-y bg-[#071A33] relative overflow-hidden">
+      {/* Background shimmer layers */}
+      <div className="pointer-events-none absolute inset-0 luxury-grain opacity-15" />
+      <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201,151,63,0.08) 0%, transparent 70%)" }} />
+      <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse 50% 60% at 0% 100%, rgba(14,42,79,0.6) 0%, transparent 60%)" }} />
+
+      <div className="container-x relative z-10">
         <SectionHead
+          dark
           eyebrow="Export Methodology"
           title="From farm gate to your port."
           text="A six-stage quality-assured workflow engineered to eliminate demurrage, cargo rejection, and transit discrepancies."
@@ -623,32 +764,38 @@ function Process() {
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 2.2, ease: "easeInOut" }}
-            className="absolute left-6 right-6 top-8 hidden h-0.5 origin-left bg-gradient-to-r from-gold/30 via-gold to-gold-soft lg:block"
+            className="absolute left-6 right-6 top-7 hidden h-px origin-left lg:block"
+            style={{ background: "linear-gradient(90deg, transparent, rgba(201,151,63,0.4) 15%, rgba(242,200,110,0.8) 50%, rgba(201,151,63,0.4) 85%, transparent)" }}
           />
           <motion.div
             initial={{ scaleY: 0 }}
             whileInView={{ scaleY: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 2.2, ease: "easeInOut" }}
-            className="absolute bottom-6 left-8 top-6 w-0.5 origin-top bg-gradient-to-b from-gold/30 via-gold to-gold-soft lg:hidden"
+            className="absolute bottom-6 left-7 top-6 w-px origin-top lg:hidden"
+            style={{ background: "linear-gradient(180deg, transparent, rgba(201,151,63,0.6) 20%, rgba(242,200,110,0.9) 50%, rgba(201,151,63,0.6) 80%, transparent)" }}
           />
 
-          <ol className="grid gap-10 lg:grid-cols-6 lg:gap-6">
+          <ol className="grid gap-10 lg:grid-cols-6 lg:gap-5">
             {exportSteps.map((s, i) => (
               <motion.li
                 key={s.step}
-                initial={{ opacity: 0, y: 25 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.2 + i * 0.15, duration: 0.6 }}
-                className="relative flex items-start gap-5 lg:flex-col lg:items-start"
+                transition={{ delay: 0.15 + i * 0.12, duration: 0.65 }}
+                className="group relative flex items-start gap-5 lg:flex-col lg:items-start"
               >
-                <span className="relative z-10 grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-gold/60 bg-[#071A33] font-display text-lg font-semibold text-gold-soft shadow-soft">
-                  {s.step}
-                </span>
+                {/* Glowing Step Node */}
+                <div className="relative z-10 shrink-0">
+                  <div className="absolute inset-0 rounded-2xl bg-[#C9973F]/20 blur-lg group-hover:bg-[#C9973F]/35 transition-all duration-500" />
+                  <span className="relative grid h-14 w-14 place-items-center rounded-2xl border border-[#C9973F]/60 bg-gradient-to-br from-[#0E2A4F] to-[#071A33] font-display text-lg font-semibold text-[#F2C86E] shadow-[0_4px_20px_rgba(201,151,63,0.2)] group-hover:shadow-[0_4px_30px_rgba(201,151,63,0.4)] transition-shadow duration-500">
+                    {s.step}
+                  </span>
+                </div>
                 <div className="lg:mt-6">
-                  <h3 className="font-display text-2xl text-[#071A33]">{s.title}</h3>
-                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{s.desc}</p>
+                  <h3 className="font-display text-2xl text-white">{s.title}</h3>
+                  <p className="mt-2.5 text-xs leading-relaxed text-[#9aaec4]">{s.desc}</p>
                 </div>
               </motion.li>
             ))}
@@ -726,7 +873,7 @@ function StatsBand() {
             transition={{ delay: i * 0.1, duration: 0.6 }}
             className={cn("text-center", i > 0 && "md:border-l border-gold/15 pl-4 md:pl-6")}
           >
-            <p className="font-display text-5xl text-brand-gradient md:text-6xl lg:text-7xl tracking-tight">
+            <p className="font-display text-4xl sm:text-5xl text-brand-gradient md:text-6xl lg:text-7xl tracking-tight">
               <Counter to={s.value} suffix={s.suffix} />
             </p>
             <p className="mt-3 text-xs uppercase tracking-[0.22em] font-medium text-white/90">
@@ -815,49 +962,88 @@ function Testimonials() {
   const t = testimonials[i] ?? testimonials[0]!;
   const go = (d: number) => setI((n) => (n + d + testimonials.length) % testimonials.length);
 
+  // Auto-advance testimonials
+  useEffect(() => {
+    const timer = setInterval(() => go(1), 7000);
+    return () => clearInterval(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [i]);
+
   return (
-    <section className="section-y bg-ivory">
-      <div className="container-x max-w-5xl text-center">
-        <p className="eyebrow">Verified Importer Reviews</p>
-        <div className="relative mt-8 min-h-[16rem] flex flex-col items-center justify-center">
-          <span className="font-display text-8xl leading-none text-gold/30">“</span>
+    <section className="relative section-y overflow-hidden bg-[#040E1F] text-[#F4F1EA]">
+      {/* Cinematic ambient background */}
+      <div className="pointer-events-none absolute inset-0 luxury-grain opacity-20" />
+      <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse 90% 70% at 50% 50%, rgba(201,151,63,0.06) 0%, transparent 65%)" }} />
+      <div className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full" style={{ background: "radial-gradient(ellipse, rgba(201,151,63,0.12) 0%, transparent 70%)", filter: "blur(50px)" }} />
+
+      <div className="container-x relative z-10 max-w-5xl mx-auto text-center">
+        <p className="eyebrow text-[#C9973F]">Verified Importer Reviews</p>
+        <h2 className="mt-3 font-display text-3xl md:text-4xl text-white/90">Trusted by buyers worldwide.</h2>
+
+        {/* Large decorative quote mark */}
+        <div className="relative mt-12 min-h-[18rem] flex flex-col items-center justify-center">
+          <span
+            className="pointer-events-none select-none absolute -top-2 left-1/2 -translate-x-1/2 font-display text-[12rem] leading-none bg-gradient-to-b from-[#C9973F]/25 to-transparent bg-clip-text text-transparent"
+            aria-hidden="true"
+          >
+            “
+          </span>
+
           <AnimatePresence mode="wait">
             <motion.figure
               key={i}
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.4 }}
-              className="-mt-8"
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.45, ease: "easeInOut" }}
+              className="relative"
             >
-              <blockquote className="font-display text-2xl italic leading-snug text-[#071A33] md:text-4xl max-w-4xl mx-auto">
+              {/* Stars */}
+              <div className="flex justify-center gap-1 mb-6">
+                {Array.from({ length: 5 }).map((_, k) => (
+                  <svg key={k} className="h-5 w-5 text-[#F2C86E]" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                  </svg>
+                ))}
+              </div>
+
+              <blockquote className="font-display text-2xl italic leading-snug text-[#F4F1EA] md:text-[2.2rem] max-w-4xl mx-auto" style={{ textShadow: "0 2px 20px rgba(0,0,0,0.5)" }}>
                 {t.quote}
               </blockquote>
-              <figcaption className="mt-8 text-sm">
-                <span className="font-semibold text-ink">{t.name}</span>
-                <span className="text-muted-foreground">
-                  {" "}
-                  · {t.role}, {t.company} · {t.country}
+
+              <figcaption className="mt-8">
+                {/* Avatar initials */}
+                <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-[#C9973F]/50 bg-gradient-to-br from-[#0E2A4F] to-[#040E1F] text-sm font-bold text-[#F2C86E] shadow-[0_0_20px_rgba(201,151,63,0.2)]">
+                  {t.name.split(" ").map((n: string) => n[0]).slice(0, 2).join("")}
+                </div>
+                <span className="block font-semibold text-white">{t.name}</span>
+                <span className="text-sm text-[#9aaec4]">
+                  {t.role}, {t.company} · {t.country}
                 </span>
               </figcaption>
             </motion.figure>
           </AnimatePresence>
         </div>
-        <div className="mt-10 flex items-center justify-center gap-4">
+
+        {/* Navigation Controls */}
+        <div className="mt-10 flex items-center justify-center gap-5">
           <button
             onClick={() => go(-1)}
             aria-label="Previous testimonial"
-            className="grid h-11 w-11 place-items-center rounded-full border hairline text-[#071A33] hover:bg-[#071A33] hover:text-[#F4F1EA] cursor-pointer transition-colors"
+            className="grid h-11 w-11 place-items-center rounded-full border border-white/20 text-white/60 hover:border-[#C9973F] hover:text-[#F2C86E] cursor-pointer transition-all duration-300"
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
           <div className="flex gap-2">
             {testimonials.map((_, k) => (
-              <span
+              <button
                 key={k}
+                type="button"
+                aria-label={`Go to testimonial ${k + 1}`}
+                onClick={() => setI(k)}
                 className={cn(
-                  "h-1.5 rounded-full transition-all duration-300",
-                  k === i ? "w-8 bg-gold" : "w-3 bg-border",
+                  "h-1.5 rounded-full transition-all duration-500 cursor-pointer",
+                  k === i ? "w-10 bg-[#C9973F]" : "w-3 bg-white/20 hover:bg-white/40",
                 )}
               />
             ))}
@@ -865,7 +1051,7 @@ function Testimonials() {
           <button
             onClick={() => go(1)}
             aria-label="Next testimonial"
-            className="grid h-11 w-11 place-items-center rounded-full border hairline text-[#071A33] hover:bg-[#071A33] hover:text-[#F4F1EA] cursor-pointer transition-colors"
+            className="grid h-11 w-11 place-items-center rounded-full border border-white/20 text-white/60 hover:border-[#C9973F] hover:text-[#F2C86E] cursor-pointer transition-all duration-300"
           >
             <ChevronRight className="h-4 w-4" />
           </button>
@@ -877,46 +1063,110 @@ function Testimonials() {
 
 function FinalCta() {
   return (
-    <section id="quote" className="section-y relative overflow-hidden bg-[#040E1F]">
+    <section id="quote" className="section-y relative overflow-hidden bg-[#040E1F] text-[#F4F1EA]">
+      {/* Rich ambient lighting & background */}
+      <div className="pointer-events-none absolute inset-0 luxury-grain opacity-20" />
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 50% at 15% 40%, rgba(201,151,63,0.12) 0%, transparent 65%), radial-gradient(ellipse 60% 70% at 85% 60%, rgba(14,42,79,0.7) 0%, transparent 60%)",
+        }}
+      />
       {/* Subtle large gold infinity watermark */}
-      <InfinityWatermark className="absolute -left-20 top-1/2 -translate-y-1/2 w-[42rem] h-[21rem] text-[#C9973F] opacity-[0.04]" />
+      <InfinityWatermark className="absolute -left-20 top-1/2 -translate-y-1/2 w-[42rem] h-[21rem] text-[#C9973F] opacity-[0.05]" />
       <img
         src={port}
         alt=""
         loading="lazy"
-        className="absolute inset-0 h-full w-full object-cover opacity-20"
+        className="absolute inset-0 h-full w-full object-cover opacity-15 mix-blend-luminosity"
       />
-      <div className="container-x relative z-10 grid gap-14 lg:grid-cols-5">
+
+      <div className="container-x relative z-10 grid gap-12 lg:grid-cols-5 items-start">
         <div className="text-[#F4F1EA] lg:col-span-2">
-          <p className="eyebrow">Request a Quote</p>
-          <h2 className="mt-4 text-5xl leading-[1.02] md:text-7xl">Let's Move Your Cargo.</h2>
-          <p className="mt-6 text-[#D9DDE3] leading-relaxed">
-            Tell us what you need. Our trade desk replies within one business day with FOB/CIF
-            pricing, laboratory spec sheets, and shipping schedules.
+          {/* Live response badge */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#C9973F]/40 bg-[#071A33]/90 px-3.5 py-1.5 text-xs font-semibold tracking-wider text-[#F2C86E] shadow-sm backdrop-blur-md mb-6">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#25D366] opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#25D366]" />
+            </span>
+            <span>DIRECT TRADE DESK</span>
+            <span className="h-3 w-px bg-white/20" />
+            <span className="text-white/80">REPLY WITHIN 4 HOURS</span>
+          </div>
+
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-display leading-[1.05] text-white">
+            Let's Move{" "}
+            <span className="relative inline-block">
+              <em className="italic bg-gradient-to-r from-[#F2C86E] via-[#FFF3D1] to-[#C9973F] bg-clip-text text-transparent drop-shadow-[0_2px_25px_rgba(201,151,63,0.4)]">
+                Your Cargo.
+              </em>
+            </span>
+          </h2>
+
+          <p className="mt-5 text-[#D9DDE3] leading-relaxed text-sm sm:text-base">
+            Tell us your product grade, volume, and destination port. Our export desk delivers complete FOB/CIF pricing, laboratory certificate of analysis, and confirmed liner schedules.
           </p>
-          <ul className="mt-10 space-y-4 text-sm">
-            <li>
-              <span className="text-[#D9DDE3]">Phone · </span>
-              {site.phone}
-            </li>
-            <li>
-              <span className="text-[#D9DDE3]">Email · </span>
-              {site.email}
-            </li>
-            <li>
-              <span className="text-[#D9DDE3]">Office · </span>
-              {site.address}
-            </li>
-          </ul>
+
+          {/* Trust Guarantees */}
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {[
+              "SGS / Geo-Chem Pre-Shipment Assay",
+              "Confirmed Irrevocable L/C & CAD",
+              "100% Export Documentation",
+              "Mundra & JNPT Direct Allocations",
+            ].map((guarantee) => (
+              <div key={guarantee} className="flex items-center gap-2 text-xs text-[#D9DDE3]/90">
+                <CheckCircle2 className="h-4 w-4 text-[#F2C86E] shrink-0" />
+                <span>{guarantee}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Quick Contact Box */}
+          <div className="mt-8 rounded-2xl border border-white/10 bg-[#071A33]/70 p-5 backdrop-blur-md space-y-3.5 text-xs sm:text-sm">
+            <div className="flex items-center gap-3 text-white/90">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#C9973F]/20 text-[#F2C86E] border border-[#C9973F]/30 shrink-0">
+                <Headset className="h-4 w-4" />
+              </div>
+              <div>
+                <span className="text-[#9aaec4] text-[11px] block">Direct Phone & WhatsApp</span>
+                <span className="font-semibold">{site.phone}</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 text-white/90">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#C9973F]/20 text-[#F2C86E] border border-[#C9973F]/30 shrink-0">
+                <Globe className="h-4 w-4" />
+              </div>
+              <div>
+                <span className="text-[#9aaec4] text-[11px] block">Export Desk Email</span>
+                <span className="font-semibold">{site.email}</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 text-white/90">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#C9973F]/20 text-[#F2C86E] border border-[#C9973F]/30 shrink-0">
+                <ShieldCheck className="h-4 w-4" />
+              </div>
+              <div>
+                <span className="text-[#9aaec4] text-[11px] block">Corporate Headquarters</span>
+                <span className="font-semibold text-xs leading-snug">{site.address}</span>
+              </div>
+            </div>
+          </div>
+
           <a
             href={`https://wa.me/${site.whatsapp}?text=Hello%20Aurelian%20International,%20I%20would%20like%20to%20request%20an%20export%20quotation.`}
             target="_blank"
             rel="noreferrer"
-            className={cn(btn.outlineLight, "mt-10")}
+            className="mt-6 inline-flex w-full items-center justify-center gap-2.5 rounded-full border border-[#25D366]/40 bg-[#071A33] px-6 py-3.5 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:border-[#25D366] hover:bg-[#25D366]/15 hover:shadow-[0_4px_20px_rgba(37,211,102,0.25)]"
           >
-            <PackageCheck className="h-4 w-4" /> Chat on WhatsApp
+            <WhatsAppIcon className="h-5 w-5 fill-[#25D366]" />
+            <span>Chat Directly on WhatsApp ({site.phone})</span>
           </a>
         </div>
+
         <div className="lg:col-span-3">
           <EnquiryForm />
         </div>
@@ -925,21 +1175,50 @@ function FinalCta() {
   );
 }
 
+function CommodityMarquee() {
+  const items = [
+    "1121 Basmati Rice", "Unjha Cumin Seeds", "Guntur Chilli", "Alleppey Turmeric",
+    "GVT 600×1200 Tiles", "Coriander Powder", "Dehydrated Onion Flakes", "Parking Tiles 400×400",
+    "Green Millet (Bajra)", "Fenugreek Seeds", "Black Pepper", "PGVT Vitrified Tiles",
+    "Sesame Seeds", "Cardamom Green", "Dried Ginger Powder", "Sella Basmati",
+  ];
+  const doubled = [...items, ...items];
+  return (
+    <div className="relative overflow-hidden bg-[#040E1F] border-y border-[#C9973F]/20 py-4">
+      <div className="absolute inset-y-0 left-0 w-20 z-10" style={{ background: "linear-gradient(90deg, #040E1F, transparent)" }} />
+      <div className="absolute inset-y-0 right-0 w-20 z-10" style={{ background: "linear-gradient(270deg, #040E1F, transparent)" }} />
+      <div className="animate-marquee flex gap-0 whitespace-nowrap">
+        {doubled.map((item, idx) => (
+          <span key={idx} className="inline-flex items-center gap-4 px-6">
+            <span className="text-sm font-medium tracking-wide text-[#9aaec4]">{item}</span>
+            <span className="text-[#C9973F]/50">◆</span>
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Home() {
   return (
     <>
       <Hero />
       <AboutPreview />
-      <div className="gold-hairline-divider" />
+      <CommodityMarquee />
       <Categories />
-      <div className="gold-hairline-divider" />
       <WhyUs />
       <Process />
       <Reach />
       <StatsBand />
       <Gallery />
-      <section className="section-y bg-ivory">
-        <div className="container-x">
+      <section className="section-y bg-[#FAF8F3] relative overflow-hidden">
+        {/* Subtle gold ambient glow and grain */}
+        <div className="pointer-events-none absolute inset-0 luxury-grain opacity-10" />
+        <div
+          className="pointer-events-none absolute -top-40 right-1/4 h-96 w-96 rounded-full"
+          style={{ background: "radial-gradient(ellipse, rgba(201,151,63,0.06) 0%, transparent 70%)" }}
+        />
+        <div className="container-x relative z-10">
           <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end mb-12">
             <SectionHead
               eyebrow="Compliance & Accreditation"
@@ -958,18 +1237,18 @@ function Home() {
           <CertGrid />
         </div>
       </section>
-      <div className="gold-hairline-divider" />
       <Testimonials />
-      <div className="gold-hairline-divider" />
-      <section className="section-y bg-ivory">
-        <div className="container-x grid gap-14 lg:grid-cols-3">
+      <section className="section-y bg-[#040E1F] relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 luxury-grain opacity-15" />
+        <div className="container-x grid gap-14 lg:grid-cols-3 relative z-10">
           <SectionHead
+            dark
             eyebrow="FAQ"
             title="Questions, answered."
             text="Common inquiries regarding payment terms (LC/CAD), minimum order quantities, private labelling, and marine cargo insurance."
           />
           <div className="lg:col-span-2">
-            <FaqList />
+            <FaqList dark />
           </div>
         </div>
       </section>
