@@ -8,13 +8,13 @@ import { site } from "@/data/site";
 export const Route = createFileRoute("/markets")({
   head: () => ({
     meta: [
-      { title: `Global Markets We Serve — ${site.name}` },
+      { title: `We Serve to Global Market — ${site.name}` },
       {
         name: "description",
         content:
           "Direct export maritime corridors from India to key global markets across USA, Europe, Germany, UAE, South Africa, Kenya, and Australia.",
       },
-      { property: "og:title", content: `Global Markets — ${site.name}` },
+      { property: "og:title", content: `We Serve to Global Market — ${site.name}` },
       {
         property: "og:description",
         content:
@@ -32,7 +32,7 @@ function Markets() {
     <>
       <PageHeader
         eyebrow="Global Trade Corridors"
-        title="Global Markets We Serve"
+        title="We Serve to Global Market"
         text="Direct container shipments move from India's premier deepwater ports to our key international markets across the USA, Europe, Germany, UAE, South Africa, Kenya, and Australia."
         image="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=1600&q=80"
         crumbs={[{ label: "Markets" }]}

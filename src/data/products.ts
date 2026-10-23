@@ -24,6 +24,7 @@ export type Product = {
   description: string;
   gallery: string[];
   alt: string;
+  catalogueId?: string;
 };
 
 export type Category = {
@@ -815,6 +816,7 @@ export const categories: Category[] = [
       {
         "slug": "glazed-vitrified-tiles",
         "name": "Glazed Vitrified Tiles (GVT / PGVT)",
+        "catalogueId": "endless-collection",
         "image": "/products/luxury-glazed-vitrified-tiles.webp",
         "shortDescription": "Premium export-grade digital glazed vitrified tiles manufactured with high-definition Italian inkjet printing, authentic marble veining, nano-polished surfaces, and ultra-low water absorption (<0.05%).",
         "specs": {
@@ -830,6 +832,26 @@ export const categories: Category[] = [
             "SGS Inspected"
           ]
         }
+      },
+      {
+        "slug": "outdoor-parking-tiles",
+        "name": "Shein 16x16 Parking Tiles",
+        "catalogueId": "shein-16x16-parking-tiles",
+        "image": "/products/outdoor-parking-tiles.webp",
+        "shortDescription": "High-load vitrified parking tiles engineered with textured punch surfaces and extreme compressive strength (400×400mm / 16×16 inch) to withstand continuous vehicular traffic.",
+        "specs": {
+          "origin": "Morbi, Gujarat, India",
+          "gradeVariety": "Heavy Duty 12mm & 16mm Punch Vitrified (400x400mm / 16x16 inch)",
+          "exportPackaging": "Corner-protected corrugated cartons strapped on heat-treated fumigated wooden pallets",
+          "moq": "1 × 20ft FCL (approx. 1,100 sq.m)",
+          "shelfLife": "Permanent Architectural Material",
+          "certifications": [
+            "ISO 9001",
+            "ISO 13006 Group BIa",
+            "CE Certified",
+            "SGS Tested"
+          ]
+        }
       }
     ]
   }
@@ -838,6 +860,7 @@ export const categories: Category[] = [
 export const allProducts: (Product & { category: Category })[] = categories.flatMap((c) =>
   c.products.map((p) => ({
     ...p,
+    catalogueId: p.catalogueId,
     category: c,
     origin: p.specs.origin ?? "",
     grade: p.specs.gradeVariety ?? "",

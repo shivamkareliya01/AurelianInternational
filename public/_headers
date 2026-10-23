@@ -19,3 +19,18 @@
 
 /*.png
   Cache-Control: public, max-age=31536000, immutable
+
+/catalogues/*
+  Content-Type: application/pdf
+  Accept-Ranges: bytes
+  Cache-Control: public, max-age=604800
+
+/*.pdf
+  Content-Type: application/pdf
+  Accept-Ranges: bytes
+  Cache-Control: public, max-age=604800
+
+/pdf.worker.min.mjs
+  Content-Type: application/javascript
+  Cache-Control: public, max-age=31536000, immutable
+

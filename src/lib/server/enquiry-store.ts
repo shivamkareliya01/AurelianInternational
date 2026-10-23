@@ -33,6 +33,9 @@ export interface StoredEnquiry {
   phone: string;
   company: string;
   country: string;
+  state?: string;
+  city?: string;
+  pincode?: string;
   quantity: string;
   unit: "MT" | "FCL" | "kg";
   notes: string;

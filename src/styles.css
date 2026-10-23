@@ -516,3 +516,22 @@ body.is-scrolling .group-hover-swap-badge-powder {
   contain-intrinsic-size: auto 72px;
   contain: layout paint style;
 }
+
+/* ── Certificate logo marquee ── */
+@keyframes cert-scroll-ltr {
+  0%   { transform: translateX(-25%); }
+  100% { transform: translateX(0%); }
+}
+
+.cert-marquee-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  animation: cert-scroll-ltr 20s linear infinite;
+  will-change: transform;
+}
+
+.cert-marquee-track:hover {
+  animation-play-state: paused;
+}
+

@@ -37,6 +37,9 @@ const enquiryPayloadSchema = z.object({
   phone: z.string().trim().min(6, "Enter a valid phone number with country code").max(30, "Phone number is too long"),
   company: z.string().trim().min(1, "Importing company name is required").max(120, "Company name cannot exceed 120 characters"),
   country: z.string().trim().min(1, "Destination country is required").max(60, "Country name cannot exceed 60 characters"),
+  state: z.string().trim().max(100, "State/Province cannot exceed 100 characters").optional(),
+  city: z.string().trim().max(100, "City cannot exceed 100 characters").optional(),
+  pincode: z.string().trim().max(30, "Postal code cannot exceed 30 characters").optional(),
   products: z
     .array(z.union([z.string().trim().min(1, "Product name cannot be empty"), productItemSchema]))
     .min(1, "Select at least one export product from the catalogue"),
@@ -173,6 +176,9 @@ export const Route = createFileRoute("/api/enquiry")({
           const sanitizedLastName = sanitizeText(data.lastName);
           const sanitizedCompany = sanitizeText(data.company);
           const sanitizedCountry = sanitizeText(data.country);
+          const sanitizedState = sanitizeText(data.state || "");
+          const sanitizedCity = sanitizeText(data.city || "");
+          const sanitizedPincode = sanitizeText(data.pincode || "");
           const sanitizedPhone = sanitizeText(data.phone);
           const sanitizedEmail = sanitizeText(data.email).toLowerCase();
           const sanitizedQuantity = sanitizeText(data.quantity || "");
@@ -227,6 +233,10 @@ export const Route = createFileRoute("/api/enquiry")({
                 email: sanitizedEmail,
                 phone: sanitizedPhone,
                 country: sanitizedCountry,
+                state: sanitizedState,
+                city: sanitizedCity,
+                pincode: sanitizedPincode,
+                destination: [sanitizedCity, sanitizedState, sanitizedPincode, sanitizedCountry].filter(Boolean).join(", "),
                 product: productNames.join(", "),
                 products: productNames,
                 quantity: sanitizedQuantity ? `${sanitizedQuantity} ${data.unit}` : `Unit: ${data.unit}`,
@@ -275,6 +285,9 @@ export const Route = createFileRoute("/api/enquiry")({
             phone: sanitizedPhone,
             company: sanitizedCompany,
             country: sanitizedCountry,
+            state: sanitizedState,
+            city: sanitizedCity,
+            pincode: sanitizedPincode,
             quantity: sanitizedQuantity,
             unit: data.unit,
             notes: sanitizedNotes,

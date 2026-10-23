@@ -94,7 +94,7 @@ export function FloatingActions() {
     }
 
     // Priority 4: General fallback
-    const msg = `Hello Aurelian International,\n\nI would like to enquire about your export products. Please share your catalog, FOB pricing, and shipping terms.\n\nThank you.`;
+    const msg = `Hi Aurelian International! 👋 I'm interested in your export products. Could you please share your catalog and pricing? Thank you!`;
     return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(msg)}`;
   }, [items, location.pathname]);
 

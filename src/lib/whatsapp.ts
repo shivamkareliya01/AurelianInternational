@@ -53,7 +53,7 @@ export function buildSingleProductWaUrl(product: WaProduct): string {
  */
 export function buildMultiProductWaUrl(
   products: WaProduct[],
-  extra?: { company?: string; country?: string; quantity?: string }
+  extra?: { company?: string; country?: string; state?: string; city?: string; pincode?: string; quantity?: string }
 ): string {
   if (products.length === 0) {
     const fallback =
@@ -75,7 +75,9 @@ export function buildMultiProductWaUrl(
     .join("\n");
 
   const companyLine = extra?.company ? `\nCompany: ${extra.company}` : "";
-  const countryLine = extra?.country ? `\nDestination: ${extra.country}` : "";
+  const locationParts = [extra?.city, extra?.state, extra?.country].filter(Boolean);
+  const locationStr = locationParts.join(", ") + (extra?.pincode ? ` (${extra.pincode})` : "");
+  const countryLine = locationStr ? `\nDestination: ${locationStr}` : "";
   const quantityLine = extra?.quantity ? `\nQuantity Required: ${extra.quantity}` : "";
 
   const message =

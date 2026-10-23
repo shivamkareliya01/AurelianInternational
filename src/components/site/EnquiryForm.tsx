@@ -1,10 +1,13 @@
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  Anchor,
   ArrowRight,
+  Building2,
   CheckCircle2,
   ChevronDown,
   Globe,
   Loader2,
+  MapPin,
   MessageCircle,
   Package,
   Search,
@@ -21,6 +24,42 @@ import { submitEnquiry } from "@/lib/enquiry";
 import { buildMultiProductWaUrl } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 import { WhatsAppIcon } from "./WhatsAppIcon";
+import { getGeoConfigForCountry } from "@/data/geo-data";
+
+// Dial codes for the phone country-code selector
+const PHONE_CODES = [
+  { code: "IN", dial: "+91",  flag: "🇮🇳", name: "India" },
+  { code: "US", dial: "+1",   flag: "🇺🇸", name: "United States" },
+  { code: "GB", dial: "+44",  flag: "🇬🇧", name: "United Kingdom" },
+  { code: "AE", dial: "+971", flag: "🇦🇪", name: "UAE" },
+  { code: "SA", dial: "+966", flag: "🇸🇦", name: "Saudi Arabia" },
+  { code: "DE", dial: "+49",  flag: "🇩🇪", name: "Germany" },
+  { code: "NL", dial: "+31",  flag: "🇳🇱", name: "Netherlands" },
+  { code: "SG", dial: "+65",  flag: "🇸🇬", name: "Singapore" },
+  { code: "AU", dial: "+61",  flag: "🇦🇺", name: "Australia" },
+  { code: "CA", dial: "+1",   flag: "🇨🇦", name: "Canada" },
+  { code: "FR", dial: "+33",  flag: "🇫🇷", name: "France" },
+  { code: "IT", dial: "+39",  flag: "🇮🇹", name: "Italy" },
+  { code: "ES", dial: "+34",  flag: "🇪🇸", name: "Spain" },
+  { code: "JP", dial: "+81",  flag: "🇯🇵", name: "Japan" },
+  { code: "KR", dial: "+82",  flag: "🇰🇷", name: "South Korea" },
+  { code: "ZA", dial: "+27",  flag: "🇿🇦", name: "South Africa" },
+  { code: "BR", dial: "+55",  flag: "🇧🇷", name: "Brazil" },
+  { code: "MY", dial: "+60",  flag: "🇲🇾", name: "Malaysia" },
+  { code: "ID", dial: "+62",  flag: "🇮🇩", name: "Indonesia" },
+  { code: "VN", dial: "+84",  flag: "🇻🇳", name: "Vietnam" },
+  { code: "PH", dial: "+63",  flag: "🇵🇭", name: "Philippines" },
+  { code: "NZ", dial: "+64",  flag: "🇳🇿", name: "New Zealand" },
+  { code: "OM", dial: "+968", flag: "🇴🇲", name: "Oman" },
+  { code: "QA", dial: "+974", flag: "🇶🇦", name: "Qatar" },
+  { code: "KW", dial: "+965", flag: "🇰🇼", name: "Kuwait" },
+  { code: "BH", dial: "+973", flag: "🇧🇭", name: "Bahrain" },
+  { code: "TH", dial: "+66",  flag: "🇹🇭", name: "Thailand" },
+  { code: "EG", dial: "+20",  flag: "🇪🇬", name: "Egypt" },
+  { code: "TR", dial: "+90",  flag: "🇹🇷", name: "Turkey" },
+  { code: "PK", dial: "+92",  flag: "🇵🇰", name: "Pakistan" },
+  { code: "CN", dial: "+86",  flag: "🇨🇳", name: "China" },
+];
 
 // Top international trading destinations with emojis
 const COUNTRIES = [
@@ -62,6 +101,9 @@ const schema = z.object({
   phone: z.string().trim().min(6, "Enter a valid phone with country code").max(30),
   company: z.string().trim().min(1, "Company / trading name required").max(120),
   country: z.string().trim().min(1, "Select destination country").max(60),
+  state: z.string().trim().min(1, "State / Province is required").max(100),
+  city: z.string().trim().min(1, "City is required").max(100),
+  pincode: z.string().trim().min(1, "Postal / PIN code is required").max(30),
   quantity: z.string().trim().max(60).optional(),
   unit: z.enum(["MT", "FCL", "kg"]).default("MT"),
   message: z.string().trim().max(1500).optional(),
@@ -155,6 +197,32 @@ export function EnquiryForm() {
   const [quantityValue, setQuantityValue] = useState("");
   const [customMessage, setCustomMessage] = useState("");
 
+  // Phone dial-code dropdown state
+  const [selectedDialCode, setSelectedDialCode] = useState(PHONE_CODES[0]);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneOpen, setPhoneOpen] = useState(false);
+  const [phoneSearch, setPhoneSearch] = useState("");
+  const phoneRef = useRef<HTMLDivElement>(null);
+
+  const filteredDialCodes = useMemo(() => {
+    const q = phoneSearch.trim().toLowerCase();
+    if (!q) return PHONE_CODES;
+    return PHONE_CODES.filter(
+      (c) => c.name.toLowerCase().includes(q) || c.dial.includes(q) || c.code.toLowerCase().includes(q)
+    );
+  }, [phoneSearch]);
+
+  // Close phone dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (phoneRef.current && !phoneRef.current.contains(e.target as Node)) {
+        setPhoneOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   // Searchable Country Dropdown state
   const [countrySearch, setCountrySearch] = useState("");
   const [selectedCountry, setSelectedCountry] = useState<{ code: string; name: string; flag: string } | null>(
@@ -182,6 +250,71 @@ export function EnquiryForm() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // State / Province Recommendation State
+  const [stateValue, setStateValue] = useState("");
+  const [stateOpen, setStateOpen] = useState(false);
+  const [stateSearch, setStateSearch] = useState("");
+  const stateRef = useRef<HTMLDivElement>(null);
+
+  // City Recommendation State
+  const [cityValue, setCityValue] = useState("");
+  const [cityOpen, setCityOpen] = useState(false);
+  const [citySearch, setCitySearch] = useState("");
+  const cityRef = useRef<HTMLDivElement>(null);
+
+  // PIN / Postal Code
+  const [pincodeValue, setPincodeValue] = useState("");
+
+  // Dynamic Geo configuration based on selected Country
+  const geoConfig = useMemo(() => {
+    return getGeoConfigForCountry(selectedCountry?.name);
+  }, [selectedCountry?.name]);
+
+  // Filtered recommended states
+  const filteredStates = useMemo(() => {
+    const query = (stateSearch || stateValue).trim().toLowerCase();
+    if (!query) return geoConfig.states;
+    return geoConfig.states.filter((s) => s.name.toLowerCase().includes(query));
+  }, [geoConfig.states, stateSearch, stateValue]);
+
+  // Available cities (based on selected state, or all states in the country)
+  const availableCities = useMemo(() => {
+    if (!selectedCountry) return [];
+    const matchedState = geoConfig.states.find(
+      (s) => s.name.toLowerCase() === stateValue.trim().toLowerCase()
+    );
+    if (matchedState && matchedState.cities.length > 0) {
+      return matchedState.cities;
+    }
+    const allCountryCities: string[] = [];
+    geoConfig.states.forEach((s) => {
+      s.cities.forEach((c) => {
+        if (!allCountryCities.includes(c)) allCountryCities.push(c);
+      });
+    });
+    return allCountryCities;
+  }, [geoConfig.states, stateValue, selectedCountry]);
+
+  const filteredCities = useMemo(() => {
+    const query = (citySearch || cityValue).trim().toLowerCase();
+    if (!query) return availableCities;
+    return availableCities.filter((c) => c.toLowerCase().includes(query));
+  }, [availableCities, citySearch, cityValue]);
+
+  // Close state and city dropdowns on outside click
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (stateRef.current && !stateRef.current.contains(e.target as Node)) {
+        setStateOpen(false);
+      }
+      if (cityRef.current && !cityRef.current.contains(e.target as Node)) {
+        setCityOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   // Form Submission
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -192,6 +325,9 @@ export function EnquiryForm() {
     const data = Object.fromEntries(formData) as Record<string, string>;
 
     data["country"] = selectedCountry ? selectedCountry.name : (data["country"] || "");
+    data["state"] = stateValue.trim() || (data["state"] || "");
+    data["city"] = cityValue.trim() || (data["city"] || "");
+    data["pincode"] = pincodeValue.trim() || (data["pincode"] || "");
     data["unit"] = unit;
 
     const r = schema.safeParse(data);
@@ -221,8 +357,11 @@ export function EnquiryForm() {
       const lastName = (data["lastName"] || "").trim();
       const email = (data["email"] || "").trim();
       const company = (data["company"] || "").trim();
-      const phone = (data["phone"] || "").trim();
+      const phone = (data["phone"] || "").trim(); // already includes dial code via hidden input
       const country = selectedCountry ? selectedCountry.name : (data["country"] || "").trim();
+      const stateName = (data["state"] || stateValue).trim();
+      const cityName = (data["city"] || cityValue).trim();
+      const pincode = (data["pincode"] || pincodeValue).trim();
       const quantity = data["quantity"]?.trim() ? `${data["quantity"].trim()} ${unit}` : "";
       const message = customMessage.trim() || (data["message"] || "").trim();
       const _hp = data["_hp"] || data["_hp_company_fax"] || "";
@@ -238,6 +377,9 @@ export function EnquiryForm() {
           email,
           phone,
           country,
+          state: stateName,
+          city: cityName,
+          pincode,
           products: selectedProducts.map((p) => ({
             name: p.name,
             category: p.category,
@@ -287,6 +429,9 @@ export function EnquiryForm() {
       setState("done");
       clear();
       formEl.reset();
+      setStateValue("");
+      setCityValue("");
+      setPincodeValue("");
       setCustomMessage("");
     } catch (networkErr) {
       console.error("[Enquiry Submit Error]:", networkErr);
@@ -487,22 +632,103 @@ export function EnquiryForm() {
                 {errors.email && <p className="text-xs text-destructive">{errors.email}</p>}
               </div>
 
-              {/* Phone */}
-              <div className="group space-y-1">
-                <label htmlFor="phone" className="block text-xs font-semibold text-[#071A33]/85">
+              {/* Phone with Country Code Dropdown */}
+              <div ref={phoneRef} className="group space-y-1 relative">
+                <label htmlFor="phoneNumber" className="block text-xs font-semibold text-[#071A33]/85">
                   Phone & Country Code *
                 </label>
+
+                {/* Hidden field carrying the full composed phone value */}
                 <input
+                  type="hidden"
                   id="phone"
                   name="phone"
-                  type="tel"
-                  autoComplete="tel"
-                  placeholder="+1 (555) 000-0000"
-                  className={cn(
-                    "w-full rounded-[14px] border border-[#E3E7EE] bg-white/95 px-4 py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
-                    errors.phone && "border-destructive ring-1 ring-destructive/40"
-                  )}
+                  value={phoneNumber ? `${selectedDialCode.dial} ${phoneNumber}` : ""}
                 />
+
+                <div
+                  className={cn(
+                    "flex rounded-[14px] border bg-white/95 overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus-within:border-[#C9973F] focus-within:ring-2 focus-within:ring-[#C9973F]/25 focus-within:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
+                    errors.phone ? "border-destructive ring-1 ring-destructive/40" : "border-[#E3E7EE]"
+                  )}
+                >
+                  {/* Dial-code trigger button */}
+                  <button
+                    type="button"
+                    onClick={() => setPhoneOpen(!phoneOpen)}
+                    className="flex shrink-0 items-center gap-1.5 border-r border-[#E3E7EE] bg-[#F4F1EA] px-3 py-3 text-sm font-semibold text-[#071A33] hover:bg-[#EDE9DF] transition-colors"
+                    aria-label="Select country dial code"
+                  >
+                    <span className="text-base leading-none">{selectedDialCode.flag}</span>
+                    <span className="text-xs tabular-nums">{selectedDialCode.dial}</span>
+                    <ChevronDown
+                      className={cn(
+                        "h-3 w-3 text-[#C9973F] transition-transform duration-200",
+                        phoneOpen && "rotate-180"
+                      )}
+                    />
+                  </button>
+
+                  {/* Phone number input */}
+                  <input
+                    id="phoneNumber"
+                    type="tel"
+                    autoComplete="tel-national"
+                    placeholder="555 000-0000"
+                    value={phoneNumber}
+                    onChange={(e) => {
+                      setPhoneNumber(e.target.value);
+                      if (errors.phone) setErrors((prev) => ({ ...prev, phone: undefined }));
+                    }}
+                    className="flex-1 min-w-0 bg-transparent px-3 py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 focus:outline-none"
+                  />
+                </div>
+
+                {/* Dial-code dropdown panel */}
+                <AnimatePresence>
+                  {phoneOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 6, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                      transition={{ duration: 0.18 }}
+                      className="absolute left-0 right-0 top-full z-50 mt-1.5 rounded-[16px] border border-[#C9973F]/35 bg-[#FAF8F3] p-2.5 shadow-xl backdrop-blur-md"
+                    >
+                      <div className="relative mb-2">
+                        <Search className="absolute left-3 top-2.5 h-3.5 w-3.5 text-muted-foreground" />
+                        <input
+                          type="text"
+                          value={phoneSearch}
+                          onChange={(e) => setPhoneSearch(e.target.value)}
+                          placeholder="Search country or code…"
+                          className="w-full rounded-lg border border-[#E3E7EE] bg-white py-1.5 pl-8 pr-3 text-xs focus:border-[#C9973F] focus:outline-none"
+                          autoFocus
+                        />
+                      </div>
+                      <div className="max-h-44 overflow-y-auto space-y-0.5 thin-scrollbar">
+                        {filteredDialCodes.map((c) => (
+                          <div
+                            key={c.code}
+                            onClick={() => {
+                              setSelectedDialCode(c);
+                              setPhoneOpen(false);
+                              setPhoneSearch("");
+                            }}
+                            className={cn(
+                              "flex cursor-pointer items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-xs text-[#071A33] hover:bg-[#C9973F]/15 transition-colors",
+                              selectedDialCode.code === c.code && "bg-[#C9973F]/20 font-semibold"
+                            )}
+                          >
+                            <span className="text-base">{c.flag}</span>
+                            <span className="flex-1">{c.name}</span>
+                            <span className="tabular-nums text-[#C9973F] font-semibold">{c.dial}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
                 {errors.phone && <p className="text-xs text-destructive">{errors.phone}</p>}
               </div>
 
@@ -599,6 +825,10 @@ export function EnquiryForm() {
                               setSelectedCountry(c);
                               setCountryOpen(false);
                               setCountrySearch("");
+                              // Reset state, city, pincode if country changed so recommendations align
+                              setStateValue("");
+                              setCityValue("");
+                              setPincodeValue("");
                               if (errors.country) {
                                 setErrors((prev) => ({ ...prev, country: undefined }));
                               }
@@ -617,6 +847,276 @@ export function EnquiryForm() {
                   )}
                 </AnimatePresence>
                 {errors.country && <p className="text-xs text-destructive">{errors.country}</p>}
+              </div>
+
+              {/* State / Province (Recommended based on selected country) */}
+              <div ref={stateRef} className="relative group space-y-1">
+                <div className="flex items-center justify-between">
+                  <label htmlFor="state" className="block text-xs font-semibold text-[#071A33]/85">
+                    State / Province *
+                  </label>
+                  {selectedCountry && geoConfig.states.length > 0 && (
+                    <span className="text-[10px] text-[#C9973F] font-medium flex items-center gap-1">
+                      <Sparkles className="h-3 w-3" /> {selectedCountry.name} states
+                    </span>
+                  )}
+                </div>
+
+                <div
+                  className={cn(
+                    "relative flex w-full items-center rounded-[14px] border bg-white/95 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus-within:border-[#C9973F] focus-within:ring-2 focus-within:ring-[#C9973F]/25 focus-within:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
+                    errors.state ? "border-destructive ring-1 ring-destructive/40" : "border-[#E3E7EE]"
+                  )}
+                >
+                  <input
+                    id="state"
+                    name="state"
+                    type="text"
+                    value={stateValue}
+                    autoComplete="address-level1"
+                    placeholder={
+                      selectedCountry
+                        ? `e.g. ${geoConfig.states[0]?.name || "State / Region"}`
+                        : "Select country above for recommendations"
+                    }
+                    onFocus={() => setStateOpen(true)}
+                    onChange={(e) => {
+                      setStateValue(e.target.value);
+                      setStateSearch(e.target.value);
+                      if (errors.state) setErrors((prev) => ({ ...prev, state: undefined }));
+                    }}
+                    className="w-full bg-transparent px-4 py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 focus:outline-none"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setStateOpen(!stateOpen)}
+                    className="p-3 text-muted-foreground hover:text-[#071A33] transition-colors"
+                    aria-label="Toggle state recommendations"
+                  >
+                    <ChevronDown
+                      className={cn(
+                        "h-4 w-4 text-[#C9973F] transition-transform duration-200",
+                        stateOpen && "rotate-180"
+                      )}
+                    />
+                  </button>
+                </div>
+
+                {/* State Dropdown Recommendations */}
+                <AnimatePresence>
+                  {stateOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 6, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                      transition={{ duration: 0.18 }}
+                      className="absolute left-0 right-0 top-full z-40 mt-1.5 rounded-[16px] border border-[#C9973F]/35 bg-[#FAF8F3] p-2.5 shadow-xl backdrop-blur-md"
+                    >
+                      <div className="flex items-center justify-between pb-1.5 mb-1.5 border-b border-[#E3E7EE]">
+                        <span className="text-[11px] font-semibold text-[#071A33] flex items-center gap-1.5">
+                          <MapPin className="h-3 w-3 text-[#C9973F]" />
+                          {selectedCountry
+                            ? `Recommended for ${selectedCountry.name}`
+                            : "Select a Country above first"}
+                        </span>
+                        <span className="text-[10px] text-muted-foreground">Click to fill</span>
+                      </div>
+
+                      {geoConfig.states.length === 0 ? (
+                        <p className="p-2 text-xs text-muted-foreground">
+                          {selectedCountry
+                            ? `Type your state or province name directly for ${selectedCountry.name}.`
+                            : "Please select a Destination Country above to see state recommendations."}
+                        </p>
+                      ) : (
+                        <div className="max-h-48 overflow-y-auto space-y-0.5 thin-scrollbar">
+                          {filteredStates.map((s) => (
+                            <div
+                              key={s.name}
+                              onClick={() => {
+                                setStateValue(s.name);
+                                setStateSearch("");
+                                setStateOpen(false);
+                                // If the city was for another state, reset it
+                                if (cityValue && !s.cities.includes(cityValue)) {
+                                  setCityValue("");
+                                }
+                                if (errors.state) {
+                                  setErrors((prev) => ({ ...prev, state: undefined }));
+                                }
+                              }}
+                              className={cn(
+                                "flex cursor-pointer items-center justify-between rounded-lg px-2.5 py-1.5 text-xs text-[#071A33] hover:bg-[#C9973F]/15 transition-colors",
+                                stateValue.toLowerCase() === s.name.toLowerCase() && "bg-[#C9973F]/20 font-semibold"
+                              )}
+                            >
+                              <span>{s.name}</span>
+                              <span className="text-[10px] text-muted-foreground">
+                                {s.cities.length} cities/ports
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {errors.state && <p className="text-xs text-destructive">{errors.state}</p>}
+              </div>
+
+              {/* City / Port of Destination (Recommended based on selected country & state) */}
+              <div ref={cityRef} className="relative group space-y-1">
+                <div className="flex items-center justify-between">
+                  <label htmlFor="city" className="block text-xs font-semibold text-[#071A33]/85">
+                    City / Port of Entry *
+                  </label>
+                  {stateValue && (
+                    <span className="text-[10px] text-[#C9973F] font-medium flex items-center gap-1">
+                      <Sparkles className="h-3 w-3" /> {stateValue} hubs
+                    </span>
+                  )}
+                </div>
+
+                <div
+                  className={cn(
+                    "relative flex w-full items-center rounded-[14px] border bg-white/95 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus-within:border-[#C9973F] focus-within:ring-2 focus-within:ring-[#C9973F]/25 focus-within:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
+                    errors.city ? "border-destructive ring-1 ring-destructive/40" : "border-[#E3E7EE]"
+                  )}
+                >
+                  <input
+                    id="city"
+                    name="city"
+                    type="text"
+                    value={cityValue}
+                    autoComplete="address-level2"
+                    placeholder={
+                      availableCities[0]
+                        ? `e.g. ${availableCities[0]}`
+                        : "Type city or select country/state"
+                    }
+                    onFocus={() => setCityOpen(true)}
+                    onChange={(e) => {
+                      setCityValue(e.target.value);
+                      setCitySearch(e.target.value);
+                      if (errors.city) setErrors((prev) => ({ ...prev, city: undefined }));
+                    }}
+                    className="w-full bg-transparent px-4 py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 focus:outline-none"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setCityOpen(!cityOpen)}
+                    className="p-3 text-muted-foreground hover:text-[#071A33] transition-colors"
+                    aria-label="Toggle city recommendations"
+                  >
+                    <ChevronDown
+                      className={cn(
+                        "h-4 w-4 text-[#C9973F] transition-transform duration-200",
+                        cityOpen && "rotate-180"
+                      )}
+                    />
+                  </button>
+                </div>
+
+                {/* City Dropdown Recommendations */}
+                <AnimatePresence>
+                  {cityOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 6, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                      transition={{ duration: 0.18 }}
+                      className="absolute left-0 right-0 top-full z-40 mt-1.5 rounded-[16px] border border-[#C9973F]/35 bg-[#FAF8F3] p-2.5 shadow-xl backdrop-blur-md"
+                    >
+                      <div className="flex items-center justify-between pb-1.5 mb-1.5 border-b border-[#E3E7EE]">
+                        <span className="text-[11px] font-semibold text-[#071A33] flex items-center gap-1.5">
+                          <Building2 className="h-3 w-3 text-[#C9973F]" />
+                          {stateValue
+                            ? `Recommended for ${stateValue}`
+                            : selectedCountry
+                            ? `Major Hubs in ${selectedCountry.name}`
+                            : "Select a Country first"}
+                        </span>
+                        <span className="text-[10px] text-muted-foreground">Click to fill</span>
+                      </div>
+
+                      {availableCities.length === 0 ? (
+                        <p className="p-2 text-xs text-muted-foreground">
+                          {selectedCountry
+                            ? `Type any city name for ${selectedCountry.name}.`
+                            : "Select a Destination Country to see commercial city & port recommendations."}
+                        </p>
+                      ) : (
+                        <div className="max-h-48 overflow-y-auto space-y-0.5 thin-scrollbar">
+                          {filteredCities.map((city) => (
+                            <div
+                              key={city}
+                              onClick={() => {
+                                setCityValue(city);
+                                setCitySearch("");
+                                setCityOpen(false);
+                                if (errors.city) {
+                                  setErrors((prev) => ({ ...prev, city: undefined }));
+                                }
+                              }}
+                              className={cn(
+                                "flex cursor-pointer items-center justify-between rounded-lg px-2.5 py-1.5 text-xs text-[#071A33] hover:bg-[#C9973F]/15 transition-colors",
+                                cityValue.toLowerCase() === city.toLowerCase() && "bg-[#C9973F]/20 font-semibold"
+                              )}
+                            >
+                              <span className="flex items-center gap-1.5">
+                                {city.toLowerCase().includes("port") ? (
+                                  <Anchor className="h-3 w-3 text-[#C9973F]" />
+                                ) : (
+                                  <Building2 className="h-3 w-3 text-muted-foreground" />
+                                )}
+                                {city}
+                              </span>
+                              {city.toLowerCase().includes("port") && (
+                                <span className="rounded bg-[#C9973F]/20 px-1.5 py-0.5 text-[9px] font-semibold text-[#071A33]">
+                                  Sea Port
+                                </span>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {errors.city && <p className="text-xs text-destructive">{errors.city}</p>}
+              </div>
+
+              {/* Postal Code / Pincode */}
+              <div className="group space-y-1 sm:col-span-2">
+                <div className="flex items-center justify-between">
+                  <label htmlFor="pincode" className="block text-xs font-semibold text-[#071A33]/85">
+                    {geoConfig.pincodeLabel}
+                  </label>
+                  {geoConfig.pincodeHint && (
+                    <span className="text-[10px] text-muted-foreground">
+                      {geoConfig.pincodeHint}
+                    </span>
+                  )}
+                </div>
+                <input
+                  id="pincode"
+                  name="pincode"
+                  type="text"
+                  autoComplete="postal-code"
+                  value={pincodeValue}
+                  onChange={(e) => {
+                    setPincodeValue(e.target.value);
+                    if (errors.pincode) setErrors((prev) => ({ ...prev, pincode: undefined }));
+                  }}
+                  placeholder={geoConfig.pincodePlaceholder}
+                  className={cn(
+                    "w-full rounded-[14px] border bg-white/95 px-4 py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
+                    errors.pincode ? "border-destructive ring-1 ring-destructive/40" : "border-[#E3E7EE]"
+                  )}
+                />
+                {errors.pincode && <p className="text-xs text-destructive">{errors.pincode}</p>}
               </div>
             </div>
 
@@ -709,6 +1209,9 @@ export function EnquiryForm() {
                   })),
                   {
                     country: selectedCountry?.name,
+                    state: stateValue,
+                    city: cityValue,
+                    pincode: pincodeValue,
                     quantity: quantityValue ? `${quantityValue} ${unit}` : undefined,
                   }
                 )}

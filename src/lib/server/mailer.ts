@@ -153,7 +153,10 @@ export function buildOwnerEmailHtml(enquiry: StoredEnquiry, dynamicSheetUrl?: st
           </tr>
           <tr>
             <td style="padding: 10px 14px; font-size: 12px; color: #64748B; font-weight: 600; border-bottom: 1px solid #E2E8F0;">Destination Market</td>
-            <td style="padding: 10px 14px; font-size: 13px; color: #0F172A; font-weight: 700; border-bottom: 1px solid #E2E8F0;">${enquiry.country}</td>
+            <td style="padding: 10px 14px; font-size: 13px; color: #0F172A; font-weight: 700; border-bottom: 1px solid #E2E8F0;">
+              ${[enquiry.city, enquiry.state, enquiry.country].filter(Boolean).join(", ")}
+              ${enquiry.pincode ? ` (${enquiry.pincode})` : ""}
+            </td>
           </tr>
           <tr>
             <td style="padding: 10px 14px; font-size: 12px; color: #64748B; font-weight: 600;">Quantity / Volume</td>

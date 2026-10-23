@@ -1,13 +1,15 @@
 import { Link } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Check, Eye, Heart, Plus, X } from "lucide-react";
+import { ArrowRight, Check, Download, Eye, FileText, Heart, Plus, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { getCatalogueForProduct } from "@/data/catalogues";
 import { POWDER_COLORS } from "@/data/powderColors";
 import type { Category, Product } from "@/data/products";
 import { useBasket } from "@/lib/basket";
 import { buildSingleProductWaUrl } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 import { btn } from "./primitives";
+import { PdfViewerModal } from "./PdfViewerModal";
 import { WhatsAppIcon } from "./WhatsAppIcon";
 
 function formatCardMoq(rawMoq: string): string {
@@ -33,6 +35,8 @@ export function ProductCard({
   const [insetLoaded, setInsetLoaded] = useState(false);
   const [imgSrc, setImgSrc] = useState(product.image);
   const [retryCount, setRetryCount] = useState(0);
+  const [pdfOpen, setPdfOpen] = useState(false);
+  const catalogue = getCatalogueForProduct(product.name, product.slug);
 
   const key = `${category.slug}/${product.slug}`;
   const inBasket = has(key);
@@ -318,6 +322,30 @@ export function ProductCard({
             <p className="mt-2 text-[14px] text-[#4A5568] line-clamp-3 leading-relaxed">
               {product.shortDescription || product.description}
             </p>
+
+            {/* Product Catalogue Quick Actions */}
+            {catalogue && (
+              <div className="mt-3.5 flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setPdfOpen(true)}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-[#071A33]/5 border border-[#C9973F]/60 px-3 py-1 text-[11px] font-semibold text-[#071A33] hover:bg-[#C9973F] hover:text-[#071A33] transition-colors cursor-pointer"
+                >
+                  <FileText className="h-3 w-3 text-[#C9973F]" />
+                  <span>View catalogue</span>
+                </button>
+                <a
+                  href={catalogue.downloadUrl}
+                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 rounded-full bg-slate-100 hover:bg-slate-200 px-2.5 py-1 text-[11px] font-medium text-slate-700 transition-colors"
+                >
+                  <Download className="h-3 w-3 text-slate-500" />
+                  <span>Download PDF</span>
+                </a>
+              </div>
+            )}
           </div>
 
           {/* Thin Divider and Footer Row: MOQ Left, View Specs + Gold Enquire Pill Right */}
@@ -444,6 +472,29 @@ export function ProductCard({
                   </div>
                 )}
 
+                {/* Catalogue Actions in Quick View Modal */}
+                {catalogue && (
+                  <div className="mt-4 flex flex-wrap items-center gap-2 rounded-xl bg-amber-500/10 border border-[#C9973F]/30 p-2.5">
+                    <span className="text-xs font-semibold text-[#071A33]">Technical Brochure:</span>
+                    <button
+                      type="button"
+                      onClick={() => setPdfOpen(true)}
+                      className="inline-flex items-center gap-1.5 rounded-lg bg-[#071A33] px-3 py-1.5 text-xs font-semibold text-[#F2C86E] hover:bg-[#0E2A4F] cursor-pointer"
+                    >
+                      <Eye className="h-3.5 w-3.5" /> View catalogue
+                    </button>
+                    <a
+                      href={catalogue.downloadUrl}
+                      download
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
+                    >
+                      <Download className="h-3.5 w-3.5" /> Download PDF
+                    </a>
+                  </div>
+                )}
+
                 {/* CTA buttons row */}
                 <div className="mt-5 flex flex-col sm:flex-row gap-3">
                   {/* WhatsApp Enquiry Button — product name included in message */}
@@ -480,6 +531,15 @@ export function ProductCard({
           </div>
         )}
       </AnimatePresence>
+
+      {/* Product PDF Catalogue Viewer Modal */}
+      {catalogue && (
+        <PdfViewerModal
+          catalogue={catalogue}
+          isOpen={pdfOpen}
+          onClose={() => setPdfOpen(false)}
+        />
+      )}
     </>
   );
 }

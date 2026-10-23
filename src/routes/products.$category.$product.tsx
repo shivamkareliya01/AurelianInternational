@@ -1,10 +1,12 @@
 import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
-import { ArrowLeft, Check, Download, Plus, ShieldCheck } from "lucide-react";
+import { ArrowLeft, Check, Download, Eye, FileText, Plus, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import { PageHeader } from "@/components/site/PageHeader";
+import { PdfViewerModal } from "@/components/site/PdfViewerModal";
 import { ProductCard } from "@/components/site/ProductCard";
 import { Reveal, btn } from "@/components/site/primitives";
 import { WhatsAppIcon } from "@/components/site/WhatsAppIcon";
+import { getCatalogueForProduct } from "@/data/catalogues";
 import { POWDER_COLORS } from "@/data/powderColors";
 import { getCategory, getProduct } from "@/data/products";
 import { site } from "@/data/site";
@@ -118,6 +120,8 @@ function ProductPage() {
   const { add, has, openBasket } = useBasket();
   const key = `${c.slug}/${p.slug}`;
   const inBasket = has(key);
+  const catalogue = getCatalogueForProduct(p.name, p.slug);
+  const [pdfOpen, setPdfOpen] = useState(false);
 
   const isPowder = c.slug === "dehydrated-powders";
   const powderMeta = isPowder ? POWDER_COLORS[p.slug] : undefined;
@@ -335,13 +339,35 @@ Email: ${site.email}
                   </table>
                 </div>
 
-                {/* Download Spec Sheet Button */}
-                <button
-                  onClick={downloadSpecSheet}
-                  className={cn(btn.outline, "mt-8 inline-flex items-center gap-2")}
-                >
-                  <Download className="h-4 w-4" /> Download Official Spec Sheet (.TXT)
-                </button>
+                {/* Catalogue & Official Specs Download Buttons */}
+                <div className="mt-8 flex flex-wrap items-center gap-3">
+                  {catalogue && (
+                    <button
+                      type="button"
+                      onClick={() => setPdfOpen(true)}
+                      className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#C9973F] px-5 py-3 text-sm font-semibold text-[#071A33] shadow-md hover:brightness-110 active:scale-95 transition-all cursor-pointer"
+                    >
+                      <Eye className="h-4 w-4" /> View catalogue
+                    </button>
+                  )}
+                  {catalogue && (
+                    <a
+                      href={catalogue.downloadUrl}
+                      download
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cn(btn.outline, "inline-flex items-center gap-2 text-sm")}
+                    >
+                      <Download className="h-4 w-4" /> Download PDF
+                    </a>
+                  )}
+                  <button
+                    onClick={downloadSpecSheet}
+                    className={cn(btn.outline, "inline-flex items-center gap-2 text-sm")}
+                  >
+                    <Download className="h-4 w-4" /> Download Official Spec Sheet (.TXT)
+                  </button>
+                </div>
               </div>
             </article>
           </div>
@@ -371,6 +397,36 @@ Email: ${site.email}
                   <span className="font-medium text-white">{p.packaging}</span>
                 </div>
               </div>
+
+              {/* Catalogue Sidebar Widget */}
+              {catalogue && (
+                <div className="rounded-2xl bg-white/10 p-4 border border-gold/30 space-y-2.5">
+                  <div className="flex items-center gap-2 text-xs font-semibold text-[#F2C86E]">
+                    <FileText className="h-4 w-4" /> Official Technical Brochure
+                  </div>
+                  <p className="text-[11px] text-slate-300">
+                    Direct architectural spec sheet & pattern collection.
+                  </p>
+                  <div className="grid grid-cols-2 gap-2 pt-1">
+                    <button
+                      type="button"
+                      onClick={() => setPdfOpen(true)}
+                      className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#C9973F] py-2 text-xs font-semibold text-[#071A33] hover:brightness-110 cursor-pointer shadow-sm"
+                    >
+                      <Eye className="h-3.5 w-3.5" /> View
+                    </button>
+                    <a
+                      href={catalogue.downloadUrl}
+                      download
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-white/20 bg-white/5 py-2 text-xs font-medium text-white hover:bg-white/15"
+                    >
+                      <Download className="h-3.5 w-3.5" /> Download
+                    </a>
+                  </div>
+                </div>
+              )}
 
               <div className="space-y-3">
                 <button
@@ -462,6 +518,24 @@ Email: ${site.email}
             </div>
           </div>
         </section>
+      )}
+
+      {/* PDF Catalogue Viewer Modal */}
+      {catalogue && (
+        <PdfViewerModal
+          catalogue={catalogue}
+          isOpen={pdfOpen}
+          onClose={() => setPdfOpen(false)}
+          onRequestTile={() => {
+            setPdfOpen(false);
+            const formEl = document.getElementById("enquiry-form");
+            if (formEl) {
+              formEl.scrollIntoView({ behavior: "smooth", block: "start" });
+            } else {
+              window.location.href = "/contact#enquiry-form";
+            }
+          }}
+        />
       )}
     </>
   );
