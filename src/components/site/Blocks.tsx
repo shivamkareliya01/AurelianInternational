@@ -36,29 +36,18 @@ export function FaqList({ dark = false }: { dark?: boolean }) {
 }
 
 export function CertGrid() {
-  const logoTrack = certifications.map((c, i) => (
+  const threeCerts = [...certifications, ...certifications];
+  const logoTrack = threeCerts.map((c, i) => (
     <div
       key={i}
-      className="flex-shrink-0 flex items-center gap-3.5 mx-3 px-4 py-3 rounded-2xl bg-white border border-[#E3E7EE] shadow-[0_2px_12px_rgba(7,26,51,0.04)] hover:border-[#C9973F]/60 hover:shadow-[0_6px_25px_rgba(201,151,63,0.12)] transition-all duration-300 group"
+      title={`${c.name} — ${c.issuer}`}
+      className="flex-shrink-0 flex items-center justify-center mx-5 sm:mx-8 h-20 w-36 sm:h-24 sm:w-44 bg-transparent transition-all duration-300 group"
     >
-      <div className="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-xl bg-[#FAF8F3] border border-[#E8E4DA] p-1.5 group-hover:scale-105 transition-transform duration-300">
-        <CertLogo code={c.code} className="h-full w-full object-contain" />
-      </div>
-      <div className="min-w-0 pr-1">
-        <div className="flex items-center gap-1.5">
-          <span className="font-display font-bold text-xs text-[#071A33] tracking-wider uppercase">
-            {c.code}
-          </span>
-          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-            Active
-          </span>
-        </div>
-        <p className="text-xs font-medium text-[#2C3E55] truncate max-w-[170px] mt-0.5">
-          {c.name}
-        </p>
-        <p className="text-[10px] text-[#718096] truncate max-w-[170px]">
-          {c.issuer.split("(")[0]}
-        </p>
+      <div className="flex items-center justify-center w-full h-full">
+        <CertLogo
+          code={c.code}
+          className="h-14 sm:h-18 w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-110"
+        />
       </div>
     </div>
   ));

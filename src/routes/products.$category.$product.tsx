@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
-import { ArrowLeft, Check, Download, Eye, FileText, Plus, ShieldCheck } from "lucide-react";
+import { ArrowLeft, Check, Download, Eye, Plus, ShieldCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 import { PageHeader } from "@/components/site/PageHeader";
 import { PdfViewerModal } from "@/components/site/PdfViewerModal";
@@ -118,34 +118,11 @@ function ProductPage() {
   const { cat, slug } = Route.useLoaderData();
   const c = getCategory(cat)!;
   const p = getProduct(cat, slug)!;
-  const { add, has, openBasket } = useBasket();
+  const { add, has } = useBasket();
   const key = `${c.slug}/${p.slug}`;
   const inBasket = has(key);
   const catalogue = getCatalogueForProduct(p.name, p.slug);
   const [pdfOpen, setPdfOpen] = useState(false);
-
-  const isPowder = c.slug === "dehydrated-powders";
-  const powderMeta = isPowder ? POWDER_COLORS[p.slug] : undefined;
-  const rawGallery = p.gallery && p.gallery.length > 0 ? p.gallery : [p.image];
-  const gallery = isPowder ? rawGallery.map((img) => `${img}?v=powder2026`) : rawGallery;
-  const ingredientImage = isPowder
-    ? `/products/${p.slug}-ingredient.webp?v=powder2026b`
-    : "";
-  const [activeImg, setActiveImg] = useState(0);
-  const [zoomed, setZoomed] = useState(false);
-
-  const specs = [
-    ["Origin Region", p.origin],
-    ["Grade / Variety", p.grade],
-    ["Export Packaging", p.packaging],
-    [
-      "Minimum Order Quantity (MOQ)",
-      p.moq.toLowerCase().includes("sample") ? p.moq : `${p.moq} (Samples available upon request)`,
-    ],
-    ["Shelf Life / Durability", p.shelfLife],
-    ["Quality & Export Certifications", p.certifications.join(", ")],
-  ];
-
   const [downloading, setDownloading] = useState(false);
 
   async function handleDownload(url: string, filename: string) {
@@ -163,6 +140,30 @@ function ProductPage() {
       prefetchPdf(catalogue.webUrl);
     }
   }, [catalogue?.webUrl]);
+
+  const isPowder = c.slug === "dehydrated-powders";
+  const powderMeta = isPowder ? POWDER_COLORS[p.slug] : undefined;
+  const rawGallery = p.gallery && p.gallery.length > 0 ? p.gallery : [p.image];
+  const gallery = isPowder ? rawGallery.map((img) => `${img}?v=powder2026`) : rawGallery;
+  const ingredientImage = isPowder
+    ? `/products/${p.slug}-ingredient.webp?v=powder2026b`
+    : "";
+  const [activeImg, setActiveImg] = useState(0);
+  const [zoomed, setZoomed] = useState(false);
+
+  const isCeramic = c.slug === "ceramic-tiles";
+  const gradeLabel = isCeramic ? "Surfaces" : "Grade / Variety";
+
+  const specs = [
+    ["Origin Region", p.origin],
+    [gradeLabel, p.grade],
+    ...(p.size ? [["Size", p.size]] : []),
+    [
+      "Minimum Order Quantity (MOQ)",
+      p.moq.toLowerCase().includes("sample") ? p.moq : `${p.moq} (Samples available upon request)`,
+    ],
+    ["Shelf Life / Durability", p.shelfLife],
+  ];
 
   const related = c.products.filter((x) => x.slug !== p.slug).slice(0, 3);
   const waUrl = buildSingleProductWaUrl({
@@ -317,29 +318,27 @@ function ProductPage() {
                   </table>
                 </div>
 
-                {/* Catalogue & PDF Download Buttons */}
-                <div className="mt-8 flex flex-wrap items-center gap-3">
-                  {catalogue && (
+                {/* View & Download Brochure Option */}
+                {catalogue && (
+                  <div className="mt-8 flex flex-wrap items-center gap-3">
                     <button
                       type="button"
                       onClick={() => setPdfOpen(true)}
                       onMouseEnter={() => prefetchPdf(catalogue.webUrl)}
                       className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#C9973F] px-5 py-3 text-sm font-semibold text-[#071A33] shadow-md hover:brightness-110 active:scale-95 transition-all cursor-pointer"
                     >
-                      <Eye className="h-4 w-4" /> View catalogue
+                      <Eye className="h-4 w-4" /> View Brochure
                     </button>
-                  )}
-                  {catalogue && (
                     <button
                       type="button"
                       onClick={() => handleDownload(catalogue.downloadUrl, `${catalogue.id}.pdf`)}
                       disabled={downloading}
                       className={cn(btn.outline, "inline-flex items-center gap-2 text-sm cursor-pointer disabled:opacity-50")}
                     >
-                      <Download className="h-4 w-4" /> {downloading ? "Downloading..." : "Download PDF"}
+                      <Download className="h-4 w-4" /> {downloading ? "Downloading..." : "Download Brochure"}
                     </button>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             </article>
           </div>
@@ -357,47 +356,20 @@ function ProductPage() {
 
               <div className="space-y-3 rounded-2xl bg-[#040E1F]/60 p-4 border border-white/10 text-xs">
                 <div className="flex justify-between">
-                  <span className="text-[#D9DDE3]">Standard Grade</span>
+                  <span className="text-[#D9DDE3]">{gradeLabel}</span>
                   <span className="font-medium text-white">{p.grade}</span>
                 </div>
+                {p.size && (
+                  <div className="flex justify-between">
+                    <span className="text-[#D9DDE3]">Size</span>
+                    <span className="font-medium text-white">{p.size}</span>
+                  </div>
+                )}
                 <div className="flex justify-between">
                   <span className="text-[#D9DDE3]">Minimum Order (MOQ)</span>
                   <span className="font-medium text-gold-soft">{p.moq}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-[#D9DDE3]">Packaging</span>
-                  <span className="font-medium text-white">{p.packaging}</span>
-                </div>
               </div>
-
-              {/* Catalogue Sidebar Widget */}
-              {catalogue && (
-                <div className="rounded-2xl bg-white/10 p-4 border border-gold/30 space-y-2.5">
-                  <div className="flex items-center gap-2 text-xs font-semibold text-[#F2C86E]">
-                    <FileText className="h-4 w-4" /> Official Technical Brochure
-                  </div>
-                  <p className="text-[11px] text-slate-300">
-                    Direct architectural spec sheet & pattern collection.
-                  </p>
-                  <div className="grid grid-cols-2 gap-2 pt-1">
-                    <button
-                      type="button"
-                      onClick={() => setPdfOpen(true)}
-                      className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#C9973F] py-2 text-xs font-semibold text-[#071A33] hover:brightness-110 cursor-pointer shadow-sm"
-                    >
-                      <Eye className="h-3.5 w-3.5" /> View
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleDownload(catalogue.downloadUrl, `${catalogue.id}.pdf`)}
-                      disabled={downloading}
-                      className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-white/20 bg-white/5 py-2 text-xs font-medium text-white hover:bg-white/15 cursor-pointer disabled:opacity-50"
-                    >
-                      <Download className="h-3.5 w-3.5" /> {downloading ? "Saving..." : "Download"}
-                    </button>
-                  </div>
-                </div>
-              )}
 
               <div className="space-y-3">
                 <button
@@ -511,3 +483,4 @@ function ProductPage() {
     </>
   );
 }
+

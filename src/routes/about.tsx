@@ -18,14 +18,10 @@ import {
   UserCheck,
   Waves,
 } from "lucide-react";
-import warehouse from "@/assets/warehouse.jpg";
-import spices from "@/assets/spices.jpg";
-import port from "@/assets/port.jpg";
 import { PageHeader } from "@/components/site/PageHeader";
 import { CertLogo } from "@/components/site/CertLogos";
 import { InfinityWatermark, Reveal, SectionHead } from "@/components/site/primitives";
 import { site } from "@/data/site";
-import { allProducts } from "@/data/products";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -163,7 +159,7 @@ const tradeCategories = [
     items: [
       "Digital Glazed Vitrified Tiles (GVT)",
       "Polished Glazed Vitrified Tiles (PGVT)",
-      "High-traffic outdoor & parking tiles",
+      "Double Charge Vitrified Tiles",
       "Sanitaryware & ceramic fittings",
     ],
     desc: "Supplied to developers, distributors, and designers who expect finish, consistency and timely delivery.",
@@ -208,20 +204,6 @@ function About() {
               agreement and relationship is conducted as though our reputation were already a
               century old.
             </p>
-            <div className="pt-4 flex flex-wrap gap-6 border-t border-[#C9973F]/20 text-xs text-[#5A6B82]">
-              <div>
-                <span className="block font-mono text-sm font-bold text-[#C9973F]">{site.established}</span>
-                <span>Inception</span>
-              </div>
-              <div>
-                <span className="block font-mono text-sm font-bold text-[#C9973F]">{site.city}, India</span>
-                <span>Headquarters</span>
-              </div>
-              <div>
-                <span className="block font-mono text-sm font-bold text-[#C9973F]">{allProducts.length}+ Products</span>
-                <span>Active Portfolio</span>
-              </div>
-            </div>
           </Reveal>
         </div>
       </section>
@@ -463,37 +445,7 @@ function About() {
         </div>
       </section>
 
-      {/* 8. Infrastructure & Logistics */}
-      <section className="section-y bg-ivory">
-        <div className="container-x">
-          <SectionHead
-            eyebrow="Infrastructure"
-            title="Warehouses, processing units and container berths."
-            text="Direct presence across India's premier logistics nodes guarantees unbroken cold chain, proper fumigation, and expedited port clearance."
-          />
-          <div className="mt-14 grid gap-6 md:grid-cols-3">
-            {[
-              [warehouse, "Bonded warehouse, Navi Mumbai"],
-              [spices, "Spices & botanical processing unit, Gujarat"],
-              [port, "Loading at JNPT, Mumbai"],
-            ].map(([src, l]) => (
-              <figure key={l} className="group overflow-hidden rounded-2xl border border-[#E3E7EE] bg-white shadow-soft">
-                <div className="overflow-hidden aspect-[4/3]">
-                  <img
-                    src={src}
-                    alt={l}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                  />
-                </div>
-                <figcaption className="p-4 text-xs font-semibold text-[#071A33]">{l}</figcaption>
-              </figure>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 9. Official Export Certifications & Licenses Section */}
+      {/* 8. Official Export Certifications & Licenses Section */}
       <section id="certifications" className="section-y bg-[#071A33] text-[#F4F1EA] scroll-mt-24">
         <div className="container-x">
           <SectionHead
@@ -504,7 +456,7 @@ function About() {
             align="center"
           />
 
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               {
                 code: "DGFT",
@@ -523,30 +475,6 @@ function About() {
                 title: "Food Safety & Standards Authority",
                 desc: "Central Licensing compliance ensuring zero contamination, proper food grade handling, and hygienic warehouse storage.",
                 tag: "Central License",
-              },
-              {
-                code: "INDIA ORGANIC",
-                title: "Jaivik Bharat / India Organic",
-                desc: "National Programme for Organic Production (NPOP) certification ensuring authentic chemical-free organic Indian agricultural produce.",
-                tag: "NPOP Certified",
-              },
-              {
-                code: "SPICES BOARD",
-                title: "Spices Board of India",
-                desc: "Certified Registration cum Enrolment Certificate (CRES) holder for direct export of premium whole and powdered Indian spices.",
-                tag: "CRES Certified",
-              },
-              {
-                code: "ISO 22000",
-                title: "Food Safety Management System",
-                desc: "Audited manufacturing and packaging processes aligned with global FSMS standards and HACCP principles.",
-                tag: "ISO Audited",
-              },
-              {
-                code: "SGS / GEO-CHEM",
-                title: "Third-Party Inspection",
-                desc: "Container stuffing and port inspection reports with lot-wise laboratory assay certificates for export compliance.",
-                tag: "Port Inspected",
               },
             ].map((cert) => (
               <div

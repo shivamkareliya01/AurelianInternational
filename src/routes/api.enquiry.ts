@@ -245,6 +245,7 @@ export const Route = createFileRoute("/api/enquiry")({
                 message: sanitizedNotes,
                 notes: sanitizedNotes,
                 sourcePage: sanitizedSourcePage,
+                spreadsheetId: env.GOOGLE_SHEET_URL?.match(/\/d\/([a-zA-Z0-9_-]+)/)?.[1] || undefined,
               },
               3 // 3 retries with exponential backoff
             );

@@ -3,6 +3,7 @@
 export type ProductSpecs = {
   origin?: string;
   gradeVariety?: string;
+  size?: string;
   exportPackaging?: string;
   moq?: string;
   shelfLife?: string;
@@ -17,6 +18,7 @@ export type Product = {
   specs: ProductSpecs;
   origin: string;
   grade: string;
+  size?: string;
   packaging: string;
   moq: string;
   shelfLife: string;
@@ -809,19 +811,20 @@ export const categories: Category[] = [
   {
     "slug": "ceramic-tiles",
     "name": "Ceramic Tiles",
-    "headline": "Glazed Vitrified Tiles (GVT / PGVT)",
+    "headline": "Endless Collection",
     "blurb": "Premium export-grade Glazed Vitrified Tiles (GVT & PGVT) manufactured in Morbi, Gujarat — high-definition Italian inkjet printing, nano-polished gloss, and ISO 13006 / CE international certifications.",
     "image": "/products/luxury-glazed-vitrified-tiles.webp",
     "products": [
       {
         "slug": "glazed-vitrified-tiles",
-        "name": "Glazed Vitrified Tiles (GVT / PGVT)",
+        "name": "Endless Collection",
         "catalogueId": "gvt_broucher",
         "image": "/products/luxury-glazed-vitrified-tiles.webp",
         "shortDescription": "Premium export-grade digital glazed vitrified tiles manufactured with high-definition Italian inkjet printing, authentic marble veining, nano-polished surfaces, and ultra-low water absorption (<0.05%).",
         "specs": {
           "origin": "Morbi, Gujarat, India",
-          "gradeVariety": "GVT Glossy / Carving / High-Gloss PGVT (600x1200mm, 800x1600mm)",
+          "gradeVariety": "Glossy / High-Gloss / Carving / Matt",
+          "size": "60 * 120 cm",
           "exportPackaging": "Corner-protected corrugated cartons on ISPM-15 heat-treated fumigated wooden pallets",
           "moq": "1 × 20ft FCL (approx. 1,300 sq.m)",
           "shelfLife": "Permanent Architectural Material",
@@ -844,6 +847,7 @@ export const allProducts: (Product & { category: Category })[] = categories.flat
     category: c,
     origin: p.specs.origin ?? "",
     grade: p.specs.gradeVariety ?? "",
+    size: p.specs.size,
     packaging: p.specs.exportPackaging ?? "",
     moq: p.specs.moq ?? "",
     shelfLife: p.specs.shelfLife ?? "",

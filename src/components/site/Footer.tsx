@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Twitter } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { categories } from "@/data/products";
@@ -15,14 +15,13 @@ export function Footer() {
           <Logo size="lg" variant="stacked" />
           <p className="mt-6 max-w-sm text-sm leading-relaxed text-[#D9DDE3]">
             A {site.city}-based trading house exporting India's finest agricultural produce, spices,
-            and natural stone to 7 key destination markets worldwide.
+            and ceramic tiles to 7 key destination markets worldwide.
           </p>
           <div className="mt-6 flex gap-3">
             {[
               { href: site.socials.instagram, Icon: Instagram, l: "Instagram" },
               { href: site.socials.facebook, Icon: Facebook, l: "Facebook" },
               { href: site.socials.linkedin, Icon: Linkedin, l: "LinkedIn" },
-              { href: site.socials.x, Icon: Twitter, l: "X" },
             ].map(({ href, Icon, l }) => (
               <a
                 key={l}
@@ -117,37 +116,6 @@ export function Footer() {
               Subscribe
             </button>
           </form>
-        </div>
-      </div>
-
-      {/* Certified Accreditations Strip */}
-      <div className="border-t border-[#C9973F]/20 bg-[#071A33]/60 py-8">
-        <div className="container-x">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
-            <span className="eyebrow !text-[#F2C86E]">Government & Quality Accreditations</span>
-            <span className="text-xs text-[#D9DDE3]">Audited, Traceable & Fully Compliant</span>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-            {[
-              { code: "DGFT", label: "IEC Licenced", sub: "Foreign Trade" },
-              { code: "APEDA", label: "RCMC Reg.", sub: "Agri Products" },
-              { code: "SPICES", label: "CRES Certified", sub: "Spices Board" },
-              { code: "FSSAI", label: "Central Licence", sub: "Food Safety" },
-              { code: "ISO 22000", label: "FSMS Audited", sub: "Global Standards" },
-              { code: "MSME", label: "Govt. of India", sub: "Enterprise Reg." },
-            ].map((b) => (
-              <div
-                key={b.code}
-                className="flex flex-col items-center justify-center p-3 rounded-xl border border-white/10 bg-[#0E2A4F]/60 text-center transition-all duration-300 hover:border-[#C9973F]/60 hover:bg-[#0E2A4F]"
-              >
-                <span className="font-display text-base font-semibold text-[#F2C86E] tracking-wider">
-                  {b.code}
-                </span>
-                <span className="text-[11px] font-medium text-white/90 mt-0.5">{b.label}</span>
-                <span className="text-[10px] text-[#D9DDE3]/70">{b.sub}</span>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
 

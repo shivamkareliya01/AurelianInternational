@@ -18,30 +18,6 @@ export const certifications = [
     issuer: "Food Safety & Standards Authority of India",
     number: "1001XXXXXXXXXX",
   },
-  {
-    code: "INDIA ORGANIC",
-    name: "Jaivik Bharat / India Organic",
-    issuer: "National Programme for Organic Production (NPOP)",
-    number: "NPOP/NAB/00XX",
-  },
-  {
-    code: "SPICES",
-    name: "Spices Board CRES",
-    issuer: "Spices Board of India (Ministry of Commerce)",
-    number: "SB/CRES/XXXX/2024",
-  },
-  {
-    code: "ISO",
-    name: "ISO 22000:2018",
-    issuer: "Food Safety Management System (FSMS)",
-    number: "FSMS-22000-XXXX",
-  },
-  {
-    code: "MSME",
-    name: "Udyam Registration",
-    issuer: "Ministry of MSME, Government of India",
-    number: "UDYAM-MH-XX-XXXXXXX",
-  },
 ];
 
 export const testimonials = [

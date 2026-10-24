@@ -10,6 +10,9 @@
  * 6. Thread-safe execution using ScriptLock to prevent concurrent row collisions.
  */
 
+const DEFAULT_SPREADSHEET_ID = '1JGzpqK2iJ1KhgalKUs1t7gFQ8YFltDA6RtY55TggWxg';
+const DEFAULT_SECRET = 'aurelian_test_secret_key_1234567890';
+const DEFAULT_OWNER_EMAIL = 'aurelianinternational@gmail.com';
 const SHEET_NAME = 'Enquiries';
 const HEADERS = [
   'Reference',
@@ -30,15 +33,94 @@ const HEADERS = [
 ];
 
 /**
+ * Accesses target spreadsheet automatically from the container sheet
+ */
+function getSpreadsheet(d) {
+  try {
+    const active = SpreadsheetApp.getActiveSpreadsheet();
+    if (active) return active;
+  } catch (e) {}
+
+  const P = PropertiesService.getScriptProperties();
+  const targetId = (d && (d.spreadsheetId || d.sheetId)) || P.getProperty('SPREADSHEET_ID') || DEFAULT_SPREADSHEET_ID;
+  
+  if (targetId && String(targetId).trim()) {
+    try {
+      return SpreadsheetApp.openById(String(targetId).trim());
+    } catch (e1) {
+      try {
+        return SpreadsheetApp.openByUrl(String(targetId).trim());
+      } catch (e2) {}
+    }
+  }
+
+  throw new Error('Spreadsheet not found. Please open Apps Script directly inside your Google Sheet via Extensions > Apps Script.');
+}
+
+/**
+ * 1-CLICK SETUP FUNCTION
+ * Select 'setupSheet' in the Apps Script top toolbar and click 'Run' (▶).
+ * This will instantly create the styled headers and rename your tab to 'Enquiries'!
+ */
+function setupSheet() {
+  const ss = getSpreadsheet();
+  let sh = ss.getSheetByName(SHEET_NAME);
+  if (!sh) {
+    const sheets = ss.getSheets();
+    if (sheets.length > 0 && sheets[0].getLastRow() === 0) {
+      sh = sheets[0];
+      sh.setName(SHEET_NAME);
+    } else {
+      sh = ss.insertSheet(SHEET_NAME);
+    }
+  }
+
+  // Set styled header row and freeze it
+  if (sh.getLastRow() === 0) {
+    sh.appendRow(HEADERS);
+  } else {
+    sh.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
+  }
+
+  sh.getRange(1, 1, 1, HEADERS.length)
+    .setBackground('#0a1b35')
+    .setFontColor('#e3b95f')
+    .setFontWeight('bold')
+    .setFontSize(10)
+    .setVerticalAlignment('middle');
+  sh.setRowHeight(1, 35);
+  sh.setFrozenRows(1);
+  sh.autoResizeColumns(1, HEADERS.length);
+
+  Logger.log('✅ Sheet successfully configured with all Enquiry columns!');
+  return 'Success! Your sheet is ready with all columns.';
+}
+
+/**
  * Handle GET requests for health check verification
  */
 function doGet(e) {
-  return json_({
-    ok: true,
-    service: 'Aurelian International Enquiries Webhook',
-    status: 'online',
-    timestamp: new Date().toISOString()
-  });
+  try {
+    const ss = getSpreadsheet();
+    return json_({
+      ok: true,
+      service: 'Aurelian International Enquiries Webhook',
+      status: 'online',
+      spreadsheetName: ss ? ss.getName() : null,
+      spreadsheetId: ss ? ss.getId() : null,
+      spreadsheetUrl: ss ? ss.getUrl() : null,
+      tabs: ss ? ss.getSheets().map(s => ({ name: s.getName(), rows: s.getLastRow() })) : [],
+      timestamp: new Date().toISOString()
+    });
+  } catch (err) {
+    return json_({
+      ok: true,
+      service: 'Aurelian International Enquiries Webhook',
+      status: 'online',
+      error: String(err),
+      timestamp: new Date().toISOString()
+    });
+  }
 }
 
 /**
@@ -55,8 +137,8 @@ function doPost(e) {
     }
 
     const P = PropertiesService.getScriptProperties();
-    const configuredSecret = P.getProperty('SECRET');
-    const ownerEmail = P.getProperty('OWNER_EMAIL');
+    const configuredSecret = P.getProperty('SECRET') || DEFAULT_SECRET;
+    const ownerEmail = P.getProperty('OWNER_EMAIL') || DEFAULT_OWNER_EMAIL;
 
     let d;
     try {
@@ -76,8 +158,18 @@ function doPost(e) {
     }
 
     // 3. Spreadsheet & sheet initialization
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
-    const sh = ss.getSheetByName(SHEET_NAME) || ss.insertSheet(SHEET_NAME);
+    const ss = getSpreadsheet(d);
+    let sh = ss.getSheetByName(SHEET_NAME);
+    if (!sh) {
+      // If default "Sheet1" exists and is blank, rename it so the user is directly viewing the data
+      const sheets = ss.getSheets();
+      if (sheets.length > 0 && sheets[0].getLastRow() === 0) {
+        sh = sheets[0];
+        sh.setName(SHEET_NAME);
+      } else {
+        sh = ss.insertSheet(SHEET_NAME);
+      }
+    }
 
     // If sheet is empty, create styled header row and freeze it
     if (sh.getLastRow() === 0) {
@@ -213,7 +305,7 @@ function doPost(e) {
       console.warn('Could not send client confirmation email: ' + clientMailErr);
     }
 
-    return json_({ ok: true, reference: ref });
+    return json_({ ok: true, reference: ref, sheetUrl: sheetUrl });
   } catch (err) {
     return json_({ ok: false, error: String(err) });
   } finally {

@@ -18,6 +18,7 @@ export interface AppsScriptPayload {
   message?: string;
   notes?: string;
   sourcePage?: string;
+  spreadsheetId?: string;
 }
 
 export interface AppsScriptResult {

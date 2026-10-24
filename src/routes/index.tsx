@@ -223,10 +223,6 @@ function Hero() {
               <span className="relative inline-flex h-2 w-2 rounded-full bg-[#25D366]" />
             </span>
             <span>PREMIER INDIAN EXPORT HOUSE</span>
-            <span className="h-3 w-px bg-white/20" />
-            <span className="text-white/85 hidden xs:inline">MORBI, GUJARAT, INDIA</span>
-            <span className="h-3 w-px bg-white/20 hidden md:inline" />
-            <span className="text-[#F2C86E] hidden md:inline">APEDA · ISO · SPICES BOARD</span>
           </div>
         </motion.div>
 

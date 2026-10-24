@@ -60,7 +60,7 @@ const categoryMeta: Record<
     cert: "ISPM-15 Wooden Crates",
   },
   "ceramic-tiles": {
-    descriptor: "Glazed vitrified tiles (GVT / PGVT)",
+    descriptor: "Endless Collection",
     origin: "Origin: Morbi, Gujarat",
     moq: "MOQ: 1 × 20ft FCL (1,300 sq.m)",
     cert: "ISO 13006 & CE Certified",

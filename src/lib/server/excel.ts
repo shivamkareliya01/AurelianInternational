@@ -134,7 +134,7 @@ export async function buildEnquiryExcelBuffer(enquiry: StoredEnquiry): Promise<B
     { header: "Product", key: "name", width: 28 },
     { header: "Category", key: "category", width: 22 },
     { header: "Origin", key: "origin", width: 22 },
-    { header: "Grade / Variety", key: "grade", width: 28 },
+    { header: "Surfaces", key: "grade", width: 28 },
     { header: "Export Packaging", key: "packaging", width: 28 },
     { header: "Minimum Order (MOQ)", key: "moq", width: 22 },
     { header: "Shelf Life", key: "shelfLife", width: 18 },
