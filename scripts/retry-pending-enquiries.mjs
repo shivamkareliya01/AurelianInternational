@@ -76,7 +76,7 @@ for (const enq of pending) {
     lastName: enq.lastName,
     company: enq.company,
     email: enq.email,
-    phone: enq.phone,
+    phone: enq.phone ? (/^[=+\-@\t\r]/.test(String(enq.phone).trim()) ? (String(enq.phone).trim().startsWith("'") ? String(enq.phone).trim() : `'${String(enq.phone).trim()}`) : String(enq.phone).trim()) : "",
     country: enq.country,
     product: enq.products.map((p) => p.name).join(", "),
     products: enq.products.map((p) => p.name),

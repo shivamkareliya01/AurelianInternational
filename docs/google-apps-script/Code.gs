@@ -107,6 +107,9 @@ function doPost(e) {
     const unitText = d.unit ? String(d.unit) : 'MT';
     const quantityDisplay = quantityText ? (quantityText + ' ' + unitText) : 'Unspecified';
 
+    const rawPhone = String(d.phone == null ? '' : d.phone).trim();
+    const sheetPhone = rawPhone ? (/^[=+\-@\t\r]/.test(rawPhone) ? (rawPhone.startsWith("'") ? rawPhone : "'" + rawPhone) : rawPhone) : '';
+
     // 6. Append row as plain text strings to preserve phone numbers and formatting
     const row = [
       ref,
@@ -116,7 +119,7 @@ function doPost(e) {
       d.lastName,
       d.company,
       d.email,
-      d.phone,
+      sheetPhone,
       d.country,
       products,
       productCount,

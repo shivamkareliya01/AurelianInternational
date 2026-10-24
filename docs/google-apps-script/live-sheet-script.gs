@@ -60,8 +60,9 @@ function getTargetSheet() {
     sheet.setRowHeight(1, 32);
     sheet.setFrozenRows(1);
 
-    // Auto-fit column widths
+    // Auto-fit column widths and format Phone column (Col 6 / F) as Plain Text
     try {
+      sheet.getRange("F:F").setNumberFormat("@");
       sheet.autoResizeColumns(1, 8);
     } catch (e) {}
   }
@@ -82,8 +83,11 @@ function doPost(e) {
 
     const clientName = d.name || [d.firstName, d.lastName].filter(Boolean).join(" ") || d.fullName || "Trade Buyer";
     const company = d.company || "N/A";
-    const email = d.email || "";
-    const phone = d.phone || "";
+    const rawPhone = String(d.phone || "").trim();
+    // Strip leading apostrophe if present for clean WhatsApp link / display in email
+    const displayPhone = rawPhone.replace(/^'+/, "");
+    // Prepend single quote (') so Google Sheets treats "+91..." strictly as text, avoiding #ERROR! formula parse failure
+    const sheetPhone = rawPhone ? (/^[=+\-@\t\r]/.test(rawPhone) ? (rawPhone.startsWith("'") ? rawPhone : "'" + rawPhone) : rawPhone) : "";
     const country = d.country || "";
     
     // Parse products array or string
@@ -105,17 +109,18 @@ function doPost(e) {
       clientName,
       company,
       email,
-      phone,
+      sheetPhone,
       country,
       products,
       volume,
       message
     ]);
 
-    // Format new row styling
+    // Format new row styling and ensure phone column (col 6) is Plain Text
     const newRowIndex = sheet.getLastRow();
     const newRowRange = sheet.getRange(newRowIndex, 1, 1, 10);
     newRowRange.setVerticalAlignment("middle").setFontSize(9);
+    sheet.getRange(newRowIndex, 6).setNumberFormat("@");
     sheet.setRowHeight(newRowIndex, 24);
 
     // 2. Send instant Email Notification to Owner
@@ -138,7 +143,7 @@ function doPost(e) {
                 rowHtml_("Client Name", clientName) +
                 rowHtml_("Company", company) +
                 rowHtml_("Official Email", email ? "<a href='mailto:" + esc_(email) + "' style='color: #0284c7; text-decoration: none; font-weight: bold;'>" + esc_(email) + "</a>" : "N/A") +
-                rowHtml_("Phone / WhatsApp", phone ? "<a href='https://wa.me/" + phone.replace(/[^0-9]/g, "") + "' style='color: #16a34a; text-decoration: none; font-weight: bold;'>" + esc_(phone) + " (WhatsApp)</a>" : "N/A") +
+                rowHtml_("Phone / WhatsApp", displayPhone ? "<a href='https://wa.me/" + displayPhone.replace(/[^0-9]/g, "") + "' style='color: #16a34a; text-decoration: none; font-weight: bold;'>" + esc_(displayPhone) + " (WhatsApp)</a>" : "N/A") +
                 rowHtml_("Destination Country", country) +
                 rowHtml_("Export Products", "<strong style='color: #0A1B35;'>" + esc_(products) + "</strong>") +
                 rowHtml_("Order Volume", volume) +

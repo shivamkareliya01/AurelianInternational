@@ -66,7 +66,7 @@ export async function submitEnquiry(
     name,
     company,
     email,
-    phone,
+    phone: phone ? (/^[=+\-@\t\r]/.test(phone.trim()) ? (phone.trim().startsWith("'") ? phone.trim() : `'${phone.trim()}`) : phone.trim()) : "",
     country,
     product,
     quantity,

@@ -565,52 +565,55 @@ export function EnquiryForm() {
               )}
             </div>
 
-            {/* Name, Company, Email, Phone 2x2 Grid with floating effect */}
-            <div className="grid gap-4 sm:grid-cols-2">
-              {/* First Name */}
-              <div className="group space-y-1">
-                <label
-                  htmlFor="firstName"
-                  className="block text-xs font-semibold text-[#071A33]/85"
-                >
-                  First Name *
-                </label>
-                <input
-                  id="firstName"
-                  name="firstName"
-                  autoComplete="given-name"
-                  placeholder="e.g. David"
-                  className={cn(
-                    "w-full rounded-[14px] border border-[#E3E7EE] bg-white/95 px-4 py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
-                    errors.firstName && "border-destructive ring-1 ring-destructive/40"
+            {/* Name, Company, Email, Phone Grid */}
+            <div className="grid gap-3.5 sm:gap-4 sm:grid-cols-2">
+              {/* First & Last Name side-by-side on mobile and desktop */}
+              <div className="grid grid-cols-2 gap-2.5 sm:gap-4 sm:col-span-2">
+                {/* First Name */}
+                <div className="group space-y-1">
+                  <label
+                    htmlFor="firstName"
+                    className="block text-xs font-semibold text-[#071A33]/85"
+                  >
+                    First Name *
+                  </label>
+                  <input
+                    id="firstName"
+                    name="firstName"
+                    autoComplete="given-name"
+                    placeholder="e.g. David"
+                    className={cn(
+                      "w-full rounded-[12px] sm:rounded-[14px] border border-[#E3E7EE] bg-white/95 px-3.5 py-2.5 sm:px-4 sm:py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
+                      errors.firstName && "border-destructive ring-1 ring-destructive/40"
+                    )}
+                  />
+                  {errors.firstName && (
+                    <p className="text-xs text-destructive">{errors.firstName}</p>
                   )}
-                />
-                {errors.firstName && (
-                  <p className="text-xs text-destructive">{errors.firstName}</p>
-                )}
-              </div>
+                </div>
 
-              {/* Last Name */}
-              <div className="group space-y-1">
-                <label
-                  htmlFor="lastName"
-                  className="block text-xs font-semibold text-[#071A33]/85"
-                >
-                  Last Name *
-                </label>
-                <input
-                  id="lastName"
-                  name="lastName"
-                  autoComplete="family-name"
-                  placeholder="e.g. Henderson"
-                  className={cn(
-                    "w-full rounded-[14px] border border-[#E3E7EE] bg-white/95 px-4 py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
-                    errors.lastName && "border-destructive ring-1 ring-destructive/40"
+                {/* Last Name */}
+                <div className="group space-y-1">
+                  <label
+                    htmlFor="lastName"
+                    className="block text-xs font-semibold text-[#071A33]/85"
+                  >
+                    Last Name *
+                  </label>
+                  <input
+                    id="lastName"
+                    name="lastName"
+                    autoComplete="family-name"
+                    placeholder="e.g. Henderson"
+                    className={cn(
+                      "w-full rounded-[12px] sm:rounded-[14px] border border-[#E3E7EE] bg-white/95 px-3.5 py-2.5 sm:px-4 sm:py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
+                      errors.lastName && "border-destructive ring-1 ring-destructive/40"
+                    )}
+                  />
+                  {errors.lastName && (
+                    <p className="text-xs text-destructive">{errors.lastName}</p>
                   )}
-                />
-                {errors.lastName && (
-                  <p className="text-xs text-destructive">{errors.lastName}</p>
-                )}
+                </div>
               </div>
 
               {/* Email */}

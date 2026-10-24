@@ -104,6 +104,7 @@ export function FloatingActions() {
       <div
         className={cn(
           "fixed right-3.5 sm:right-6 md:right-8 z-40 flex flex-col items-center gap-3 transition-all duration-300",
+          formInView && "max-sm:opacity-0 max-sm:pointer-events-none max-sm:translate-y-8",
           shouldShowStickyQuote
             ? "bottom-[calc(5.25rem+env(safe-area-inset-bottom,0px))] md:bottom-8"
             : "bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))] sm:bottom-6 md:bottom-8"

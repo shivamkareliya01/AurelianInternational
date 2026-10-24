@@ -5,6 +5,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import {
   sanitizeText,
+  sanitizeExcelValue,
   checkRateLimit,
   verifyTurnstileToken,
 } from "@/lib/server/security";
@@ -231,7 +232,7 @@ export const Route = createFileRoute("/api/enquiry")({
                 lastName: sanitizedLastName,
                 company: sanitizedCompany,
                 email: sanitizedEmail,
-                phone: sanitizedPhone,
+                phone: sanitizeExcelValue(sanitizedPhone),
                 country: sanitizedCountry,
                 state: sanitizedState,
                 city: sanitizedCity,

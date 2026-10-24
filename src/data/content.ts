@@ -158,20 +158,32 @@ export const markets = [
 
 export const whyUs = [
   {
-    title: "Product Customization",
-    text: "Grades, sizes, moisture and cleaning tailored to your market.",
+    title: "One House, Many Origins",
+    text: "From grains, pulses & spices to medicinal botanicals & ceramic tiles to sanitary wares, we bring a wide range of goods under a single relationship.",
   },
   {
-    title: "Private Labelling",
-    text: "Your brand on every bag, pouch and carton — designed in-house.",
+    title: "Selection At The Source",
+    text: "We do not simply move goods; we choose them. Every product is sourced with attention to origin, grade & consistency, so that what arrives matches what was agreed.",
   },
   {
-    title: "Certified Quality & Compliance",
-    text: "SGS & NABL lab-tested certificates, phytosanitary clearance, and 100% farm-to-port traceability.",
+    title: "Clarity in Every Transaction",
+    text: "Pricing, specifications, documentation and timelines are stated plainly and confirmed in writing. There are no surprises at the port, and no ambiguity after the contract.",
   },
   {
-    title: "End-to-End Trade Support",
-    text: "Dedicated export manager handling real-time container tracking, port clearance, and post-discharge coordination.",
+    title: "Compliance Without Compromise",
+    text: "International trade is governed by regulations that differ in every market. We treat documentation and regulatory requirements as part of the product itself.",
+  },
+  {
+    title: "Discretion as Standard",
+    text: "Your pricing, volumes and commercial arrangements remain between us. We treat the affairs of our partners with the privacy that serious business requires.",
+  },
+  {
+    title: "Attentive, Personal Service",
+    text: "Direct access, prompt responses, and genuine attention from our trade desk, whether the order is a first trial or a standing annual contract.",
+  },
+  {
+    title: "A Partner for the Long Term",
+    text: "We are building relationships meant to last for decades, and we conduct each order with that horizon in mind.",
   },
 ];
 

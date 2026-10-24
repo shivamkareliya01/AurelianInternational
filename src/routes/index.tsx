@@ -209,7 +209,7 @@ function Hero() {
       />
 
       {/* Hero Main Content */}
-      <div className="container-x relative z-20 flex flex-1 flex-col justify-center pt-28 pb-10 sm:pt-36 sm:pb-14 md:pt-40">
+      <div className="container-x relative z-20 flex flex-1 flex-col justify-center pt-24 pb-6 sm:pt-36 sm:pb-14 md:pt-40">
         {/* Live Authority Badge */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
@@ -217,7 +217,7 @@ function Hero() {
           transition={{ delay: 0.6, duration: 0.8 }}
           className="w-fit"
         >
-          <div className="inline-flex items-center gap-2 sm:gap-3 rounded-full border border-[#C9973F]/40 bg-[#071A33]/85 px-3.5 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-xs font-semibold tracking-wider text-[#F2C86E] shadow-[0_4px_25px_rgba(0,0,0,0.4)] backdrop-blur-md">
+          <div className="inline-flex items-center gap-2 sm:gap-3 rounded-full border border-[#C9973F]/40 bg-[#071A33]/85 px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-xs font-semibold tracking-wider text-[#F2C86E] shadow-[0_4px_25px_rgba(0,0,0,0.4)] backdrop-blur-md">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#25D366] opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-[#25D366]" />
@@ -235,7 +235,7 @@ function Hero() {
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.9 }}
-          className="mt-6 max-w-5xl text-[clamp(2.4rem,7.5vw,4.5rem)] leading-[1.02] text-white md:text-8xl md:leading-[0.96] lg:text-[6.5rem] tracking-tight font-display font-medium"
+          className="mt-4 sm:mt-6 max-w-5xl text-[clamp(2.1rem,7.2vw,4.5rem)] leading-[1.04] text-white md:text-8xl md:leading-[0.96] lg:text-[6.5rem] tracking-tight font-display font-medium"
         >
           India's Finest,{" "}
           <span className="relative inline-block">
@@ -258,7 +258,7 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.0, duration: 0.8 }}
-          className="mt-6 max-w-2xl text-base sm:text-lg text-[#D9DDE3] leading-relaxed font-normal"
+          className="mt-4 sm:mt-6 max-w-2xl text-sm sm:text-lg text-[#D9DDE3] leading-relaxed font-normal"
           style={{ textShadow: "0 2px 14px rgba(0, 0, 0, 0.45)" }}
         >
           Premium agricultural commodities, exotic whole spices, dehydrated botanical powders, and export-grade ceramic tiles — sourced directly, quality-certified, and loaded onto ocean vessels with end-to-end transparency.
@@ -269,7 +269,7 @@ function Hero() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.15, duration: 0.8 }}
-          className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-white/90"
+          className="mt-4 sm:mt-5 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-[11px] sm:text-xs text-white/90"
         >
           <div className="flex items-center gap-1.5 font-medium">
             <CheckCircle2 className="h-4 w-4 text-[#F2C86E]" />
@@ -290,43 +290,48 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.3, duration: 0.8 }}
-          className="mt-8 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3.5 sm:gap-4 w-full"
+          className="mt-6 sm:mt-8 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-4 w-full"
         >
           {/* Primary High-Luster Gold Button */}
           <Link
             to="/products"
-            className="gold-btn-luxury inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#9A6B1F] via-[#F2C86E] to-[#C9973F] px-8 py-3.5 text-sm font-bold tracking-wide text-[#071A33] shadow-lg cursor-pointer"
+            className="gold-btn-luxury inline-flex min-h-[44px] sm:min-h-[48px] items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#9A6B1F] via-[#F2C86E] to-[#C9973F] px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-bold tracking-wide text-[#071A33] shadow-lg cursor-pointer w-full sm:w-auto"
           >
             <span>Explore {allProducts.length} Export Commodities</span>
             <ArrowRight className="h-4 w-4" />
           </Link>
 
-          {/* Secondary Frosted Glass Button */}
-          <Link
-            to="/contact"
-            className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 backdrop-blur-md px-7 py-3.5 text-sm font-semibold tracking-wide text-white transition-all duration-300 hover:border-[#F2C86E] hover:text-[#F2C86E] hover:bg-white/15 cursor-pointer shadow-md"
-          >
-            <span>Request Commercial Quote</span>
-          </Link>
+          {/* 2-Column Responsive Grid on Mobile for Secondary + WhatsApp */}
+          <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center sm:gap-4 w-full sm:w-auto">
+            <Link
+              to="/contact"
+              className="inline-flex min-h-[44px] sm:min-h-[48px] items-center justify-center gap-1.5 sm:gap-2 rounded-full border border-white/25 bg-white/10 backdrop-blur-md px-3.5 sm:px-7 py-2.5 sm:py-3.5 text-xs sm:text-sm font-semibold tracking-wide text-white transition-all duration-300 hover:border-[#F2C86E] hover:text-[#F2C86E] hover:bg-white/15 cursor-pointer shadow-md text-center"
+            >
+              <span>Request Quote</span>
+            </Link>
 
-          {/* Quick WhatsApp Pill */}
-          <a
-            href={`https://wa.me/${site.whatsapp}?text=Hello%20Aurelian%20International,%20I%20am%20interested%20in%20requesting%20an%20export%20quotation.`}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-[#25D366]/20 border border-[#25D366]/40 px-5 py-3 text-sm font-semibold text-[#25D366] hover:bg-[#25D366] hover:text-white transition-all duration-300 backdrop-blur-md shadow-sm"
-          >
-            <WhatsAppIcon className="h-4 w-4" />
-            <span>WhatsApp Desk</span>
-          </a>
+            <a
+              href={`https://wa.me/${site.whatsapp}?text=Hello%20Aurelian%20International,%20I%20am%20interested%20in%20requesting%20an%20export%20quotation.`}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex min-h-[44px] sm:min-h-[48px] items-center justify-center gap-1.5 sm:gap-2 rounded-full bg-[#25D366]/20 border border-[#25D366]/40 px-3.5 sm:px-5 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-[#25D366] hover:bg-[#25D366] hover:text-white transition-all duration-300 backdrop-blur-md shadow-sm text-center"
+            >
+              <WhatsAppIcon className="h-4 w-4 shrink-0" />
+              <span>WhatsApp Desk</span>
+            </a>
+          </div>
         </motion.div>
       </div>
 
       {/* Floating Bottom Section: Slide Switcher Tabs + Glass Stats Capsule */}
-      <div className="container-x relative z-20 pb-8 md:pb-12 pt-2 flex flex-col gap-4">
+      <div className="container-x relative z-20 pb-5 sm:pb-8 md:pb-12 pt-2 flex flex-col gap-4">
         {/* Slide Switcher Tabs with Visual Labels */}
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-3">
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3" role="tablist" aria-label="Hero Slides">
+        <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-2.5 sm:pb-3">
+          <div
+            className="flex items-center gap-2 sm:gap-3 overflow-x-auto no-scrollbar scrollbar-none py-1 -mx-4 px-4 sm:mx-0 sm:px-0 w-full sm:w-auto flex-nowrap"
+            role="tablist"
+            aria-label="Hero Slides"
+          >
             {heroSlides.map((s, idx) => (
               <button
                 key={idx}
@@ -336,17 +341,17 @@ function Hero() {
                 aria-label={`Jump to slide ${idx + 1}: ${s.label}`}
                 onClick={() => goToSlide(idx)}
                 className={cn(
-                  "group relative flex items-center gap-2.5 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all duration-300 cursor-pointer",
+                  "group relative flex shrink-0 items-center gap-2 rounded-full px-3 py-1.5 sm:px-3.5 sm:py-1.5 text-[11px] sm:text-xs font-semibold transition-all duration-300 cursor-pointer whitespace-nowrap",
                   i === idx
                     ? "bg-[#071A33]/90 text-[#F2C86E] border border-[#C9973F]/70 shadow-md backdrop-blur-md"
                     : "bg-white/5 text-slate-300 hover:bg-white/15 hover:text-white border border-white/10"
                 )}
               >
                 <span className="font-mono text-[10px] text-[#C9973F]">0{idx + 1}</span>
-                <span className="truncate max-w-[130px] sm:max-w-none">{s.label}</span>
+                <span className="whitespace-nowrap">{s.label}</span>
                 {/* Active Progress Fill Bar */}
                 {i === idx && (
-                  <span className="relative block h-1 w-8 sm:w-12 overflow-hidden rounded-full bg-white/20 ml-1">
+                  <span className="relative block h-1 w-6 sm:w-12 overflow-hidden rounded-full bg-white/20 ml-1">
                     <motion.span
                       key={`progress-${i}`}
                       initial={{ width: "0%" }}
@@ -470,13 +475,13 @@ function AboutPreview() {
         </div>
         <div className="min-w-0">
           <SectionHead
-            eyebrow="Our Story"
+            eyebrow="The Aurelian Standard"
             title={
               <>
-                A trading house built on <em className="text-gold">trust</em>.
+                Built on principle. <em className="text-gold">Directed toward permanence.</em>
               </>
             }
-            text={`Since ${site.established}, ${site.name} has connected India's growers, spice farmers and stone quarries with discerning buyers worldwide. We obsess over grade, documentation and timing — so every container lands exactly as promised.`}
+            text="We connect the world's finest producers with discerning markets, moving goods across borders with precision, discretion, and an uncompromising regard for every commitment we make. Every shipment is conducted as though our reputation were already a century old."
           />
           <Reveal delay={0.15} className="mt-10 grid grid-cols-2 border-t hairline">
             {[

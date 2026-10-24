@@ -1,12 +1,31 @@
-import { CertLogo } from "@/components/site/CertLogos";
-import { createFileRoute } from "@tanstack/react-router";
-import farm from "@/assets/farm.jpg";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  ArrowRight,
+  CheckCircle2,
+  Clock,
+  Compass,
+  FileCheck2,
+  Globe2,
+  HeartHandshake,
+  Layers,
+  Lock,
+  PackageCheck,
+  Scale,
+  ShieldCheck,
+  Sparkles,
+  Sprout,
+  TrendingUp,
+  UserCheck,
+  Waves,
+} from "lucide-react";
 import warehouse from "@/assets/warehouse.jpg";
 import spices from "@/assets/spices.jpg";
 import port from "@/assets/port.jpg";
 import { PageHeader } from "@/components/site/PageHeader";
+import { CertLogo } from "@/components/site/CertLogos";
 import { InfinityWatermark, Reveal, SectionHead } from "@/components/site/primitives";
 import { site } from "@/data/site";
+import { allProducts } from "@/data/products";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -14,12 +33,13 @@ export const Route = createFileRoute("/about")({
       { title: `About Us — ${site.name}` },
       {
         name: "description",
-        content: `The story, mission and people behind ${site.name}, a ${site.city}-based exporter of Indian produce, spices and stone.`,
+        content: `Built on Principle. Directed Toward Permanence. Learn about ${site.name}, an international trading house connecting growers, distillers, and manufacturers with global markets.`,
       },
-      { property: "og:title", content: `About ${site.name}` },
+      { property: "og:title", content: `About ${site.name} — Built On Principle` },
       {
         property: "og:description",
-        content: "A trading house built on trust, quality and long-term partnerships.",
+        content:
+          "An international trading house built on precision, discretion, and an uncompromising regard for every commitment we make.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -28,158 +48,458 @@ export const Route = createFileRoute("/about")({
   component: About,
 });
 
+// The 6 Core Corporate Values
 const values = [
-  ["Integrity", "What we sample is what we ship. No exceptions."],
-  ["Precision", "Grades, documents and timelines handled with care."],
-  ["Partnership", "We measure success in decades, not single orders."],
-  ["Responsibility", "Fair prices for farmers and traceable supply chains."],
+  {
+    title: "Integrity Without Expectation",
+    icon: Scale,
+    desc: "Our word is our contract before it is ever written down. We say what we will do & we do what we have said.",
+  },
+  {
+    title: "Discipline In Execution",
+    icon: Compass,
+    desc: "Excellence is the sum of unremarkable details done correctly. We hold ourselves to exacting standards of quality, documentation & timing.",
+  },
+  {
+    title: "Discretion And Trust",
+    icon: Lock,
+    desc: "Commerce is built on confidence. The affairs of our partners are handled with the privacy and care they deserve.",
+  },
+  {
+    title: "Long-Term Thinking",
+    icon: TrendingUp,
+    desc: "We choose enduring partnerships over passing advantage. We would rather earn a relationship for decades than win a transaction for a day.",
+  },
+  {
+    title: "Global Perspective, Local Respect",
+    icon: Globe2,
+    desc: "We operate across cultures, regulations and markets with humility and attentiveness, honouring the practices of every region we serve.",
+  },
+  {
+    title: "Responsibility",
+    icon: HeartHandshake,
+    desc: "We trade with accountability to our partner, to the communities we touch, and to the standards of lawful, ethical and sustainable commerce.",
+  },
 ];
-const team = [
-  ["Arjun Mehta", "Founder & Managing Director"],
-  ["Meera Iyer", "Head of Quality"],
-  ["Rohan Shah", "Director, Logistics"],
-  ["Ananya Rao", "Key Accounts, Europe"],
+
+// Why Partner With Us: The 7 Core Pillars
+const pillars = [
+  {
+    num: "01",
+    title: "One House, Many Origins",
+    icon: Layers,
+    desc: "From grains, pulses & spices to medicinal botanicals & ceramic tiles to sanitary wares, we bring a wide range of goods under a single relationship. One point of contact, one standard of quality, one accountable partner, however varied the shipment.",
+  },
+  {
+    num: "02",
+    title: "Selection At The Source",
+    icon: Sprout,
+    desc: "We do not simply move goods; we choose them. Every product is sourced with attention to origin, grade & consistency, so that what arrives matches what was agreed.",
+  },
+  {
+    num: "03",
+    title: "Clarity in Every Transaction",
+    icon: FileCheck2,
+    desc: "Pricing, specifications, documentation and timelines are stated plainly and confirmed in writing. There are no surprises at the port, and no ambiguity after the contract.",
+  },
+  {
+    num: "04",
+    title: "Compliance Without Compromise",
+    icon: ShieldCheck,
+    desc: "International trade is governed by regulations that differ in every market. We treat documentation and regulatory requirements as part of the product itself, handled with care and completed before the goods ever leave.",
+  },
+  {
+    num: "05",
+    title: "Discretion as Standard",
+    icon: Lock,
+    desc: "Your pricing, volumes and commercial arrangements remain between us. We treat the affairs of our partners with the privacy that serious business requires.",
+  },
+  {
+    num: "06",
+    title: "Attentive, Personal Service",
+    icon: UserCheck,
+    desc: "As a young house, we give every partner something larger firms often cannot: direct access, prompt responses, and genuine attention, whether the order is a first trial or a standing annual contract.",
+  },
+  {
+    num: "07",
+    title: "A Partner for the Long Term",
+    icon: Clock,
+    desc: "We are not seeking a single transaction. We are building relationships meant to last for decades and we conduct each order with that horizon in mind.",
+  },
+];
+
+// What We Trade Categories
+const tradeCategories = [
+  {
+    title: "From the Earth & Water",
+    subtitle: "Everything the land & water grow",
+    icon: Waves,
+    items: [
+      "Cereals, grains, rice, pulses and lentils",
+      "Fresh & dried fruits & vegetables",
+      "Spices, dried powders & flowers",
+      "Industrial and cash crops",
+      "Medicinal & aromatic plants",
+      "Cultivated algae and other aquatic botanicals",
+    ],
+    desc: "Each is selected at the source, graded with care, and handled with discipline that quality and freshness demand.",
+  },
+  {
+    title: "From Tradition",
+    subtitle: "Centuries of cultivation & craft",
+    icon: Sparkles,
+    items: [
+      "Ayurvedic herbs & roots",
+      "Pure botanical powders",
+      "Holistic wellness products",
+      "Natural nutraceuticals & extracts",
+    ],
+    desc: "Drawn from centuries of cultivation and craft, and traded with full respect for the regulations that govern them.",
+  },
+  {
+    title: "For the Built World",
+    subtitle: "Architectural surfaces & precision finishes",
+    icon: Layers,
+    items: [
+      "Digital Glazed Vitrified Tiles (GVT)",
+      "Polished Glazed Vitrified Tiles (PGVT)",
+      "High-traffic outdoor & parking tiles",
+      "Sanitaryware & ceramic fittings",
+    ],
+    desc: "Supplied to developers, distributors, and designers who expect finish, consistency and timely delivery.",
+  },
 ];
 
 function About() {
   return (
     <>
+      {/* 1. Page Header */}
       <PageHeader
-        eyebrow="Our Heritage & Vision"
+        eyebrow="About Us"
         title={
           <>
-            India's harvest, <em className="text-gold-soft">honoured</em>.
+            Built On Principle.{" "}
+            <em className="text-gold-soft block sm:inline">Directed Toward Permanence.</em>
           </>
         }
-        text={site.tagline}
+        text="Aurelian International is an international trading house. We connect the world's finest producers with discerning markets, moving goods across borders with precision, discretion, and an uncompromising regard for every commitment we make."
         image="/images/green-paddy.jpg"
         crumbs={[{ label: "About" }]}
       />
+
+      {/* 2. The Aurelian Standard & Origin */}
       <section className="py-16 md:py-24 bg-ivory relative overflow-hidden">
-        {/* Subtle large gold infinity watermark */}
         <InfinityWatermark className="hidden sm:block absolute -right-20 top-1/2 -translate-y-1/2 w-[40rem] h-[20rem] text-[#C9973F] opacity-[0.04]" />
-        <div className="container-x grid gap-10 lg:gap-16 lg:grid-cols-2 relative z-10 min-w-0">
-          <SectionHead eyebrow="Our Story" title="Founded on a simple promise." />
-          <Reveal className="space-y-5 text-base sm:text-lg leading-relaxed text-muted-foreground">
-            <p>
-              {site.name} began in {site.established} with one container of basmati rice and a
-              belief that Indian produce deserved to be presented to the world with the same care as
-              any luxury good.
-            </p>
-            <p>
-              Today we work with hundreds of farms, spice cooperatives and stone quarries,
-              delivering to importers across our 7 key destination markets worldwide — still with the same obsession over
-              grade, paperwork and punctuality.
-            </p>
-          </Reveal>
-        </div>
-      </section>
-      <section className="section-y bg-[#071A33] text-[#F4F1EA]">
-        <div className="container-x grid gap-px overflow-hidden rounded-2xl border hairline bg-gold/20 grid-cols-1 md:grid-cols-2">
-          {[
-            [
-              "Mission",
-              "To be the most trusted bridge between India's producers and the world's buyers.",
-            ],
-            [
-              "Vision",
-              "A world where every Indian product travels with full traceability and fair value.",
-            ],
-          ].map(([t, d]) => (
-            <div key={t} className="bg-[#0E2A4F]/80 p-6 sm:p-12 min-w-0">
-              <p className="eyebrow">{t}</p>
-              <p className="mt-4 font-display text-2xl leading-snug sm:text-3xl md:text-4xl">{d}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-      <section className="section-y bg-sand">
-        <div className="container-x grid items-center gap-16 lg:grid-cols-2">
-          <img
-            src={warehouse}
-            alt="Our export warehouse"
-            loading="lazy"
-            className="aspect-[4/5] w-full rounded-2xl object-cover shadow-lift"
+        <div className="container-x grid gap-10 lg:gap-16 lg:grid-cols-2 relative z-10 min-w-0 items-center">
+          <SectionHead
+            eyebrow="The Standard"
+            title="A reputation held as though a century old."
           />
-          <Reveal>
-            <p className="eyebrow">Founder's Message</p>
-            <blockquote className="mt-6 font-display text-3xl italic leading-snug text-[#071A33] md:text-4xl">
-              “Every bag that leaves our warehouse carries our name. That's why we inspect it as if
-              it were going to our own family.”
-            </blockquote>
-            <p className="mt-8 text-sm">
-              <span className="font-medium">Arjun Mehta</span>{" "}
-              <span className="text-muted-foreground">· Founder & MD</span>
+          <Reveal className="space-y-5 text-base sm:text-lg leading-relaxed text-[#2C3E50]">
+            <p>
+              The name <strong className="text-[#071A33] font-semibold">Aurelian</strong> draws on
+              the Latin <em>aureus</em>, &ldquo;golden&rdquo;, and it is the standard we hold
+              ourselves to.
             </p>
+            <p>
+              We are a young company, and we do not borrow a history we have not earned. We began
+              with something more durable than a legacy:{" "}
+              <strong className="text-[#071A33] font-semibold">a standard</strong>. Every shipment,
+              agreement and relationship is conducted as though our reputation were already a
+              century old.
+            </p>
+            <div className="pt-4 flex flex-wrap gap-6 border-t border-[#C9973F]/20 text-xs text-[#5A6B82]">
+              <div>
+                <span className="block font-mono text-sm font-bold text-[#C9973F]">{site.established}</span>
+                <span>Inception</span>
+              </div>
+              <div>
+                <span className="block font-mono text-sm font-bold text-[#C9973F]">{site.city}, India</span>
+                <span>Headquarters</span>
+              </div>
+              <div>
+                <span className="block font-mono text-sm font-bold text-[#C9973F]">{allProducts.length}+ Products</span>
+                <span>Active Portfolio</span>
+              </div>
+            </div>
           </Reveal>
         </div>
       </section>
-      <section className="section-y bg-ivory">
+
+      {/* 3. WHAT WE TRADE */}
+      <section className="section-y bg-[#FAF8F3] relative overflow-hidden border-y border-[#C9973F]/20">
         <div className="container-x">
-          <SectionHead eyebrow="Values" title="What guides us." />
-          <div className="mt-14 grid gap-6 md:grid-cols-4">
-            {values.map(([t, d], i) => (
-              <Reveal key={t} delay={i * 0.08} className="border-t-2 border-gold pt-6">
-                <h3 className="text-2xl text-[#071A33]">{t}</h3>
-                <p className="mt-3 text-sm text-muted-foreground">{d}</p>
-              </Reveal>
-            ))}
+          <SectionHead
+            eyebrow="Portfolio"
+            title="What We Trade."
+            text="Different in nature, our trading categories share one principle: what we send must be worthy of the name on the crate."
+            align="center"
+          />
+
+          <div className="mt-14 grid gap-8 md:grid-cols-3">
+            {tradeCategories.map((cat, i) => {
+              const Icon = cat.icon;
+              return (
+                <Reveal
+                  key={cat.title}
+                  delay={i * 0.1}
+                  className="rounded-2xl border border-[#C9973F]/25 bg-white p-7 sm:p-8 shadow-[0_10px_30px_rgba(7,26,51,0.04)] flex flex-col justify-between hover:border-[#C9973F]/60 transition-all duration-300 hover:-translate-y-1"
+                >
+                  <div>
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#FAF8F3] border border-[#C9973F]/30 text-[#C9973F] mb-6">
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <span className="text-[11px] font-mono uppercase tracking-wider text-[#9A6B1F] font-semibold">
+                      {cat.subtitle}
+                    </span>
+                    <h3 className="font-display text-2xl text-[#071A33] mt-1 mb-4 font-semibold">
+                      {cat.title}
+                    </h3>
+                    <ul className="space-y-2 text-xs sm:text-sm text-[#4A5568] mb-6">
+                      {cat.items.map((item) => (
+                        <li key={item} className="flex items-start gap-2">
+                          <CheckCircle2 className="h-4 w-4 text-[#C9973F] shrink-0 mt-0.5" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <p className="text-xs italic text-[#6B7280] border-t border-[#E5E7EB] pt-4 leading-relaxed">
+                    {cat.desc}
+                  </p>
+                </Reveal>
+              );
+            })}
+          </div>
+
+          {/* Unified Category Rule Banner */}
+          <div className="mt-12 rounded-2xl border border-[#C9973F]/30 bg-gradient-to-r from-[#071A33] via-[#0B2547] to-[#071A33] p-6 sm:p-8 text-center text-white shadow-lg">
+            <p className="font-display text-lg sm:text-xl italic text-[#F2C86E] max-w-3xl mx-auto">
+              &ldquo;Different in nature, these categories share one principle: what we send must be worthy of the name on the crate.&rdquo;
+            </p>
           </div>
         </div>
       </section>
-      <section className="section-y bg-sand">
-        <div className="container-x">
-          <SectionHead eyebrow="Team" title="The people behind every shipment." />
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {team.map(([n, r], i) => (
-              <Reveal
-                key={n}
-                delay={i * 0.08}
-                className="rounded-2xl border hairline bg-card p-8 shadow-soft"
-              >
-                <div className="grid h-20 w-20 place-items-center rounded-full bg-[#071A33] font-display text-3xl text-gold-soft">
-                  {(n ?? "")
-                    .split(" ")
-                    .map((x) => x.charAt(0))
-                    .join("")}
+
+      {/* 4. MISSION & VISION */}
+      <section className="section-y bg-[#071A33] text-[#F4F1EA] relative overflow-hidden">
+        <div className="container-x relative z-10">
+          <SectionHead
+            dark
+            eyebrow="Purpose & Trajectory"
+            title="Our Mission & Vision."
+            align="center"
+          />
+
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            {/* Mission */}
+            <div className="rounded-2xl border border-[#C9973F]/30 bg-[#0E2A4F]/80 p-8 sm:p-12 min-w-0 flex flex-col justify-between shadow-xl">
+              <div>
+                <div className="inline-flex items-center gap-2 rounded-full border border-[#C9973F]/40 bg-[#C9973F]/15 px-3 py-1 text-[11px] font-semibold text-[#F2C86E] uppercase tracking-wider mb-6">
+                  <span>Our Mission</span>
                 </div>
-                <h3 className="mt-6 text-2xl text-[#071A33]">{n}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{r}</p>
-              </Reveal>
-            ))}
+                <h3 className="font-display text-2xl sm:text-3xl font-semibold text-white mb-4">
+                  To make global trade dependable.
+                </h3>
+                <p className="text-sm sm:text-base leading-relaxed text-[#D9DDE3]">
+                  We source, supply, and deliver with rigour, transparency, and respect for the people
+                  on both sides of every transaction, so that those who work with us do so with
+                  complete confidence.
+                </p>
+              </div>
+              <div className="mt-8 pt-6 border-t border-white/10 flex items-center gap-2 text-xs text-[#F2C86E]">
+                <PackageCheck className="h-4 w-4" />
+                <span>Rigour · Transparency · Respect</span>
+              </div>
+            </div>
+
+            {/* Vision */}
+            <div className="rounded-2xl border border-[#C9973F]/30 bg-[#0E2A4F]/80 p-8 sm:p-12 min-w-0 flex flex-col justify-between shadow-xl">
+              <div>
+                <div className="inline-flex items-center gap-2 rounded-full border border-[#C9973F]/40 bg-[#C9973F]/15 px-3 py-1 text-[11px] font-semibold text-[#F2C86E] uppercase tracking-wider mb-6">
+                  <span>Our Vision</span>
+                </div>
+                <h3 className="font-display text-2xl sm:text-3xl font-semibold text-white mb-4">
+                  When Aurelian gives its word, the matter is settled.
+                </h3>
+                <p className="text-sm sm:text-base leading-relaxed text-[#D9DDE3]">
+                  To stand among the most trusted names in international commerce, a house recognised
+                  not by size alone but by the quiet certainty it inspires: that when Aurelian gives
+                  its word, the matter is settled.
+                </p>
+              </div>
+              <div className="mt-8 pt-6 border-t border-white/10 flex items-center gap-2 text-xs text-[#F2C86E]">
+                <ShieldCheck className="h-4 w-4" />
+                <span>Quiet Certainty · Enduring Trust</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
+
+      {/* 5. OUR VALUES (The 6 Pillars) */}
+      <section className="section-y bg-ivory relative">
+        <div className="container-x">
+          <SectionHead
+            eyebrow="Foundational Pillars"
+            title="Our Values."
+            text="Excellence is the sum of unremarkable details done correctly. These principles govern every shipment, contract, and conversation."
+          />
+
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {values.map((v, i) => {
+              const Icon = v.icon;
+              return (
+                <Reveal
+                  key={v.title}
+                  delay={i * 0.08}
+                  className="rounded-2xl border border-[#E3E7EE] bg-white p-7 sm:p-8 shadow-soft flex flex-col justify-between hover:border-[#C9973F]/60 transition-colors"
+                >
+                  <div>
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#FAF8F3] border border-[#C9973F]/30 text-[#C9973F] mb-5">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <h3 className="font-display text-xl font-semibold text-[#071A33] mb-3">
+                      {v.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-[#4A5568] leading-relaxed">
+                      {v.desc}
+                    </p>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* 6. OUR COMMITMENT */}
+      <section className="py-20 bg-[#040E1F] text-[#F4F1EA] relative overflow-hidden border-y border-[#C9973F]/30">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-20"
+          style={{
+            background:
+              "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(201, 151, 63, 0.25) 0%, transparent 70%)",
+          }}
+        />
+        <div className="container-x relative z-10 max-w-4xl mx-auto text-center">
+          <span className="eyebrow !text-[#F2C86E]">Our Commitment</span>
+          <blockquote className="mt-6 font-display text-2xl sm:text-3xl md:text-4xl italic leading-relaxed text-white">
+            &ldquo;We do not measure ourselves by how loudly we announce our arrival, but by how
+            steadily we deserve our place. To our partners, we offer reliability, clarity and a
+            standard of service that does not waver with the size of the order.&rdquo;
+          </blockquote>
+          <p className="mt-6 text-sm sm:text-base text-[#D9DDE3] max-w-2xl mx-auto leading-relaxed">
+            Trade is as old as civilisation itself. We intend to conduct it as though we were here
+            to stay.
+          </p>
+        </div>
+      </section>
+
+      {/* 7. WHY PARTNER WITH US: The Standard You Can Build On */}
+      <section className="section-y bg-[#FAF8F3] relative overflow-hidden">
+        <div className="container-x">
+          <SectionHead
+            eyebrow="Why Partner With Us"
+            title="The Standard You Can Build On."
+            text="Choosing a trading partner is an act of trust. We have shaped Aurelian International around the things that trust depends on, so that working with us feels less like a risk taken and more like a matter settled."
+            align="center"
+          />
+
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {pillars.map((p, i) => {
+              const Icon = p.icon;
+              return (
+                <Reveal
+                  key={p.title}
+                  delay={i * 0.06}
+                  className="rounded-2xl border border-[#C9973F]/20 bg-white p-6 sm:p-7 shadow-soft flex flex-col justify-between hover:border-[#C9973F]/60 transition-all hover:-translate-y-1"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#FAF8F3] border border-[#C9973F]/30 text-[#C9973F]">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <span className="font-mono text-xs font-bold text-[#C9973F]/60">
+                        {p.num}
+                      </span>
+                    </div>
+                    <h3 className="font-display text-lg font-semibold text-[#071A33] mb-2 leading-snug">
+                      {p.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-[#4A5568] leading-relaxed">
+                      {p.desc}
+                    </p>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+
+          {/* Our Promise Banner */}
+          <div className="mt-12 rounded-2xl border-2 border-[#C9973F] bg-white p-8 sm:p-10 shadow-lift relative overflow-hidden">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+              <div className="space-y-2 text-center md:text-left">
+                <span className="eyebrow !text-[#C9973F]">Our Promise</span>
+                <h3 className="font-display text-2xl sm:text-3xl text-[#071A33] font-semibold">
+                  Exactly as promised. Without exception.
+                </h3>
+                <p className="text-sm sm:text-base text-[#4A5568] max-w-2xl leading-relaxed">
+                  Every partner deserves to know what will arrive, when it will arrive, and that it
+                  will be exactly as promised. That is the only promise we make, and the only one we
+                  intend to keep without exception.
+                </p>
+              </div>
+
+              <Link
+                to="/contact"
+                className="gold-btn-luxury shrink-0 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#9A6B1F] via-[#F2C86E] to-[#C9973F] px-8 py-3.5 text-xs sm:text-sm font-bold tracking-wide text-[#071A33] shadow-md hover:shadow-lg transition-all"
+              >
+                <span>Initiate Commercial Enquiry</span>
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 8. Infrastructure & Logistics */}
       <section className="section-y bg-ivory">
         <div className="container-x">
-          <SectionHead eyebrow="Infrastructure" title="Warehouses, labs and logistics." />
-          <div className="mt-14 grid gap-4 md:grid-cols-3">
+          <SectionHead
+            eyebrow="Infrastructure"
+            title="Warehouses, processing units and container berths."
+            text="Direct presence across India's premier logistics nodes guarantees unbroken cold chain, proper fumigation, and expedited port clearance."
+          />
+          <div className="mt-14 grid gap-6 md:grid-cols-3">
             {[
               [warehouse, "Bonded warehouse, Navi Mumbai"],
               [spices, "Spices & botanical processing unit, Gujarat"],
               [port, "Loading at JNPT, Mumbai"],
             ].map(([src, l]) => (
-              <figure key={l} className="group overflow-hidden rounded-2xl">
-                <img
-                  src={src}
-                  alt={l}
-                  loading="lazy"
-                  className="aspect-[4/3] w-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                />
-                <figcaption className="mt-3 text-sm text-muted-foreground">{l}</figcaption>
+              <figure key={l} className="group overflow-hidden rounded-2xl border border-[#E3E7EE] bg-white shadow-soft">
+                <div className="overflow-hidden aspect-[4/3]">
+                  <img
+                    src={src}
+                    alt={l}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                  />
+                </div>
+                <figcaption className="p-4 text-xs font-semibold text-[#071A33]">{l}</figcaption>
               </figure>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Official Export Certifications & Licenses Section */}
+      {/* 9. Official Export Certifications & Licenses Section */}
       <section id="certifications" className="section-y bg-[#071A33] text-[#F4F1EA] scroll-mt-24">
         <div className="container-x">
           <SectionHead
             dark
             eyebrow="Government & Global Compliance"
-            title="Export Certifications & Licenses."
+            title="Registrations & Documentation."
             text="Every commodity shipped by Aurelian International is accompanied by mandatory government registrations, phytosanitary clearance, and independent pre-shipment quality inspection."
             align="center"
           />
