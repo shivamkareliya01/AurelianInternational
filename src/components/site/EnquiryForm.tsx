@@ -24,6 +24,7 @@ import { submitEnquiry } from "@/lib/enquiry";
 import { buildMultiProductWaUrl } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 import { WhatsAppIcon } from "./WhatsAppIcon";
+import { CountryFlag } from "./CountryFlag";
 import { getGeoConfigForCountry } from "@/data/geo-data";
 
 // Dial codes for the phone country-code selector
@@ -452,7 +453,7 @@ export function EnquiryForm() {
   return (
     <div
       id="enquiry-form"
-      className="relative overflow-hidden rounded-[20px] sm:rounded-[28px] border border-[#C9973F]/40 bg-[#FAF8F3] p-4 sm:p-7 md:p-10 shadow-[0_20px_50px_rgba(7,26,51,0.12)] scroll-mt-24 w-full max-w-full min-w-0"
+      className="relative overflow-hidden rounded-[20px] sm:rounded-[28px] border border-[#C9973F]/40 bg-[#FAF8F3] p-4 sm:p-7 md:p-10 shadow-[0_20px_50px_rgba(7,26,51,0.12)] scroll-mt-24 w-full max-w-full min-w-0 mx-auto"
     >
       <AnimatePresence mode="wait">
         {state === "done" ? (
@@ -515,7 +516,7 @@ export function EnquiryForm() {
             noValidate
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="space-y-6"
+            className="space-y-6 w-full max-w-full min-w-0"
           >
             {/* Anti-bot honeypot field - hidden from humans */}
             <div className="sr-only hidden" aria-hidden="true">
@@ -545,7 +546,7 @@ export function EnquiryForm() {
             </div>
 
             {/* PRODUCT PICKER (TASK 1 Requirement) */}
-            <div className="space-y-1.5">
+            <div className="space-y-1.5 min-w-0 w-full">
               <label className="flex items-center justify-between text-xs font-semibold tracking-wide text-[#071A33]">
                 <span className="flex items-center gap-1.5">
                   <Package className="h-3.5 w-3.5 text-[#C9973F]" />
@@ -566,14 +567,14 @@ export function EnquiryForm() {
             </div>
 
             {/* Name, Company, Email, Phone Grid */}
-            <div className="grid gap-3.5 sm:gap-4 sm:grid-cols-2">
+            <div className="grid gap-3.5 sm:gap-4 sm:grid-cols-2 min-w-0 w-full">
               {/* First & Last Name side-by-side on mobile and desktop */}
-              <div className="grid grid-cols-2 gap-2.5 sm:gap-4 sm:col-span-2">
+              <div className="grid grid-cols-2 gap-2 sm:gap-4 sm:col-span-2 min-w-0 w-full">
                 {/* First Name */}
-                <div className="group space-y-1">
+                <div className="group space-y-1 min-w-0 w-full">
                   <label
                     htmlFor="firstName"
-                    className="block text-xs font-semibold text-[#071A33]/85"
+                    className="block text-xs font-semibold text-[#071A33]/85 truncate"
                   >
                     First Name *
                   </label>
@@ -583,7 +584,7 @@ export function EnquiryForm() {
                     autoComplete="given-name"
                     placeholder="e.g. David"
                     className={cn(
-                      "w-full rounded-[12px] sm:rounded-[14px] border border-[#E3E7EE] bg-white/95 px-3.5 py-2.5 sm:px-4 sm:py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
+                      "w-full min-w-0 rounded-[12px] sm:rounded-[14px] border border-[#E3E7EE] bg-white/95 px-3 py-2.5 sm:px-4 sm:py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
                       errors.firstName && "border-destructive ring-1 ring-destructive/40"
                     )}
                   />
@@ -593,10 +594,10 @@ export function EnquiryForm() {
                 </div>
 
                 {/* Last Name */}
-                <div className="group space-y-1">
+                <div className="group space-y-1 min-w-0 w-full">
                   <label
                     htmlFor="lastName"
-                    className="block text-xs font-semibold text-[#071A33]/85"
+                    className="block text-xs font-semibold text-[#071A33]/85 truncate"
                   >
                     Last Name *
                   </label>
@@ -606,7 +607,7 @@ export function EnquiryForm() {
                     autoComplete="family-name"
                     placeholder="e.g. Henderson"
                     className={cn(
-                      "w-full rounded-[12px] sm:rounded-[14px] border border-[#E3E7EE] bg-white/95 px-3.5 py-2.5 sm:px-4 sm:py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
+                      "w-full min-w-0 rounded-[12px] sm:rounded-[14px] border border-[#E3E7EE] bg-white/95 px-3 py-2.5 sm:px-4 sm:py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
                       errors.lastName && "border-destructive ring-1 ring-destructive/40"
                     )}
                   />
@@ -617,8 +618,8 @@ export function EnquiryForm() {
               </div>
 
               {/* Email */}
-              <div className="group space-y-1">
-                <label htmlFor="email" className="block text-xs font-semibold text-[#071A33]/85">
+              <div className="group space-y-1 min-w-0 w-full">
+                <label htmlFor="email" className="block text-xs font-semibold text-[#071A33]/85 truncate">
                   Official Trade Email *
                 </label>
                 <input
@@ -628,7 +629,7 @@ export function EnquiryForm() {
                   autoComplete="email"
                   placeholder="trade@company.com"
                   className={cn(
-                    "w-full rounded-[14px] border border-[#E3E7EE] bg-white/95 px-4 py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
+                    "w-full min-w-0 rounded-[14px] border border-[#E3E7EE] bg-white/95 px-3.5 py-2.5 sm:px-4 sm:py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
                     errors.email && "border-destructive ring-1 ring-destructive/40"
                   )}
                 />
@@ -636,8 +637,8 @@ export function EnquiryForm() {
               </div>
 
               {/* Phone with Country Code Dropdown */}
-              <div ref={phoneRef} className="group space-y-1 relative">
-                <label htmlFor="phoneNumber" className="block text-xs font-semibold text-[#071A33]/85">
+              <div ref={phoneRef} className="group space-y-1 relative min-w-0 w-full">
+                <label htmlFor="phoneNumber" className="block text-xs font-semibold text-[#071A33]/85 truncate">
                   Phone & Country Code *
                 </label>
 
@@ -651,7 +652,7 @@ export function EnquiryForm() {
 
                 <div
                   className={cn(
-                    "flex rounded-[14px] border bg-white/95 overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus-within:border-[#C9973F] focus-within:ring-2 focus-within:ring-[#C9973F]/25 focus-within:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
+                    "flex w-full min-w-0 rounded-[14px] border bg-white/95 overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus-within:border-[#C9973F] focus-within:ring-2 focus-within:ring-[#C9973F]/25 focus-within:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
                     errors.phone ? "border-destructive ring-1 ring-destructive/40" : "border-[#E3E7EE]"
                   )}
                 >
@@ -659,10 +660,14 @@ export function EnquiryForm() {
                   <button
                     type="button"
                     onClick={() => setPhoneOpen(!phoneOpen)}
-                    className="flex shrink-0 items-center gap-1.5 border-r border-[#E3E7EE] bg-[#F4F1EA] px-3 py-3 text-sm font-semibold text-[#071A33] hover:bg-[#EDE9DF] transition-colors"
+                    className="flex shrink-0 items-center gap-1.5 border-r border-[#E3E7EE] bg-[#F4F1EA] px-2.5 py-2.5 sm:px-3 sm:py-3 text-xs sm:text-sm font-semibold text-[#071A33] hover:bg-[#EDE9DF] transition-colors"
                     aria-label="Select country dial code"
                   >
-                    <span className="text-base leading-none">{selectedDialCode.flag}</span>
+                    <CountryFlag
+                      code={selectedDialCode.code}
+                      name={selectedDialCode.name}
+                      fallbackEmoji={selectedDialCode.flag}
+                    />
                     <span className="text-xs tabular-nums">{selectedDialCode.dial}</span>
                     <ChevronDown
                       className={cn(
@@ -683,7 +688,7 @@ export function EnquiryForm() {
                       setPhoneNumber(e.target.value);
                       if (errors.phone) setErrors((prev) => ({ ...prev, phone: undefined }));
                     }}
-                    className="flex-1 min-w-0 bg-transparent px-3 py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 focus:outline-none"
+                    className="flex-1 min-w-0 bg-transparent px-3 py-2.5 sm:px-4 sm:py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 focus:outline-none"
                   />
                 </div>
 
@@ -722,7 +727,7 @@ export function EnquiryForm() {
                               selectedDialCode.code === c.code && "bg-[#C9973F]/20 font-semibold"
                             )}
                           >
-                            <span className="text-base">{c.flag}</span>
+                            <CountryFlag code={c.code} name={c.name} fallbackEmoji={c.flag} />
                             <span className="flex-1">{c.name}</span>
                             <span className="tabular-nums text-[#C9973F] font-semibold">{c.dial}</span>
                           </div>
@@ -736,10 +741,10 @@ export function EnquiryForm() {
               </div>
 
               {/* Company */}
-              <div className="group space-y-1">
+              <div className="group space-y-1 sm:col-span-2 min-w-0 w-full">
                 <label
                   htmlFor="company"
-                  className="block text-xs font-semibold text-[#071A33]/85"
+                  className="block text-xs font-semibold text-[#071A33]/85 truncate"
                 >
                   Importing Company *
                 </label>
@@ -749,7 +754,7 @@ export function EnquiryForm() {
                   autoComplete="organization"
                   placeholder="e.g. Henderson Commodities LLC"
                   className={cn(
-                    "w-full rounded-[14px] border border-[#E3E7EE] bg-white/95 px-4 py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
+                    "w-full min-w-0 rounded-[14px] border border-[#E3E7EE] bg-white/95 px-3.5 py-2.5 sm:px-4 sm:py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
                     errors.company && "border-destructive ring-1 ring-destructive/40"
                   )}
                 />
@@ -757,8 +762,8 @@ export function EnquiryForm() {
               </div>
 
               {/* Searchable Country Select with Flags (TASK 1 Requirement) */}
-              <div ref={countryRef} className="relative group space-y-1">
-                <label className="block text-xs font-semibold text-[#071A33]/85">
+              <div ref={countryRef} className="relative group space-y-1 min-w-0 w-full">
+                <label className="block text-xs font-semibold text-[#071A33]/85 truncate">
                   Destination Country *
                 </label>
                 <div
@@ -766,28 +771,33 @@ export function EnquiryForm() {
                   tabIndex={0}
                   onClick={() => setCountryOpen(!countryOpen)}
                   className={cn(
-                    "relative flex w-full cursor-pointer items-center justify-between rounded-[14px] border bg-white/95 px-4 py-3 text-sm text-[#0B1B33] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft",
+                    "relative flex w-full min-w-0 cursor-pointer items-center justify-between rounded-[14px] border bg-white/95 px-3.5 py-2.5 sm:px-4 sm:py-3 text-sm text-[#0B1B33] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft",
                     countryOpen
                       ? "border-[#C9973F] ring-2 ring-[#C9973F]/25 shadow-[0_0_15px_rgba(201,151,63,0.15)]"
                       : "border-[#E3E7EE]",
                     errors.country && "border-destructive ring-1 ring-destructive/40"
                   )}
                 >
-                  <div className="flex items-center gap-2 truncate">
+                  <div className="flex items-center gap-2 truncate min-w-0 flex-1">
                     {selectedCountry ? (
                       <>
-                        <span className="text-lg">{selectedCountry.flag}</span>
-                        <span className="font-medium text-[#071A33]">{selectedCountry.name}</span>
+                        <CountryFlag
+                          code={selectedCountry.code}
+                          name={selectedCountry.name}
+                          fallbackEmoji={selectedCountry.flag}
+                          className="h-4 w-5.5 rounded-[2px]"
+                        />
+                        <span className="font-medium text-[#071A33] truncate">{selectedCountry.name}</span>
                       </>
                     ) : (
-                      <span className="text-muted-foreground/60 flex items-center gap-2">
-                        <Globe className="h-4 w-4 text-[#C9973F]" /> Select destination country...
+                      <span className="text-muted-foreground/60 flex items-center gap-2 truncate text-xs sm:text-sm">
+                        <Globe className="h-4 w-4 text-[#C9973F] shrink-0" /> <span className="truncate">Select destination country...</span>
                       </span>
                     )}
                   </div>
                   <ChevronDown
                     className={cn(
-                      "h-4 w-4 text-[#C9973F] transition-transform duration-200",
+                      "h-4 w-4 text-[#C9973F] transition-transform duration-200 shrink-0 ml-1.5",
                       countryOpen && "rotate-180"
                     )}
                   />
@@ -841,8 +851,16 @@ export function EnquiryForm() {
                               selectedCountry?.code === c.code && "bg-[#C9973F]/20 font-semibold"
                             )}
                           >
-                            <span className="text-base">{c.flag}</span>
-                            <span>{c.name}</span>
+                            <CountryFlag
+                              code={c.code}
+                              name={c.name}
+                              fallbackEmoji={c.flag}
+                              className="h-3.5 w-5 rounded-[2px]"
+                            />
+                            <span className="flex-1 truncate">{c.name}</span>
+                            <span className="font-mono text-[10px] text-muted-foreground font-semibold shrink-0">
+                              {c.code}
+                            </span>
                           </div>
                         ))}
                       </div>
@@ -853,13 +871,13 @@ export function EnquiryForm() {
               </div>
 
               {/* State / Province (Recommended based on selected country) */}
-              <div ref={stateRef} className="relative group space-y-1">
+              <div ref={stateRef} className="relative group space-y-1 min-w-0 w-full">
                 <div className="flex items-center justify-between">
-                  <label htmlFor="state" className="block text-xs font-semibold text-[#071A33]/85">
+                  <label htmlFor="state" className="block text-xs font-semibold text-[#071A33]/85 truncate">
                     State / Province *
                   </label>
                   {selectedCountry && geoConfig.states.length > 0 && (
-                    <span className="text-[10px] text-[#C9973F] font-medium flex items-center gap-1">
+                    <span className="text-[10px] text-[#C9973F] font-medium flex items-center gap-1 shrink-0">
                       <Sparkles className="h-3 w-3" /> {selectedCountry.name} states
                     </span>
                   )}
@@ -867,7 +885,7 @@ export function EnquiryForm() {
 
                 <div
                   className={cn(
-                    "relative flex w-full items-center rounded-[14px] border bg-white/95 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus-within:border-[#C9973F] focus-within:ring-2 focus-within:ring-[#C9973F]/25 focus-within:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
+                    "relative flex w-full min-w-0 items-center rounded-[14px] border bg-white/95 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus-within:border-[#C9973F] focus-within:ring-2 focus-within:ring-[#C9973F]/25 focus-within:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
                     errors.state ? "border-destructive ring-1 ring-destructive/40" : "border-[#E3E7EE]"
                   )}
                 >
@@ -880,7 +898,7 @@ export function EnquiryForm() {
                     placeholder={
                       selectedCountry
                         ? `e.g. ${geoConfig.states[0]?.name || "State / Region"}`
-                        : "Select country above for recommendations"
+                        : "State / Province name"
                     }
                     onFocus={() => setStateOpen(true)}
                     onChange={(e) => {
@@ -888,12 +906,12 @@ export function EnquiryForm() {
                       setStateSearch(e.target.value);
                       if (errors.state) setErrors((prev) => ({ ...prev, state: undefined }));
                     }}
-                    className="w-full bg-transparent px-4 py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 focus:outline-none"
+                    className="w-full min-w-0 flex-1 bg-transparent px-3.5 py-2.5 sm:px-4 sm:py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 focus:outline-none"
                   />
                   <button
                     type="button"
                     onClick={() => setStateOpen(!stateOpen)}
-                    className="p-3 text-muted-foreground hover:text-[#071A33] transition-colors"
+                    className="p-2.5 sm:p-3 text-muted-foreground hover:text-[#071A33] transition-colors shrink-0"
                     aria-label="Toggle state recommendations"
                   >
                     <ChevronDown
@@ -969,13 +987,13 @@ export function EnquiryForm() {
               </div>
 
               {/* City / Port of Destination (Recommended based on selected country & state) */}
-              <div ref={cityRef} className="relative group space-y-1">
+              <div ref={cityRef} className="relative group space-y-1 min-w-0 w-full">
                 <div className="flex items-center justify-between">
-                  <label htmlFor="city" className="block text-xs font-semibold text-[#071A33]/85">
+                  <label htmlFor="city" className="block text-xs font-semibold text-[#071A33]/85 truncate">
                     City / Port of Entry *
                   </label>
                   {stateValue && (
-                    <span className="text-[10px] text-[#C9973F] font-medium flex items-center gap-1">
+                    <span className="text-[10px] text-[#C9973F] font-medium flex items-center gap-1 shrink-0">
                       <Sparkles className="h-3 w-3" /> {stateValue} hubs
                     </span>
                   )}
@@ -983,7 +1001,7 @@ export function EnquiryForm() {
 
                 <div
                   className={cn(
-                    "relative flex w-full items-center rounded-[14px] border bg-white/95 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus-within:border-[#C9973F] focus-within:ring-2 focus-within:ring-[#C9973F]/25 focus-within:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
+                    "relative flex w-full min-w-0 items-center rounded-[14px] border bg-white/95 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus-within:border-[#C9973F] focus-within:ring-2 focus-within:ring-[#C9973F]/25 focus-within:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
                     errors.city ? "border-destructive ring-1 ring-destructive/40" : "border-[#E3E7EE]"
                   )}
                 >
@@ -996,7 +1014,7 @@ export function EnquiryForm() {
                     placeholder={
                       availableCities[0]
                         ? `e.g. ${availableCities[0]}`
-                        : "Type city or select country/state"
+                        : "City or Port of entry"
                     }
                     onFocus={() => setCityOpen(true)}
                     onChange={(e) => {
@@ -1004,12 +1022,12 @@ export function EnquiryForm() {
                       setCitySearch(e.target.value);
                       if (errors.city) setErrors((prev) => ({ ...prev, city: undefined }));
                     }}
-                    className="w-full bg-transparent px-4 py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 focus:outline-none"
+                    className="w-full min-w-0 flex-1 bg-transparent px-3.5 py-2.5 sm:px-4 sm:py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 focus:outline-none"
                   />
                   <button
                     type="button"
                     onClick={() => setCityOpen(!cityOpen)}
-                    className="p-3 text-muted-foreground hover:text-[#071A33] transition-colors"
+                    className="p-2.5 sm:p-3 text-muted-foreground hover:text-[#071A33] transition-colors shrink-0"
                     aria-label="Toggle city recommendations"
                   >
                     <ChevronDown
@@ -1092,13 +1110,13 @@ export function EnquiryForm() {
               </div>
 
               {/* Postal Code / Pincode */}
-              <div className="group space-y-1 sm:col-span-2">
+              <div className="group space-y-1 sm:col-span-2 min-w-0 w-full">
                 <div className="flex items-center justify-between">
-                  <label htmlFor="pincode" className="block text-xs font-semibold text-[#071A33]/85">
+                  <label htmlFor="pincode" className="block text-xs font-semibold text-[#071A33]/85 truncate">
                     {geoConfig.pincodeLabel}
                   </label>
                   {geoConfig.pincodeHint && (
-                    <span className="text-[10px] text-muted-foreground">
+                    <span className="text-[10px] text-muted-foreground truncate">
                       {geoConfig.pincodeHint}
                     </span>
                   )}
@@ -1115,7 +1133,7 @@ export function EnquiryForm() {
                   }}
                   placeholder={geoConfig.pincodePlaceholder}
                   className={cn(
-                    "w-full rounded-[14px] border bg-white/95 px-4 py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
+                    "w-full min-w-0 rounded-[14px] border bg-white/95 px-3.5 py-2.5 sm:px-4 sm:py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]",
                     errors.pincode ? "border-destructive ring-1 ring-destructive/40" : "border-[#E3E7EE]"
                   )}
                 />
@@ -1124,31 +1142,31 @@ export function EnquiryForm() {
             </div>
 
             {/* Quantity / MOQ with Unit Toggle (MT / FCL / kg) (TASK 1 Requirement) */}
-            <div className="space-y-1">
+            <div className="space-y-1 min-w-0 w-full">
               <label
                 htmlFor="quantity"
-                className="block text-xs font-semibold text-[#071A33]/85"
+                className="block text-xs font-semibold text-[#071A33]/85 truncate"
               >
                 Quantity / Order Volume (MOQ)
               </label>
-              <div className="flex rounded-[14px] border border-[#E3E7EE] bg-white/95 overflow-hidden transition-all hover:border-[#C9973F]/60 focus-within:border-[#C9973F] focus-within:ring-2 focus-within:ring-[#C9973F]/25 focus-within:shadow-[0_0_15px_rgba(201,151,63,0.15)]">
+              <div className="flex w-full min-w-0 rounded-[14px] border border-[#E3E7EE] bg-white/95 overflow-hidden transition-all hover:border-[#C9973F]/60 focus-within:border-[#C9973F] focus-within:ring-2 focus-within:ring-[#C9973F]/25 focus-within:shadow-[0_0_15px_rgba(201,151,63,0.15)]">
                 <input
                   id="quantity"
                   name="quantity"
                   value={quantityValue}
                   onChange={(e) => setQuantityValue(e.target.value)}
                   placeholder="e.g. 50"
-                  className="flex-1 bg-transparent px-4 py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 focus:outline-none"
+                  className="flex-1 min-w-0 bg-transparent px-3.5 py-2.5 sm:px-4 sm:py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 focus:outline-none"
                 />
                 {/* Unit Toggle Buttons */}
-                <div className="flex items-center gap-1 bg-[#EEF1F5] p-1.5 my-1.5 mr-2 rounded-xl text-xs font-semibold">
+                <div className="flex items-center gap-1 bg-[#EEF1F5] p-1 my-1 mr-1.5 sm:p-1.5 sm:my-1.5 sm:mr-2 rounded-xl text-xs font-semibold shrink-0">
                   {(["MT", "FCL", "kg"] as const).map((u) => (
                     <button
                       key={u}
                       type="button"
                       onClick={() => setUnit(u)}
                       className={cn(
-                        "rounded-lg px-2.5 py-1 transition-all",
+                        "rounded-lg px-2 py-1 sm:px-2.5 transition-all text-xs",
                         unit === u
                           ? "bg-[#071A33] text-gold-soft shadow-sm"
                           : "text-muted-foreground hover:text-[#071A33]"
@@ -1163,8 +1181,8 @@ export function EnquiryForm() {
             </div>
 
             {/* Message Box */}
-            <div className="space-y-1">
-              <label htmlFor="message" className="block text-xs font-semibold text-[#071A33]/85">
+            <div className="space-y-1 min-w-0 w-full">
+              <label htmlFor="message" className="block text-xs font-semibold text-[#071A33]/85 truncate">
                 Specification Details & Shipping Notes
               </label>
               <textarea
@@ -1174,12 +1192,12 @@ export function EnquiryForm() {
                 value={customMessage}
                 onChange={(e) => setCustomMessage(e.target.value)}
                 placeholder="Target destination port (e.g. Jebel Ali, Rotterdam, Felixstowe), packaging preferences (25kg bags, bulk, pallets), target shipment window..."
-                className="w-full rounded-[14px] border border-[#E3E7EE] bg-white/95 px-4 py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]"
+                className="w-full min-w-0 rounded-[14px] border border-[#E3E7EE] bg-white/95 px-3.5 py-2.5 sm:px-4 sm:py-3 text-base sm:text-sm text-[#0B1B33] placeholder:text-muted-foreground/60 transition-all hover:-translate-y-0.5 hover:shadow-soft focus:border-[#C9973F] focus:outline-none focus:ring-2 focus:ring-[#C9973F]/25 focus:shadow-[0_0_15px_rgba(201,151,63,0.15)]"
               />
             </div>
 
             {/* Action Buttons: Submit with Shine Sweep + Instant WhatsApp */}
-            <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
+            <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-3 w-full min-w-0">
               {/* Premium Gold Shine Submit Button */}
               <button
                 type="submit"

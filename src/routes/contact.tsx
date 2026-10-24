@@ -184,7 +184,7 @@ function Contact() {
               </div>
             </motion.div>
           </div>
-          <div className="order-1 lg:order-2 lg:col-span-3 min-w-0">
+          <div className="order-1 lg:order-2 lg:col-span-3 min-w-0 w-full max-w-full flex justify-center">
             <EnquiryForm />
           </div>
         </div>

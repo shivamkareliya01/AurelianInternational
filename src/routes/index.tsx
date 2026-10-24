@@ -1090,8 +1090,8 @@ function FinalCta() {
         className="absolute inset-0 h-full w-full object-cover opacity-15 mix-blend-luminosity"
       />
 
-      <div className="container-x relative z-10 grid gap-12 lg:grid-cols-5 items-start">
-        <div className="text-[#F4F1EA] lg:col-span-2">
+      <div className="container-x relative z-10 grid gap-12 lg:grid-cols-5 items-start min-w-0 w-full max-w-full">
+        <div className="text-[#F4F1EA] lg:col-span-2 min-w-0 w-full">
           {/* Live response badge */}
           <div className="inline-flex items-center gap-2 rounded-full border border-[#C9973F]/40 bg-[#071A33]/90 px-3.5 py-1.5 text-xs font-semibold tracking-wider text-[#F2C86E] shadow-sm backdrop-blur-md mb-6">
             <span className="relative flex h-2 w-2">
@@ -1175,7 +1175,7 @@ function FinalCta() {
           </a>
         </div>
 
-        <div className="lg:col-span-3">
+        <div className="lg:col-span-3 min-w-0 w-full max-w-full flex justify-center">
           <EnquiryForm />
         </div>
       </div>
