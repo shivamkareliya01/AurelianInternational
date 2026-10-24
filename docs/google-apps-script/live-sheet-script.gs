@@ -18,21 +18,25 @@
  * 6. Make sure this URL is in your .env file as WEB_APP_URL!
  */
 
-const OWNER_EMAIL = "aurelianinternational@gmail.com";
 const SHEET_NAME = "Sheet1";
 
 /**
  * Accesses or initializes the target sheet.
  * Automatically connects to the spreadsheet where this script is installed!
  */
-function getTargetSheet() {
+function getTargetSheet(d) {
   let ss = SpreadsheetApp.getActiveSpreadsheet();
   if (!ss) {
-    try {
-      ss = SpreadsheetApp.openById("1086JPGL_w9HTWbS8SiHJ9Ahdl0uMG-5fLkNeLhlYbgc");
-    } catch (e) {
-      throw new Error("Could not find spreadsheet. Make sure this script is opened via Extensions > Apps Script inside your Google Sheet.");
+    const P = PropertiesService.getScriptProperties();
+    const targetId = (d && (d.spreadsheetId || d.sheetId)) || P.getProperty("SPREADSHEET_ID");
+    if (targetId) {
+      try {
+        ss = SpreadsheetApp.openById(String(targetId).trim());
+      } catch (e) {}
     }
+  }
+  if (!ss) {
+    throw new Error("Could not find spreadsheet. Make sure this script is opened via Extensions > Apps Script inside your Google Sheet or pass spreadsheetId.");
   }
   let sheet = ss.getSheetByName(SHEET_NAME) || ss.getSheets()[0];
 
@@ -79,7 +83,7 @@ function doPost(e) {
     }
 
     const d = JSON.parse(e.postData.contents);
-    const sheet = getTargetSheet();
+    const sheet = getTargetSheet(d);
 
     const clientName = d.name || [d.firstName, d.lastName].filter(Boolean).join(" ") || d.fullName || "Trade Buyer";
     const company = d.company || "N/A";
@@ -166,12 +170,15 @@ function doPost(e) {
           "</div>" +
         "</div>";
 
-      MailApp.sendEmail({
-        to: OWNER_EMAIL,
-        replyTo: email || OWNER_EMAIL,
-        subject: emailSubject,
-        htmlBody: emailHtml
-      });
+      const ownerEmail = (d && d.ownerEmail) || PropertiesService.getScriptProperties().getProperty("OWNER_EMAIL");
+      if (ownerEmail) {
+        MailApp.sendEmail({
+          to: ownerEmail,
+          replyTo: email || ownerEmail,
+          subject: emailSubject,
+          htmlBody: emailHtml
+        });
+      }
     } catch (mailErr) {
       Logger.log("MailApp Error: " + mailErr);
     }

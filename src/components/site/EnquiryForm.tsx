@@ -416,7 +416,7 @@ export function EnquiryForm() {
         if (!fallbackRes.ok) {
           setState("idle");
           setErrors({
-            form: res?.error || fallbackRes.error || "Something went wrong. Please try again or email us at shivamkareliya01@gmail.com",
+            form: res?.error || fallbackRes.error || `Something went wrong. Please try again or email us at ${site.email}`,
           });
           return;
         }
@@ -438,7 +438,7 @@ export function EnquiryForm() {
       console.error("[Enquiry Submit Error]:", networkErr);
       setState("idle");
       setErrors({
-        form: "Something went wrong. Please try again or email us at shivamkareliya01@gmail.com",
+        form: `Something went wrong. Please try again or email us at ${site.email}`,
       });
     }
   }

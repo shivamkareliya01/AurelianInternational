@@ -10,9 +10,6 @@
  * 6. Thread-safe execution using ScriptLock to prevent concurrent row collisions.
  */
 
-const DEFAULT_SPREADSHEET_ID = '1JGzpqK2iJ1KhgalKUs1t7gFQ8YFltDA6RtY55TggWxg';
-const DEFAULT_SECRET = 'aurelian_test_secret_key_1234567890';
-const DEFAULT_OWNER_EMAIL = 'aurelianinternational@gmail.com';
 const SHEET_NAME = 'Enquiries';
 const HEADERS = [
   'Reference',
@@ -42,7 +39,7 @@ function getSpreadsheet(d) {
   } catch (e) {}
 
   const P = PropertiesService.getScriptProperties();
-  const targetId = (d && (d.spreadsheetId || d.sheetId)) || P.getProperty('SPREADSHEET_ID') || DEFAULT_SPREADSHEET_ID;
+  const targetId = (d && (d.spreadsheetId || d.sheetId)) || P.getProperty('SPREADSHEET_ID');
   
   if (targetId && String(targetId).trim()) {
     try {
@@ -54,7 +51,7 @@ function getSpreadsheet(d) {
     }
   }
 
-  throw new Error('Spreadsheet not found. Please open Apps Script directly inside your Google Sheet via Extensions > Apps Script.');
+  throw new Error('Spreadsheet not found. Please open Apps Script directly inside your Google Sheet via Extensions > Apps Script, or pass spreadsheetId in the request.');
 }
 
 /**
@@ -136,10 +133,6 @@ function doPost(e) {
       return json_({ ok: false, error: 'missing_request_body' });
     }
 
-    const P = PropertiesService.getScriptProperties();
-    const configuredSecret = P.getProperty('SECRET') || DEFAULT_SECRET;
-    const ownerEmail = P.getProperty('OWNER_EMAIL') || DEFAULT_OWNER_EMAIL;
-
     let d;
     try {
       d = JSON.parse(e.postData.contents);
@@ -147,8 +140,12 @@ function doPost(e) {
       return json_({ ok: false, error: 'invalid_json_payload' });
     }
 
-    // 1. Secret authentication
-    if (!d.secret || !configuredSecret || d.secret !== configuredSecret) {
+    const P = PropertiesService.getScriptProperties();
+    const configuredSecret = P.getProperty('SECRET');
+    const ownerEmail = (d && d.ownerEmail) || P.getProperty('OWNER_EMAIL');
+
+    // 1. Secret authentication (if SECRET property is set in Apps Script)
+    if (configuredSecret && (!d.secret || d.secret !== configuredSecret)) {
       return json_({ ok: false, error: 'unauthorized' });
     }
 
@@ -276,10 +273,9 @@ function doPost(e) {
 
     // 9. Send branded confirmation email to Client
     try {
-      const primaryOwnerEmail = (ownerEmail || '').split(',')[0].trim() || 'aurelianinternational@gmail.com';
-      MailApp.sendEmail({
+      const primaryOwnerEmail = (ownerEmail || '').split(',')[0].trim();
+      const mailOptions = {
         to: d.email,
-        replyTo: primaryOwnerEmail,
         name: 'Aurelian International',
         subject: 'We received your export enquiry ' + ref + ' — Aurelian International',
         htmlBody: '<div style="font-family:Arial,Helvetica,sans-serif;max-width:600px;color:#1a1a1a;line-height:1.6">' +
@@ -300,7 +296,11 @@ function doPost(e) {
             '<p style="color:#888;font-size:12px;margin:0">If you have urgent container requirements, you may reply directly to this email.</p>' +
           '</div>' +
         '</div>'
-      });
+      };
+      if (primaryOwnerEmail) {
+        mailOptions.replyTo = primaryOwnerEmail;
+      }
+      MailApp.sendEmail(mailOptions);
     } catch (clientMailErr) {
       console.warn('Could not send client confirmation email: ' + clientMailErr);
     }

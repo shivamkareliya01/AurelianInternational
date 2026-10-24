@@ -56,13 +56,10 @@ export function getServerEnv(): ServerEnv {
   };
 
   const webAppUrl = getEnv("WEB_APP_URL", "");
-  const googleSheetUrl = getEnv(
-    "GOOGLE_SHEET_URL",
-    "https://docs.google.com/spreadsheets/d/1RIXK2A881mS4eMvbg3TbqhIjzpVLgb43gVtv9AzKC6Y/edit"
-  );
+  const googleSheetUrl = getEnv("GOOGLE_SHEET_URL", "");
   const enquirySecret = getEnv("ENQUIRY_SECRET", "");
 
-  const ownerEmailRaw = getEnv("OWNER_EMAIL", "aurelianinternational@gmail.com");
+  const ownerEmailRaw = getEnv("OWNER_EMAIL", "");
   const ownerEmails = ownerEmailRaw
     .split(",")
     .map((e) => e.trim())
@@ -75,20 +72,20 @@ export function getServerEnv(): ServerEnv {
   const resendApiKey = getEnv("RESEND_API_KEY", "");
   const turnstileSecret = getEnv("TURNSTILE_SECRET_KEY", "");
 
-  const isTestModeExplicit = getEnv("TEST_MODE", "true") === "true";
+  const isTestModeExplicit = getEnv("TEST_MODE", "false") === "true";
   const isSmtpConfigured = Boolean((smtpHost && smtpUser && smtpPass) || resendApiKey);
-  const testMode = isTestModeExplicit || (!webAppUrl && !isSmtpConfigured);
+  const testMode = isTestModeExplicit;
 
   const mailFrom = getEnv(
     "MAIL_FROM",
-    `"Aurelian International Trade Desk" <${smtpUser || "aurelianinternational@gmail.com"}>`
+    smtpUser ? `"Aurelian International Trade Desk" <${smtpUser}>` : ""
   );
 
   return {
     WEB_APP_URL: webAppUrl,
     GOOGLE_SHEET_URL: googleSheetUrl,
     ENQUIRY_SECRET: enquirySecret,
-    OWNER_EMAIL: ownerEmails.length > 0 ? ownerEmails : ["aurelianinternational@gmail.com"],
+    OWNER_EMAIL: ownerEmails,
     MAIL_FROM: mailFrom,
     SMTP_HOST: smtpHost,
     SMTP_PORT: smtpPort,
