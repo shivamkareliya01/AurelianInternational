@@ -1,17 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BookOpen, Download, Eye, FileText, ArrowRight, Layers, Sparkles } from "lucide-react";
 import { catalogues, type Catalogue } from "@/data/catalogues";
 import { PdfViewerModal } from "./PdfViewerModal";
-import { cn } from "@/lib/utils";
+import { cn, downloadFileFromUrl } from "@/lib/utils";
+import { prefetchPdf } from "@/lib/pdfPreloader";
 
 interface CataloguesSectionProps {
-  className?: string;
-  onRequestTile?: (catalogue: Catalogue) => void;
+  className?: string | undefined;
+  onRequestTile?: ((catalogue: Catalogue) => void) | undefined;
 }
 
 export function CataloguesSection({ className, onRequestTile }: CataloguesSectionProps) {
   const [activeCatalogue, setActiveCatalogue] = useState<Catalogue | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Preload all available catalogues into memory in background
+  useEffect(() => {
+    catalogues.forEach((cat) => {
+      if (cat.webUrl) prefetchPdf(cat.webUrl);
+    });
+  }, []);
 
   const handleOpenCatalogue = (cat: Catalogue) => {
     setActiveCatalogue(cat);
@@ -52,7 +60,7 @@ export function CataloguesSection({ className, onRequestTile }: CataloguesSectio
           </div>
 
           {/* Catalogues Grid */}
-          <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-2">
+          <div className={`mt-12 grid gap-8 ${catalogues.length === 1 ? "max-w-2xl mx-auto" : "md:grid-cols-2 lg:grid-cols-2"}`}>
             {catalogues.map((cat) => (
               <article
                 key={cat.id}
@@ -110,26 +118,25 @@ export function CataloguesSection({ className, onRequestTile }: CataloguesSectio
                     <button
                       type="button"
                       onClick={() => handleOpenCatalogue(cat)}
+                      onMouseEnter={() => prefetchPdf(cat.webUrl)}
                       className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#C9973F] px-4 py-2 text-xs font-semibold text-[#071A33] shadow-md hover:brightness-110 active:scale-95 transition-all cursor-pointer"
                     >
                       <Eye className="h-4 w-4" />
                       <span>View Catalogue</span>
                     </button>
 
-                    {/* Download PDF button (real <a download>) */}
-                    <a
-                      href={cat.downloadUrl}
-                      download
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 rounded-xl border border-white/20 bg-white/5 px-3.5 py-2 text-xs font-medium text-white hover:bg-white/15 transition-colors"
+                    {/* Download PDF button (saves directly to system) */}
+                    <button
+                      type="button"
+                      onClick={() => downloadFileFromUrl(cat.downloadUrl, `${cat.id}.pdf`)}
+                      className="inline-flex items-center gap-1.5 rounded-xl border border-white/20 bg-white/5 px-3.5 py-2 text-xs font-medium text-white hover:bg-white/15 transition-colors cursor-pointer"
                     >
                       <Download className="h-3.5 w-3.5 text-slate-300" />
                       <span>Download PDF</span>
                       {cat.sizeOriginal && (
                         <span className="text-[10px] text-slate-400">({cat.sizeOriginal})</span>
                       )}
-                    </a>
+                    </button>
                   </div>
                 </div>
               </article>

@@ -13,13 +13,14 @@ import {
 } from "lucide-react";
 import type { Catalogue } from "@/data/catalogues";
 import { useBasket } from "@/lib/basket";
-import { cn } from "@/lib/utils";
+import { cn, downloadFileFromUrl } from "@/lib/utils";
+import { getCachedPdf, prefetchPdf } from "@/lib/pdfPreloader";
 
 interface PdfViewerModalProps {
   catalogue: Catalogue | null;
   isOpen: boolean;
   onClose: () => void;
-  onRequestTile?: (catalogue: Catalogue) => void;
+  onRequestTile?: ((catalogue: Catalogue) => void) | undefined;
 }
 
 interface PageRenderItemProps {
@@ -27,17 +28,24 @@ interface PageRenderItemProps {
   pageNum: number;
   scale: number;
   isNearVisible: boolean;
+  defaultPageDims: { width: number; height: number } | null;
   onVisibleChange: (pageNum: number, isIntersecting: boolean) => void;
 }
 
 const PageRenderItem: React.FC<PageRenderItemProps> = React.memo(
-  ({ pdfDoc, pageNum, scale, isNearVisible, onVisibleChange }) => {
+  ({ pdfDoc, pageNum, scale, isNearVisible, defaultPageDims, onVisibleChange }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const renderTaskRef = useRef<any>(null);
     const [rendering, setRendering] = useState(false);
     const [pageRendered, setPageRendered] = useState(false);
-    const [aspectRatio, setAspectRatio] = useState<number>(1.414); // Default standard A4 portrait
+    const [pageDims, setPageDims] = useState<{ width: number; height: number } | null>(defaultPageDims);
+
+    useEffect(() => {
+      if (!pageDims && defaultPageDims) {
+        setPageDims(defaultPageDims);
+      }
+    }, [defaultPageDims, pageDims]);
 
     // IntersectionObserver to observe visibility of this specific page container
     useEffect(() => {
@@ -67,9 +75,7 @@ const PageRenderItem: React.FC<PageRenderItemProps> = React.memo(
       let cancelled = false;
 
       if (!isNearVisible || !pdfDoc) {
-        // If scrolled far away, we can unload heavy canvas memory
         if (pageRendered) {
-          // Cancel active render if in progress
           if (renderTaskRef.current) {
             try {
               renderTaskRef.current.cancel();
@@ -87,14 +93,14 @@ const PageRenderItem: React.FC<PageRenderItemProps> = React.memo(
           const page = await pdfDoc.getPage(pageNum);
           if (cancelled) return;
 
-          // Device pixel ratio capped strictly at 2
+          const unscaledViewport = page.getViewport({ scale: 1 });
+          if (unscaledViewport.width > 0 && unscaledViewport.height > 0) {
+            setPageDims({ width: unscaledViewport.width, height: unscaledViewport.height });
+          }
+
+          // Device pixel ratio capped strictly at 2 for crystal crispness
           const dpr = Math.min(window.devicePixelRatio || 1, 2);
           const viewport = page.getViewport({ scale: scale * dpr });
-          const unscaledViewport = page.getViewport({ scale: 1 });
-
-          if (unscaledViewport.width > 0) {
-            setAspectRatio(unscaledViewport.height / unscaledViewport.width);
-          }
 
           const canvas = canvasRef.current;
           if (!canvas) return;
@@ -104,8 +110,12 @@ const PageRenderItem: React.FC<PageRenderItemProps> = React.memo(
 
           canvas.width = Math.floor(viewport.width);
           canvas.height = Math.floor(viewport.height);
-          canvas.style.width = `${Math.floor(viewport.width / dpr)}px`;
-          canvas.style.height = `${Math.floor(viewport.height / dpr)}px`;
+
+          // Preserve exact uncompressed aspect ratio
+          canvas.style.width = "100%";
+          canvas.style.height = "auto";
+          canvas.style.aspectRatio = `${unscaledViewport.width} / ${unscaledViewport.height}`;
+          canvas.style.display = "block";
 
           if (renderTaskRef.current) {
             try {
@@ -152,23 +162,26 @@ const PageRenderItem: React.FC<PageRenderItemProps> = React.memo(
       };
     }, [pdfDoc, pageNum, scale, isNearVisible]);
 
+    const activeDims = pageDims || defaultPageDims || { width: 1190, height: 841 };
+    const maxWidthPx = Math.round(activeDims.width * scale);
+
     return (
       <div
         ref={containerRef}
         data-page-number={pageNum}
-        className="relative mx-auto my-6 flex flex-col items-center justify-center rounded-lg bg-white shadow-xl transition-all duration-300"
+        className="relative mx-auto my-6 flex flex-col items-center justify-center rounded-xl bg-white shadow-2xl transition-all duration-200"
         style={{
-          minHeight: `${400 * scale}px`,
           width: "100%",
-          maxWidth: `${800 * scale}px`,
+          maxWidth: `${maxWidthPx}px`,
         }}
       >
         {/* Skeleton Shimmer displayed while page is not yet rendered */}
         {(!pageRendered || rendering) && (
           <div
-            className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-lg bg-[#FAF8F3] border border-[#E3E7EE] overflow-hidden"
+            className="w-full flex flex-col items-center justify-center rounded-xl bg-[#FAF8F3] border border-[#E3E7EE] overflow-hidden"
             style={{
-              aspectRatio: `${1 / aspectRatio}`,
+              aspectRatio: `${activeDims.width} / ${activeDims.height}`,
+              minHeight: `${Math.min(Math.round((activeDims.height / activeDims.width) * 400), 500)}px`,
             }}
           >
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-pulse" />
@@ -183,15 +196,15 @@ const PageRenderItem: React.FC<PageRenderItemProps> = React.memo(
 
         {/* Canvas for PDF rendering */}
         <div
-          className="w-full flex items-center justify-center overflow-hidden rounded-lg bg-white"
+          className="w-full flex items-center justify-center overflow-hidden rounded-xl bg-white"
           style={{
-            display: isNearVisible ? "flex" : "none",
+            display: isNearVisible && pageRendered ? "block" : "none",
           }}
         >
           <canvas
             ref={canvasRef}
             className={cn(
-              "max-w-full h-auto transition-opacity duration-300 shadow-md rounded-md",
+              "w-full h-auto block rounded-xl shadow-md transition-opacity duration-300",
               pageRendered && !rendering ? "opacity-100" : "opacity-0"
             )}
           />
@@ -223,6 +236,7 @@ export function PdfViewerModal({
   const [loadProgress, setLoadProgress] = useState<number>(0);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [visiblePages, setVisiblePages] = useState<Set<number>>(new Set([1]));
+  const [defaultPageDims, setDefaultPageDims] = useState<{ width: number; height: number } | null>(null);
 
   const viewerContainerRef = useRef<HTMLDivElement>(null);
 
@@ -286,46 +300,41 @@ export function PdfViewerModal({
     let loadingTask: any = null;
 
     async function initPdf() {
+      // 1. Instant opening if already preloaded in background
+      const cached = getCachedPdf(catalogue!.webUrl);
+      if (cached.doc) {
+        setPdfDoc(cached.doc);
+        setNumPages(cached.doc.numPages);
+        if (cached.dims) {
+          setDefaultPageDims(cached.dims);
+        }
+        setLoading(false);
+        setLoadProgress(100);
+        return;
+      }
+
       setLoading(true);
       setLoadError(null);
-      setLoadProgress(5);
+      setLoadProgress(20);
 
       try {
-        // Dynamically import pdfjs-dist only when modal opens
-        const pdfjsLib = await import("pdfjs-dist");
-
-        // Worker bundled locally from public/pdf.worker.min.mjs (NO CDN)
-        pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
-
-        // Required PDF loading settings:
-        // disableAutoFetch: true (does not preload whole file)
-        // disableStream: false (streams bytes dynamically)
-        // rangeChunkSize: 262144 (256KB byte-range request chunks)
-        loadingTask = pdfjsLib.getDocument({
-          url: catalogue!.webUrl,
-          disableAutoFetch: true,
-          disableStream: false,
-          rangeChunkSize: 262144,
-          cMapUrl: "/cmaps/",
-          cMapPacked: true,
-        });
-
-        loadingTask.onProgress = ({
-          loaded,
-          total,
-        }: {
-          loaded: number;
-          total: number;
-        }) => {
-          if (active && total > 0) {
-            const pct = Math.min(Math.round((loaded / total) * 100), 100);
-            setLoadProgress(pct);
-          }
-        };
-
-        const doc = await loadingTask.promise;
+        const docPromise = cached.promise || prefetchPdf(catalogue!.webUrl);
+        if (!docPromise) throw new Error("Unable to initialize PDF stream");
+        const doc = await docPromise;
 
         if (active) {
+          const dims = getCachedPdf(catalogue!.webUrl).dims;
+          if (dims) {
+            setDefaultPageDims(dims);
+          } else {
+            try {
+              const firstPage = await doc.getPage(1);
+              const vp = firstPage.getViewport({ scale: 1 });
+              setDefaultPageDims({ width: vp.width, height: vp.height });
+            } catch {
+              // fallback
+            }
+          }
           setPdfDoc(doc);
           setNumPages(doc.numPages);
           setLoading(false);
@@ -370,7 +379,10 @@ export function PdfViewerModal({
         // Calculate topmost visible page for "Page X of Y"
         if (next.size > 0) {
           const sorted = Array.from(next).sort((a, b) => a - b);
-          setCurrentPage(sorted[0]);
+          const first = sorted[0];
+          if (first !== undefined) {
+            setCurrentPage(first);
+          }
         }
         return next;
       });
@@ -406,7 +418,7 @@ export function PdfViewerModal({
       name: catalogue.productName,
       category: "Ceramic Tiles",
       origin: "Morbi, Gujarat, India",
-      image: catalogue.coverImage || "/products/outdoor-parking-tiles.webp",
+      image: catalogue.coverImage || "/products/luxury-glazed-vitrified-tiles.webp",
     });
 
     onClose();
@@ -440,7 +452,7 @@ export function PdfViewerModal({
       />
 
       {/* Modal Dialog Container */}
-      <div className="relative z-10 flex h-full w-full max-w-6xl flex-col overflow-hidden rounded-none sm:rounded-2xl bg-[#111A24] border border-white/10 shadow-2xl">
+      <div className="relative z-10 flex h-full w-full max-w-7xl 2xl:max-w-[1440px] flex-col overflow-hidden rounded-none sm:rounded-2xl bg-[#111A24] border border-white/10 shadow-2xl">
         {/* Top Control Bar */}
         <header className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 bg-[#09121D] px-4 py-3 sm:px-6">
           {/* Left: Title & Page Count */}
@@ -516,19 +528,17 @@ export function PdfViewerModal({
               <span>Request this tile</span>
             </button>
 
-            {/* Direct Download Button with real <a download> */}
-            <a
-              href={catalogue.downloadUrl}
-              download
-              target="_blank"
-              rel="noopener noreferrer"
+            {/* Direct Download Button */}
+            <button
+              type="button"
+              onClick={() => downloadFileFromUrl(catalogue.downloadUrl, `${catalogue.id}.pdf`)}
               title="Download Original PDF"
               aria-label="Download Original PDF"
-              className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-medium text-white hover:bg-white/20 transition-colors whitespace-nowrap"
+              className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-medium text-white hover:bg-white/20 transition-colors whitespace-nowrap cursor-pointer"
             >
               <Download className="h-3.5 w-3.5" />
               <span className="hidden md:inline">Download PDF</span>
-            </a>
+            </button>
 
             {/* Close Button */}
             <button
@@ -555,7 +565,7 @@ export function PdfViewerModal({
         {/* Scrollable Viewer Viewport */}
         <div
           ref={viewerContainerRef}
-          className="relative flex-1 overflow-y-auto overflow-x-hidden bg-[#16202C] p-4 sm:p-6"
+          className="relative flex-1 overflow-y-auto overflow-x-auto bg-[#16202C] p-3 sm:p-5 md:p-6"
         >
           {/* iOS Safari or Fallback Notice */}
           {isIos && !loadError && (
@@ -612,6 +622,7 @@ export function PdfViewerModal({
                   pageNum={pageNum}
                   scale={scale}
                   isNearVisible={isNearVisible(pageNum)}
+                  defaultPageDims={defaultPageDims}
                   onVisibleChange={handleVisibleChange}
                 />
               ))}
@@ -627,7 +638,7 @@ export function PdfViewerModal({
                   Opening {catalogue.title}...
                 </p>
                 <p className="text-xs text-slate-400">
-                  Streaming page 1 with byte-range chunks ({loadProgress}%)...
+                  Loading catalogue ({loadProgress}%)...
                 </p>
               </div>
             </div>
@@ -637,9 +648,9 @@ export function PdfViewerModal({
         {/* Bottom Bar for Mobile Convenience */}
         <footer className="flex items-center justify-between border-t border-white/10 bg-[#09121D] px-4 py-2 text-xs text-slate-400">
           <div className="flex items-center gap-2">
-            <span>Fast linear stream</span>
+            <span>High-Speed Cloud Stream</span>
             <span className="hidden sm:inline">•</span>
-            <span className="hidden sm:inline">Range chunks enabled</span>
+            <span className="hidden sm:inline">Instant Render</span>
           </div>
           <div className="flex items-center gap-3">
             <button

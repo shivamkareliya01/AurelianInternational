@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
 import { ArrowLeft, Check, Download, Eye, FileText, Plus, ShieldCheck } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PageHeader } from "@/components/site/PageHeader";
 import { PdfViewerModal } from "@/components/site/PdfViewerModal";
 import { ProductCard } from "@/components/site/ProductCard";
@@ -12,7 +12,8 @@ import { getCategory, getProduct } from "@/data/products";
 import { site } from "@/data/site";
 import { useBasket } from "@/lib/basket";
 import { buildSingleProductWaUrl } from "@/lib/whatsapp";
-import { cn } from "@/lib/utils";
+import { cn, downloadFileFromUrl } from "@/lib/utils";
+import { prefetchPdf } from "@/lib/pdfPreloader";
 
 const DELETED_POWDER_SLUGS = new Set([
   "dehydrated-white-onion-flakes",
@@ -145,46 +146,23 @@ function ProductPage() {
     ["Quality & Export Certifications", p.certifications.join(", ")],
   ];
 
-  function downloadSpecSheet() {
-    const txt = `==========================================================
-AURELIAN INTERNATIONAL — EXPORT SPECIFICATION SHEET
-Website: ${site.url} | Email: ${site.email} | Tel: ${site.phone}
-==========================================================
+  const [downloading, setDownloading] = useState(false);
 
-PRODUCT: ${p.name.toUpperCase()}
-CATEGORY: ${c.name}
-
-SPECIFICATIONS:
-----------------------------------------------------------
-${specs.map(([k, v]) => `${String(k).padEnd(35)}: ${v}`).join("\n")}
-
-PRODUCT OVERVIEW:
-----------------------------------------------------------
-${p.description}
-
-COMPLIANCE & TRACEABILITY:
-- Sourced directly from audited production centers in ${p.origin}.
-- Fully certified under ${p.certifications.join(", ")}.
-- Independent third-party inspection (SGS / Bureau Veritas) available.
-
-CONTAINER LOGISTICS & TERMS:
-- Incoterms: FOB (JNPT / Mundra), CFR, CIF to your destination port.
-- Payment Terms: LC at sight, CAD, Advance Wire.
-
-CONTACT TRADE DESK:
-Aurelian International, ${site.address}
-Direct Phone: ${site.phone}
-Email: ${site.email}
-==========================================================`;
-
-    const blob = new Blob([txt], { type: "text/plain;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${p.slug}-export-specification-aurelian.txt`;
-    a.click();
-    URL.revokeObjectURL(url);
+  async function handleDownload(url: string, filename: string) {
+    setDownloading(true);
+    try {
+      await downloadFileFromUrl(url, filename);
+    } finally {
+      setDownloading(false);
+    }
   }
+
+  // Preload PDF in background as soon as product page opens
+  useEffect(() => {
+    if (catalogue?.webUrl) {
+      prefetchPdf(catalogue.webUrl);
+    }
+  }, [catalogue?.webUrl]);
 
   const related = c.products.filter((x) => x.slug !== p.slug).slice(0, 3);
   const waUrl = buildSingleProductWaUrl({
@@ -339,34 +317,28 @@ Email: ${site.email}
                   </table>
                 </div>
 
-                {/* Catalogue & Official Specs Download Buttons */}
+                {/* Catalogue & PDF Download Buttons */}
                 <div className="mt-8 flex flex-wrap items-center gap-3">
                   {catalogue && (
                     <button
                       type="button"
                       onClick={() => setPdfOpen(true)}
+                      onMouseEnter={() => prefetchPdf(catalogue.webUrl)}
                       className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#C9973F] px-5 py-3 text-sm font-semibold text-[#071A33] shadow-md hover:brightness-110 active:scale-95 transition-all cursor-pointer"
                     >
                       <Eye className="h-4 w-4" /> View catalogue
                     </button>
                   )}
                   {catalogue && (
-                    <a
-                      href={catalogue.downloadUrl}
-                      download
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={cn(btn.outline, "inline-flex items-center gap-2 text-sm")}
+                    <button
+                      type="button"
+                      onClick={() => handleDownload(catalogue.downloadUrl, `${catalogue.id}.pdf`)}
+                      disabled={downloading}
+                      className={cn(btn.outline, "inline-flex items-center gap-2 text-sm cursor-pointer disabled:opacity-50")}
                     >
-                      <Download className="h-4 w-4" /> Download PDF
-                    </a>
+                      <Download className="h-4 w-4" /> {downloading ? "Downloading..." : "Download PDF"}
+                    </button>
                   )}
-                  <button
-                    onClick={downloadSpecSheet}
-                    className={cn(btn.outline, "inline-flex items-center gap-2 text-sm")}
-                  >
-                    <Download className="h-4 w-4" /> Download Official Spec Sheet (.TXT)
-                  </button>
                 </div>
               </div>
             </article>
@@ -415,15 +387,14 @@ Email: ${site.email}
                     >
                       <Eye className="h-3.5 w-3.5" /> View
                     </button>
-                    <a
-                      href={catalogue.downloadUrl}
-                      download
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-white/20 bg-white/5 py-2 text-xs font-medium text-white hover:bg-white/15"
+                    <button
+                      type="button"
+                      onClick={() => handleDownload(catalogue.downloadUrl, `${catalogue.id}.pdf`)}
+                      disabled={downloading}
+                      className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-white/20 bg-white/5 py-2 text-xs font-medium text-white hover:bg-white/15 cursor-pointer disabled:opacity-50"
                     >
-                      <Download className="h-3.5 w-3.5" /> Download
-                    </a>
+                      <Download className="h-3.5 w-3.5" /> {downloading ? "Saving..." : "Download"}
+                    </button>
                   </div>
                 </div>
               )}

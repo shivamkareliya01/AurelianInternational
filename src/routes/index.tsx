@@ -64,7 +64,7 @@ const heroSlides = [
     placeholder: "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADQAwCdASogABIAPxF6rVIsJ6QisAgBgCIJZACdMoAA/uhxr/V2qSQmOXQ4eKjbOjBGx0pQBvPv3+CxiTCIGIj1QAAA",
     alt: "Luxury Glazed Vitrified Tiles in a premium architectural interior showroom",
     label: "Luxury Vitrified Tiles",
-    tagline: "Morbi GVT / PGVT & Heavy Duty Parking",
+    tagline: "Morbi GVT / PGVT & Large Format Tiles",
     filter: "brightness(0.66) contrast(1.18) saturate(1.05)",
   },
   {
@@ -1178,7 +1178,7 @@ function FinalCta() {
 function CommodityMarquee() {
   const items = [
     "1121 Basmati Rice", "Unjha Cumin Seeds", "Guntur Chilli", "Alleppey Turmeric",
-    "GVT 600×1200 Tiles", "Coriander Powder", "Dehydrated Onion Flakes", "Parking Tiles 400×400",
+    "GVT 600×1200 Tiles", "Coriander Powder", "Dehydrated Onion Flakes", "PGVT 800×1600 Tiles",
     "Green Millet (Bajra)", "Fenugreek Seeds", "Black Pepper", "PGVT Vitrified Tiles",
     "Sesame Seeds", "Cardamom Green", "Dried Ginger Powder", "Sella Basmati",
   ];
