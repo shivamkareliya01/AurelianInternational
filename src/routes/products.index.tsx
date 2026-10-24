@@ -69,26 +69,6 @@ function getProductType(product: { category: { slug: string }; name: string }): 
   return "Grains, Pulses & Seeds";
 }
 
-const exportCertifications = [
-  "APEDA",
-  "FSSAI",
-  "ISO 22000 / HACCP",
-  "Spices Board",
-  "ISO 13006 & CE",
-  "GlobalGAP",
-];
-
-function productHasCert(product: { specs?: { certifications?: string[] } }, cert: string): boolean {
-  const certs = (product.specs?.certifications || []).join(" ").toLowerCase();
-  if (cert === "APEDA") return /apeda/i.test(certs);
-  if (cert === "FSSAI") return /fssai/i.test(certs);
-  if (cert === "ISO 22000 / HACCP") return /iso 22000|haccp/i.test(certs);
-  if (cert === "Spices Board") return /spices board/i.test(certs);
-  if (cert === "ISO 13006 & CE") return /iso 13006|ce certified/i.test(certs);
-  if (cert === "GlobalGAP") return /globalgap|phytosanitary/i.test(certs);
-  return false;
-}
-
 const buyerPillars = [
   {
     title: "Direct Producer Sourcing",
@@ -115,7 +95,6 @@ function Products() {
   const [q, setQ] = useState("");
   const [selectedCat, setSelectedCat] = useState<string>("all");
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-  const [selectedCerts, setSelectedCerts] = useState<string[]>([]);
   const [sort, setSort] = useState<"featured" | "az" | "za" | "category">("featured");
   const [visibleCount, setVisibleCount] = useState<number>(ITEMS_PER_PAGE);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
@@ -134,13 +113,12 @@ function Products() {
     setQ("");
     setSelectedCat("all");
     setSelectedTypes([]);
-    setSelectedCerts([]);
     setSort("featured");
     setVisibleCount(ITEMS_PER_PAGE);
   };
 
   const hasActiveFilters =
-    q || selectedCat !== "all" || selectedTypes.length > 0 || selectedCerts.length > 0 || sort !== "featured";
+    q || selectedCat !== "all" || selectedTypes.length > 0 || sort !== "featured";
 
   // Filtered & Sorted Product List
   const list = useMemo(() => {
@@ -155,8 +133,7 @@ function Products() {
           .includes(q.toLowerCase());
       const matchCat = selectedCat === "all" || p.category.slug === selectedCat;
       const matchType = !selectedTypes.length || selectedTypes.includes(getProductType(p));
-      const matchCert = !selectedCerts.length || selectedCerts.some((cert) => productHasCert(p, cert));
-      return matchSearch && matchCat && matchType && matchCert;
+      return matchSearch && matchCat && matchType;
     });
 
     if (sort === "az") {
@@ -168,7 +145,7 @@ function Products() {
     }
 
     return filtered;
-  }, [q, selectedCat, selectedTypes, selectedCerts, sort]);
+  }, [q, selectedCat, selectedTypes, sort]);
 
   const pagedList = list.slice(0, visibleCount);
   const hasMore = visibleCount < list.length;
@@ -271,9 +248,9 @@ function Products() {
           >
             <SlidersHorizontal className="h-3.5 w-3.5" />
             <span>Filters</span>
-            {(selectedTypes.length > 0 || selectedCerts.length > 0) && (
+            {selectedTypes.length > 0 && (
               <span className="grid h-4 w-4 place-items-center rounded-full bg-gold text-[10px] text-[#040E1F] font-bold">
-                {selectedTypes.length + selectedCerts.length}
+                {selectedTypes.length}
               </span>
             )}
           </button>
@@ -373,34 +350,7 @@ function Products() {
               </div>
             </fieldset>
 
-            {/* 3. Export Certifications */}
-            <fieldset className="border-t border-[#C9973F]/25 pt-5">
-              <legend className="eyebrow !text-[0.68rem] text-[#9A6B1F] font-semibold tracking-wider">
-                Export Certifications
-              </legend>
-              <div className="mt-3 space-y-2">
-                {exportCertifications.map((cert) => {
-                  const count = activeProducts.filter((p) => productHasCert(p, cert)).length;
-                  return (
-                    <label
-                      key={cert}
-                      className="flex cursor-pointer items-center justify-between text-xs text-[#0B1B33]/85 hover:text-[#071A33] transition-colors py-0.5"
-                    >
-                      <span className="flex items-center gap-2">
-                        <input
-                          type="checkbox"
-                          checked={selectedCerts.includes(cert)}
-                          onChange={() => toggle(selectedCerts, setSelectedCerts, cert)}
-                          className="h-4 w-4 rounded accent-[#C9973F] cursor-pointer shrink-0"
-                        />
-                        <span className="leading-tight">{cert}</span>
-                      </span>
-                      <span className="text-[11px] text-[#A8B2C1] font-medium">{count}</span>
-                    </label>
-                  );
-                })}
-              </div>
-            </fieldset>
+
 
             {/* Catalog Info Box */}
             <div className="rounded-2xl border border-[#C9973F]/25 bg-[#FAF8F3] p-4 text-xs text-[#071A33]/80">
@@ -748,26 +698,7 @@ function Products() {
                   ))}
                 </div>
 
-                {/* Export Certifications */}
-                <div className="mt-6 space-y-3 border-t hairline pt-4">
-                  <p className="eyebrow !text-xs text-[#9A6B1F]">Export Certifications</p>
-                  {exportCertifications.map((cert) => (
-                    <label key={cert} className="flex items-center justify-between text-xs text-[#0B1B33]">
-                      <span className="flex items-center gap-2">
-                        <input
-                          type="checkbox"
-                          checked={selectedCerts.includes(cert)}
-                          onChange={() => toggle(selectedCerts, setSelectedCerts, cert)}
-                          className="h-3.5 w-3.5 accent-[#C9973F]"
-                        />
-                        <span>{cert}</span>
-                      </span>
-                      <span className="text-[10px] text-muted-foreground">
-                        {activeProducts.filter((p) => productHasCert(p, cert)).length}
-                      </span>
-                    </label>
-                  ))}
-                </div>
+
               </div>
 
               <div className="mt-8 pt-4 border-t hairline flex gap-3">

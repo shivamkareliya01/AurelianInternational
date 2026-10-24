@@ -15,20 +15,6 @@ export interface Catalogue {
 
 export const catalogues: Catalogue[] = [
   {
-    id: "shein-16x16-parking-tiles",
-    title: "Shein 16×16 Heavy Duty Parking Tiles Catalogue",
-    productName: "Shein 16x16 Parking Tiles",
-    categorySlug: "ceramic-tiles",
-    productSlug: "outdoor-parking-tiles",
-    webUrl: "/catalogues/shein-16x16-parking-tiles-web.pdf",
-    downloadUrl: "/catalogues/shein-16x16-parking-tiles.pdf",
-    coverImage: "/catalogues/shein-16x16-parking-tiles-cover.webp",
-    description: "Full technical specification, punch surface textures, breaking strength ratings, and export pallet layouts for 16×16 inch (400×400mm) vitrified parking tiles.",
-    pages: 20,
-    sizeWeb: "6.4 MB",
-    sizeOriginal: "18.2 MB",
-  },
-  {
     id: "endless-collection",
     title: "ENDLESS COLLECTION Tile Brochure",
     productName: "Glazed Vitrified Tiles (GVT / PGVT)",
@@ -53,7 +39,6 @@ export function getCatalogueForProduct(productName: string, productSlug?: string
     (c) =>
       (productSlug && c.productSlug === productSlug) ||
       c.productName.toLowerCase() === productName.toLowerCase() ||
-      productName.toLowerCase().includes("shein") ||
       (productSlug === "glazed-vitrified-tiles" && c.id === "endless-collection")
   );
 }

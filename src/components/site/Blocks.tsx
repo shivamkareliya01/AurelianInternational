@@ -18,7 +18,7 @@ export function FaqList({ dark = false }: { dark?: boolean }) {
             className="flex w-full items-center justify-between gap-6 py-6 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-lg"
           >
             <span className={`font-display text-xl md:text-2xl ${dark ? "text-white" : "text-[#071A33]"}`}>{f.q}</span>
-            <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-full border ${dark ? "border-white/20" : "hairline"} text-[#C9973F]`}>
+            <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-full border ${dark ? "border-white/20" : "border-[#C9973F]/40"} text-[#C9973F]`}>
               {open === i ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
             </span>
           </button>

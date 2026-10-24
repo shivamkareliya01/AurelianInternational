@@ -406,7 +406,7 @@ export function PdfViewerModal({
       name: catalogue.productName,
       category: "Ceramic Tiles",
       origin: "Morbi, Gujarat, India",
-      image: catalogue.coverImage || "/products/outdoor-parking-tiles.webp",
+      image: catalogue.coverImage || "/products/luxury-glazed-vitrified-tiles.webp",
     });
 
     onClose();

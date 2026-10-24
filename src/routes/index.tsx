@@ -64,7 +64,7 @@ const heroSlides = [
     placeholder: "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADQAwCdASogABIAPxF6rVIsJ6QisAgBgCIJZACdMoAA/uhxr/V2qSQmOXQ4eKjbOjBGx0pQBvPv3+CxiTCIGIj1QAAA",
     alt: "Luxury Glazed Vitrified Tiles in a premium architectural interior showroom",
     label: "Luxury Vitrified Tiles",
-    tagline: "Morbi GVT / PGVT & Heavy Duty Parking",
+    tagline: "Morbi GVT & High-Gloss PGVT Tiles",
     filter: "brightness(0.66) contrast(1.18) saturate(1.05)",
   },
   {
@@ -742,15 +742,16 @@ const exportSteps = [
 
 function Process() {
   return (
-    <section className="section-y bg-[#071A33] relative overflow-hidden">
-      {/* Background shimmer layers */}
-      <div className="pointer-events-none absolute inset-0 luxury-grain opacity-15" />
-      <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201,151,63,0.08) 0%, transparent 70%)" }} />
-      <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse 50% 60% at 0% 100%, rgba(14,42,79,0.6) 0%, transparent 60%)" }} />
+    <section className="section-y bg-[#FAF8F3] relative overflow-hidden border-y border-[#C9973F]/20">
+      {/* Subtle luxury grain and ambient warm accent */}
+      <div className="pointer-events-none absolute inset-0 luxury-grain opacity-10" />
+      <div
+        className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 h-96 w-96 rounded-full"
+        style={{ background: "radial-gradient(ellipse, rgba(201,151,63,0.08) 0%, transparent 70%)" }}
+      />
 
       <div className="container-x relative z-10">
         <SectionHead
-          dark
           eyebrow="Export Methodology"
           title="From farm gate to your port."
           text="A six-stage quality-assured workflow engineered to eliminate demurrage, cargo rejection, and transit discrepancies."
@@ -764,16 +765,16 @@ function Process() {
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 2.2, ease: "easeInOut" }}
-            className="absolute left-6 right-6 top-7 hidden h-px origin-left lg:block"
-            style={{ background: "linear-gradient(90deg, transparent, rgba(201,151,63,0.4) 15%, rgba(242,200,110,0.8) 50%, rgba(201,151,63,0.4) 85%, transparent)" }}
+            className="absolute left-6 right-6 top-7 hidden h-0.5 origin-left lg:block"
+            style={{ background: "linear-gradient(90deg, transparent, rgba(201,151,63,0.3) 10%, rgba(201,151,63,0.85) 50%, rgba(201,151,63,0.3) 90%, transparent)" }}
           />
           <motion.div
             initial={{ scaleY: 0 }}
             whileInView={{ scaleY: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 2.2, ease: "easeInOut" }}
-            className="absolute bottom-6 left-7 top-6 w-px origin-top lg:hidden"
-            style={{ background: "linear-gradient(180deg, transparent, rgba(201,151,63,0.6) 20%, rgba(242,200,110,0.9) 50%, rgba(201,151,63,0.6) 80%, transparent)" }}
+            className="absolute bottom-6 left-7 top-6 w-0.5 origin-top lg:hidden"
+            style={{ background: "linear-gradient(180deg, transparent, rgba(201,151,63,0.3) 10%, rgba(201,151,63,0.85) 50%, rgba(201,151,63,0.3) 90%, transparent)" }}
           />
 
           <ol className="grid gap-10 lg:grid-cols-6 lg:gap-5">
@@ -786,16 +787,16 @@ function Process() {
                 transition={{ delay: 0.15 + i * 0.12, duration: 0.65 }}
                 className="group relative flex items-start gap-5 lg:flex-col lg:items-start"
               >
-                {/* Glowing Step Node */}
+                {/* Step Node */}
                 <div className="relative z-10 shrink-0">
-                  <div className="absolute inset-0 rounded-2xl bg-[#C9973F]/20 blur-lg group-hover:bg-[#C9973F]/35 transition-all duration-500" />
-                  <span className="relative grid h-14 w-14 place-items-center rounded-2xl border border-[#C9973F]/60 bg-gradient-to-br from-[#0E2A4F] to-[#071A33] font-display text-lg font-semibold text-[#F2C86E] shadow-[0_4px_20px_rgba(201,151,63,0.2)] group-hover:shadow-[0_4px_30px_rgba(201,151,63,0.4)] transition-shadow duration-500">
+                  <div className="absolute inset-0 rounded-2xl bg-[#C9973F]/20 blur-md group-hover:bg-[#C9973F]/35 transition-all duration-500" />
+                  <span className="relative grid h-14 w-14 place-items-center rounded-2xl border border-[#C9973F]/50 bg-gradient-to-br from-[#071A33] to-[#040E1F] font-display text-lg font-semibold text-white shadow-md group-hover:border-[#C9973F] group-hover:shadow-[0_4px_20px_rgba(201,151,63,0.25)] transition-all duration-500">
                     {s.step}
                   </span>
                 </div>
                 <div className="lg:mt-6">
-                  <h3 className="font-display text-2xl text-white">{s.title}</h3>
-                  <p className="mt-2.5 text-xs leading-relaxed text-[#9aaec4]">{s.desc}</p>
+                  <h3 className="font-display text-2xl text-[#071A33] group-hover:text-[#9A6B1F] transition-colors">{s.title}</h3>
+                  <p className="mt-2.5 text-xs leading-relaxed text-[#5A687A]">{s.desc}</p>
                 </div>
               </motion.li>
             ))}
@@ -970,20 +971,22 @@ function Testimonials() {
   }, [i]);
 
   return (
-    <section className="relative section-y overflow-hidden bg-[#040E1F] text-[#F4F1EA]">
-      {/* Cinematic ambient background */}
-      <div className="pointer-events-none absolute inset-0 luxury-grain opacity-20" />
-      <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse 90% 70% at 50% 50%, rgba(201,151,63,0.06) 0%, transparent 65%)" }} />
-      <div className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full" style={{ background: "radial-gradient(ellipse, rgba(201,151,63,0.12) 0%, transparent 70%)", filter: "blur(50px)" }} />
+    <section className="relative section-y overflow-hidden bg-[#FAF8F3] text-[#071A33] border-t border-[#C9973F]/20">
+      {/* Subtle luxury grain and warm ambient glow */}
+      <div className="pointer-events-none absolute inset-0 luxury-grain opacity-10" />
+      <div
+        className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full"
+        style={{ background: "radial-gradient(ellipse, rgba(201,151,63,0.08) 0%, transparent 70%)" }}
+      />
 
       <div className="container-x relative z-10 max-w-5xl mx-auto text-center">
-        <p className="eyebrow text-[#C9973F]">Verified Importer Reviews</p>
-        <h2 className="mt-3 font-display text-3xl md:text-4xl text-white/90">Trusted by buyers worldwide.</h2>
+        <p className="eyebrow text-[#9A6B1F]">Verified Importer Reviews</p>
+        <h2 className="mt-3 font-display text-3xl md:text-4xl text-[#071A33]">Trusted by buyers worldwide.</h2>
 
         {/* Large decorative quote mark */}
         <div className="relative mt-12 min-h-[18rem] flex flex-col items-center justify-center">
           <span
-            className="pointer-events-none select-none absolute -top-2 left-1/2 -translate-x-1/2 font-display text-[12rem] leading-none bg-gradient-to-b from-[#C9973F]/25 to-transparent bg-clip-text text-transparent"
+            className="pointer-events-none select-none absolute -top-2 left-1/2 -translate-x-1/2 font-display text-[12rem] leading-none text-[#C9973F]/20"
             aria-hidden="true"
           >
             “
@@ -1001,23 +1004,23 @@ function Testimonials() {
               {/* Stars */}
               <div className="flex justify-center gap-1 mb-6">
                 {Array.from({ length: 5 }).map((_, k) => (
-                  <svg key={k} className="h-5 w-5 text-[#F2C86E]" viewBox="0 0 24 24" fill="currentColor">
+                  <svg key={k} className="h-5 w-5 text-[#C9973F]" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                   </svg>
                 ))}
               </div>
 
-              <blockquote className="font-display text-2xl italic leading-snug text-[#F4F1EA] md:text-[2.2rem] max-w-4xl mx-auto" style={{ textShadow: "0 2px 20px rgba(0,0,0,0.5)" }}>
+              <blockquote className="font-display text-2xl italic leading-snug text-[#071A33] md:text-[2.2rem] max-w-4xl mx-auto">
                 {t.quote}
               </blockquote>
 
               <figcaption className="mt-8">
                 {/* Avatar initials */}
-                <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-[#C9973F]/50 bg-gradient-to-br from-[#0E2A4F] to-[#040E1F] text-sm font-bold text-[#F2C86E] shadow-[0_0_20px_rgba(201,151,63,0.2)]">
+                <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-[#C9973F]/50 bg-[#071A33] text-sm font-bold text-[#F2C86E] shadow-md">
                   {t.name.split(" ").map((n: string) => n[0]).slice(0, 2).join("")}
                 </div>
-                <span className="block font-semibold text-white">{t.name}</span>
-                <span className="text-sm text-[#9aaec4]">
+                <span className="block font-semibold text-[#071A33]">{t.name}</span>
+                <span className="text-sm text-[#5A687A]">
                   {t.role}, {t.company} · {t.country}
                 </span>
               </figcaption>
@@ -1030,7 +1033,7 @@ function Testimonials() {
           <button
             onClick={() => go(-1)}
             aria-label="Previous testimonial"
-            className="grid h-11 w-11 place-items-center rounded-full border border-white/20 text-white/60 hover:border-[#C9973F] hover:text-[#F2C86E] cursor-pointer transition-all duration-300"
+            className="grid h-11 w-11 place-items-center rounded-full border border-[#C9973F]/40 bg-white text-[#071A33] hover:border-[#C9973F] hover:bg-[#FAF8F3] hover:text-[#9A6B1F] shadow-sm cursor-pointer transition-all duration-300"
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
@@ -1043,7 +1046,7 @@ function Testimonials() {
                 onClick={() => setI(k)}
                 className={cn(
                   "h-1.5 rounded-full transition-all duration-500 cursor-pointer",
-                  k === i ? "w-10 bg-[#C9973F]" : "w-3 bg-white/20 hover:bg-white/40",
+                  k === i ? "w-10 bg-[#C9973F]" : "w-3 bg-[#071A33]/20 hover:bg-[#071A33]/40",
                 )}
               />
             ))}
@@ -1051,7 +1054,7 @@ function Testimonials() {
           <button
             onClick={() => go(1)}
             aria-label="Next testimonial"
-            className="grid h-11 w-11 place-items-center rounded-full border border-white/20 text-white/60 hover:border-[#C9973F] hover:text-[#F2C86E] cursor-pointer transition-all duration-300"
+            className="grid h-11 w-11 place-items-center rounded-full border border-[#C9973F]/40 bg-white text-[#071A33] hover:border-[#C9973F] hover:bg-[#FAF8F3] hover:text-[#9A6B1F] shadow-sm cursor-pointer transition-all duration-300"
           >
             <ChevronRight className="h-4 w-4" />
           </button>
@@ -1176,23 +1179,34 @@ function FinalCta() {
 }
 
 function CommodityMarquee() {
-  const items = [
-    "1121 Basmati Rice", "Unjha Cumin Seeds", "Guntur Chilli", "Alleppey Turmeric",
-    "GVT 600×1200 Tiles", "Coriander Powder", "Dehydrated Onion Flakes", "Parking Tiles 400×400",
-    "Green Millet (Bajra)", "Fenugreek Seeds", "Black Pepper", "PGVT Vitrified Tiles",
-    "Sesame Seeds", "Cardamom Green", "Dried Ginger Powder", "Sella Basmati",
-  ];
+  const items = allProducts;
   const doubled = [...items, ...items];
   return (
     <div className="relative overflow-hidden bg-[#040E1F] border-y border-[#C9973F]/20 py-4">
-      <div className="absolute inset-y-0 left-0 w-20 z-10" style={{ background: "linear-gradient(90deg, #040E1F, transparent)" }} />
-      <div className="absolute inset-y-0 right-0 w-20 z-10" style={{ background: "linear-gradient(270deg, #040E1F, transparent)" }} />
-      <div className="animate-marquee flex gap-0 whitespace-nowrap">
-        {doubled.map((item, idx) => (
-          <span key={idx} className="inline-flex items-center gap-4 px-6">
-            <span className="text-sm font-medium tracking-wide text-[#9aaec4]">{item}</span>
-            <span className="text-[#C9973F]/50">◆</span>
-          </span>
+      <div
+        className="absolute inset-y-0 left-0 w-20 z-10 pointer-events-none"
+        style={{ background: "linear-gradient(90deg, #040E1F, transparent)" }}
+      />
+      <div
+        className="absolute inset-y-0 right-0 w-20 z-10 pointer-events-none"
+        style={{ background: "linear-gradient(270deg, #040E1F, transparent)" }}
+      />
+      <div
+        className="animate-marquee flex gap-0 whitespace-nowrap hover:[animation-play-state:paused]"
+        style={{ animationDuration: "40s" }}
+      >
+        {doubled.map((product, idx) => (
+          <Link
+            key={`${product.slug}-${idx}`}
+            to="/products/$category/$product"
+            params={{ category: product.category.slug, product: product.slug }}
+            className="inline-flex items-center gap-4 px-6 group transition-colors"
+          >
+            <span className="text-sm font-medium tracking-wide text-[#9aaec4] group-hover:text-[#C9973F] transition-colors">
+              {product.name}
+            </span>
+            <span className="text-[#C9973F]/50 group-hover:text-[#C9973F] transition-colors">◆</span>
+          </Link>
         ))}
       </div>
     </div>
@@ -1238,17 +1252,16 @@ function Home() {
         </div>
       </section>
       <Testimonials />
-      <section className="section-y bg-[#040E1F] relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 luxury-grain opacity-15" />
+      <section className="section-y bg-[#FAF8F3] relative overflow-hidden border-t border-[#C9973F]/20">
+        <div className="pointer-events-none absolute inset-0 luxury-grain opacity-10" />
         <div className="container-x grid gap-14 lg:grid-cols-3 relative z-10">
           <SectionHead
-            dark
             eyebrow="FAQ"
             title="Questions, answered."
             text="Common inquiries regarding payment terms (LC/CAD), minimum order quantities, private labelling, and marine cargo insurance."
           />
           <div className="lg:col-span-2">
-            <FaqList dark />
+            <FaqList />
           </div>
         </div>
       </section>

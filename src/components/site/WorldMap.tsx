@@ -273,13 +273,17 @@ export function WorldMap({ compact = false, className }: WorldMapProps) {
       </AnimatePresence>
 
       {/* Fluid Map Container that scales cleanly without horizontal overflow */}
-      <div className="w-full relative overflow-hidden rounded-2xl border border-gold/20 shadow-2xl bg-[#071A33]">
+      <div
+        className="w-full relative overflow-hidden rounded-2xl border border-gold/20 shadow-2xl bg-[#071A33] transform-gpu"
+        style={{ contain: "paint" }}
+      >
         <div className="w-full relative">
           <svg
             viewBox="0 0 1000 520"
             className="h-auto w-full select-none block"
             role="img"
             aria-label="World Map showing export shipping lanes from India to USA, Europe, Germany, UAE, Kenya, South Africa, and Australia"
+            style={{ willChange: "transform", transform: "translateZ(0)" }}
           >
             <defs>
               {/* Deep Navy Ocean Gradient */}
@@ -304,26 +308,13 @@ export function WorldMap({ compact = false, className }: WorldMapProps) {
                 <stop offset="100%" stopColor="#BFC5CE" />
               </linearGradient>
 
-              {/* Glowing Filter for India Hub */}
-              <filter id="indiaGlow" x="-50%" y="-50%" width="200%" height="200%">
-                <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#F2C86E" floodOpacity="0.55" />
-              </filter>
-
-              {/* Glow for Destination Countries */}
-              <filter id="servedCountryGlow" x="-30%" y="-30%" width="160%" height="160%">
-                <feDropShadow dx="0" dy="0" stdDeviation="2" floodColor="#C9973F" floodOpacity="0.3" />
-              </filter>
-
-              {/* Luminous Golden Ship/Cargo Dot Glow */}
-              <filter id="shipGlow" x="-100%" y="-100%" width="300%" height="300%">
-                <feDropShadow dx="0" dy="0" stdDeviation="3.5" floodColor="#F2C86E" floodOpacity="1" />
-                <feDropShadow dx="0" dy="0" stdDeviation="7" floodColor="#C9973F" floodOpacity="0.85" />
-              </filter>
-
-              {/* Node Drop Shadow */}
-              <filter id="nodeShadow" x="-30%" y="-30%" width="160%" height="160%">
-                <feDropShadow dx="0" dy="1" stdDeviation="2" floodColor="#040E1F" floodOpacity="0.8" />
-              </filter>
+              {/* High-Performance Hardware-Accelerated Particle Glow (Zero CPU filter cost) */}
+              <radialGradient id="particleAuraGrad" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#FFFFFF" stopOpacity="1" />
+                <stop offset="25%" stopColor="#F2C86E" stopOpacity="0.95" />
+                <stop offset="55%" stopColor="#C9973F" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#C9973F" stopOpacity="0" />
+              </radialGradient>
             </defs>
 
             {/* 1. Map Ocean Background */}
@@ -348,11 +339,10 @@ export function WorldMap({ compact = false, className }: WorldMapProps) {
                     <path
                       key={uniqueKey}
                       d={country.d}
-                      fill="rgba(242, 200, 110, 0.65)"
+                      fill="rgba(242, 200, 110, 0.72)"
                       stroke="#F2C86E"
-                      strokeWidth="1.2"
-                      filter="url(#indiaGlow)"
-                      className="transition-all duration-300 hover:fill-opacity-90 cursor-pointer"
+                      strokeWidth="1.5"
+                      className="cursor-pointer hover:fill-opacity-90 transition-opacity"
                       onClick={() => setActiveHub(indiaOrigin)}
                     />
                   );
@@ -363,11 +353,10 @@ export function WorldMap({ compact = false, className }: WorldMapProps) {
                     <path
                       key={uniqueKey}
                       d={country.d}
-                      fill="rgba(201, 151, 63, 0.38)"
-                      stroke="rgba(242, 200, 110, 0.75)"
-                      strokeWidth="0.75"
-                      filter="url(#servedCountryGlow)"
-                      className="transition-all duration-300 hover:fill-opacity-60 cursor-pointer"
+                      fill="rgba(201, 151, 63, 0.45)"
+                      stroke="rgba(242, 200, 110, 0.9)"
+                      strokeWidth="1"
+                      className="cursor-pointer hover:fill-opacity-65 transition-opacity"
                       onClick={() => {
                         const target = destinationHubs.find((h) =>
                           country.name ? h.name.toLowerCase().includes(country.name.toLowerCase()) || country.name.toLowerCase().includes(h.code.toLowerCase()) : false
@@ -383,9 +372,8 @@ export function WorldMap({ compact = false, className }: WorldMapProps) {
                     key={uniqueKey}
                     d={country.d}
                     fill="rgba(31, 74, 114, 0.55)"
-                    stroke="rgba(217, 221, 227, 0.22)"
+                    stroke="rgba(217, 221, 227, 0.2)"
                     strokeWidth="0.5"
-                    className="transition-colors duration-200"
                   />
                 );
               })}
@@ -403,8 +391,8 @@ export function WorldMap({ compact = false, className }: WorldMapProps) {
                       d={dest.routeD}
                       fill="none"
                       stroke="#C9973F"
-                      strokeWidth={3.5}
-                      strokeOpacity={0.22}
+                      strokeWidth={3}
+                      strokeOpacity={0.25}
                     />
 
                     {/* FULL SOLID MARITIME ROUTE LINE */}
@@ -424,28 +412,18 @@ export function WorldMap({ compact = false, className }: WorldMapProps) {
                       }}
                     />
 
-                    {/* Traveling Golden Dot (Luminous Gold Particle Traveling from India Outward) */}
-                    {/* Soft glowing outer halo */}
-                    <circle r="5" fill="#F2C86E" opacity="0.45" filter="url(#shipGlow)">
+                    {/* Traveling Golden Dot - Single Hardware GPU Interpolated Particle */}
+                    <g>
                       <animateMotion
                         dur={`${5.0 + i * 0.7}s`}
                         repeatCount="indefinite"
                         path={dest.routeD}
-                        keyPoints="0;1"
-                        keyTimes="0;1"
                       />
-                    </circle>
-
-                    {/* Sharp brilliant gold/white center core */}
-                    <circle r="3.2" fill="#FFFFFF" stroke="#F2C86E" strokeWidth="1.6" filter="url(#shipGlow)">
-                      <animateMotion
-                        dur={`${5.0 + i * 0.7}s`}
-                        repeatCount="indefinite"
-                        path={dest.routeD}
-                        keyPoints="0;1"
-                        keyTimes="0;1"
-                      />
-                    </circle>
+                      {/* Luminous outer glow halo */}
+                      <circle r="7.5" fill="url(#particleAuraGrad)" />
+                      {/* Sharp brilliant gold/white center core */}
+                      <circle r="2.8" fill="#FFFFFF" stroke="#F2C86E" strokeWidth="1.2" />
+                    </g>
                   </g>
                 );
               })}
@@ -460,29 +438,35 @@ export function WorldMap({ compact = false, className }: WorldMapProps) {
                   onClick={() => setActiveHub(dest)}
                   onMouseEnter={() => setActiveHub(dest)}
                 >
-                  {/* Outer Pulsing Radar Ring */}
-                  <circle cx={dest.x} cy={dest.y} r={12} className="fill-[#C9973F]/25 pointer-events-none">
+                  {/* Outer Pulsing Sonar Ring - High Performance Fade */}
+                  <circle cx={dest.x} cy={dest.y} r={10} fill="none" stroke="#F2C86E" strokeWidth="1.2" className="pointer-events-none">
                     <animate
                       attributeName="r"
-                      values="6;16;6"
-                      dur="3s"
+                      values="5;14"
+                      dur="2.8s"
+                      repeatCount="indefinite"
+                      begin={`${i * 0.35}s`}
+                    />
+                    <animate
+                      attributeName="opacity"
+                      values="0.75;0"
+                      dur="2.8s"
                       repeatCount="indefinite"
                       begin={`${i * 0.35}s`}
                     />
                   </circle>
 
                   {/* Middle Soft Gold Halo */}
-                  <circle cx={dest.x} cy={dest.y} r={6} className="fill-[#C9973F] opacity-75" />
+                  <circle cx={dest.x} cy={dest.y} r={5.5} fill="#C9973F" opacity="0.75" />
 
                   {/* Solid Center Node with Navy Rim */}
                   <circle
                     cx={dest.x}
                     cy={dest.y}
-                    r={4}
+                    r={3.8}
                     fill="#F2C86E"
                     stroke="#071A33"
-                    strokeWidth={1.5}
-                    filter="url(#nodeShadow)"
+                    strokeWidth="1.5"
                     className="transition-transform duration-200 group-hover:scale-125"
                   />
                 </g>
@@ -496,18 +480,25 @@ export function WorldMap({ compact = false, className }: WorldMapProps) {
               onClick={() => setActiveHub(indiaOrigin)}
               onMouseEnter={() => setActiveHub(indiaOrigin)}
             >
-              {/* Grand Outer Ripple */}
-              <circle cx={indiaOrigin.x} cy={indiaOrigin.y} r={22} className="fill-[#F2C86E]/20 pointer-events-none">
+              {/* Grand Outer Sonar Ripple */}
+              <circle cx={indiaOrigin.x} cy={indiaOrigin.y} r={18} fill="none" stroke="#F2C86E" strokeWidth="1.5" className="pointer-events-none">
                 <animate
                   attributeName="r"
-                  values="10;26;10"
+                  values="8;24"
+                  dur="2.4s"
+                  repeatCount="indefinite"
+                />
+                <animate
+                  attributeName="opacity"
+                  values="0.8;0"
                   dur="2.4s"
                   repeatCount="indefinite"
                 />
               </circle>
 
-              {/* Core Middle Ambient Wave */}
-              <circle cx={indiaOrigin.x} cy={indiaOrigin.y} r={12} className="fill-[#F2C86E]/40" />
+              {/* Concentric Ambient Waves */}
+              <circle cx={indiaOrigin.x} cy={indiaOrigin.y} r={12} fill="rgba(242, 200, 110, 0.25)" />
+              <circle cx={indiaOrigin.x} cy={indiaOrigin.y} r={8.5} fill="rgba(242, 200, 110, 0.45)" />
 
               {/* Origin Golden Sun Node */}
               <circle
@@ -516,8 +507,7 @@ export function WorldMap({ compact = false, className }: WorldMapProps) {
                 r={6.5}
                 fill="#F2C86E"
                 stroke="#040E1F"
-                strokeWidth={2}
-                filter="url(#indiaGlow)"
+                strokeWidth="2"
               />
             </g>
 
