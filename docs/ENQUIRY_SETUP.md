@@ -53,7 +53,7 @@ Google Apps Script Web App
 5. Click **Add script property** again.
 6. Add the second property:
    - **Property**: `OWNER_EMAIL`
-   - **Value**: `averoinnovations@gmail.com`
+   - **Value**: `aurelianinternational@gmail.com`
 7. Click **Save script properties**.
 
 ---

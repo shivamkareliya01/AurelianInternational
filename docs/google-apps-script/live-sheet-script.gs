@@ -12,13 +12,13 @@
  * 4. Click Deploy > New deployment (or Manage deployments > Edit > New version):
  *    - Type: Web app
  *    - Description: Aurelian Live Enquiries
- *    - Execute as: Me (averoinnovations@gmail.com)
+ *    - Execute as: Me (aurelianinternational@gmail.com)
  *    - Who has access: Anyone
  * 5. Click Deploy, Authorize access, and copy the Web App URL (ends with /exec).
  * 6. Make sure this URL is in your .env file as WEB_APP_URL!
  */
 
-const OWNER_EMAIL = "averoinnovations@gmail.com";
+const OWNER_EMAIL = "aurelianinternational@gmail.com";
 const SHEET_NAME = "Sheet1";
 
 /**
