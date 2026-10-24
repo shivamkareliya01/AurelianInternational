@@ -24,7 +24,7 @@ export type Product = {
   description: string;
   gallery: string[];
   alt: string;
-  catalogueId?: string;
+  catalogueId?: string | undefined;
 };
 
 export type Category = {
@@ -816,7 +816,7 @@ export const categories: Category[] = [
       {
         "slug": "glazed-vitrified-tiles",
         "name": "Glazed Vitrified Tiles (GVT / PGVT)",
-        "catalogueId": "endless-collection",
+        "catalogueId": "gvt_broucher",
         "image": "/products/luxury-glazed-vitrified-tiles.webp",
         "shortDescription": "Premium export-grade digital glazed vitrified tiles manufactured with high-definition Italian inkjet printing, authentic marble veining, nano-polished surfaces, and ultra-low water absorption (<0.05%).",
         "specs": {

@@ -64,7 +64,7 @@ const heroSlides = [
     placeholder: "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADQAwCdASogABIAPxF6rVIsJ6QisAgBgCIJZACdMoAA/uhxr/V2qSQmOXQ4eKjbOjBGx0pQBvPv3+CxiTCIGIj1QAAA",
     alt: "Luxury Glazed Vitrified Tiles in a premium architectural interior showroom",
     label: "Luxury Vitrified Tiles",
-    tagline: "Morbi GVT & High-Gloss PGVT Tiles",
+    tagline: "Morbi GVT / PGVT & High-Gloss Tiles",
     filter: "brightness(0.66) contrast(1.18) saturate(1.05)",
   },
   {

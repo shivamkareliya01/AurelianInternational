@@ -7,7 +7,8 @@ import { POWDER_COLORS } from "@/data/powderColors";
 import type { Category, Product } from "@/data/products";
 import { useBasket } from "@/lib/basket";
 import { buildSingleProductWaUrl } from "@/lib/whatsapp";
-import { cn } from "@/lib/utils";
+import { cn, downloadFileFromUrl } from "@/lib/utils";
+import { prefetchPdf } from "@/lib/pdfPreloader";
 import { btn } from "./primitives";
 import { PdfViewerModal } from "./PdfViewerModal";
 import { WhatsAppIcon } from "./WhatsAppIcon";
@@ -50,6 +51,13 @@ export function ProductCard({
   const captionLabel = `Fresh ${rawIngredient}`;
 
   const ingredientImage = isPowder ? `/products/${product.slug}-ingredient.webp?v=20261021b` : "";
+
+  // Preload PDF catalogue in background as soon as card mounts or enters page
+  useEffect(() => {
+    if (catalogue?.webUrl) {
+      prefetchPdf(catalogue.webUrl);
+    }
+  }, [catalogue?.webUrl]);
 
   // Preload hover/ingredient image so swap is instant without flicker
   useEffect(() => {
@@ -329,21 +337,20 @@ export function ProductCard({
                 <button
                   type="button"
                   onClick={() => setPdfOpen(true)}
+                  onMouseEnter={() => prefetchPdf(catalogue.webUrl)}
                   className="inline-flex items-center gap-1.5 rounded-full bg-[#071A33]/5 border border-[#C9973F]/60 px-3 py-1 text-[11px] font-semibold text-[#071A33] hover:bg-[#C9973F] hover:text-[#071A33] transition-colors cursor-pointer"
                 >
                   <FileText className="h-3 w-3 text-[#C9973F]" />
                   <span>View catalogue</span>
                 </button>
-                <a
-                  href={catalogue.downloadUrl}
-                  download
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 rounded-full bg-slate-100 hover:bg-slate-200 px-2.5 py-1 text-[11px] font-medium text-slate-700 transition-colors"
+                <button
+                  type="button"
+                  onClick={() => downloadFileFromUrl(catalogue.downloadUrl, "gvt_broucher.pdf")}
+                  className="inline-flex items-center gap-1 rounded-full bg-slate-100 hover:bg-slate-200 px-2.5 py-1 text-[11px] font-medium text-slate-700 transition-colors cursor-pointer"
                 >
                   <Download className="h-3 w-3 text-slate-500" />
                   <span>Download PDF</span>
-                </a>
+                </button>
               </div>
             )}
           </div>
