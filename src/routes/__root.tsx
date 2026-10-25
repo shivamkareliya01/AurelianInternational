@@ -97,9 +97,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Premium Indian agricultural produce, spices, and dehydrated powders, exported worldwide.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "/og-image.png" },
+      { property: "og:site_name", content: site.name },
+      { property: "og:locale", content: "en_US" },
+      { property: "og:image", content: `${site.url}/og-image.png` },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "/og-image.png" },
+      { name: "twitter:image", content: `${site.url}/og-image.png` },
+      { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" },
+      { name: "author", content: site.name },
     ],
     links: [
       {
@@ -124,12 +128,40 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
-          "@type": "Organization",
-          name: site.name,
-          url: site.url,
-          email: site.email,
-          telephone: site.phone,
-          address: company.schemaAddress,
+          "@graph": [
+            {
+              "@type": "Organization",
+              "@id": `${site.url}/#organization`,
+              name: site.name,
+              alternateName: "Aurelian International Import Export",
+              url: site.url,
+              logo: `${site.url}/brand/aurelian-symbol-gold.svg`,
+              image: `${site.url}/og-image.png`,
+              email: site.email,
+              telephone: site.phone,
+              address: company.schemaAddress,
+              description:
+                "Leading Indian export merchant house supplying Basmati rice, premium spices, dehydrated food powders, fresh produce, and vitrified ceramic tiles to global markets.",
+              contactPoint: [
+                {
+                  "@type": "ContactPoint",
+                  telephone: site.phone,
+                  contactType: "sales",
+                  areaServed: "Worldwide",
+                  availableLanguage: ["English", "Hindi", "Gujarati"],
+                },
+              ],
+            },
+            {
+              "@type": "WebSite",
+              "@id": `${site.url}/#website`,
+              url: site.url,
+              name: site.name,
+              publisher: {
+                "@id": `${site.url}/#organization`,
+              },
+            },
+          ],
         }),
       },
     ],

@@ -35,15 +35,40 @@ export const Route = createFileRoute("/products/")({
       { title: `Export Products Catalogue (${activeProducts.length} Items) — ${site.name}` },
       {
         name: "description",
-        content: `Browse ${activeProducts.length} export-grade Indian products across 6 approved categories: Agriculture, Fresh Vegetables, Fresh Fruits, Spices, Dehydrated Powders, and Ceramic Tiles.`,
+        content: `Browse ${activeProducts.length} export-grade Indian products across approved categories: Agriculture, Fresh Vegetables, Fresh Fruits, Spices, Dehydrated Powders, and Ceramic Tiles.`,
       },
       { property: "og:title", content: `Export Products Catalogue — ${site.name}` },
       {
         property: "og:description",
-        content: "Every export product from India, with grades, origins, MOQs, and certifications.",
+        content: "Every export product from India, with grades, origins, MOQs, specifications, and certifications.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: `${site.url}/products` },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: `Export Products Catalogue — ${site.name}` },
+      {
+        name: "twitter:description",
+        content: `Export catalogue of ${activeProducts.length} Indian commodities and vitrified tiles.`,
+      },
+    ],
+    links: [
+      { rel: "canonical", href: `${site.url}/products` },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: "Aurelian International Export Catalogue",
+          itemListElement: activeProducts.slice(0, 30).map((p, idx) => ({
+            "@type": "ListItem",
+            position: idx + 1,
+            name: p.name,
+            url: `${site.url}/products/${p.category.slug}/${p.slug}`,
+          })),
+        }),
+      },
     ],
   }),
   component: Products,

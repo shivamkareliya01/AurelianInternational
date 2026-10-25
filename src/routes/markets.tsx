@@ -8,20 +8,52 @@ import { site } from "@/data/site";
 export const Route = createFileRoute("/markets")({
   head: () => ({
     meta: [
-      { title: `We Serve to Global Market — ${site.name}` },
+      { title: `Global Export Markets & Trade Corridors — ${site.name}` },
       {
         name: "description",
         content:
-          "Direct export maritime corridors from India to key global markets across USA, Europe, Germany, UAE, South Africa, Kenya, and Australia.",
+          "Direct export maritime corridors from India to key global markets across USA, Europe, Germany, UAE, Saudi Arabia, South Africa, Kenya, and Australia.",
       },
-      { property: "og:title", content: `We Serve to Global Market — ${site.name}` },
+      { property: "og:title", content: `Global Export Markets & Trade Corridors — ${site.name}` },
       {
         property: "og:description",
         content:
           "Direct export maritime corridors from India to key global markets across USA, Europe, Germany, UAE, South Africa, Kenya, and Australia.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: `${site.url}/markets` },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: `Global Export Markets — ${site.name}` },
+      {
+        name: "twitter:description",
+        content: "Worldwide maritime logistics and shipping corridors from Indian ports.",
+      },
+    ],
+    links: [
+      { rel: "canonical", href: `${site.url}/markets` },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Home",
+              item: `${site.url}/`,
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Markets",
+              item: `${site.url}/markets`,
+            },
+          ],
+        }),
+      },
     ],
   }),
   component: Markets,

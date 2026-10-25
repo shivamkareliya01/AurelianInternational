@@ -26,10 +26,10 @@ import { site } from "@/data/site";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: `About Us — ${site.name}` },
+      { title: `About Us — ${site.name} | Leading Indian Export House` },
       {
         name: "description",
-        content: `Built on Principle. Directed Toward Permanence. Learn about ${site.name}, an international trading house connecting growers, distillers, and manufacturers with global markets.`,
+        content: `Built on Principle. Directed Toward Permanence. Learn about ${site.name}, an international trading house connecting Indian growers, mills, and manufacturers with global markets.`,
       },
       { property: "og:title", content: `About ${site.name} — Built On Principle` },
       {
@@ -38,7 +38,33 @@ export const Route = createFileRoute("/about")({
           "An international trading house built on precision, discretion, and an uncompromising regard for every commitment we make.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: `${site.url}/about` },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: `About ${site.name} — Built On Principle` },
+      {
+        name: "twitter:description",
+        content: "Learn about Aurelian International, premier Indian exporter of agro commodities, spices, and ceramic tiles.",
+      },
+    ],
+    links: [
+      { rel: "canonical", href: `${site.url}/about` },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "AboutPage",
+          name: `About ${site.name}`,
+          url: `${site.url}/about`,
+          description: `Learn about ${site.name}, a premier Indian export merchant house supplying global markets with certified products.`,
+          mainEntity: {
+            "@type": "Organization",
+            name: site.name,
+            url: site.url,
+          },
+        }),
+      },
     ],
   }),
   component: About,

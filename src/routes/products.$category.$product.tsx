@@ -75,9 +75,14 @@ export const Route = createFileRoute("/products/$category/$product")({
   head: ({ loaderData }) => {
     const p = loaderData ? getProduct(loaderData.cat, loaderData.slug) : undefined;
     const title = p
-      ? `${p.name} Exporter — ${p.origin}, India | ${site.name}`
+      ? `${p.name} Exporter & Supplier from India | ${site.name}`
       : "Product unavailable";
-    const desc = p ? `${p.description} Grade: ${p.grade}. MOQ: ${p.moq}. Exported worldwide.` : "";
+    const desc = p ? `${p.description} Export Grade: ${p.grade}. MOQ: ${p.moq}. Packaging: ${p.packaging}. Direct global shipment from India.` : "";
+    const pageUrl = loaderData ? `${site.url}/products/${loaderData.cat}/${loaderData.slug}` : site.url;
+    const imageUrl = p
+      ? (p.image.startsWith("http") ? p.image : `${site.url}${p.image}`)
+      : `${site.url}/og-image.png`;
+
     return {
       meta: [
         { title },
@@ -85,26 +90,78 @@ export const Route = createFileRoute("/products/$category/$product")({
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
         { property: "og:type", content: "product" },
+        { property: "og:url", content: pageUrl },
+        { property: "og:image", content: imageUrl },
         { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: desc },
+        { name: "twitter:image", content: imageUrl },
         ...(p ? [] : [{ name: "robots", content: "noindex" }]),
       ],
-      scripts: p
+      links: [
+        { rel: "canonical", href: pageUrl },
+      ],
+      scripts: p && loaderData
         ? [
             {
               type: "application/ld+json",
               children: JSON.stringify({
                 "@context": "https://schema.org",
-                "@type": "Product",
-                name: p.name,
-                description: p.description,
-                image: p.image,
-                brand: { "@type": "Brand", name: site.name },
-                countryOfOrigin: "India",
-                offers: {
-                  "@type": "Offer",
-                  priceCurrency: "USD",
-                  availability: "https://schema.org/InStock",
-                },
+                "@graph": [
+                  {
+                    "@type": "Product",
+                    name: p.name,
+                    description: p.description,
+                    image: imageUrl,
+                    sku: p.slug,
+                    category: loaderData.cat,
+                    brand: { "@type": "Brand", name: site.name },
+                    countryOfOrigin: {
+                      "@type": "Country",
+                      name: "India",
+                    },
+                    offers: {
+                      "@type": "Offer",
+                      priceCurrency: "USD",
+                      availability: "https://schema.org/InStock",
+                      url: pageUrl,
+                      seller: {
+                        "@type": "Organization",
+                        name: site.name,
+                        url: site.url,
+                      },
+                    },
+                  },
+                  {
+                    "@type": "BreadcrumbList",
+                    itemListElement: [
+                      {
+                        "@type": "ListItem",
+                        position: 1,
+                        name: "Home",
+                        item: `${site.url}/`,
+                      },
+                      {
+                        "@type": "ListItem",
+                        position: 2,
+                        name: "Products",
+                        item: `${site.url}/products`,
+                      },
+                      {
+                        "@type": "ListItem",
+                        position: 3,
+                        name: p.category.name,
+                        item: `${site.url}/products/${loaderData.cat}`,
+                      },
+                      {
+                        "@type": "ListItem",
+                        position: 4,
+                        name: p.name,
+                        item: pageUrl,
+                      },
+                    ],
+                  },
+                ],
               }),
             },
           ]

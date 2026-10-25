@@ -17,17 +17,57 @@ export const Route = createFileRoute("/products/$category/")({
   },
   head: ({ loaderData }) => {
     const c = loaderData ? getCategory(loaderData.slug) : undefined;
-    const title = c ? `${c.name} Exporter from India — ${site.name}` : "Category unavailable";
+    const title = c ? `${c.name} Exporter & Supplier from India — ${site.name}` : "Category unavailable";
+    const desc = c ? `${c.blurb} Direct ocean shipments, international certifications, and bulk export pricing from India.` : "";
+    const pageUrl = loaderData ? `${site.url}/products/${loaderData.slug}` : `${site.url}/products`;
+
     return {
       meta: [
         { title },
-        { name: "description", content: c?.blurb ?? "" },
+        { name: "description", content: desc },
         { property: "og:title", content: title },
-        { property: "og:description", content: c?.blurb ?? "" },
+        { property: "og:description", content: desc },
         { property: "og:type", content: "website" },
+        { property: "og:url", content: pageUrl },
         { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: desc },
         ...(c ? [] : [{ name: "robots", content: "noindex" }]),
       ],
+      links: [
+        { rel: "canonical", href: pageUrl },
+      ],
+      scripts: c && loaderData
+        ? [
+            {
+              type: "application/ld+json",
+              children: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  {
+                    "@type": "ListItem",
+                    position: 1,
+                    name: "Home",
+                    item: `${site.url}/`,
+                  },
+                  {
+                    "@type": "ListItem",
+                    position: 2,
+                    name: "Products",
+                    item: `${site.url}/products`,
+                  },
+                  {
+                    "@type": "ListItem",
+                    position: 3,
+                    name: c.name,
+                    item: pageUrl,
+                  },
+                ],
+              }),
+            },
+          ]
+        : [],
     };
   },
   component: CategoryPage,

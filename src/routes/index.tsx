@@ -81,22 +81,34 @@ const heroSlides = [
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: `${site.name} — India's Finest, Delivered Worldwide` },
+      { title: `${site.name} — India's Finest Exports Delivered Worldwide` },
       {
         name: "description",
         content:
-          "Premium Indian agricultural produce, spices, and botanical powders — sourced, certified and shipped to your port.",
+          "Premier Indian export trading house delivering certified Basmati rice, premium whole & ground spices, dehydrated food powders, fresh produce, and Morbi ceramic tiles worldwide.",
       },
-      { property: "og:title", content: `${site.name} — India's Finest, Delivered Worldwide` },
+      {
+        name: "keywords",
+        content:
+          "Indian export company, basmati rice exporter India, Indian spices exporter, ceramic tiles Morbi India, dehydrated vegetable powders, agricultural export house Gujarat India",
+      },
+      { property: "og:title", content: `${site.name} — India's Finest Exports Delivered Worldwide` },
       {
         property: "og:description",
         content:
-          "Premium agricultural produce, spices, and botanical powders from India — certified and shipped worldwide.",
+          "Premier Indian export trading house delivering certified Basmati rice, whole & ground spices, dehydrated powders, and vitrified tiles to international markets.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: `${site.url}/` },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: `${site.name} — India's Finest Exports` },
+      {
+        name: "twitter:description",
+        content: "Premier Indian export house shipping agricultural goods, spices, and ceramic tiles worldwide.",
+      },
     ],
     links: [
+      { rel: "canonical", href: `${site.url}/` },
       { rel: "preload", href: shipmentWebp, as: "image" },
       { rel: "preload", href: spicesWebp, as: "image" },
       { rel: "preload", href: tilesWebp, as: "image" },

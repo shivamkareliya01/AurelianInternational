@@ -13,18 +13,46 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: `Contact & Request a Quote — ${site.name}` },
+      { title: `Contact & Request a Quote — ${site.name} | Export Desk` },
       {
         name: "description",
-        content: `Request export pricing for Indian rice, spices, produce, stone and more. Reply within one business day.`,
+        content: `Connect with Aurelian International trade desk in Morbi, Gujarat, India. Inquire for container shipments of Basmati rice, spices, food powders, produce, and ceramic tiles.`,
       },
-      { property: "og:title", content: `Request a Quote — ${site.name}` },
+      { property: "og:title", content: `Request an Export Quote — ${site.name}` },
       {
         property: "og:description",
-        content: "Tell us what you need and where it's going. We'll handle the rest.",
+        content: "Tell us your required product specifications, volume, and destination discharge port. Fast FOB/CIF quote within 24 hours.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: `${site.url}/contact` },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: `Contact Aurelian International — Export Quote` },
+      {
+        name: "twitter:description",
+        content: "Direct export desk for worldwide container cargo from India. Response within 24 hours.",
+      },
+    ],
+    links: [
+      { rel: "canonical", href: `${site.url}/contact` },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          name: `Contact ${site.name}`,
+          url: `${site.url}/contact`,
+          mainEntity: {
+            "@type": "Organization",
+            name: site.name,
+            url: site.url,
+            telephone: site.phone,
+            email: site.email,
+            address: company.schemaAddress,
+          },
+        }),
+      },
     ],
   }),
   component: Contact,
