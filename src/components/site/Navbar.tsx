@@ -116,10 +116,12 @@ export function Navbar() {
   const megaRef = useRef<HTMLDivElement>(null);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const hash = useRouterState({ select: (s) => s.location.hash });
   const { items, openBasket } = useBasket();
 
   // Route active checks
   const isHome = pathname === "/";
+  const isCertificatesActive = isHome && (hash === "certificates" || hash === "certifications");
   const isProductsActive = pathname.startsWith("/products");
   const isTransparent = isHome && !scrolled && !mega;
 
@@ -210,7 +212,7 @@ export function Navbar() {
           <Link
             to="/"
             activeOptions={{ exact: true }}
-            className={cn(navLinkCls, isHome && !mega && "!text-[#F2C86E] font-semibold")}
+            className={cn(navLinkCls, isHome && !mega && !isCertificatesActive && "!text-[#F2C86E] font-semibold")}
           >
             Home
           </Link>
@@ -477,6 +479,28 @@ export function Navbar() {
               {l.label}
             </Link>
           ))}
+
+          {/* Certificates Link */}
+          <Link
+            to="/"
+            hash="certificates"
+            className={cn(
+              navLinkCls,
+              isCertificatesActive && "!text-[#F2C86E] font-semibold",
+            )}
+            onClick={(e) => {
+              if (typeof window !== "undefined" && window.location.pathname === "/") {
+                e.preventDefault();
+                const el = document.getElementById("certificates");
+                if (el) {
+                  el.scrollIntoView({ behavior: "smooth" });
+                  window.history.pushState(null, "", "/#certificates");
+                }
+              }
+            }}
+          >
+            Certificates
+          </Link>
         </div>
 
         {/* Right CTA Actions */}
@@ -548,7 +572,7 @@ export function Navbar() {
                 { to: "/products", label: "Products" },
                 { to: "/about", label: "About" },
                 { to: "/markets", label: "Markets" },
-                { to: "/about", hash: "certifications", label: "Certifications" },
+                { to: "/", hash: "certificates", label: "Certificates" },
                 { to: "/contact", label: "Contact" },
               ].map((l, i) => (
                 <motion.div
@@ -560,8 +584,23 @@ export function Navbar() {
                   <Link
                     to={l.to}
                     {...(l.hash ? { hash: l.hash } : {})}
-                    onClick={() => setOpen(false)}
-                    className="font-display text-2xl text-[#F4F1EA] hover:text-[#F2C86E] transition-colors block py-1.5"
+                    onClick={(e) => {
+                      setOpen(false);
+                      if (l.hash === "certificates" && typeof window !== "undefined" && window.location.pathname === "/") {
+                        e.preventDefault();
+                        setTimeout(() => {
+                          const el = document.getElementById("certificates");
+                          if (el) {
+                            el.scrollIntoView({ behavior: "smooth" });
+                            window.history.pushState(null, "", "/#certificates");
+                          }
+                        }, 150);
+                      }
+                    }}
+                    className={cn(
+                      "font-display text-2xl text-[#F4F1EA] hover:text-[#F2C86E] transition-colors block py-1.5",
+                      l.hash === "certificates" && isCertificatesActive && "!text-[#F2C86E] font-semibold",
+                    )}
                   >
                     {l.label}
                   </Link>

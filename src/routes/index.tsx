@@ -1215,6 +1215,23 @@ function CommodityMarquee() {
 }
 
 function Home() {
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash.replace("#", "");
+      if (hash === "certificates" || hash === "certifications") {
+        const el = document.getElementById(hash) || document.getElementById("certificates");
+        if (el) {
+          setTimeout(() => {
+            el.scrollIntoView({ behavior: "smooth" });
+          }, 150);
+        }
+      }
+    };
+    handleHash();
+    window.addEventListener("hashchange", handleHash);
+    return () => window.removeEventListener("hashchange", handleHash);
+  }, []);
+
   return (
     <>
       <Hero />
@@ -1226,7 +1243,8 @@ function Home() {
       <Reach />
       <StatsBand />
       <Gallery />
-      <section className="section-y bg-[#FAF8F3] relative overflow-hidden">
+      <section id="certificates" className="section-y bg-[#FAF8F3] relative overflow-hidden scroll-mt-20">
+        <span id="certifications" className="absolute -top-20" />
         {/* Subtle gold ambient glow and grain */}
         <div className="pointer-events-none absolute inset-0 luxury-grain opacity-10" />
         <div

@@ -9,10 +9,10 @@ export const company = {
   country: "India",
   locationDisplay: "Morbi, Gujarat, India",
   tagline: "From India's Finest Farms & Quarries to the World.",
-  established: "2012",
+  established: "2026",
   phone: "+91 70966 70655",
   whatsapp: "917096670655",
-  email: "trade@aurelianinternational.com",
+  email: "aurelianinternational@gmail.com",
   url: "https://aurelianinternational.com",
 
   // New Registered Office Address (Exact Display Text)

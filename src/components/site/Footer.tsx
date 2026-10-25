@@ -63,6 +63,7 @@ export function Footer() {
               [
                 ["/about", "About"],
                 ["/markets", "Markets"],
+                ["/#certificates", "Certificates"],
                 ["/contact", "Contact"],
               ] as const
             ).map(([to, l]) => (
