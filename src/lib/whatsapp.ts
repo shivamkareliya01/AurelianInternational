@@ -11,12 +11,12 @@ import { site } from "@/data/site";
 
 export interface WaProduct {
   name: string;
-  category?: string;
-  origin?: string;
-  grade?: string;
-  moq?: string;
-  packaging?: string;
-  certifications?: string[];
+  category?: string | undefined;
+  origin?: string | undefined;
+  grade?: string | undefined;
+  moq?: string | undefined;
+  packaging?: string | undefined;
+  certifications?: string[] | undefined;
 }
 
 /**
@@ -53,7 +53,14 @@ export function buildSingleProductWaUrl(product: WaProduct): string {
  */
 export function buildMultiProductWaUrl(
   products: WaProduct[],
-  extra?: { company?: string; country?: string; state?: string; city?: string; pincode?: string; quantity?: string }
+  extra?: {
+    company?: string | undefined;
+    country?: string | undefined;
+    state?: string | undefined;
+    city?: string | undefined;
+    pincode?: string | undefined;
+    quantity?: string | undefined;
+  } | undefined
 ): string {
   if (products.length === 0) {
     const fallback =

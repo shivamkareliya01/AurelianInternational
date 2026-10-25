@@ -68,28 +68,32 @@ export function FloatingActions() {
     if (parts.length === 3 && parts[0] === "products") {
       const catSlug = parts[1];
       const productSlug = parts[2];
-      const cat = getCategory(catSlug);
-      const product = cat ? getProduct(catSlug, productSlug) : undefined;
-      if (product && cat) {
-        return buildSingleProductWaUrl({
-          name: product.name,
-          category: cat.name,
-          origin: product.origin,
-          grade: product.grade,
-          moq: product.moq,
-          packaging: product.packaging,
-          certifications: product.certifications,
-        });
+      if (catSlug && productSlug) {
+        const cat = getCategory(catSlug);
+        const product = cat ? getProduct(catSlug, productSlug) : undefined;
+        if (product && cat) {
+          return buildSingleProductWaUrl({
+            name: product.name,
+            category: cat.name,
+            origin: product.origin,
+            grade: product.grade,
+            moq: product.moq,
+            packaging: product.packaging,
+            certifications: product.certifications,
+          });
+        }
       }
     }
 
     // Priority 3: Category browse page — mention the category
     if (parts.length === 2 && parts[0] === "products") {
       const catSlug = parts[1];
-      const cat = getCategory(catSlug);
-      if (cat) {
-        const msg = `Hello Aurelian International,\n\nI am browsing your *${cat.name}* range and would like to request an export quotation. Please share your current availability, FOB pricing, and minimum order details.\n\nThank you.`;
-        return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(msg)}`;
+      if (catSlug) {
+        const cat = getCategory(catSlug);
+        if (cat) {
+          const msg = `Hello Aurelian International,\n\nI am browsing your *${cat.name}* range and would like to request an export quotation. Please share your current availability, FOB pricing, and minimum order details.\n\nThank you.`;
+          return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(msg)}`;
+        }
       }
     }
 

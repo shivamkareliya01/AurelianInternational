@@ -11,15 +11,15 @@ export type { CatalogProduct, SelectedProductItem };
 const ProductPickerModal = React.lazy(() => import("./ProductPickerModal"));
 
 interface ProductPickerProps {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
   selectedProducts: SelectedProductItem[];
   onChange: (items: SelectedProductItem[]) => void;
-  maxSelected?: number;
-  placeholder?: string;
-  hasError?: boolean;
-  onCustomRequest?: (query: string) => void;
-  className?: string;
+  maxSelected?: number | undefined;
+  placeholder?: string | undefined;
+  hasError?: boolean | undefined;
+  onCustomRequest?: ((query: string) => void) | undefined;
+  className?: string | undefined;
 }
 
 export function ProductPicker({

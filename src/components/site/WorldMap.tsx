@@ -208,7 +208,7 @@ export interface WorldMapProps {
 
 export function WorldMap({ compact = false, className }: WorldMapProps) {
   // Default to UAE active so the popup card matches reference design on load
-  const [activeHub, setActiveHub] = useState<Hub | null>(destinationHubs[3]);
+  const [activeHub, setActiveHub] = useState<Hub | null>(destinationHubs[3] ?? null);
 
   return (
     <div className={cn("relative w-full", className)}>

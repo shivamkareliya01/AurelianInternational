@@ -62,6 +62,20 @@ const PHONE_CODES = [
   { code: "CN", dial: "+86",  flag: "🇨🇳", name: "China" },
 ];
 
+export type PhoneCode = {
+  code: string;
+  dial: string;
+  flag: string;
+  name: string;
+};
+
+const DEFAULT_PHONE_CODE: PhoneCode = PHONE_CODES[0] ?? {
+  code: "IN",
+  dial: "+91",
+  flag: "🇮🇳",
+  name: "India",
+};
+
 // Top international trading destinations with emojis
 const COUNTRIES = [
   { code: "US", name: "United States", flag: "🇺🇸" },
@@ -112,9 +126,26 @@ const schema = z.object({
 
 type Values = z.infer<typeof schema>;
 
+export type FormErrors = {
+  form?: string | undefined;
+  products?: string | undefined;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
+  email?: string | undefined;
+  phone?: string | undefined;
+  company?: string | undefined;
+  country?: string | undefined;
+  state?: string | undefined;
+  city?: string | undefined;
+  pincode?: string | undefined;
+  quantity?: string | undefined;
+  unit?: string | undefined;
+  message?: string | undefined;
+};
+
 export function EnquiryForm() {
   const { items, clear, add, remove } = useBasket();
-  const [errors, setErrors] = useState<Record<string, string | undefined>>({});
+  const [errors, setErrors] = useState<FormErrors>({});
   const [state, setState] = useState<"idle" | "loading" | "done">("idle");
   const [referenceNumber, setReferenceNumber] = useState<string>("");
   const [submittedEmail, setSubmittedEmail] = useState<string>("");
@@ -138,7 +169,7 @@ export function EnquiryForm() {
           add({
             key: match.slug,
             name: match.name,
-            category: match.category,
+            category: match.category.name,
             origin: match.specs?.origin || match.origin || "India",
             image: match.image,
           });
@@ -199,7 +230,7 @@ export function EnquiryForm() {
   const [customMessage, setCustomMessage] = useState("");
 
   // Phone dial-code dropdown state
-  const [selectedDialCode, setSelectedDialCode] = useState(PHONE_CODES[0]);
+  const [selectedDialCode, setSelectedDialCode] = useState<PhoneCode>(DEFAULT_PHONE_CODE);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [phoneOpen, setPhoneOpen] = useState(false);
   const [phoneSearch, setPhoneSearch] = useState("");
@@ -332,11 +363,14 @@ export function EnquiryForm() {
     data["unit"] = unit;
 
     const r = schema.safeParse(data);
-    const newErrors: Record<string, string | undefined> = {};
+    const newErrors: FormErrors = {};
 
     if (!r.success) {
       r.error.issues.forEach((i) => {
-        newErrors[i.path[0] as string] = i.message;
+        const key = i.path[0] as keyof FormErrors;
+        if (key) {
+          newErrors[key] = i.message;
+        }
       });
     }
 

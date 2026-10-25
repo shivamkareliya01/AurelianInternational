@@ -41,15 +41,17 @@ export function SectionHead({
   text,
   align = "left",
   dark,
+  className,
 }: {
   eyebrow: string;
   title: ReactNode;
-  text?: string;
-  align?: "left" | "center";
-  dark?: boolean;
+  text?: string | undefined;
+  align?: "left" | "center" | undefined;
+  dark?: boolean | undefined;
+  className?: string | undefined;
 }) {
   return (
-    <Reveal className={cn("max-w-3xl", align === "center" && "mx-auto text-center")}>
+    <Reveal className={cn("max-w-3xl", align === "center" && "mx-auto text-center", className)}>
       <p className="eyebrow">{eyebrow}</p>
       <h2
         className={cn(

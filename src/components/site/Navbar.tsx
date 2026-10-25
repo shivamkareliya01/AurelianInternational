@@ -559,7 +559,7 @@ export function Navbar() {
                 >
                   <Link
                     to={l.to}
-                    hash={l.hash}
+                    {...(l.hash ? { hash: l.hash } : {})}
                     onClick={() => setOpen(false)}
                     className="font-display text-2xl text-[#F4F1EA] hover:text-[#F2C86E] transition-colors block py-1.5"
                   >

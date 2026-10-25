@@ -3,7 +3,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import nodemailer from "nodemailer";
+import nodemailer, { type SendMailOptions } from "nodemailer";
 import { getServerEnv } from "./env";
 import { updateEnquiryEmailStatus, type StoredEnquiry } from "./enquiry-store";
 import { getSanitizedExcelFilename } from "./excel";
@@ -353,9 +353,23 @@ export function buildClientConfirmationHtml(enquiry: StoredEnquiry): string {
  */
 export async function sendOwnerEmailWithRetry(
   enquiry: StoredEnquiry,
-  excelBuffer: Buffer,
-  dynamicSheetUrl?: string
+  arg2?: Buffer | string,
+  arg3?: string | Buffer
 ): Promise<{ success: boolean; error?: string }> {
+  let dynamicSheetUrl: string | undefined;
+  let excelBuffer: Buffer | undefined;
+
+  if (Buffer.isBuffer(arg2)) {
+    excelBuffer = arg2;
+    if (typeof arg3 === "string") dynamicSheetUrl = arg3;
+  } else if (typeof arg2 === "string") {
+    dynamicSheetUrl = arg2;
+    if (Buffer.isBuffer(arg3)) excelBuffer = arg3;
+  } else {
+    if (typeof arg3 === "string") dynamicSheetUrl = arg3;
+    else if (Buffer.isBuffer(arg3)) excelBuffer = arg3;
+  }
+
   const env = getServerEnv();
   const filename = `Enquiry_${enquiry.reference}_Offline_Backup.xlsx`;
   const subject = `New Export Enquiry ${enquiry.reference} - ${enquiry.company} (${enquiry.country}) - ${enquiry.products.length} product(s)`;
@@ -370,8 +384,8 @@ export async function sendOwnerEmailWithRetry(
         from: env.MAIL_FROM,
         replyTo: enquiry.email,
         subject,
-        excelFilename: filename,
-        excelSizeBytes: excelBuffer.length,
+        excelFilename: excelBuffer ? filename : undefined,
+        excelSizeBytes: excelBuffer ? excelBuffer.length : 0,
         createdAt: new Date().toISOString(),
       };
 
@@ -395,7 +409,7 @@ export async function sendOwnerEmailWithRetry(
     return { success: false, error: "No SMTP transporter configured" };
   }
 
-  const mailOptions: nodemailer.SendMailOptions = {
+  const mailOptions: SendMailOptions = {
     from: env.MAIL_FROM,
     to: env.OWNER_EMAIL,
     replyTo: enquiry.email,

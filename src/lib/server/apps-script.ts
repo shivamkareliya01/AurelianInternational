@@ -3,23 +3,27 @@
 
 export interface AppsScriptPayload {
   secret: string;
-  reference?: string;
-  name?: string;
+  reference?: string | undefined;
+  name?: string | undefined;
   firstName: string;
   lastName: string;
   company: string;
   email: string;
   phone: string;
   country: string;
-  product?: string;
+  state?: string | undefined;
+  city?: string | undefined;
+  pincode?: string | undefined;
+  destination?: string | undefined;
+  product?: string | undefined;
   products: string[];
-  quantity?: string;
+  quantity?: string | undefined;
   unit: string;
-  message?: string;
-  notes?: string;
-  sourcePage?: string;
-  spreadsheetId?: string;
-  ownerEmail?: string;
+  message?: string | undefined;
+  notes?: string | undefined;
+  sourcePage?: string | undefined;
+  spreadsheetId?: string | undefined;
+  ownerEmail?: string | undefined;
 }
 
 export interface AppsScriptResult {

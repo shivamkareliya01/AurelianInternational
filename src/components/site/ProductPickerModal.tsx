@@ -293,7 +293,7 @@ interface VirtualListProps {
   showCategory: boolean;
   onToggle: (p: CatalogProduct) => void;
   onHover: (p: CatalogProduct) => void;
-  onCustomRequest?: (query: string) => void;
+  onCustomRequest?: ((query: string) => void) | undefined;
   searchQuery: string;
 }
 
@@ -404,7 +404,7 @@ interface ProductPickerModalProps {
   onToggle: (p: CatalogProduct) => void;
   onClear: () => void;
   onClose: () => void;
-  onCustomRequest?: (query: string) => void;
+  onCustomRequest?: ((query: string) => void) | undefined;
 }
 
 export default function ProductPickerModal({

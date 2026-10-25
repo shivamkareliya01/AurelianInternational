@@ -2,7 +2,7 @@
 // Centralized enquiry submission engine wired to Google Apps Script
 
 export const APPS_SCRIPT_URL =
-  (typeof import.meta !== "undefined" && import.meta.env?.VITE_APPS_SCRIPT_URL) ||
+  (typeof import.meta !== "undefined" && import.meta.env?.["VITE_APPS_SCRIPT_URL"]) ||
   "PASTE_YOUR_EXEC_URL_HERE";
 
 export interface EnquirySubmissionData {

@@ -1,13 +1,13 @@
 // 6 Categories, 41 Approved Export Products with Standardized Spec Architecture
 
 export type ProductSpecs = {
-  origin?: string;
-  gradeVariety?: string;
-  size?: string;
-  exportPackaging?: string;
-  moq?: string;
-  shelfLife?: string;
-  certifications?: string[];
+  origin?: string | undefined;
+  gradeVariety?: string | undefined;
+  size?: string | undefined;
+  exportPackaging?: string | undefined;
+  moq?: string | undefined;
+  shelfLife?: string | undefined;
+  certifications?: string[] | undefined;
 };
 
 export type Product = {
@@ -18,7 +18,7 @@ export type Product = {
   specs: ProductSpecs;
   origin: string;
   grade: string;
-  size?: string;
+  size?: string | undefined;
   packaging: string;
   moq: string;
   shelfLife: string;

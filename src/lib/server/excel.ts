@@ -169,12 +169,13 @@ export async function buildEnquiryExcelBuffer(enquiry: StoredEnquiry): Promise<B
 
     const origin = prod.origin || catalogItem?.specs?.origin || catalogItem?.origin || "India";
     const grade = prod.grade || catalogItem?.specs?.gradeVariety || catalogItem?.grade || "Export Premium";
-    const packaging = prod.packaging || catalogItem?.specs?.packaging || catalogItem?.packaging || "Standard Export Bags / Bulk";
+    const packaging = prod.packaging || catalogItem?.specs?.exportPackaging || catalogItem?.packaging || "Standard Export Bags / Bulk";
     const moq = prod.moq || catalogItem?.specs?.moq || catalogItem?.moq || "1 x 20ft FCL";
     const shelfLife = prod.shelfLife || catalogItem?.specs?.shelfLife || "12–24 Months";
     const certs =
       prod.certifications?.join(", ") ||
-      catalogItem?.specs?.certifications ||
+      (Array.isArray(catalogItem?.specs?.certifications) ? catalogItem.specs.certifications.join(", ") : undefined) ||
+      (Array.isArray(catalogItem?.certifications) ? catalogItem.certifications.join(", ") : undefined) ||
       "APEDA, FSSAI, Phyto, Certificate of Origin";
 
     const row = productsSheet.addRow({

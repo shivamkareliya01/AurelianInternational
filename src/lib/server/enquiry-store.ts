@@ -10,13 +10,13 @@ export type EmailStatus = "sent" | "email_failed" | "skipped_test_mode" | "pendi
 export interface EnquiryProductItem {
   name: string;
   category: string;
-  slug?: string;
-  origin?: string;
-  grade?: string;
-  moq?: string;
-  packaging?: string;
-  shelfLife?: string;
-  certifications?: string[];
+  slug?: string | undefined;
+  origin?: string | undefined;
+  grade?: string | undefined;
+  moq?: string | undefined;
+  packaging?: string | undefined;
+  shelfLife?: string | undefined;
+  certifications?: string[] | undefined;
 }
 
 export interface StoredEnquiry {
@@ -33,26 +33,26 @@ export interface StoredEnquiry {
   phone: string;
   company: string;
   country: string;
-  state?: string;
-  city?: string;
-  pincode?: string;
+  state?: string | undefined;
+  city?: string | undefined;
+  pincode?: string | undefined;
   quantity: string;
   unit: "MT" | "FCL" | "kg";
   notes: string;
   products: EnquiryProductItem[];
   sourcePage: string;
-  sourceCard?: string;
-  utmSource?: string;
-  utmMedium?: string;
-  utmCampaign?: string;
+  sourceCard?: string | undefined;
+  utmSource?: string | undefined;
+  utmMedium?: string | undefined;
+  utmCampaign?: string | undefined;
   ip: string;
   userAgent: string;
   status: EnquiryStatus;
   emailStatus: EmailStatus;
   emailRetries: number;
-  syncStatus?: "synced" | "pending_sync";
-  syncError?: string;
-  syncRetries?: number;
+  syncStatus?: ("synced" | "pending_sync") | undefined;
+  syncError?: string | undefined;
+  syncRetries?: number | undefined;
   logs: string[];
 }
 
