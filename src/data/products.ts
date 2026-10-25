@@ -838,7 +838,7 @@ export const categories: Category[] = [
       },
       {
         "slug": "3d-collection-2026",
-        "name": "3D Collection 2026",
+        "name": "3D Collection",
         "catalogueId": "3d-collection-2026",
         "image": "/products/3d-collection-2026.webp",
         "shortDescription": "Sculpted 3D visual depth vitrified surfaces with dimensional textures, subtle architectural relief, and high-definition surface clarity for luxury commercial and residential installations.",
@@ -859,7 +859,7 @@ export const categories: Category[] = [
       },
       {
         "slug": "bookmatch-collection-2026",
-        "name": "Bookmatch Collection 2026",
+        "name": "Bookmatch Collection",
         "catalogueId": "bookmatch-collection-2026",
         "image": "/products/bookmatch-collection-2026.webp",
         "shortDescription": "Symmetrical mirror-matched vein patterns engineered for expansive luxury living walls and feature floors, delivering flawless high-end natural marble visual continuity.",
@@ -880,7 +880,7 @@ export const categories: Category[] = [
       },
       {
         "slug": "carving-collection-2026",
-        "name": "Carving Collection 2026",
+        "name": "Carving Collection",
         "catalogueId": "carving-collection-2026",
         "image": "/products/carving-collection-2026.webp",
         "shortDescription": "Micro-carved ink luster finish creating tactile vein grooves and sophisticated light play across natural stone textures for modern architectural spaces.",
@@ -901,7 +901,7 @@ export const categories: Category[] = [
       },
       {
         "slug": "decor-glossy-collection-2026",
-        "name": "Decor Glossy Collection 2026",
+        "name": "Decor Glossy Collection",
         "catalogueId": "decor-glossy-collection-2026",
         "image": "/products/decor-glossy-collection-2026.webp",
         "shortDescription": "Artistic decorative patterns with crystalline high-gloss glaze, vibrant geometric and organic motifs, and seamless modular alignment.",
@@ -922,7 +922,7 @@ export const categories: Category[] = [
       },
       {
         "slug": "double-charge-collection-2026",
-        "name": "Double Charge Collection 2026",
+        "name": "Double Charge Collection",
         "catalogueId": "double-charge-collection-2026",
         "image": "/products/double-charge-collection-2026.webp",
         "shortDescription": "Heavy-duty double-layered vitrified tiles designed for extreme high-traffic commercial and industrial architectural floors with maximum abrasion resistance.",
@@ -1027,7 +1027,7 @@ export const categories: Category[] = [
       },
       {
         "slug": "staturio-collection-2026",
-        "name": "Staturio Collection 2026",
+        "name": "Staturio Collection",
         "catalogueId": "staturio-collection-2026-with-out",
         "image": "/products/staturio-collection-2026-with-out.webp",
         "shortDescription": "Timeless Italian Statuario marble replicas with deep dramatic grey veins running over an ultra-white porcelain body with high gloss and carving options.",
@@ -1048,7 +1048,7 @@ export const categories: Category[] = [
       },
       {
         "slug": "terrazo-collection-2026",
-        "name": "Terrazo Collection 2026",
+        "name": "Terrazo Collection",
         "catalogueId": "terrazo-collection-2026-without-logo",
         "image": "/products/terrazo-collection-2026-without-logo.webp",
         "shortDescription": "Classic Venetian terrazzo stone chips embedded in modern vitrified slabs, blending mid-century architectural charm with high-density stain-proof durability.",
