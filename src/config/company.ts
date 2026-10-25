@@ -13,7 +13,7 @@ export const company = {
   phone: "+91 70966 70655",
   whatsapp: "917096670655",
   email: "aurelianinternational@gmail.com",
-  url: "https://aurelianinternational.com",
+  url: "https://www.aurelianinternational.co",
 
   // New Registered Office Address (Exact Display Text)
   addressLines: [
