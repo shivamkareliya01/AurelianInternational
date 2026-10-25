@@ -13,6 +13,7 @@
 
 ## Project rules
 
+- **HARD RULE**: NEVER run `git commit` or `git push` without explicit permission from the user. Always show the proposed changes, summary, and ask for user approval before staging, committing, or pushing anything to git.
 - Editable content (company info, products, blog, FAQ, certifications, markets) lives in `src/data/*.ts`; pages read from there so non-devs can edit one place.
 - Shared site chrome (Navbar, Footer, floating actions, enquiry basket provider) is mounted in `src/routes/__root.tsx`.
 - Button styles are the `btn` class map in `src/components/site/primitives.tsx`; colors come only from tokens in `src/styles.css`.
