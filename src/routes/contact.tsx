@@ -18,6 +18,11 @@ export const Route = createFileRoute("/contact")({
         name: "description",
         content: `Connect with Aurelian International trade desk in Morbi, Gujarat, India. Inquire for container shipments of Basmati rice, spices, food powders, produce, and ceramic tiles.`,
       },
+      {
+        name: "keywords",
+        content:
+          "contact import export company India, export inquiry Morbi, buy Indian spices wholesale, buy ceramic tiles Morbi, get export quote India, bulk export inquiry",
+      },
       { property: "og:title", content: `Request an Export Quote — ${site.name}` },
       {
         property: "og:description",

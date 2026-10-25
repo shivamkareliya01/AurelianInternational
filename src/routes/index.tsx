@@ -81,18 +81,18 @@ const heroSlides = [
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: `${site.name} — India's Finest Exports Delivered Worldwide` },
+      { title: `${site.name} — Import Export Company India | Vegetables, Spices & Ceramic Tiles Exporter` },
       {
         name: "description",
         content:
-          "Premier Indian export trading house delivering certified Basmati rice, premium whole & ground spices, dehydrated food powders, fresh produce, and Morbi ceramic tiles worldwide.",
+          "Aurelian International is a leading Indian import export company. Direct exporter of Ceramic Tiles (GVT/PGVT from Morbi), Indian Spices, Fresh Vegetables (Red Onion, Potato, Tomato), Basmati Rice, and Dehydrated Powders worldwide.",
       },
       {
         name: "keywords",
         content:
-          "Indian export company, basmati rice exporter India, Indian spices exporter, ceramic tiles Morbi India, dehydrated vegetable powders, agricultural export house Gujarat India",
+          "import export, import export company India, vegetables exporter India, fresh vegetables, spices exporter India, Indian spices, tiles exporter, ceramic tiles Morbi India, vitrified tiles, glazed vitrified tiles, dehydrated onion powder, basmati rice exporter, export house Gujarat",
       },
-      { property: "og:title", content: `${site.name} — India's Finest Exports Delivered Worldwide` },
+      { property: "og:title", content: `${site.name} — Import Export Company India | Vegetables, Spices & Ceramic Tiles` },
       {
         property: "og:description",
         content:

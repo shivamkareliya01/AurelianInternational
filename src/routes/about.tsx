@@ -31,6 +31,11 @@ export const Route = createFileRoute("/about")({
         name: "description",
         content: `Built on Principle. Directed Toward Permanence. Learn about ${site.name}, an international trading house connecting Indian growers, mills, and manufacturers with global markets.`,
       },
+      {
+        name: "keywords",
+        content:
+          "about Aurelian International, import export company India, Morbi export house, Gujarat exporter, Indian commodities trading company",
+      },
       { property: "og:title", content: `About ${site.name} — Built On Principle` },
       {
         property: "og:description",

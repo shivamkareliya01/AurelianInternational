@@ -90,11 +90,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { name: "theme-color", content: "#071A33" },
-      { title: `${site.name} — Premium Exports from India` },
+      { title: `${site.name} — Import Export Company India | Vegetables, Spices, Tiles & Agro Commodities` },
       {
         name: "description",
         content:
-          "Premium Indian agricultural produce, spices, and dehydrated powders, exported worldwide.",
+          "Aurelian International is a leading Indian import export company based in Gujarat. Direct manufacturer & exporter of Ceramic Tiles, Indian Spices, Fresh Vegetables, Basmati Rice, and Dehydrated Powders worldwide.",
       },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: site.name },
@@ -142,6 +142,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               address: company.schemaAddress,
               description:
                 "Leading Indian export merchant house supplying Basmati rice, premium spices, dehydrated food powders, fresh produce, and vitrified ceramic tiles to global markets.",
+              knowsAbout: [
+                "Import Export Company India",
+                "Ceramic Tiles Exporter Morbi",
+                "Glazed Vitrified Tiles (GVT/PGVT)",
+                "Indian Spices Exporter (Turmeric, Red Chilli, Cumin, Cinnamon)",
+                "Fresh Vegetables Exporter (Nashik Red Onion, Potato, Tomato, Garlic)",
+                "1121 Basmati Rice Exporter India",
+                "Dehydrated Onion and Garlic Powder Manufacturer",
+                "Agricultural Commodities Export from India"
+              ],
               contactPoint: [
                 {
                   "@type": "ContactPoint",

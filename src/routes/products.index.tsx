@@ -37,6 +37,11 @@ export const Route = createFileRoute("/products/")({
         name: "description",
         content: `Browse ${activeProducts.length} export-grade Indian products across approved categories: Agriculture, Fresh Vegetables, Fresh Fruits, Spices, Dehydrated Powders, and Ceramic Tiles.`,
       },
+      {
+        name: "keywords",
+        content:
+          "import export products India, ceramic tiles exporter Morbi, Indian spices supplier, fresh vegetables exporter, dehydrated powders India, basmati rice wholesale, export catalogue India",
+      },
       { property: "og:title", content: `Export Products Catalogue — ${site.name}` },
       {
         property: "og:description",

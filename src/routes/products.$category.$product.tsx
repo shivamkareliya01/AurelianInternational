@@ -87,6 +87,12 @@ export const Route = createFileRoute("/products/$category/$product")({
       meta: [
         { title },
         { name: "description", content: desc },
+        {
+          name: "keywords",
+          content: p
+            ? `${p.name}, ${p.name} exporter India, buy ${p.name} wholesale, ${p.origin} ${p.name}, ${p.category.name} exporter, Indian export company, ${site.name}`
+            : "import export, Indian exporter",
+        },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
         { property: "og:type", content: "product" },

@@ -17,14 +17,52 @@ export const Route = createFileRoute("/products/$category/")({
   },
   head: ({ loaderData }) => {
     const c = loaderData ? getCategory(loaderData.slug) : undefined;
-    const title = c ? `${c.name} Exporter & Supplier from India — ${site.name}` : "Category unavailable";
-    const desc = c ? `${c.blurb} Direct ocean shipments, international certifications, and bulk export pricing from India.` : "";
     const pageUrl = loaderData ? `${site.url}/products/${loaderData.slug}` : `${site.url}/products`;
+
+    // High-ranking category-specific keyword profiles
+    const categorySeoMap: Record<string, { title: string; desc: string; keywords: string }> = {
+      "ceramic-tiles": {
+        title: `Ceramic Tiles & GVT Vitrified Tiles Exporter Morbi India | ${site.name}`,
+        desc: "Direct exporter of premium Glazed Vitrified Tiles (GVT & PGVT) and ceramic floor & wall tiles from Morbi, Gujarat, India. Nano-polished, marble finishes, ISO/CE certified.",
+        keywords: "ceramic tiles, tiles, vitrified tiles, GVT tiles, PGVT tiles, Morbi tiles exporter, ceramic tiles manufacturer India, digital floor tiles, wall tiles exporter",
+      },
+      "spices": {
+        title: `Indian Spices Exporter & Supplier — Whole & Ground Spices | ${site.name}`,
+        desc: "Premium Indian whole and ground spices exporter. Turmeric fingers, Guntur stemless red chilli, cumin seeds, and Ceylon cinnamon with high volatile oil and ASTA compliance.",
+        keywords: "spices, Indian spices, spices exporter India, whole spices supplier, turmeric exporter India, red chilli exporter, cumin seeds exporter, bulk spices India",
+      },
+      "fresh-vegetables": {
+        title: `Fresh Vegetables Exporter India — Red Onion, Potato, Tomato, Garlic | ${site.name}`,
+        desc: "Direct farm exporter of Indian fresh vegetables: Nashik red onions, white onions, table potatoes, tomatoes, garlic, and green chillies in climate-controlled reefer containers.",
+        keywords: "vegetables, fresh vegetables, fresh vegetables exporter India, Nashik red onion exporter, Indian onion supplier, fresh potato exporter, garlic exporter India",
+      },
+      "agriculture": {
+        title: `Agriculture & Basmati Rice Exporter India — 1121 & 1509 Rice, Grains | ${site.name}`,
+        desc: "Leading exporter of 1121 and 1509 Steam/Sella Basmati rice, non-basmati white rice, milling wheat, yellow maize, pulses, and oilseeds from India to global ports.",
+        keywords: "agriculture, agricultural commodities exporter, basmati rice exporter India, 1121 steam rice, non-basmati rice, milling wheat supplier, pulses oilseeds India",
+      },
+      "dehydrated-powders": {
+        title: `Dehydrated Vegetable Powders Exporter India — Onion & Garlic Powder | ${site.name}`,
+        desc: "Export-grade dehydrated white/pink onion powder, garlic powder, ginger, tomato, and moringa leaf powder. Free-flowing, intense natural aroma, microbiological compliance.",
+        keywords: "dehydrated powders, dehydrated onion powder, garlic powder exporter India, dehydrated vegetables India, onion flakes, spice powders manufacturer",
+      },
+      "fresh-fruits": {
+        title: `Fresh Fruits Exporter India — Cavendish Banana, Mango, Pomegranate | ${site.name}`,
+        desc: "Export-grade Indian fresh fruits: G9 Cavendish bananas, GI-tagged Alphonso mangoes, and Bhagwa ruby pomegranates packed to international supermarket shelf standards.",
+        keywords: "fresh fruits exporter India, Cavendish banana exporter, Alphonso mango supplier, Bhagwa pomegranate export, Indian fresh fruits",
+      },
+    };
+
+    const specificSeo = loaderData?.slug ? categorySeoMap[loaderData.slug] : undefined;
+    const title = specificSeo?.title ?? (c ? `${c.name} Exporter & Supplier from India — ${site.name}` : "Category unavailable");
+    const desc = specificSeo?.desc ?? (c ? `${c.blurb} Direct ocean shipments, international certifications, and bulk export pricing from India.` : "");
+    const keywords = specificSeo?.keywords ?? "import export, Indian exporter, commodities supplier";
 
     return {
       meta: [
         { title },
         { name: "description", content: desc },
+        { name: "keywords", content: keywords },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
         { property: "og:type", content: "website" },
