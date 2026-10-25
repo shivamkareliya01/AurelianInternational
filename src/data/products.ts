@@ -811,16 +811,268 @@ export const categories: Category[] = [
   {
     "slug": "ceramic-tiles",
     "name": "Ceramic Tiles",
-    "headline": "Endless Collection",
-    "blurb": "Premium export-grade Glazed Vitrified Tiles (GVT & PGVT) manufactured in Morbi, Gujarat — high-definition Italian inkjet printing, nano-polished gloss, and ISO 13006 / CE international certifications.",
+    "headline": "Ceramic & Vitrified Tiles Collections",
+    "blurb": "Export-grade Glazed Vitrified Tiles (GVT & PGVT) manufactured in Morbi, Gujarat — high-definition Italian inkjet printing, nano-polished gloss, and ISO 13006 / CE international certifications.",
     "image": "/products/luxury-glazed-vitrified-tiles.webp",
     "products": [
       {
         "slug": "glazed-vitrified-tiles",
         "name": "Endless Collection",
-        "catalogueId": "gvt_broucher",
+        "catalogueId": "gvt_brochure",
         "image": "/products/luxury-glazed-vitrified-tiles.webp",
         "shortDescription": "Premium export-grade digital glazed vitrified tiles manufactured with high-definition Italian inkjet printing, authentic marble veining, nano-polished surfaces, and ultra-low water absorption (<0.05%).",
+        "specs": {
+          "origin": "Morbi, Gujarat, India",
+          "gradeVariety": "Glossy / High-Gloss / Carving / Matt",
+          "size": "60 * 120 cm",
+          "exportPackaging": "Corner-protected corrugated cartons on ISPM-15 heat-treated fumigated wooden pallets",
+          "moq": "1 × 20ft FCL (approx. 1,300 sq.m)",
+          "shelfLife": "Permanent Architectural Material",
+          "certifications": [
+            "ISO 13006 Group BIa",
+            "CE Certified",
+            "VOC Free",
+            "SGS Inspected"
+          ]
+        }
+      },
+      {
+        "slug": "3d-collection-2026",
+        "name": "3D Collection 2026",
+        "catalogueId": "3d-collection-2026",
+        "image": "/products/3d-collection-2026.webp",
+        "shortDescription": "Sculpted 3D visual depth vitrified surfaces with dimensional textures, subtle architectural relief, and high-definition surface clarity for luxury commercial and residential installations.",
+        "specs": {
+          "origin": "Morbi, Gujarat, India",
+          "gradeVariety": "Glossy / High-Gloss / Carving / Matt",
+          "size": "60 * 120 cm",
+          "exportPackaging": "Corner-protected corrugated cartons on ISPM-15 heat-treated fumigated wooden pallets",
+          "moq": "1 × 20ft FCL (approx. 1,300 sq.m)",
+          "shelfLife": "Permanent Architectural Material",
+          "certifications": [
+            "ISO 13006 Group BIa",
+            "CE Certified",
+            "VOC Free",
+            "SGS Inspected"
+          ]
+        }
+      },
+      {
+        "slug": "bookmatch-collection-2026",
+        "name": "Bookmatch Collection 2026",
+        "catalogueId": "bookmatch-collection-2026",
+        "image": "/products/bookmatch-collection-2026.webp",
+        "shortDescription": "Symmetrical mirror-matched vein patterns engineered for expansive luxury living walls and feature floors, delivering flawless high-end natural marble visual continuity.",
+        "specs": {
+          "origin": "Morbi, Gujarat, India",
+          "gradeVariety": "Glossy / High-Gloss / Carving / Matt",
+          "size": "60 * 120 cm",
+          "exportPackaging": "Corner-protected corrugated cartons on ISPM-15 heat-treated fumigated wooden pallets",
+          "moq": "1 × 20ft FCL (approx. 1,300 sq.m)",
+          "shelfLife": "Permanent Architectural Material",
+          "certifications": [
+            "ISO 13006 Group BIa",
+            "CE Certified",
+            "VOC Free",
+            "SGS Inspected"
+          ]
+        }
+      },
+      {
+        "slug": "carving-collection-2026",
+        "name": "Carving Collection 2026",
+        "catalogueId": "carving-collection-2026",
+        "image": "/products/carving-collection-2026.webp",
+        "shortDescription": "Micro-carved ink luster finish creating tactile vein grooves and sophisticated light play across natural stone textures for modern architectural spaces.",
+        "specs": {
+          "origin": "Morbi, Gujarat, India",
+          "gradeVariety": "Glossy / High-Gloss / Carving / Matt",
+          "size": "60 * 120 cm",
+          "exportPackaging": "Corner-protected corrugated cartons on ISPM-15 heat-treated fumigated wooden pallets",
+          "moq": "1 × 20ft FCL (approx. 1,300 sq.m)",
+          "shelfLife": "Permanent Architectural Material",
+          "certifications": [
+            "ISO 13006 Group BIa",
+            "CE Certified",
+            "VOC Free",
+            "SGS Inspected"
+          ]
+        }
+      },
+      {
+        "slug": "decor-glossy-collection-2026",
+        "name": "Decor Glossy Collection 2026",
+        "catalogueId": "decor-glossy-collection-2026",
+        "image": "/products/decor-glossy-collection-2026.webp",
+        "shortDescription": "Artistic decorative patterns with crystalline high-gloss glaze, vibrant geometric and organic motifs, and seamless modular alignment.",
+        "specs": {
+          "origin": "Morbi, Gujarat, India",
+          "gradeVariety": "Glossy / High-Gloss / Carving / Matt",
+          "size": "60 * 120 cm",
+          "exportPackaging": "Corner-protected corrugated cartons on ISPM-15 heat-treated fumigated wooden pallets",
+          "moq": "1 × 20ft FCL (approx. 1,300 sq.m)",
+          "shelfLife": "Permanent Architectural Material",
+          "certifications": [
+            "ISO 13006 Group BIa",
+            "CE Certified",
+            "VOC Free",
+            "SGS Inspected"
+          ]
+        }
+      },
+      {
+        "slug": "double-charge-collection-2026",
+        "name": "Double Charge Collection 2026",
+        "catalogueId": "double-charge-collection-2026",
+        "image": "/products/double-charge-collection-2026.webp",
+        "shortDescription": "Heavy-duty double-layered vitrified tiles designed for extreme high-traffic commercial and industrial architectural floors with maximum abrasion resistance.",
+        "specs": {
+          "origin": "Morbi, Gujarat, India",
+          "gradeVariety": "Glossy / High-Gloss / Carving / Matt",
+          "size": "60 * 120 cm",
+          "exportPackaging": "Corner-protected corrugated cartons on ISPM-15 heat-treated fumigated wooden pallets",
+          "moq": "1 × 20ft FCL (approx. 1,300 sq.m)",
+          "shelfLife": "Permanent Architectural Material",
+          "certifications": [
+            "ISO 13006 Group BIa",
+            "CE Certified",
+            "VOC Free",
+            "SGS Inspected"
+          ]
+        }
+      },
+      {
+        "slug": "glossy-collection",
+        "name": "Glossy Collection",
+        "catalogueId": "glossy-collection-without-logo",
+        "image": "/products/glossy-collection-without-logo.webp",
+        "shortDescription": "Comprehensive collection of pristine mirror-polished glazed vitrified tiles with brilliant light reflectance, authentic marble nuances, and stain-resistant nano coating.",
+        "specs": {
+          "origin": "Morbi, Gujarat, India",
+          "gradeVariety": "Glossy / High-Gloss / Carving / Matt",
+          "size": "60 * 120 cm",
+          "exportPackaging": "Corner-protected corrugated cartons on ISPM-15 heat-treated fumigated wooden pallets",
+          "moq": "1 × 20ft FCL (approx. 1,300 sq.m)",
+          "shelfLife": "Permanent Architectural Material",
+          "certifications": [
+            "ISO 13006 Group BIa",
+            "CE Certified",
+            "VOC Free",
+            "SGS Inspected"
+          ]
+        }
+      },
+      {
+        "slug": "gold-collection",
+        "name": "Gold Collection",
+        "catalogueId": "gold-collection",
+        "image": "/products/gold-collection.webp",
+        "shortDescription": "Opulent metallic gold-infused veining and luxury crystalline accents engineered for statement hospitality lobbies, luxury villas, and architectural facades.",
+        "specs": {
+          "origin": "Morbi, Gujarat, India",
+          "gradeVariety": "Glossy / High-Gloss / Carving / Matt",
+          "size": "60 * 120 cm",
+          "exportPackaging": "Corner-protected corrugated cartons on ISPM-15 heat-treated fumigated wooden pallets",
+          "moq": "1 × 20ft FCL (approx. 1,300 sq.m)",
+          "shelfLife": "Permanent Architectural Material",
+          "certifications": [
+            "ISO 13006 Group BIa",
+            "CE Certified",
+            "VOC Free",
+            "SGS Inspected"
+          ]
+        }
+      },
+      {
+        "slug": "matt-collection",
+        "name": "Matt Collection",
+        "catalogueId": "matt-collection-without-logo",
+        "image": "/products/matt-collection-without-logo.webp",
+        "shortDescription": "Sophisticated non-reflective satin matt finishes with R10 anti-slip rating, natural warmth, velvety touch, and high scratch resistance for refined interiors.",
+        "specs": {
+          "origin": "Morbi, Gujarat, India",
+          "gradeVariety": "Glossy / High-Gloss / Carving / Matt",
+          "size": "60 * 120 cm",
+          "exportPackaging": "Corner-protected corrugated cartons on ISPM-15 heat-treated fumigated wooden pallets",
+          "moq": "1 × 20ft FCL (approx. 1,300 sq.m)",
+          "shelfLife": "Permanent Architectural Material",
+          "certifications": [
+            "ISO 13006 Group BIa",
+            "CE Certified",
+            "VOC Free",
+            "SGS Inspected"
+          ]
+        }
+      },
+      {
+        "slug": "new-gold-and-endless-collection",
+        "name": "New Gold & Endless Collection",
+        "catalogueId": "new-gold-and-endless-collection-without-logo",
+        "image": "/products/new-gold-and-endless-collection-without-logo.webp",
+        "shortDescription": "Harmonized fusion of continuous endless veining highlighted with metallic gold luster inlays, creating seamless prestige flooring across contiguous rooms.",
+        "specs": {
+          "origin": "Morbi, Gujarat, India",
+          "gradeVariety": "Glossy / High-Gloss / Carving / Matt",
+          "size": "60 * 120 cm",
+          "exportPackaging": "Corner-protected corrugated cartons on ISPM-15 heat-treated fumigated wooden pallets",
+          "moq": "1 × 20ft FCL (approx. 1,300 sq.m)",
+          "shelfLife": "Permanent Architectural Material",
+          "certifications": [
+            "ISO 13006 Group BIa",
+            "CE Certified",
+            "VOC Free",
+            "SGS Inspected"
+          ]
+        }
+      },
+      {
+        "slug": "staturio-collection-2026",
+        "name": "Staturio Collection 2026",
+        "catalogueId": "staturio-collection-2026-with-out",
+        "image": "/products/staturio-collection-2026-with-out.webp",
+        "shortDescription": "Timeless Italian Statuario marble replicas with deep dramatic grey veins running over an ultra-white porcelain body with high gloss and carving options.",
+        "specs": {
+          "origin": "Morbi, Gujarat, India",
+          "gradeVariety": "Glossy / High-Gloss / Carving / Matt",
+          "size": "60 * 120 cm",
+          "exportPackaging": "Corner-protected corrugated cartons on ISPM-15 heat-treated fumigated wooden pallets",
+          "moq": "1 × 20ft FCL (approx. 1,300 sq.m)",
+          "shelfLife": "Permanent Architectural Material",
+          "certifications": [
+            "ISO 13006 Group BIa",
+            "CE Certified",
+            "VOC Free",
+            "SGS Inspected"
+          ]
+        }
+      },
+      {
+        "slug": "terrazo-collection-2026",
+        "name": "Terrazo Collection 2026",
+        "catalogueId": "terrazo-collection-2026-without-logo",
+        "image": "/products/terrazo-collection-2026-without-logo.webp",
+        "shortDescription": "Classic Venetian terrazzo stone chips embedded in modern vitrified slabs, blending mid-century architectural charm with high-density stain-proof durability.",
+        "specs": {
+          "origin": "Morbi, Gujarat, India",
+          "gradeVariety": "Glossy / High-Gloss / Carving / Matt",
+          "size": "60 * 120 cm",
+          "exportPackaging": "Corner-protected corrugated cartons on ISPM-15 heat-treated fumigated wooden pallets",
+          "moq": "1 × 20ft FCL (approx. 1,300 sq.m)",
+          "shelfLife": "Permanent Architectural Material",
+          "certifications": [
+            "ISO 13006 Group BIa",
+            "CE Certified",
+            "VOC Free",
+            "SGS Inspected"
+          ]
+        }
+      },
+      {
+        "slug": "wood-collection",
+        "name": "Wood Collection",
+        "catalogueId": "wood-collection-without-logo",
+        "image": "/products/wood-collection-without-logo.webp",
+        "shortDescription": "Organic hardwood timber grain reproduction with thermal stability, moisture resistance, realistic relief grooves, and zero rot or warping.",
         "specs": {
           "origin": "Morbi, Gujarat, India",
           "gradeVariety": "Glossy / High-Gloss / Carving / Matt",

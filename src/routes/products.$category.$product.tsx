@@ -121,7 +121,7 @@ function ProductPage() {
   const { add, has } = useBasket();
   const key = `${c.slug}/${p.slug}`;
   const inBasket = has(key);
-  const catalogue = getCatalogueForProduct(p.name, p.slug);
+  const catalogue = getCatalogueForProduct(p.name, p.slug, p.catalogueId);
   const [pdfOpen, setPdfOpen] = useState(false);
   const [downloading, setDownloading] = useState(false);
 

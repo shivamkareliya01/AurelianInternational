@@ -37,7 +37,7 @@ export function ProductCard({
   const [imgSrc, setImgSrc] = useState(product.image);
   const [retryCount, setRetryCount] = useState(0);
   const [pdfOpen, setPdfOpen] = useState(false);
-  const catalogue = getCatalogueForProduct(product.name, product.slug);
+  const catalogue = getCatalogueForProduct(product.name, product.slug, product.catalogueId);
 
   const key = `${category.slug}/${product.slug}`;
   const inBasket = has(key);
@@ -345,7 +345,7 @@ export function ProductCard({
                 </button>
                 <button
                   type="button"
-                  onClick={() => downloadFileFromUrl(catalogue.downloadUrl, "gvt_broucher.pdf")}
+                  onClick={() => downloadFileFromUrl(catalogue.downloadUrl, `${catalogue.id}.pdf`)}
                   className="inline-flex items-center gap-1 rounded-full bg-slate-100 hover:bg-slate-200 px-2.5 py-1 text-[11px] font-medium text-slate-700 transition-colors cursor-pointer"
                 >
                   <Download className="h-3 w-3 text-slate-500" />
