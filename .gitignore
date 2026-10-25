@@ -46,9 +46,10 @@ dist-ssr/
 .nitro/
 *.local
 
-# Wrangler / Cloudflare
+# Wrangler / Cloudflare / Vercel
 .wrangler/
 .dev.vars
+.vercel/
 
 # ------------------------------------------------------------------------------
 # 4. Python Caches (Generation & Data Scripts)

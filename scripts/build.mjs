@@ -17,6 +17,9 @@ if (fs.existsSync(workerSrc) && !fs.existsSync(workerDest)) {
   console.log("[Build] Copied local pdf.worker.min.mjs to public/");
 }
 
+const nitroPreset = process.env.NITRO_PRESET || "vercel";
+console.log(`[Build] Target deployment preset: ${nitroPreset}`);
+
 const npxCmd = process.platform === "win32" ? "npx.cmd" : "npx";
 const result = spawnSync(npxCmd, ["vite", "build", "--mode", "production"], {
   stdio: "inherit",
@@ -24,6 +27,7 @@ const result = spawnSync(npxCmd, ["vite", "build", "--mode", "production"], {
   env: {
     ...process.env,
     NODE_ENV: "production",
+    NITRO_PRESET: nitroPreset,
   },
 });
 
