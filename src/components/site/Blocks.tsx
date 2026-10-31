@@ -37,20 +37,28 @@ export function FaqList({ dark = false }: { dark?: boolean }) {
 
 export function CertGrid() {
   const threeCerts = [...certifications, ...certifications];
-  const logoTrack = threeCerts.map((c, i) => (
-    <div
-      key={i}
-      title={`${c.name} — ${c.issuer}`}
-      className="flex-shrink-0 flex items-center justify-center mx-5 sm:mx-8 h-20 w-36 sm:h-24 sm:w-44 bg-transparent transition-all duration-300 group"
-    >
-      <div className="flex items-center justify-center w-full h-full">
-        <CertLogo
-          code={c.code}
-          className="h-14 sm:h-18 w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-110"
-        />
+  const logoTrack = threeCerts.map((c, i) => {
+    const isRound = c.code === "SPICES BOARD" || c.code === "ISO 9001" || c.code === "SPICES" || c.code === "ISO";
+    return (
+      <div
+        key={i}
+        title={`${c.name} — ${c.issuer}`}
+        className="flex-shrink-0 flex items-center justify-center mx-6 sm:mx-10 h-28 w-44 sm:h-36 sm:w-56 bg-transparent transition-all duration-300 group"
+      >
+        <div className="flex items-center justify-center w-full h-full">
+          <CertLogo
+            code={c.code}
+            className={cn(
+              "object-contain transition-transform duration-300 group-hover:scale-110",
+              isRound
+                ? "h-24 w-24 sm:h-32 sm:w-32 max-h-full"
+                : "h-20 sm:h-28 w-full max-h-full max-w-full"
+            )}
+          />
+        </div>
       </div>
-    </div>
-  ));
+    );
+  });
 
   return (
     <div className="relative overflow-hidden py-4">

@@ -4,6 +4,7 @@ import {
   CheckCircle2,
   Clock,
   Compass,
+  ExternalLink,
   FileCheck2,
   Globe2,
   HeartHandshake,
@@ -502,10 +503,30 @@ function About() {
                 tag: "RCMC Registered",
               },
               {
+                code: "SPICES BOARD",
+                title: "Spices Board of India",
+                desc: "Official statutory registration and quality compliance under the Ministry of Commerce & Industry for premium whole & ground spices.",
+                tag: "Spices Authority",
+              },
+              {
                 code: "FSSAI",
                 title: "Food Safety & Standards Authority",
                 desc: "Central Licensing compliance ensuring zero contamination, proper food grade handling, and hygienic warehouse storage.",
                 tag: "Central License",
+              },
+              {
+                code: "CE",
+                title: "CE Compliance Certificate",
+                desc: "Certified compliance under Directives 89/106/EEC & 93/68/EEC covering Ceramic Vitrified Tiles, Digital Wall & Floor Tiles, Glazed & Parking Tiles, Sanitaryware, Porcelain, Double Charge, Granito, and Full Body Stoneware Tiles (Reg. No. CE/TQS/2026558874).",
+                tag: "Directive 89/106/EEC",
+                regNumber: "CE/TQS/2026558874",
+                file: "/certifications/ce-certificate.webp",
+              },
+              {
+                code: "ISO 9001",
+                title: "ISO 9001:2015 Certified",
+                desc: "Certified Quality Management System ensuring standardized inspection, food-grade packaging, and international supply chain traceability.",
+                tag: "ISO Certified",
               },
             ].map((cert) => (
               <div
@@ -515,8 +536,8 @@ function About() {
                 <div>
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2.5">
-                      <div className="h-11 w-11 rounded-xl bg-white p-1.5 flex items-center justify-center shadow-md shrink-0">
-                        <CertLogo code={cert.code} className="h-8 w-8 object-contain" />
+                      <div className="h-14 w-14 rounded-2xl bg-white p-2 flex items-center justify-center shadow-md shrink-0">
+                        <CertLogo code={cert.code} className="h-10 w-10 object-contain" />
                       </div>
                       <span className="font-mono text-[11px] font-bold text-gold tracking-wider bg-gold/15 px-2 py-0.5 rounded border border-gold/30">
                         {cert.code}
@@ -529,6 +550,22 @@ function About() {
                   <h3 className="font-display text-lg text-white font-medium">{cert.title}</h3>
                   <p className="mt-2 text-xs text-[#D9DDE3] leading-relaxed">{cert.desc}</p>
                 </div>
+                {"file" in cert && cert.file && (
+                  <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
+                    <span className="font-mono text-[10px] text-white/60">
+                      {"regNumber" in cert && cert.regNumber ? `Reg: ${cert.regNumber}` : ""}
+                    </span>
+                    <a
+                      href={cert.file}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-gold hover:text-[#F2C86E] transition-colors"
+                    >
+                      <span>View Certificate</span>
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </div>
+                )}
               </div>
             ))}
           </div>

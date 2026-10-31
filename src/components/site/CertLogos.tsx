@@ -50,10 +50,13 @@ export function IndiaOrganicLogo({ className = "h-10 w-10", alt = "India Organic
 export function SpicesBoardLogo({ className = "h-10 w-10", alt = "Spices Board India Logo", ...props }: { className?: string; alt?: string } & React.ImgHTMLAttributes<HTMLImageElement>) {
   return (
     <img
-      src="/certifications/spices-board.png"
+      src="/certifications/spices-board.webp"
       alt={alt}
       className={className}
       loading="lazy"
+      onError={(e) => {
+        (e.currentTarget as HTMLImageElement).src = "/certifications/spices-board.png";
+      }}
       {...props}
     />
   );
@@ -74,13 +77,16 @@ export function FSSAILogo({ className = "h-10 w-10", alt = "FSSAI Logo", ...prop
   );
 }
 
-export function ISOLogo({ className = "h-10 w-10", alt = "ISO Certified Company Logo", ...props }: { className?: string; alt?: string } & React.ImgHTMLAttributes<HTMLImageElement>) {
+export function ISOLogo({ className = "h-10 w-10", alt = "ISO 9001 Certified Quality Management Logo", ...props }: { className?: string; alt?: string } & React.ImgHTMLAttributes<HTMLImageElement>) {
   return (
     <img
-      src="/certifications/iso.png"
+      src="/certifications/iso.webp"
       alt={alt}
       className={className}
       loading="lazy"
+      onError={(e) => {
+        (e.currentTarget as HTMLImageElement).src = "/certifications/iso.png";
+      }}
       {...props}
     />
   );
@@ -93,6 +99,21 @@ export function MSMELogo({ className = "h-10 w-10", alt = "MSME Micro Small and 
       alt={alt}
       className={className}
       loading="lazy"
+      {...props}
+    />
+  );
+}
+
+export function CELogo({ className = "h-10 w-10", alt = "CE Marking / European Conformity Logo", ...props }: { className?: string; alt?: string } & React.ImgHTMLAttributes<HTMLImageElement>) {
+  return (
+    <img
+      src="/certifications/ce.svg"
+      alt={alt}
+      className={className}
+      loading="lazy"
+      onError={(e) => {
+        (e.currentTarget as HTMLImageElement).src = "/certifications/ce.png";
+      }}
       {...props}
     />
   );
@@ -117,17 +138,29 @@ export function CertLogo({
     case "SPICES":
     case "SPICES BOARD":
     case "SPICE BOARD":
+    case "SPICES-BOARD":
+    case "SPICES BOARD INDIA":
       return <SpicesBoardLogo className={className} />;
     case "FSSAI":
       return <FSSAILogo className={className} />;
+    case "CE":
+    case "CE MARK":
+    case "CE MARKING":
+    case "CE CERTIFIED":
+    case "CONFORMITE EUROPEENNE":
+      return <CELogo className={className} />;
     case "INDIA ORGANIC":
     case "JAIVIK BHARAT":
     case "ORGANIC":
     case "NPOP":
       return <IndiaOrganicLogo className={className} />;
     case "ISO":
+    case "ISO 9001":
+    case "ISO 9001:2015":
     case "ISO 22000":
     case "ISO 22000:2018":
+    case "TQS":
+    case "TQS ISO 9001":
       return <ISOLogo className={className} />;
     case "MSME":
     case "UDYAM":

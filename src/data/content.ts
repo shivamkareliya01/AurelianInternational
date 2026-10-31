@@ -4,19 +4,37 @@ export const certifications = [
     code: "DGFT",
     name: "Importer-Exporter Code",
     issuer: "Directorate General of Foreign Trade (Govt. of India)",
-    number: "IEC 03XXXXXXXX",
+    number: "IEC Licensed",
   },
   {
     code: "APEDA",
     name: "RCMC Registration",
     issuer: "Agricultural & Processed Food Products Export Development Authority",
-    number: "APEDA/RCMC/XXXX/2024",
+    number: "APEDA / RCMC Registered",
+  },
+  {
+    code: "SPICES BOARD",
+    name: "Spices Export Registration",
+    issuer: "Spices Board India (Ministry of Commerce & Industry)",
+    number: "CRES / Spices Board Registered",
   },
   {
     code: "FSSAI",
     name: "Central Food Licence",
     issuer: "Food Safety & Standards Authority of India",
-    number: "1001XXXXXXXXXX",
+    number: "Central Food Safety License",
+  },
+  {
+    code: "CE",
+    name: "CE Compliance Certificate",
+    issuer: "Directives 89/106/EEC & 93/68/EEC (EU Standard)",
+    number: "Reg. No. CE/TQS/2026558874",
+  },
+  {
+    code: "ISO 9001",
+    name: "Quality Management System",
+    issuer: "International Organization for Standardization (ISO 9001:2015)",
+    number: "ISO 9001:2015 Certified",
   },
 ];
 
